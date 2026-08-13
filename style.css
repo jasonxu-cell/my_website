@@ -1,0 +1,489 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 25px 40px;
+
+    color: #111111;
+    font-family: Arial, sans-serif;
+
+    background-image: url("assets/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 15px 20px;
+    margin-bottom: 30px;
+
+    background: rgba(255, 255, 255, 0.5);
+
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    border-radius: 12px;
+}
+
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: black;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+section {
+    margin-bottom: 100px;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 100px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 70px auto 0;
+}
+
+.hero-text {
+    flex: 1;
+}
+
+.hero-subtitle {
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 60px;
+}
+
+.hero h2 {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    font-size: 28px;
+    font-weight: normal;
+}
+
+.hero-description {
+    max-width: 500px;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.hero-image {
+    flex: 0 0 260px;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-photo {
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.profile h1 {
+    margin-bottom: 18px;
+    font-size: 50px;
+}
+
+.profile-subtitle {
+    margin-top: 6px;
+    margin-bottom: 18px;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.contact-icon {
+    color: #000000;
+    font-size: 20px;
+}
+
+.contact-icon:visited {
+    color: #000000;
+    font-size: 20px;
+}
+
+.contact-icons {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+
+.contact-icon:hover {
+    color: #555;
+    transform: scale(1.15);
+}
+
+.contact-icon i {
+    font-size: 30px;
+}
+
+.resume {
+    background: rgba(255, 255, 255, 0.5);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 24px;
+
+    padding: 36px 45px;
+}
+
+/* =========================
+   Note Page
+   ========================= */
+
+.note-page {
+    width: 92%;
+    max-width: 1500px;
+
+    margin: 90px auto 0;
+}
+
+
+/* ---------- Header ---------- */
+
+.note-header {
+    text-align: center;
+
+    margin-bottom: 50px;
+}
+
+.note-header h1 {
+    font-size: 48px;
+
+    margin-bottom: 12px;
+}
+
+.note-header p {
+    font-size: 18px;
+    line-height: 1.6;
+
+    max-width: 700px;
+    margin: 0 auto;
+
+    color: rgba(0, 0, 0, 0.7);
+}
+
+
+/* ---------- Grid ---------- */
+
+.note-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 28px;
+}
+
+
+/* ---------- Card ---------- */
+
+.note-card {
+    display: block;
+    overflow: hidden;
+
+    text-decoration: none;
+    color: black;
+
+    background: rgba(255, 255, 255, 0.48);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
+
+    border-radius: 25px;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* ---------- Card hover ---------- */
+
+.note-card:hover {
+    transform: translateY(-8px);
+
+    background: rgba(255, 255, 255, 0.6);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ---------- Image ---------- */
+
+.note-image {
+    width: 100%;
+    height: 240px;
+
+    overflow: hidden;
+}
+
+.note-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.4s ease;
+}
+
+.note-card:hover .note-image img {
+    transform: scale(1.04);
+}
+
+
+/* ---------- Text ---------- */
+
+.note-content {
+    padding: 28px;
+}
+
+.note-content h2 {
+    font-size: 27px;
+
+    margin: 0 0 15px;
+}
+
+.note-content p {
+    font-size: 16px;
+
+    line-height: 1.6;
+
+    margin: 0 0 22px;
+
+    color: rgba(0, 0, 0, 0.7);
+}
+
+
+/* ---------- Explore ---------- */
+
+.explore {
+    font-size: 15px;
+
+    font-weight: 600;
+
+    opacity: 0.7;
+
+    transition: opacity 0.2s ease;
+}
+
+.note-card:hover .explore {
+    opacity: 1;
+}
+
+/* ==========================================
+   Subject Page
+   ========================================== */
+
+.subject-page {
+    width: 92%;
+    max-width: 1500px;
+
+    margin: 80px auto 50px;
+
+    display: grid;
+
+    grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+
+    gap: 56px;
+
+    align-items: start;
+}
+
+.note-sidebar {
+    position: sticky;
+    top: 24px;
+}
+
+.note-sidebar h1 {
+    margin: 0 0 28px;
+    font-size: 48px;
+    line-height: 1.1;
+}
+
+.sidebar-description {
+    margin: 0 0 28px;
+    font-size: 20px;
+    line-height: 1.35;
+}
+
+.note-sidebar .note-image {
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+}
+
+.subject-content {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    min-width: 0;
+}
+
+.article-card {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 28px;
+    align-items: stretch;
+    width: 100%;
+    min-height: 220px;
+    padding: 24px;
+    color: #111111;
+    text-decoration: none;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    border-radius: 8px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0, 0, 0, 0.32);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.12);
+}
+
+.article-image {
+    align-self: center;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f2f2f2;
+    border-radius: 4px;
+}
+
+.article-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.article-info h2 {
+    margin: 0;
+    color: #111111;
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.article-excerpt {
+    margin: 22px 0 24px;
+    color: #333333;
+    font-size: 18px;
+    line-height: 1.55;
+}
+
+.article-meta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    color: #111111;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tags span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 4px 10px;
+    color: #111111;
+    font-size: 15px;
+    line-height: 1;
+    background: #f2f2f2;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+}
+
+.article-meta time {
+    flex: 0 0 auto;
+    color: #333333;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    body {
+        padding: 18px;
+    }
+
+    .subject-page {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        margin-top: 48px;
+    }
+
+    .note-sidebar {
+        position: static;
+    }
+
+    .article-card {
+        grid-template-columns: 150px minmax(0, 1fr);
+        gap: 20px;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 620px) {
+    .article-card {
+        grid-template-columns: 1fr;
+    }
+
+    .article-image {
+        max-height: 240px;
+    }
+
+    .article-meta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
