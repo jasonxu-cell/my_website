@@ -396,6 +396,15 @@ section {
     object-fit: cover;
 }
 
+.article-image-contain {
+    background: #ffffff;
+}
+
+.article-image-contain img {
+    object-fit: contain;
+    padding: 8px;
+}
+
 .article-info {
     display: flex;
     flex-direction: column;
