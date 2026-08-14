@@ -26,6 +26,49 @@
             .trim();
     }
 
+    function normalizeReferenceId(value) {
+        return stripMarkdown(value)
+            .toLowerCase()
+            .replace(/[^a-z0-9\u4e00-\u9fa5_-]+/g, "-")
+            .replace(/^-+|-+$/g, "") || "reference";
+    }
+
+    function unescapeHtmlAttribute(value) {
+        return value
+            .replace(/&amp;/g, "&")
+            .replace(/&quot;/g, '"')
+            .replace(/&#039;/g, "'");
+    }
+
+    function renderLink(href, label) {
+        const resolvedHref = unescapeHtmlAttribute(href);
+        const externalAttributes = /^https?:\/\//i.test(resolvedHref)
+            ? ' target="_blank" rel="noopener noreferrer"'
+            : "";
+
+        return `<a href="${escapeHtml(resolvedHref)}"${externalAttributes}>${label}</a>`;
+    }
+
+    function renderCitation(keys) {
+        const references = keys
+            .split(/[,;]+/)
+            .map((key) => key.trim())
+            .filter(Boolean);
+
+        if (!references.length) {
+            return "";
+        }
+
+        const label = references.join(", ");
+        const links = references.map((reference, index) => {
+            const id = normalizeReferenceId(reference);
+            const separator = index > 0 ? ", " : "";
+            return `${separator}<a href="#ref-${id}" class="citation-link">${escapeHtml(reference)}</a>`;
+        });
+
+        return `<sup class="citation" aria-label="参考文献 ${escapeHtml(label)}">[${links.join("")}]</sup>`;
+    }
+
     function slugify(value) {
         const base = stripMarkdown(value)
             .toLowerCase()
@@ -69,6 +112,16 @@
         const math = protectMath(value);
         let text = escapeHtml(math.text);
 
+        text = text.replace(/\\cite\{([^}]+)\}/g, (_match, keys) => renderCitation(keys));
+        text = text.replace(/\\url\{([^}]+)\}/g, (_match, href) => {
+            return renderLink(href, escapeHtml(href));
+        });
+        text = text.replace(/\\href\{([^}]+)\}\{([^}]+)\}/g, (_match, href, label) => {
+            return renderLink(href, escapeHtml(label));
+        });
+        text = text.replace(/\\hyperref\[([^\]]+)\]\{([^}]+)\}/g, (_match, id, label) => {
+            return renderLink(`#${normalizeReferenceId(id)}`, escapeHtml(label));
+        });
         text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
         text = text.replace(/==([^=]+)==/g, "<mark>$1</mark>");
         text = text.replace(/&lt;span style=&quot;color:\s*red;?&quot;&gt;([\s\S]*?)&lt;\/span&gt;/gi, "<span class=\"obsidian-red\">$1</span>");
@@ -76,13 +129,134 @@
             const style = width ? ` style="max-width: ${escapeHtml(width)}px;"` : "";
             return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}"${style}>`;
         });
+        text = text.replace(/&lt;(https?:\/\/[^&\s]+(?:&amp;[^&\s]+)*)&gt;/g, (_match, href) => {
+            return renderLink(href, href);
+        });
+        text = text.replace(/\bDOI:\s*(10\.\d{4,9}\/[^\s<]+)/gi, (_match, doi) => {
+            const cleanedDoi = doi.replace(/[.,;，。；]+$/g, "");
+            const suffix = doi.slice(cleanedDoi.length);
+            return `DOI: ${renderLink(`https://doi.org/${cleanedDoi}`, escapeHtml(cleanedDoi))}${escapeHtml(suffix)}`;
+        });
         text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, label, href) => {
-            return `<a href="${escapeHtml(href)}">${label}</a>`;
+            return renderLink(href, label);
         });
         text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
         text = text.replace(/\*([^*]+)\*/g, "<em>$1</em>");
 
         return restoreMath(text, math.segments);
+    }
+
+    function renderReferenceItem(value) {
+        const reference = value.match(/^\[(\d+)\]\s+([\s\S]+)$/);
+
+        if (!reference) {
+            return "";
+        }
+
+        const id = normalizeReferenceId(reference[1]);
+        return [
+            `<li class="reference-item" id="ref-${id}" value="${escapeHtml(reference[1])}">`,
+            `<span class="reference-number">[${escapeHtml(reference[1])}]</span>`,
+            `<span class="reference-text">${renderInline(reference[2])}</span>`,
+            "</li>"
+        ].join("");
+    }
+
+    function parseLatexCommand(block, command) {
+        const pattern = new RegExp(`\\\\${command}\\{([\\s\\S]*?)\\}`);
+        const match = block.match(pattern);
+        return match ? match[1].trim() : "";
+    }
+
+    function formatFloatLabel(label, type) {
+        const cleanLabel = stripMarkdown(label).replace(/\s+/g, "");
+        const match = cleanLabel.match(/^([^0-9]*?)(\d+)$/);
+
+        if (match) {
+            const prefix = match[1] || (type === "table" ? "表" : "图");
+            return `${prefix} ${match[2]}`;
+        }
+
+        return cleanLabel || (type === "table" ? "表" : "图");
+    }
+
+    function getLatexWidthStyle(options) {
+        const width = (options || "").match(/width\s*=\s*([0-9.]+)\s*\\linewidth/);
+
+        if (!width) {
+            return "";
+        }
+
+        const percent = Math.max(10, Math.min(100, Number(width[1]) * 100));
+        return Number.isFinite(percent) ? ` style="width: ${percent}%;"` : "";
+    }
+
+    function renderFloatCaption(type, label, caption) {
+        if (!label && !caption) {
+            return "";
+        }
+
+        const id = label ? normalizeReferenceId(label) : "";
+        const labelText = label ? formatFloatLabel(label, type) : (type === "table" ? "表" : "图");
+        const labelHtml = id
+            ? `<a class="caption-label" href="#${escapeHtml(id)}">${escapeHtml(labelText)}</a>`
+            : `<span class="caption-label">${escapeHtml(labelText)}</span>`;
+        const captionHtml = caption ? `<span class="caption-text">${renderInline(caption)}</span>` : "";
+
+        return `<figcaption class="article-caption ${type}-caption">${labelHtml}${captionHtml}</figcaption>`;
+    }
+
+    function renderLatexFigure(blockLines) {
+        const block = blockLines.join("\n");
+        const graphic = block.match(/\\includegraphics(?:\[([^\]]*)\])?\{([^}]+)\}/);
+
+        if (!graphic) {
+            return `<pre class="latex-block">${escapeHtml(block)}</pre>`;
+        }
+
+        const label = parseLatexCommand(block, "label");
+        const caption = parseLatexCommand(block, "caption");
+        const id = label ? normalizeReferenceId(label) : "";
+        const idAttribute = id ? ` id="${escapeHtml(id)}"` : "";
+        const src = graphic[2].trim();
+        const widthStyle = getLatexWidthStyle(graphic[1] || "");
+        const alt = caption || src.split("/").pop() || "article figure";
+        const media = [
+            `<a class="figure-media-link" href="${escapeHtml(src)}" aria-label="查看${escapeHtml(formatFloatLabel(label, "figure"))}原图">`,
+            `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}"${widthStyle}>`,
+            "</a>"
+        ].join("");
+
+        return [
+            `<figure class="article-figure"${idAttribute}>`,
+            media,
+            renderFloatCaption("figure", label, caption),
+            "</figure>"
+        ].join("\n");
+    }
+
+    function renderLatexTable(blockLines) {
+        const block = blockLines.join("\n");
+        const label = parseLatexCommand(block, "label");
+        const caption = parseLatexCommand(block, "caption");
+        const id = label ? normalizeReferenceId(label) : "";
+        const idAttribute = id ? ` id="${escapeHtml(id)}"` : "";
+        const tableStart = blockLines.findIndex((line, index) => {
+            return line.includes("|") && index + 1 < blockLines.length && isTableDivider(blockLines[index + 1]);
+        });
+
+        if (tableStart < 0) {
+            return `<pre class="latex-block">${escapeHtml(block)}</pre>`;
+        }
+
+        const table = parseTable(blockLines, tableStart);
+
+        return [
+            `<figure class="article-table-figure"${idAttribute}>`,
+            renderFloatCaption("table", label, caption),
+            `<div class="table-scroll">${table.html}</div>`,
+            "</figure>"
+        ].join("\n");
     }
 
     function normalizeCodeLanguage(value) {
@@ -380,13 +554,39 @@
         let codeLines = [];
         let codeLanguage = "";
         let codeBlockIndex = 0;
+        let referenceListOpen = false;
+
+        function openReferenceList() {
+            if (!referenceListOpen) {
+                html.push('<ol class="reference-list">');
+                referenceListOpen = true;
+            }
+        }
+
+        function closeReferenceList() {
+            if (referenceListOpen) {
+                html.push("</ol>");
+                referenceListOpen = false;
+            }
+        }
 
         function flushParagraph() {
             if (!paragraph.length) {
                 return;
             }
 
-            html.push(`<p>${renderInline(paragraph.join(" "))}</p>`);
+            const paragraphText = paragraph.join(" ");
+            const referenceHtml = renderReferenceItem(paragraphText);
+
+            if (referenceHtml) {
+                flushList();
+                openReferenceList();
+                html.push(referenceHtml);
+            } else {
+                closeReferenceList();
+                html.push(`<p>${renderInline(paragraphText)}</p>`);
+            }
+
             paragraph = [];
         }
 
@@ -418,6 +618,7 @@
                 } else {
                     flushParagraph();
                     flushList();
+                    closeReferenceList();
                     inCode = true;
                     codeLanguage = fence[1] || "";
                 }
@@ -435,9 +636,34 @@
                 continue;
             }
 
+            const latexEnvironment = trimmed.match(/^\\begin\{(figure|table)\}(?:\[[^\]]*\])?/);
+            if (latexEnvironment) {
+                flushParagraph();
+                flushList();
+                closeReferenceList();
+
+                const environment = latexEnvironment[1];
+                const blockLines = [line];
+                index += 1;
+
+                while (index < lines.length) {
+                    blockLines.push(lines[index]);
+                    if (lines[index].trim() === `\\end{${environment}}`) {
+                        break;
+                    }
+                    index += 1;
+                }
+
+                html.push(environment === "figure"
+                    ? renderLatexFigure(blockLines)
+                    : renderLatexTable(blockLines));
+                continue;
+            }
+
             if (trimmed === "$$" || trimmed === "\\[") {
                 flushParagraph();
                 flushList();
+                closeReferenceList();
 
                 const closeDelimiter = trimmed === "$$" ? "$$" : "\\]";
                 const mathLines = [];
@@ -456,6 +682,7 @@
             if (/^---+$/.test(trimmed)) {
                 flushParagraph();
                 flushList();
+                closeReferenceList();
                 html.push("<hr>");
                 continue;
             }
@@ -463,6 +690,7 @@
             if (line.includes("|") && index + 1 < lines.length && isTableDivider(lines[index + 1])) {
                 flushParagraph();
                 flushList();
+                closeReferenceList();
                 const table = parseTable(lines, index);
                 html.push(table.html);
                 index = table.nextIndex - 1;
@@ -473,6 +701,7 @@
             if (heading) {
                 flushParagraph();
                 flushList();
+                closeReferenceList();
                 const level = heading[1].length;
                 const text = heading[2].trim();
                 const id = slugify(text);
@@ -484,6 +713,7 @@
             const unordered = trimmed.match(/^[-*+]\s+(.+)$/);
             if (unordered) {
                 flushParagraph();
+                closeReferenceList();
                 if (listType && listType !== "ul") {
                     flushList();
                 }
@@ -495,6 +725,7 @@
             const ordered = trimmed.match(/^\d+\.\s+(.+)$/);
             if (ordered) {
                 flushParagraph();
+                closeReferenceList();
                 if (listType && listType !== "ol") {
                     flushList();
                 }
@@ -506,6 +737,7 @@
             if (isQuoteLine(line)) {
                 flushParagraph();
                 flushList();
+                closeReferenceList();
 
                 const quoteLines = [];
 
@@ -529,6 +761,7 @@
 
         flushParagraph();
         flushList();
+        closeReferenceList();
 
         return { html: html.join("\n"), headings };
     }
