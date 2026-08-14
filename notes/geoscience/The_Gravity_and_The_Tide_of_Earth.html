@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gravity and The Tide of Earth | Yang</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" type="image/png" href="../../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../notes.html">Notes</a>
+            <a href="../../articles.html">Articles</a>
+            <a href="../../research.html">Research</a>
+            <a href="../../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../geoscience.html" class="article-back-link">&larr; Geoscience</a>
+            <h1>The Gravity and The Tide of Earth</h1>
+            <p>Notes on Earth gravity, gravitational potential, tides, deformation, geodesy, and how mass distribution inside and outside Earth affects observed gravity and tidal signals...</p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Gravity</span>
+                    <span>Tides</span>
+                    <span>Geodesy</span>
+                </div>
+                <time datetime="2026-07-30">Jul 30, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+# Gravitational Acceleration
+
+$g \approx 9.80665 m/s^2$
+
+Height correction:
+$$g(h)=g_0(\frac{R}{R+h})^2 \approx g_0(1-\frac{2h}{R})$$
+Approximate solution of radius:$$r=R_e(1-f\sin^2 \lambda)$$where ellipticity $$f=\frac{R_e-R_p}{R_e}=\frac{1}{298.256}$$
+# Geoid
+
+Physically, geoid is an equipotential surface of the Earth's gravitational field. Therefore, water will not flow along the curved surface.
+
+![Screenshot 2026-05-26 at 16.30.41](../attachments/Screenshot%202026-05-26%20at%2016.30.41.png){width=546}
+
+Methods of measuring the geoid:
+
+| Method                     | Coverage     | Advantage                                                                                        | Limitation                   |
+| -------------------------- | ------------ | ------------------------------------------------------------------------------------------------ | ---------------------------- |
+| Ground gravity measurement | Continent    | Direct, Good detail through shortwave                                                            | High cost, many blank spaces |
+| Satellite altimetry        | Global Ocean | High precision, Wide range                                                                       | Only ocean                   |
+| Satellite gravity          | Worldwide    | A unified benchmark covering the entire globe allows for the acquisition of mid-wave structures. | Not too many details         |
+
+# Gravity Anomaly (Bouguer Anomaly)
+
+## Correction for ellipsoid and rotation
+
+The formula for reference gravity on an elliptical Earth$$g(\lambda)=g_e(1+\alpha\sin^2 \lambda +\beta \sin^4 \lambda)m/s^2$$where$$g_e=9.7803185m/s^2,\alpha=5.278895\times10^{-3},\beta=2.3462\times 10^{-5}$$
+## Elevation correction (Free air anomaly)
+$$\delta g_F=g_0-g(h)=\frac{2h}{R}g_0$$
+
+## Intermediate layer correction
+
+Rock strata quality between the measuring point and the geoid
+## Terrain Correction
+
+The gravitational pull from the surrounding terrain undulations, with mountains drawing upwards and causing measured values to be larger, and valleys lacking mass and causing measured values to be smaller, results in a complete Bouguer anomaly after correction.
+
+# Isostasy
+
+## Airy Isostasy
+
+![Screenshot 2026-05-27 at 21.18.48](../attachments/Screenshot%202026-05-27%20at%2021.18.48.png){width=499}
+
+Let the height of the mountain $h$, the crustal thickness $t$, Mountain Root thickness $r$:
+$$(h+t+r)\rho_c=t\rho_c+r\rho_m$$
+$$r=\frac{\rho_c}{\rho_m-\rho_c}h$$
+
+## Pratt Isostasy
+![Screenshot 2026-05-27 at 21.19.57](../attachments/Screenshot%202026-05-27%20at%2021.19.57.png)
+$$\rho_1 (h+t)=\rho_c t$$
+$$t=\frac{\rho_1 h}{\rho_c -\rho_1}$$
+
+Then the mountain will have three situations:
+1. Complete Compensation: Topography and roots in equilibrium.
+![Screenshot 2026-05-27 at 21.25.44](../attachments/Screenshot%202026-05-27%20at%2021.25.44.png){width=410}
+2. Over-compensation: If surface material is removed (e.g. by erosion) then this results in a crustal root that is too large. To restore equilibrium, upward motion will occur.
+![Screenshot 2026-05-27 at 21.26.38](../attachments/Screenshot%202026-05-27%20at%2021.26.38.png){width=483}
+3. Under-Compensation: In this case, the root will be too small to support the feature the feature. Tectonic forces may give additional support (e.g. plate flexure, dynamic topography) or else subsidence will occur.
+
+![Screenshot 2026-05-27 at 21.28.45](../attachments/Screenshot%202026-05-27%20at%2021.28.45.png){width=526}
+
+## Crustal Isostatic Rebound
+![Screenshot 2026-05-26 at 16.46.34](../attachments/Screenshot%202026-05-26%20at%2016.46.34.png)
+
+¥
+# Ocean tides
+
+
+
+# Earth tides
+
+![Screenshot 2026-05-26 at 16.48.53](../attachments/Screenshot%202026-05-26%20at%2016.48.53.png)
+        </script>
+    </main>
+
+    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/comments.js"></script>
+</body>
+</html>

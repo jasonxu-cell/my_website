@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability and Statistics | Yang</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" type="image/png" href="../../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../notes.html">Notes</a>
+            <a href="../../articles.html">Articles</a>
+            <a href="../../research.html">Research</a>
+            <a href="../../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../math.html" class="article-back-link">&larr; Mathematics</a>
+            <h1>Probability and Statistics</h1>
+            <p>Notes on random variables, distributions, expectation, variance, limit theorems, statistical inference, estimation, and hypothesis testing for data and uncertainty...</p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Probability</span>
+                    <span>Statistics</span>
+                    <span>Inference</span>
+                </div>
+                <time datetime="2026-07-30">Jul 30, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+# Fitting
+
+Given $n$ data points $(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)$, we want to use a function to fit these points.
+
+A common circumstance is use a linear function $\hat{y}=kx+b$, let $$X=\begin{pmatrix}
+ x_1\\
+ x_2\\
+ \dots\\
+x_n
+\end{pmatrix},Y=\begin{pmatrix}
+ y_1\\
+ y_2\\
+ \dots\\
+y_n
+\end{pmatrix}$$
+Then we consider about $$\text{argmin}_X\left \| kX+bI-Y \right \|$$
+A simple way to solve it is use Euclidean norm
+$$\left \| kX+bI-Y \right \|_2^2=\sum_{i=1}^n (kx_i+b-y_i)^2$$
+
+$$\frac{\partial}{\partial k}\left \| kX+bI-Y \right \|_2^2=2\sum_{i=1}^n (kx_i+b-y_i)x_i=0$$
+
+$$\frac{\partial}{\partial b}\left \| kX+bI-Y \right \|_2^2=2\sum_{i=1}^n (kx_i+b-y_i)=0$$
+As a result,
+$$ k=\frac{n\sum_{i=1}^nx_iy_i-\sum_{i=1}^nx_i\sum_{i=1}^ny_i}{n\sum_{i=1}^nx_i^2-(\sum_{i=1}^nx_i)^2}$$
+$$ b=\frac{\sum_{i=1}^nx_i^2\sum_{i=1}^ny_i-\sum_{i=1}^nx_i\sum_{i=1}^nx_iy_i}{n\sum_{i=1}^nx_i^2-(\sum_{i=1}^nx_i)^2}$$
+Obviously, the mean point $(\bar{x},\bar{y})$ is on the fitting equations.
+
+Considering general cases, if the fitting equation $$f(x)=a_1r_1(x)+a_2r_2(x)+\dots+a_mr_m(x)$$where $r_1(x),r_2(x),\dots,r_m(x)$ are a series of linearly independent functions.
+
+Let
+$$R=\begin{pmatrix}
+ r_1(x_1) & r_1(x_2) & \dots &  r_1(x_n)\\
+ r_2(x_1) & r_2(x_2) & \dots &  r_2(x_n)\\
+ & \dots \\
+r_m(x_1) & r_m(x_2) & \dots &  r_m(x_n)
+\end{pmatrix},A=\begin{pmatrix}
+ a_1\\
+ a_2\\
+ \dots\\
+a_m
+\end{pmatrix}$$
+We call the following equation as <span style="color: red;">contradictory equations</span>: $$RA=Y$$
+This is because in many times, $m$ is smaller than $n$, so the equations usually have no solution.
+
+Similarly, we consider the min of Euclidean norm: $$\text{argmin}_A\left \| f(X)-Y \right \|_2$$
+$$\frac{\partial}{\partial a_j}\left \| f(X)-Y \right \|_2^2=2\sum_{i=1}^n r_j(x_i)\big[\sum_{k=1}^m a_k r_k(x_i)-y_i\big]=0$$
+
+These equations can also be expressed as matrix form:
+$$R^{\top}RA=R^{\top}Y$$
+Given that $r_1(x),r_2(x),\dots,r_m(x)$ are linearly independent, $R$ is full rank and $R^{\top}R$ is invertible.
+
+As a result, the equations has a unique solution $$A=(R^{\top}R)^{-1}R^{\top}Y$$
+# Queueing Theory
+
+## Notation Explanation 
+
+In 1953, D.G.Kendall proposed a classification method for queueing theory:
+1. the distribution of the interval between successive customer arrivals ($X$) 
+2. the distribution of service time ($Y$)
+3. the number of service counters ($Z$)
+We use Kendall’s notation: $X/Y/Z$ 
+
+Some common distribution notation:
+- $M$: exponential distribution, which is like a Markov chain.
+- $D$: deterministic
+- $E_k$: k-stage Erlang distribution
+- $GI$: the distribution of the general independent interval time
+- $G$: the distribution of the general interval time
+
+In 1971, the notation was extended as: $X/Y/Z/A/B/C$, where the meanings of the first three items remains, and the meanings of the last three items are respectively:
+4. the restraint of the captivity ($N$)
+5. the number of ($m$)
+6. the rule of service, such as first come first service(FCFS), last come first service(LCFS).
+
+We only talk about the FCFS circumstance, so we omit the sixth item.
+## Model Establishment
+
+We want to know the following index:
+- average number of customers in the system ($L_s$)
+- average number of customers in the queue ($L_q$)
+- average waiting time of customers in the system ($W_s$)
+- average waiting time of customers in the queue ($W_q$)
+
+We define $P_n(t)$ as the probability of $n$ service counters working at the $t$ moment. Given that $n$ is integer, we need to establish an equation, which is a differential equation with respect to $t$, and a difference equation with respect to $n$. The solution of the equation is the <span style="color: red;">transient state solution</span>, but solve this equation is really hard, so we usually solve the <span style="color: red;">steady state solution</span>: $$\lim_{t\rightarrow \infty} P_n(t)=P_n $$We only need to make $P_n’(t)=0$.
+
+Let $P_n(t_1,t_2)$ be the probability of $n$ customers arrive in the interval time $[t_1,t_2)$. The arrival of customers is <span style="color: red;">Poisson Stream</span> if: 
+1. In the non-overlapping interval time, the number of arrivals of customers is independent.
+2. $$P_1(t,t+\Delta t)=\lambda \Delta t+o(\Delta t)$$
+3. $$\sum_{n=2}^{\infty}P_n(t,t+\Delta t)=o(\Delta t)$$
+As a result,$$P_0(t,t+\Delta t)=1-\lambda \Delta t +o(\Delta t)$$$$P_n(t+\Delta t)=P_n(t)(1-\lambda \Delta t)+P_{n-1}(t)\lambda \Delta t+o(\Delta t)$$$$P_n’(t)=\lambda (P_{n-1}(t)-P_n(t))+o(\Delta t)/\Delta t$$
+Let $\Delta t \rightarrow 0$, we can set up the following system of equations:
+$$\left\{\begin{matrix}
+ \frac{\mathrm{d}P_n (t)}{\mathrm{d} t}=-\lambda P_n(t)+\lambda P_{n-1}(t),n\ge 1\\P_n(0)=0
+\end{matrix}\right.$$
+$$\left\{\begin{matrix}
+ \frac{\mathrm{d}P_0 (t)}{\mathrm{d} t}=-\lambda P_0(t)\\P_0(0)=1
+\end{matrix}\right.$$
+The solution of the system of equations is
+$$P_n (t)=\frac{(\lambda t )^n}{n!}e^{-\lambda t},t>0,n=0,1,2,\dots$$
+It follows Poisson distribution.
+## $M/M/1$ Model 
+
+Let the time of service follow the exponential distribution with parameter $\mu$ and the system is unlimited ($M/M/1/\infty/\infty$). Similarly,
+
+$$\left\{\begin{matrix}
+ \frac{\mathrm{d}P_0 (t)}{\mathrm{d} t}=-\lambda P_0(t)+\mu P_1(t)\\\frac{\mathrm{d}P_n (t)}{\mathrm{d} t}=-(\lambda+\mu) P_n(t)+\lambda P_{n-1}(t)+\mu P_{n+1}(t),n\ge 1\\P_n(0)=0
+\end{matrix}\right.$$
+
+$$\left\{\begin{matrix}
+-\lambda P_0+\mu P_1=0\\ \lambda P_{n-1}+\mu P_{n+1}-(\lambda +\mu)P_n=0\\ \sum \limits_{n=0}^{\infty}P_n=1
+\end{matrix}\right.$$
+Let $\rho =\frac{\lambda}{\mu}<1$, then$$P_n=(1-\rho)\rho^n$$
+We can solve:
+$$L_s=\sum _{n=0}^{\infty} nP_n=\sum_{n=1}^{\infty}n(1-\rho)\rho^n=\frac{\rho}{1-\rho}=\frac{\lambda}{\mu-\lambda}$$
+$$L_q=\sum _{n=1}^{\infty} (n-1)P_n=\sum_{n=1}^{\infty}nP_n-\sum_{n=1}^{\infty}P_n=L_s-\rho=\frac{\rho^2}{1-\rho}=\frac{\lambda^2}{\mu(\mu-\lambda)}$$
+$$W_s=\frac{L_s}{\lambda}$$
+$$W_q=\frac{L_q}{\lambda}$$
+If the system is restrained ($M/M/1/N/\infty$), then $$\sum_{n=0}^N P_n=1$$
+$$P_n=\frac{1-\rho}{1-\rho^{N+1}}\rho^N,\rho \ne 1,n\le N$$
+$$L_s=\sum _{n=0}^{N} nP_n=\frac{\rho}{1-\rho}-\frac{(N+1)\rho^{N+1}}{1-\rho ^{N+1}},\rho \ne 1$$
+$$L_q=\sum _{n=1}^{N} (n-1)P_n=L_s-(1-P_0)$$
+$$W_s=\frac{L_s}{\mu (1-P_0)}=\frac{L_q}{\mu (1-P_N)}+\frac{1}{\mu}$$
+$$W_q=W_s-\frac{1}{\mu}$$
+If the system is restrained ($M/M/1/\infty/m$, or $M/M/1/m/m$), then we define the rate of effective arrival $\lambda_e$ as $$\lambda_e=\lambda (m-L_s)$$
+As a result,$$\left\{\begin{matrix}
+\mu P_1=m\lambda P_0 \\ \mu P_{n+1} +(m+n-1)\lambda P_{n-1}=[(m-n)\lambda +\mu]P_n,1\le n\le m-1\\ \mu P_m=\lambda P_{m-1}\\\sum_{i=0}\limits^m P_i=1
+\end{matrix}\right.$$ yields$$\left\{\begin{matrix}
+P_0=\frac{1}{\sum \limits_{i=0}^m\frac{m!}{(m-i)!}(\frac{\lambda}{\mu})^i} \\ P_n=\frac{m!}{(m-i)!}(\frac{\lambda}{\mu})^nP_0
+\end{matrix}\right.$$$$L_s=m-\frac{\mu}{\lambda}(1-P_0)$$$$L_q=m-\frac{(\lambda+\mu)}{\lambda}(1-P_0)=L_s-(1-P_0)$$ $$W_s=\frac{m}{\mu(1-P_0)}-\frac{1}{\lambda}$$ $$W_q=W_s-\frac{1}{\mu}$$
+## $M/M/c$ Model 
+
+Let$$\rho=\frac{\lambda}{c\mu}$$Then$$\left\{\begin{matrix}
+\mu P_1=\lambda P_0 \\ (n+1)\mu P_{n+1} +\lambda P_{n-1}=(\lambda +n\mu)P_n,1\le n\le c\\ c\mu P_{n+1}+\lambda P_{n-1}=(\lambda +c\mu)P_n,n>c
+\end{matrix}\right.$$
+- $M/M/c/\infty/\infty$
+$$\sum \limits_{n=0}^{\infty}P_n=1$$
+$$\left\{\begin{matrix}
+P_0=[\sum \limits _{k=0}^{c-1}\frac{1}{k!}(\frac{\lambda}{\mu})^k+\frac{1}{c!}\frac{1}{1-\rho}(\frac{\lambda}{\mu})^c]^{-1}\\P_n=\left\{\begin{matrix}\frac{1}{n!}(\frac{\lambda}{\mu})^nP_0,n\le c\\\frac{1}{c!c^{n-c}}(\frac{\lambda}{\mu})^nP_0,n> c\end{matrix}\right.
+\end{matrix}\right.$$
+$$\left\{\begin{matrix}
+L_q=\sum \limits _{n=c+1}^{\infty}(n-c)P_n=\frac{(c\rho)^c}{c!(1-\rho)^2}P_0\\L_s=L_q+\frac{\lambda}{\mu}\\W_q=\frac{L_q}{\lambda}\\W_s=\frac{L_s}{\lambda}
+\end{matrix}\right.$$
+- $M/M/c/N/\infty$
+$$\sum \limits_{n=0}^{N}P_n=1$$
+$$\left\{\begin{matrix}
+P_0=[\sum \limits _{k=0}^{c}\frac{(c\rho)^k}{k!}+\frac{c^c}{c!}\frac{\rho(\rho^c-\rho^N)}{1-\rho}]^{-1}\\P_n=\left\{\begin{matrix}\frac{(c\rho)^n}{n!}P_0,n\le c\\\frac{c^c}{c!}\rho^nP_0,c\le n \le N\end{matrix}\right.
+\end{matrix}\right.$$
+$$\left\{\begin{matrix}
+L_q=\frac{P_0 \rho(c\rho)^c}{c!(1-\rho)^2}[1-\rho^{N-c}-(N-c)\rho^{N-c}(1-\rho)]\\L_s=L_q+c\rho(1-P_N)\\W_q=\frac{L_q}{\lambda(1-P_N)}\\W_s=W_q+\frac{1}{\mu}
+\end{matrix}\right.$$
+- $M/M/c/m/m$
+$$\left\{\begin{matrix}
+\mu P_1=\lambda P_0 \\ (n+1)\mu P_{n+1} +\lambda P_{n-1}=(\lambda +n\mu)P_n,1\le n\le c\\ c\mu P_{n+1}+\lambda P_{n-1}=(\lambda +c\mu)P_n,n>c
+\end{matrix}\right.$$
+$$\left\{\begin{matrix}
+P_0=[\sum \limits _{k=0}^{c}\frac{(c\rho)^k}{k!}+\frac{c^c}{c!}\frac{\rho(\rho^c-\rho^N)}{1-\rho}]^{-1}\\P_n=\left\{\begin{matrix}\frac{(c\rho)^n}{n!}P_0,n\le c\\\frac{c^c}{c!}\rho^nP_0,c\le n \le N\end{matrix}\right.
+\end{matrix}\right.$$
+$$\left\{\begin{matrix}
+L_q=\frac{P_0 \rho(c\rho)^c}{c!(1-\rho)^2}[1-\rho^{N-c}-(N-c)\rho^{N-c}(1-\rho)]\\L_s=L_q+c\rho(1-P_N)\\W_q=\frac{L_q}{\lambda(1-P_N)}\\W_s=W_q+\frac{1}{\mu}
+\end{matrix}\right.$$
+
+## $M/G/1/\infty/\infty$ Model
+
+Pollaczek-Khintchine公式
+$$L_s=\rho+\frac{\rho^2+\lambda^2 Var[T]}{2(1-\rho )},\rho=\lambda \mathbb{E}[T]$$
+$$L_s=\rho+L_q$$
+$$W_s=\frac{L_s}{\lambda}$$
+$$W_q=\frac{L_q}{\lambda}$$
+- $M/D/1$ Model $$Var[T]=0$$
+- $M/E_k/1$ Model $$Var[T]=\frac{1}{k\mu^2}$$
+        </script>
+    </main>
+
+    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/comments.js"></script>
+</body>
+</html>

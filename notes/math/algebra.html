@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebra | Yang</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" type="image/png" href="../../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../notes.html">Notes</a>
+            <a href="../../articles.html">Articles</a>
+            <a href="../../research.html">Research</a>
+            <a href="../../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../math.html" class="article-back-link">&larr; Mathematics</a>
+            <h1>Algebra</h1>
+            <p>Notes on algebraic structures such as groups, rings, fields, vector spaces, and linear transformations, focusing on symmetry, structure, and abstract reasoning...</p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Groups</span>
+                    <span>Rings</span>
+                    <span>Linear Algebra</span>
+                </div>
+                <time datetime="2026-07-30">Jul 30, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+# Divisibility
+
+Let $a, b$ be integers with $b \neq 0$. If there exists an integer $c$ such that $a = bc$, we say **$b$ divides $a$**, written $b \mid a$; otherwise $b \nmid a$.
+
+**Properties.**
+1. Any nonzero integer $a$ divides $0$.
+2. If $a \mid b$ then $a \mid bc$ for every $c$; in particular $b \mid a \Rightarrow (\pm b) \mid (\pm a)$.
+3. If $a \mid b$ and $a \mid c$, then $a \mid (b \pm c)$.
+4. If $a \mid b$ and $a \mid c$, then $a \mid (bx + cy)$ for all integers $x, y$.
+5. (Divisibility chain) If $a \mid b$ and $b \mid a$, then $|a| = |b|$ and $b = \pm a$.
+6. **Division algorithm:** for integers $a, b$ with $b \neq 0$, there exist unique integers $q, r$ such that $a = bq + r$ with $0 \le r < |b|$.
+
+## Greatest common divisor
+
+Let $a, b$ be integers, not both zero. An integer $d$ is a **greatest common divisor (gcd)** of $a, b$ if
+1. $d \mid a$ and $d \mid b$;
+2. if $d' \mid a$ and $d' \mid b$, then $d' \mid d$.
+
+Denoted $(a, b)$ or $\gcd(a, b)$. If $(a, b) = 1$, then $a, b$ are **coprime**.
+
+**Properties.** $(\pm a, \pm b) = (a, b)$; $(a, b) = (b, a)$; if $a \neq 0$, $(a, a) = (a, 0) = |a|$.
+
+## Bézout's identity
+
+For $a, b$ not both zero with $g = (a, b)$, there exist $s, t \in \mathbb{Z}$ with $g = as + bt$.
+
+*Proof.* Let $I = \{ax + by \mid x, y \in \mathbb{Z}\}$ and $d$ the smallest positive element of $I$. Then $d \mid a$ and $d \mid b$ (by the division algorithm), and any common divisor $c$ divides every element of $I$, hence $c \mid d$. So $d = (a, b)$. $\square$
+
+Consequences:
+- $(a, b) = 1 \iff \exists\, s, t \in \mathbb{Z}$ with $as + bt = 1$.
+- $\{a_1 x_1 + \cdots + a_n x_n \mid x_i \in \mathbb{Z}\} = d\mathbb{Z}$, where $d = (a_1, \dots, a_n)$.
+- For $m > 0$: $m(a, b) = (ma, mb)$; in particular $\left(\frac{a}{(a,b)}, \frac{b}{(a,b)}\right) = 1$.
+- If $(a, m) = (b, m) = 1$, then $(ab, m) = 1$.
+- If $c \mid ab$ and $(c, b) = 1$, then $c \mid a$.
+- $ax \equiv b \pmod m$ has a solution $\iff (a, m) \mid b$.
+
+## Euclidean algorithm
+
+To compute $\gcd(a, b)$: set $r_0 = a$, $r_1 = b$, and iterate $r_{i+1} = r_{i-1} \bmod r_i$ until $r_{i+1} = 0$; the last nonzero remainder $r_i$ is the gcd.
+
+## Least common multiple
+
+$[a, b]$ is the **least common multiple**: if $a \mid m'$ and $b \mid m'$, then $[a, b] \mid m'$.
+- $a \mid b \Rightarrow [a, b] = b$;
+- $[ma, mb] = m[a, b]$;
+- $|ab| = (a, b) \cdot [a, b]$.
+
+# Fundamental Theorem of Arithmetic
+
+**$(a^n - 1, a^m - 1) = a^{(n,m)} - 1$.** Hence if $p = a^n - 1$ is prime, then $a = 2$ and $n$ is prime. The **Mersenne numbers** $M_n = 2^n - 1$: whether infinitely many are prime is an open problem.
+
+> [!THEOREM] Euclid's Lemma
+> Let $p$ be prime. If $p \mid ab$, then $p \mid a$ or $p \mid b$.
+> *Proof.* If $p \nmid a$, then $(p, a) = 1$, so $p \mid b$. $\square$
+
+> [!THEOREM] Fundamental Theorem of Arithmetic
+> Every integer greater than $1$ can be factored into a product of finitely many primes, and this factorization is unique up to order.
+
+*Existence* by strong induction; *uniqueness* by Euclid's lemma. Hence every positive integer $n = \prod_p p^{v_p(n)}$ with $v_p(n) \in \mathbb{N}$, and every nonzero rational $r = \prod_p p^{v_p(r)}$ with $v_p(r) \in \mathbb{Z}$.
+
+A positive integer $d \mid n \iff d = \prod_p p^{v_p(d)}$ with $0 \le v_p(d) \le v_p(n)$. In terms of valuations,
+$$(a, b) = \prod_p p^{\min(v_p(a), v_p(b))}, \qquad [a, b] = \prod_p p^{\max(v_p(a), v_p(b))}$$
+
+# Fast Exponentiation and Perfect Numbers
+
+**Fast exponentiation** (computing $a^n \bmod m$): write $n = \sum_i n_i 2^i$ in binary; with $a_0 = a$, repeatedly square $a_i = a_{i-1}^2 \bmod m$, accumulating the product over bits where $n_i = 1$. This takes $O(\log n)$ multiplications.
+
+A positive integer $n$ is **perfect** if $\sigma(n) = 2n$ (sum of divisors). 
+
+> [!THEOREM] Euclid–Euler
+> $n$ is an even perfect number $\iff n = 2^{k-1}(2^k - 1)$ where $P = 2^k - 1$ is a Mersenne prime.
+
+*Proof sketch.* Write $n = 2^{k-1}X$ with $X$ odd. Then $\sigma(n) = (2^k - 1)\sigma(X) = 2n = 2^k X$, so $\sigma(X) = \frac{2^k X}{2^k - 1}$. Writing $X = (2^k - 1)Y$, the analysis forces $Y = 1$ and $2^k - 1$ prime. $\square$
+
+$$2^{P-1}(2^P - 1) = 1 + 2 + \cdots + 2^{P-1} + 2^P + \cdots + 2^{2P-1}$$
+
+Whether there are infinitely many even perfect numbers, and whether any **odd perfect number** exists, are open problems.
+
+# Lifting the Exponent (LTE)
+
+Let $p$ be a prime.
+1. For $n \in \mathbb{N}^+$, $x, y \in \mathbb{Z}$ with $(p, n) = 1$ and $p \mid (x - y)$: $\;v_p(x^n - y^n) = v_p(x - y)$.
+2. For an **odd** prime $p$ with $p \mid (x - y)$, $p \nmid x, y$: $\;v_p(x^n - y^n) = v_p(x - y) + v_p(n)$.
+3. For $x, y$ odd and $n$ a positive even integer: $\;v_2(x^n - y^n) = v_2(x - y) + v_2(x + y) + v_2(n) - 1$.
+
+# The Möbius Function
+
+For $n = p_1^{k_1}\cdots p_s^{k_s}$,
+$$\mu(n) = \begin{cases} 1 & n = 1 \\ (-1)^s & n = p_1 p_2 \cdots p_s \text{ (squarefree)} \\ 0 & \text{otherwise} \end{cases}, \qquad \sum_{d \mid n} \mu(d) = [n = 1]$$
+
+> [!THEOREM] Möbius Inversion
+> For arithmetic functions $f, g$:
+> $$g(n) = \sum_{d \mid n} f(d) \iff f(n) = \sum_{d \mid n} \mu(d)\, g\!\left(\frac{n}{d}\right)$$
+> Multiplicative form: $g(n) = \prod_{d \mid n} f(d) \iff f(n) = \prod_{d \mid n} g\!\left(\frac{n}{d}\right)^{\mu(d)}$.
+
+# Diophantine Equations
+
+**Linear $ax + by = c$.** Let $d = (a, b)$. If $d \nmid c$, no solution; otherwise a particular solution $(x_0, y_0)$ exists, and the general solution is
+$$x = x_0 + \frac{b}{d}t, \qquad y = y_0 - \frac{a}{d}t, \quad t \in \mathbb{Z}$$
+
+**Frobenius (Chicken McNugget).** For coprime positive integers $a, b$, the largest integer **not** representable as $ax + by$ with $x, y \ge 0$ is $g = ab - a - b$, and exactly $\frac{(a-1)(b-1)}{2}$ non-negative integers are non-representable. The equation $a_1 x_1 + \cdots + a_n x_n = c$ has a non-negative solution $\iff (a_1, \dots, a_n) \mid c$ (the general Frobenius number for $n \ge 3$ is an open problem).
+
+**Pythagorean equation $x^2 + y^2 = z^2$.** Primitive solutions (up to symmetry, $x$ odd, $y$ even):
+$$x = b^2 - a^2, \quad y = 2ab, \quad z = a^2 + b^2$$
+
+**Related results.**
+- $x^4 + y^4 = z^2$ has no positive solution (Fermat descent); hence $x^4 + y^4 = z^4$ has none.
+- Every integer (with $n \ge 3$ squares allowed) can be written as a sum of squares.
+- $x^2 + y^2 + z^2 = w^2$ has infinitely many solutions, e.g. $(2n^2 + 5mn - 3m^2, \dots)$, $m, n \in \mathbb{Z}$.
+- For $x^3 + y^3 + z^3 = n$: since $x^3 \equiv 0, \pm 1 \pmod 9$, we need $n \not\equiv \pm 4 \pmod 9$.
+- $x^2 - 5y^2 = n$ factors as $(x + y\sqrt{5})(x - y\sqrt{5})$, solved by parity / divisor analysis of $n$.
+
+# Groups
+
+A **group** is a set $G$ with a binary operation $\cdot$ satisfying:
+1. **Associativity:** $(a \cdot b) \cdot c = a \cdot (b \cdot c)$;
+2. **Identity:** $\exists\, 1 \in G$ with $a \cdot 1 = 1 \cdot a = a$;
+3. **Inverse:** $\forall a$, $\exists\, a^{-1}$ with $a a^{-1} = a^{-1} a = 1$.
+
+The number of elements $|G|$ is the **order**. The identity and inverses are unique, and **cancellation** holds: $ab = ac \Rightarrow b = c$.
+
+Structures with fewer axioms: **semigroup** (1), **monoid** (1)+(2), **group** (1)–(3); adding commutativity $ab = ba$ gives an **Abelian group**. (In a monoid, if a left and right identity both exist they coincide; same for left/right inverses.)
+
+**Direct product.** If $G_1, \dots, G_k$ are groups, the Cartesian product $G = G_1 \times \cdots \times G_k$ with componentwise operation $(g_1, \dots, g_k)(h_1, \dots, h_k) = (g_1 h_1, \dots, g_k h_k)$ is a group.
+
+A nonempty subset $H \subseteq G$ closed under the operation and inverses is a **subgroup**, $H \le G$.
+
+## Homomorphisms
+
+A map $f : G \to G'$ is a **group homomorphism** if $f(g k) = f(g) f(k)$. If $f$ is bijective it is an **isomorphism** ($G \cong G'$); injective = **monomorphism**; surjective = **epimorphism**. Then $f(1) = 1'$ and $f(g^{-1}) = f(g)^{-1}$. An isomorphism $G \to G$ is an **automorphism**; all automorphisms form $\operatorname{Aut}(G)$.
+
+- **Center:** $Z(G) = \{z \in G \mid zg = gz\ \forall g\}$.
+- **Normal subgroup:** $H \trianglelefteq G$ if $gHg^{-1} = H$ for all $g \in G$. Every subgroup of an Abelian group is normal, and $Z(G) \trianglelefteq G$.
+- **Simple group:** $G$ has no normal subgroups other than $\{1\}$ and $G$.
+- **Conjugate subgroups:** $H, K$ with $K = gHg^{-1}$ for some $g$; then $H \cong K$.
+- **Normalizer:** $N_G(H) = \{x \in G \mid xH = Hx\}$. Then $N_G(H) \le G$, $H \trianglelefteq N_G(H)$, and $N_G(H)$ is the largest subgroup in which $H$ is normal.
+- **Kernel and image:** $\ker f = f^{-1}(1')$ and $\operatorname{im} f = \{f(g)\}$; $\ker f \trianglelefteq G$ and $\operatorname{im} f \le H$.
+
+## Cyclic groups
+
+For $g \in G$, $\langle g \rangle = \{g^n \mid n \in \mathbb{Z}\}$ is the **cyclic subgroup** generated by $g$. If $G = \langle g \rangle$, $G$ is **cyclic** with generator $g$. If $g$ has finite order $k$, then $g^n = 1 \iff k \mid n$ and $g^i = g^j \iff i \equiv j \pmod k$; the map $\mathbb{Z} \to G$, $n \mapsto g^n$ is a surjective homomorphism.
+
+For cyclic $G$: if infinite, $G \cong \mathbb{Z}$; if order $n$, the generators are $\{g^k \mid 0 \le k < n,\ (k, n) = 1\}$, so there are $\varphi(n)$ of them. A homomorphic image of a cyclic group is cyclic.
+
+## Cosets and Lagrange's theorem
+
+For $H \le G$, $a \in G$, the **left coset** is $aH = \{ah \mid h \in H\}$. Two cosets are equal or disjoint, so $G = \bigsqcup_a aH$. Also $aH = bH \iff a^{-1}b \in H$, and $aH = Ha \iff aHa^{-1} = H$, i.e. $H \trianglelefteq G \iff gH = Hg\ \forall g$.
+
+The map $aH \to bH$, $ah \mapsto bh$ is a bijection, so $|aH| = |H|$. Hence $|G| = [G : H]\,|H|$.
+
+> [!THEOREM] Lagrange
+> The order of any subgroup of a finite group divides the order of the group.
+
+- **Corollary 1.** $\forall x \in G$, $x^{|G|} = 1$.
+- **Corollary 2.** A group of prime order is cyclic and simple.
+
+## Quotient groups
+
+For $H \trianglelefteq G$, the set of cosets $G/H = \{gH\}$ with $[aH][bH] = [ab]H$ is a well-defined group (well-definedness requires $H$ normal). By Lagrange, $|G/H| = [G : H] = |G|/|H|$. If $[G : H] = 2$ then $g^2 \in H$ for all $g$.
+
+> [!THEOREM] First Isomorphism Theorem (groups)
+> If $f : G \to H$ is a surjective homomorphism, then $G / \ker f \cong \operatorname{im} f$.
+
+## Symmetric groups
+
+A bijection of $\{1, \dots, n\}$ is a **permutation** $\sigma$; they form the **symmetric group** $S_n$ with $|S_n| = n!$ (non-Abelian for $n > 2$). A **$k$-cycle** $(i_1 i_2 \cdots i_k)$ sends $i_1 \to i_2 \to \cdots \to i_k \to i_1$ and fixes the rest; a $2$-cycle is a **transposition**. Disjoint cycles commute, and every permutation factors uniquely (up to order) into disjoint cycles.
+
+$S_n$ is generated by the transpositions $(12), (13), \dots, (1n)$. The **sign** $\operatorname{sgn}(\sigma) = (-1)^{n - \#\text{cycles}}$ is a homomorphism $S_n \to \{\pm 1\}$, with $\operatorname{sgn}$ of a $k$-cycle $= (-1)^{k-1}$. **Even** permutations (sign $+1$) form the **alternating group** $A_n$, and the even/odd permutations are equinumerous.
+
+A group of order $p^n$ ($p$ prime) is a **$p$-group**.
+
+> [!THEOREM] Cayley
+> A group $G$ of order $n$ is isomorphic to a subgroup of $S_n$.
+> *Proof.* For $a \in G$, $f_a : g \mapsto ag$ is a bijection, so $f_a \in S_n$; $a \mapsto f_a$ is an injective homomorphism since $\ker = \{a : ag = g\ \forall g\} = \{1\}$. $\square$
+
+## Group actions
+
+Let $G$ act on a set $S$. The **orbit** $\operatorname{Orb}(s) = \{s \cdot g \mid g \in G\}$ and **stabilizer** $\operatorname{Stab}(s) = \{g \mid g \cdot s = s\}$. Fixed points form $S^G$.
+
+> [!THEOREM] Orbit–Stabilizer
+> $|\operatorname{Orb}(s)| \cdot |\operatorname{Stab}(s)| = |G|$.
+
+For a $p$-group, every orbit size is a power of $p$, so $|S^G| \equiv |S| \pmod p$.
+
+> [!THEOREM] Cauchy
+> If a prime $p$ divides $|G|$ (finite), then $G$ has an element of order $p$.
+> *Proof.* Let $S = \{(x_1, \dots, x_p) \mid x_1 \cdots x_p = 1\}$, $|S| = |G|^{p-1}$. The cyclic shift $\sigma = (12\cdots p)$ acts on $S$; $|S^{\langle\sigma\rangle}| \equiv |S| \equiv 0 \pmod p$. Since $(1, \dots, 1)$ is fixed, there is another fixed point, giving $g^p = 1$. $\square$
+
+**Class equation.** $|G| = |Z(G)| + \sum [G : N_G(g)]$ (sum over non-central conjugacy class representatives). For a $p$-group, $|Z(G)| \equiv 0 \pmod p$.
+
+> [!THEOREM] Sylow (first theorem)
+> If $|G| = p^n m$ with $p$ prime and $p \nmid m$, then for each $0 \le i \le n$, $G$ has a subgroup of order $p^i$ (a **Sylow $p$-subgroup** for $i = n$), and every $p$-subgroup is contained in some Sylow $p$-subgroup.
+
+## Structural consequences
+
+- If $G/Z(G)$ is cyclic, then $G$ is Abelian. (*Proof:* write $g = z^a g_0$; any two elements commute.)
+- Every group of order $p^2$ is Abelian.
+
+> [!THEOREM] Internal Direct Product Criterion
+> If $H \trianglelefteq G$, $K \trianglelefteq G$, $H \cap K = \{1\}$, and $HK = G$, then $G \cong H \times K$ via $(h, k) \mapsto hk$.
+
+## Some common groups
+
+- **Dihedral group $D_n$:** $n$ rotations $1, r, \dots, r^{n-1}$ and reflections, with $srs = r^{-1}$; non-Abelian for $n \ge 3$. Note $D_2 \cong \mathbb{Z}_2 \times \mathbb{Z}_2$.
+- **Non-Abelian group of order $2p$** ($p$ odd prime) $\cong D_p$.
+- **Quaternion group** $Q_n = \langle a, b \mid a^{2n} = 1,\ b^2 = a^n,\ bab^{-1} = a^{-1}\rangle$. For $n = 1$, $Q_1 = \{\pm 1, \pm i, \pm j, \pm k\}$ with $i^2 = j^2 = k^2 = -1$, $ijk = -1$; non-Abelian.
+
+> [!THEOREM]
+> $A_n$ is simple for $n \ge 5$, but $A_4$ is **not** simple (since the Klein four-group $K_4 \trianglelefteq A_4$).
+
+# Rings, Integral Domains, Fields
+
+In a ring, $x \cdot 0 = 0 \cdot x = 0$. An element $a \neq 0$ is a **zero divisor** if $ab = 0$ for some $b \neq 0$. A ring without zero divisors is an **integral domain**; a commutative ring in which every nonzero element is invertible is a **field**.
+
+> [!THEOREM]
+> Every finite integral domain is a field.
+> *Proof.* For $a \neq 0$, the map $x \mapsto ax$ is injective (no zero divisors), hence surjective on the finite set, so some $ax = 1$. $\square$
+
+Note: the direct product of nonzero integral domains is **not** an integral domain, since $(0, x)(y, 0) = (0, 0)$.
+
+A **ring homomorphism** $f : R \to R'$ satisfies $f(1) = 1'$, $f(a + b) = f(a) + f(b)$, $f(ab) = f(a)f(b)$; bijective gives a ring isomorphism. Then $f(0) = 0$, $f(-a) = -f(a)$.
+
+A **subring** $S \subseteq R$ is closed under $+, -, \times$ and contains $1$. An **ideal** $I \trianglelefteq R$ is an additive subgroup with $rx \in I$ for all $r \in R$, $x \in I$ (e.g. $xR$ is a right ideal). 
+
+**Ideals of $\mathbb{Z}$ are principal:** every ideal $I \subseteq \mathbb{Z}$ equals $d\mathbb{Z}$ for the smallest positive $d \in I$. The kernel $\ker f = f^{-1}(0')$ of a ring homomorphism is an ideal, and $\operatorname{im} f$ is a subring.
+
+For an ideal $I \trianglelefteq R$, the **quotient ring** $R/I$ has elements $r + I = \{r + i \mid i \in I\}$ with
+$$(r_1 + I) + (r_2 + I) = (r_1 + r_2) + I, \qquad (r_1 + I)(r_2 + I) = r_1 r_2 + I$$
+(multiplication well-defined precisely because $I$ is an ideal).
+
+> [!THEOREM] First Isomorphism Theorem (rings)
+> If $f : R \to R'$ is a surjective ring homomorphism, then $R / \ker f \cong \operatorname{im} f$.
+
+# Modular Arithmetic
+
+For a positive integer $m$, $a \equiv b \pmod m$ means $m \mid (a - b)$.
+
+**Properties.** If $a \equiv b \pmod m$: $na \equiv nb$; $ad \equiv bd \pmod{md}$; and $a \equiv b \pmod{m_i}$ for all $i$ $\Rightarrow a \equiv b \pmod{[m_1, \dots, m_n]}$. The congruence $ax \equiv b \pmod m$ is solvable $\iff (a, m) \mid b$; in particular $ax \equiv 1 \pmod m$ (an inverse $a^{-1}$) exists $\iff (a, m) = 1$, computable by the Euclidean algorithm.
+
+**Additive group $\mathbb{Z}/n\mathbb{Z} = \{[0], [1], \dots, [n-1]\}$** (cyclic of order $n$).
+
+**Multiplicative group** $(\mathbb{Z}/n\mathbb{Z})^* = \{[a] \mid (a, n) = 1,\ 0 \le a < n\}$ of order $\varphi(n)$ (**Euler's totient**). When $p$ is prime, $\mathbb{Z}/p\mathbb{Z}$ is the **field** $\mathbb{F}_p$ of $p$ elements.
+
+- If $G$ is finite cyclic of order $n$: $G \cong \mathbb{Z}/n\mathbb{Z}$ and $\operatorname{Aut}(G) \cong (\mathbb{Z}/n\mathbb{Z})^*$.
+- If $G$ is infinite cyclic: $G \cong \mathbb{Z}$, $\operatorname{Aut}(G) \cong \mathbb{Z}/2\mathbb{Z}$.
+
+A **complete residue system** is a set of representatives of $\mathbb{Z}/n\mathbb{Z}$; a **reduced residue system** represents $(\mathbb{Z}/n\mathbb{Z})^*$ ($\varphi(n)$ elements).
+
+> [!THEOREM] Euler / Fermat
+> For $(a, n) = 1$: $\;a^{\varphi(n)} \equiv 1 \pmod n$. In particular (**Fermat's little theorem**), for prime $p$: $\;a^{p-1} \equiv 1 \pmod p$.
+
+*(Proof via Lagrange's theorem applied to $(\mathbb{Z}/n\mathbb{Z})^*$.)*
+
+Also $\displaystyle n = \sum_{d \mid n} \varphi(d)$ (classify $1, \dots, n$ by $\gcd$ with $n$).
+
+> [!THEOREM] Extended Euler
+> For positive integer $n$, integer $a$, and exponent $b$:
+> $$a^b \equiv \begin{cases} a^b & b < \varphi(n) \\ a^{\,b \bmod \varphi(n) + \varphi(n)} & b \ge \varphi(n) \end{cases} \pmod n$$
+
+**Solving $x^k = a$ in a cyclic group** $G = \langle g \rangle$ of order $n$ with $a = g^i$: solvable $\iff d := (k, n) \mid i$, in which case there are exactly $d$ solutions.
+
+## Chinese Remainder Theorem
+
+> [!THEOREM] CRT
+> If $m, n$ are coprime, then $\mathbb{Z}/mn\mathbb{Z} \cong \mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$ via $a \bmod mn \mapsto (a \bmod m,\ a \bmod n)$, and likewise $(\mathbb{Z}/mn\mathbb{Z})^* \cong (\mathbb{Z}/m\mathbb{Z})^* \times (\mathbb{Z}/n\mathbb{Z})^*$. More generally, for pairwise coprime $m_1, \dots, m_k$, the system
+> $$x \equiv a_1 \pmod{m_1},\ \dots,\ x \equiv a_k \pmod{m_k}$$
+> has a unique solution modulo $n = m_1 \cdots m_k$.
+
+**Consequences for $\varphi$.** $\varphi$ is multiplicative: $(m, n) = 1 \Rightarrow \varphi(mn) = \varphi(m)\varphi(n)$; for $n = p_1^{k_1}\cdots p_r^{k_r}$,
+$$\varphi(n) = n\prod_{p \mid n}\left(1 - \frac{1}{p}\right)$$
+
+**Solving two congruences** $x \equiv x_1 \pmod{m_1}$, $x \equiv x_2 \pmod{m_2}$: with $d = (m_1, m_2)$ and Bézout $m_1 k_1 + m_2 k_2 = d$ (solvable iff $d \mid x_2 - x_1$),
+$$x \equiv \frac{m_1 k_1 x_2 + m_2 k_2 x_1}{d} \pmod{[m_1, m_2]}$$
+# Polynomials
+
+For a field $F$, the **polynomial ring** $F[x] = \{a_n x^n + \cdots + a_1 x + a_0 \mid a_i \in F\}$, with $\deg f = n$.
+
+**Division algorithm.** For $f, g \in F[x]$ with $g \neq 0$, there exist unique $q, r \in F[x]$ with $f = qg + r$, $\deg r < \deg g$.
+
+**gcd of polynomials** is defined analogously; $F[x]$ ideals are principal, so for $f, g$ with $d = (f, g)$:
+$$\{f u + g v \mid u, v \in F[x]\} = \{d w \mid w \in F[x]\}$$
+In particular $\exists\, u, v$ with $fu + gv = d = (f, g)$, and $f, g$ coprime $\iff \exists\, u, v$ with $fu + gv = 1$. Also $(f, g) = 1$ and $(f, h) = 1 \Rightarrow (f, gh) = 1$.
+
+A nonconstant $f \in F[x]$ is **irreducible** if it cannot be factored into lower-degree polynomials (its only divisors are constants and $cf$). Euclid's lemma and unique factorization hold for $F[x]$ as for $\mathbb{Z}$: $f = c\, p_1^{e_1}\cdots p_r^{e_r}$ uniquely, with gcd/lcm given by min/max of exponents.
+
+> [!THEOREM] Remainder / Factor Theorem
+> $f(x) = q(x)(x - a) + f(a)$. Hence $f(a) = 0 \iff (x - a) \mid f(x)$ ($a$ is a **root**).
+
+> [!THEOREM] Lagrange
+> A polynomial of degree $n$ over a field has at most $n$ roots.
+
+> [!THEOREM] Vieta's Formulas
+> If $f(x) = a_n(x - x_1)\cdots(x - x_n)$, then the elementary symmetric functions satisfy
+> $$\sum_{i_1 < \cdots < i_k} x_{i_1}\cdots x_{i_k} = (-1)^k \frac{a_{n-k}}{a_n}$$
+
+Over $\mathbb{F}_p$: $x^p - x = \prod_{a \in \mathbb{F}_p}(x - a)$, whence $x^{p-1} - 1 \equiv (x-1)(x-2)\cdots(x-p+1) \pmod p$, giving **Wilson's theorem** $(p-1)! \equiv -1 \pmod p$.
+
+> [!THEOREM] Wolstenholme
+> For a prime $p > 5$, $\;\dbinom{2p}{p} \equiv 2 \pmod{p^3}$ (equivalently the symmetric functions $S_1, S_{p-2}$ of $1, \dots, p-1$ vanish $\bmod p^2$).
+
+**Polynomial congruences.** $f \equiv g \pmod{m(x)}$ means $m(x) \mid (f - g)$; congruences add and multiply as usual. The quotient $F[x]/(m(x))$ has representatives $\{[r(x)] : \deg r < \deg m\}$ with units $\{[a(x)] : (a, m) = 1\}$, and
+$$F[x]/(m(x)) \text{ is a field} \iff m(x) \text{ is irreducible}$$
+For $m = m_1 \cdots m_r$ with $m_i$ pairwise coprime, the polynomial CRT gives $F[x]/(m) \cong \prod_i F[x]/(m_i)$.
+
+**Irreducibility.**
+- Over $\mathbb{C}$: $f$ irreducible $\iff \deg f = 1$ (Fundamental Theorem of Algebra).
+- Over $\mathbb{R}$: irreducible $\iff$ degree $1$, or degree $2$ with $\Delta < 0$.
+
+> [!THEOREM] Gauss's Lemma
+> If $f \in \mathbb{Z}[x]$ factors over $\mathbb{Q}$, then it factors over $\mathbb{Z}$.
+
+> [!THEOREM] Eisenstein's Criterion
+> Let $f(x) = a_n x^n + \cdots + a_0 \in \mathbb{Z}[x]$, $a_n \neq 0$. If a prime $p$ satisfies $p \mid a_i$ for $i = 0, \dots, n-1$, $p \nmid a_n$, and $p^2 \nmid a_0$, then $f$ is irreducible over $\mathbb{Q}$.
+
+**Mod $p$ reduction.** If $f \in \mathbb{Z}[x]$ is irreducible mod $p$, it is irreducible over $\mathbb{Z}$ (contrapositive: reducible over $\mathbb{Z} \Rightarrow$ reducible over $\mathbb{F}_p$).
+
+## Symmetric polynomials
+
+$f(x_1, \dots, x_n)$ is **symmetric** if $f(x_{\sigma(1)}, \dots, x_{\sigma(n)}) = f(x_1, \dots, x_n)$ for all $\sigma \in S_n$.
+
+> [!THEOREM] Fundamental Theorem of Symmetric Polynomials
+> Every symmetric polynomial is a polynomial in the elementary symmetric polynomials $t_1, \dots, t_n$, and this expression is unique (the $t_i$ are algebraically independent).
+
+The **discriminant** of $f(x) = (x - X_1)\cdots(x - X_n)$ is $D_f = \prod_{i < j}(X_i - X_j)^2$, a symmetric polynomial of degree $n(n-1)$. For $f = x^2 + bx + c$: $D_f = b^2 - 4c$.
+
+> [!THEOREM] Newton's Identities
+> With power sums $t_k = \sum_i X_i^k$ and elementary symmetric $S_j$:
+> - For $k \le n - 1$: $\;t_k - S_1 t_{k-1} + \cdots + (-1)^{k-1}S_{k-1}t_1 + (-1)^k k\, S_k = 0$.
+> - For $k \ge n$: $\;t_k - S_1 t_{k-1} + \cdots + (-1)^n S_n t_{k-n} = 0$.
+
+## Cyclotomic polynomials
+
+$$\Phi_n(x) = \prod_{\substack{1 \le k \le n \\ (k, n) = 1}} (x - \zeta_n^k), \qquad \zeta_n = e^{2\pi i/n}$$
+**Properties.** $\Phi_n$ is irreducible over $\mathbb{Z}[x]$, and $x^n - 1 = \prod_{d \mid n}\Phi_d(x)$. For prime $p$, $\Phi_p(x) = \frac{x^p - 1}{x - 1} = x^{p-1} + \cdots + 1$ is irreducible; for composite $m$, $x^{m-1} + \cdots + 1$ is reducible.
+
+> [!THEOREM] Mason–Stothers
+> If $a(x), b(x), c(x)$ are pairwise coprime polynomials with $a + b + c = 0$, then each has degree $\le N(abc) - 1$, where $N(abc)$ is the number of distinct roots of $a b c$. (Polynomial analogue of the $abc$ conjecture; implies the polynomial Fermat's Last Theorem.)
+
+*Proof idea.* Set $p = a/c$, $q = b/c$, so $p + q + 1 = 0$ and $p' = -q'$; compare logarithmic derivatives $\frac{p'}{p} = \sum \frac{a_i}{x - \alpha_i} - \sum \frac{c_i}{x - \gamma_i}$, etc.
+
+# Primitive Roots
+
+If $(\mathbb{Z}/m\mathbb{Z})^*$ is cyclic, a generator is a **primitive root** mod $m$. ($2$ has the primitive root $1$; $4$ has the primitive root $3$.)
+
+**$2^k$ ($k \ge 3$) has no primitive root:** for odd $a$, $a^{2^{k-2}} \equiv 1 \pmod{2^k}$ (induction on $k$), so the group is not cyclic.
+
+> [!THEOREM] Existence mod $p$
+> An odd prime $p$ has a primitive root; in fact there are $\varphi(p-1)$ of them.
+> *Proof.* For $d \mid p - 1$ let $S(d) = \#\{a \in \mathbb{F}_p^* : \operatorname{ord}(a) = d\}$. If an element of order $d$ exists, its powers give all $d$ roots of $x^d - 1$, so $S(d) = \varphi(d)$; otherwise $S(d) = 0$, so $S(d) \le \varphi(d)$. Since $\sum_{d \mid p-1} S(d) = p - 1 = \sum_{d \mid p-1}\varphi(d)$, equality holds, so $S(p-1) = \varphi(p-1) \neq 0$. $\square$
+
+> [!THEOREM] Classification
+> A primitive root mod $m$ exists $\iff m = 2, 4, p^k,$ or $2p^k$ (with $p$ an odd prime, $k \ge 1$).
+
+**Quadratic residues.** Since $p$ is odd, the squaring map $\mathbb{F}_p^* \to \mathbb{F}_p^*$, $a \mapsto a^2$ has kernel $\{\pm 1\}$, so $\mathbb{F}_p^*/\{\pm 1\} \cong (\mathbb{F}_p^*)^2$: exactly half of $\mathbb{F}_p^*$ are **quadratic residues** and half are non-residues.
+
+# Quadratic Reciprocity
+
+For $a \in \mathbb{F}_p^*$, the **Legendre symbol**
+$$\left(\frac{a}{p}\right) = \begin{cases} 1 & a \text{ a quadratic residue} \\ 0 & p \mid a \\ -1 & a \text{ a non-residue} \end{cases}$$
+The number of solutions of $x^2 \equiv a \pmod p$ is $1 + \left(\frac{a}{p}\right)$. The symbol is completely multiplicative: writing $a = (-1)^{e_\infty} p_1^{e_1}\cdots p_r^{e_r}$ reduces $\left(\frac{a}{p}\right)$ to the factors $\left(\frac{-1}{p}\right)$, $\left(\frac{2}{p}\right)$, $\left(\frac{p'}{p}\right)$.
+
+> [!THEOREM] Euler's Criterion
+> $\left(\dfrac{a}{p}\right) \equiv a^{(p-1)/2} \pmod p$. In particular $\left(\dfrac{-1}{p}\right) = (-1)^{(p-1)/2} = \begin{cases} 1 & p \equiv 1 \pmod 4 \\ -1 & p \equiv 3 \pmod 4 \end{cases}$.
+
+> [!THEOREM] Gauss's Lemma
+> For $(a, p) = 1$, with $r = \frac{p-1}{2}$, let $s$ be the number of residues of $a, 2a, \dots, ra \pmod p$ that fall in $(\frac{p}{2}, p)$. Then $\left(\frac{a}{p}\right) = (-1)^s$.
+
+> [!THEOREM]
+> $\left(\dfrac{2}{p}\right) = (-1)^{(p^2-1)/8} = \begin{cases} 1 & p \equiv \pm 1 \pmod 8 \\ -1 & p \equiv \pm 3 \pmod 8 \end{cases}$.
+
+> [!THEOREM] Quadratic Reciprocity
+> For distinct odd primes $p, p'$:
+> $$\left(\frac{p'}{p}\right)\left(\frac{p}{p'}\right) = (-1)^{\frac{p-1}{2}\cdot\frac{p'-1}{2}}$$
+> *(Proved by counting lattice points below the line through the origin in a $\frac{p}{2} \times \frac{p'}{2}$ box: above/below give $\sum[ja/p]$ and $\sum[jp/a]$.)*
+
+> [!NOTE] Planned sections (headings only in the source)
+> Jacobi symbol; cubic and quartic reciprocity; Cipolla's algorithm (for $x^2 \equiv n \pmod p$ when $\left(\frac{n}{p}\right) = 1$); prime sieves; character sums.
+
+# Solving Polynomial Equations by Radicals
+
+- **Linear** $ax + b = 0$: $x = -b/a$.
+- **Quadratic** $ax^2 + bx + c = 0$: $x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.
+- **Cubic** (Cardano): reduce $ax^3 + bx^2 + cx + d = 0$ to $x^3 + px + q = 0$, substitute $x = t - \frac{p}{3t}$ to get $t^3 + q - \frac{p^3}{27 t^3} = 0$, a quadratic in $t^3$.
+- **Quartic** (Ferrari): reduce to $x^4 = ax^2 + bx + c$; write $x^4 + mx^2 + n = (a + m)x^2 + bx + (c + n)$ and choose $m, n$ so the right side is a perfect square ($\Delta = b^2 - 4(a+m)(c+n) = 0$), giving $x^2 + \frac{m}{2} = \pm\left(\sqrt{a+m}\,x + \frac{b}{2\sqrt{a+m}}\right)$.
+
+> [!NOTE] Planned section
+> Field theory and Galois theory (heading only in the source).
+
+# Modules and Algebras
+
+A **module** over a field/ring $R$ is an Abelian group $M$ with a scalar action satisfying distributivity $(r + s)(m + n) = rm + rn + sm + sn$, compatibility $(rs)m = r(sm)$, and unitality $1 \cdot m = m$. An **algebra** is a module that is also a ring with bilinear (left/right distributive) multiplication.
+
+> [!NOTE] Planned section
+> Structure theorem for finite Abelian groups (heading only in the source; e.g. groups of order $p^2$ are $\mathbb{Z}_{p^2}$ or $\mathbb{Z}_p \times \mathbb{Z}_p$).
+
+# Introduction to Linear Algebra
+
+## Gaussian elimination
+
+## LU Decomposition
+
+### Doolittle Decomposition
+
+### Crout Decomposition
+
+## Rank
+
+## Determinant
+
+# Eigenvalues and Eigenvectors
+
+## Power method
+
+##  Inverse Power method
+## QR Decomposition
+
+Householder Matrix
+
+# Norm
+
+## Vector Norm
+
+For vector $X\in\mathbb{R}^n$, a vector norm $\left \| X \right \|$ should has the following properties: 
+1. $\left \| X \right \|\ge 0$ and $\left \| X \right \|= 0$ iff $X=0$
+2. $\forall \alpha \in \mathbb{R}$, $\left \| \alpha X \right \|=\left | \alpha \right | \left \|  X \right \|$
+3. $\left \|  X+Y \right \|\le\left \|  X \right \|+\left \|  Y \right \|$
+
+A common norm is **$L_p$ norm / Hölder norm**, which is defined as$$\left \| X \right \|_p=\big(\sum_{i=1}^n \left | x_i \right |^p \big)^{\frac{1}{p}},1\le p\le+\infty$$
+The three most commonly used $L_p$ vector norms are
+- $p=1$ (<span style="color: red;">Manhattan Norm</span>) $$\left \| X \right \|_1=\sum_{i=1}^n \left | x_i \right |$$
+- $p=2$ (<span style="color: red;">Euclidean Norm</span>) $$\left \| X \right \|_2=\sqrt{\sum_{i=1}^n  x_i^2}$$
+- $p=+\infty$ (<span style="color: red;">Chebyshev Norm</span>) $$\left \| X \right \|_\infty=\lim_{p\to+\infty}\big(\sum_{i=1}^n  \left | x_i \right |^p\big)^{\frac{1}{p}}=\max\{\left | x_i \right |\}$$
+## Matrix Norm
+
+For matrix $A\in\mathbb{R}^{n\times n}$, a matrix norm $\left \| A \right \|$ should has the following properties: 
+1. $\left \| A \right \|\ge 0$ and $\left \| A \right \|= 0$ iff $A=0$
+2. $\forall \lambda \in \mathbb{R}$, $\left \| \lambda X \right \|=\left | \lambda \right | \left \|  X \right \|$
+3. For any two matrices $A$ and $B$ of the same order, $\left \|  A+B \right \|\le\left \|  A \right \|+\left \|  B \right \|$
+4. For any two matrices $A$ and $B$ of the same order, $\left \|  AB \right \|\le\left \|  A \right \|\left \|  B \right \|$
+5. For any vertex $X\in \mathbb{R}^n$, $\left \|  AX \right \|\le\left \|  A \right \|\left \|  X \right \|$
+
+The matrix norm can be defined as:$$\left \|  A \right \|=\sup_{X\in\mathbb{R}^n,X\ne0}\frac{\left \|  AX \right \|}{\left \|  X \right \|}=\sup_{X\in\mathbb{R}^n,\left \|  X \right \|=1}\left \|  AX \right \|$$
+Correspondingly, the common norm:
+- $p=1$ $$\left \| A \right \|_1=\max_j\sum_{i=1}^n \left | a_{ij} \right |$$
+- $p=2$ $$\left \| A \right \|_2=\sqrt{\lambda_1}$$where $\lambda_1=\max \left | \lambda_i \right |$, $\lambda_i$ is the eigenvalues of $A^{\top}A$
+- $p=+\infty$ $$\left \| A \right \|_\infty=\max_i\sum_{j=1}^n \left | a_{ij} \right |$$
+>[!PROOF]
+>
+
+Another common norm is <span style="color: red;">Frobenius norm</span>:
+$$\left \|  A \right \|_F=\big(\sum_{i=1}^n\sum_{j=1}^n\left| a_{ij} \right |^2\big)^{\frac{1}{2}}$$
+For eigenvalues $\lambda$ of the matrix $A$, 
+$$\left | \lambda \right | \left \|  X \right \|= \left \|  \lambda X \right \|=\left \|  A X \right \|\le\left \|  A \right \|\left \|  X \right \|$$
+As a result, $$\left | \lambda \right |\le\left \|  A \right \|$$
+So we define the <span style="color: red;">spectral radius</span> $\rho (A)$ of the matrix $A$ as $$\rho (A)=\max \left | \lambda_i \right |$$
+As a result,$$\left \| A \right \|_2=\sqrt{\rho (A^{\top}A)}$$
+A <span style="color: red;">convergent matrix</span> $A$ is defined as $$\lim_{k\to +\infty}A^k=0$$
+>[!THEOREM]
+>A matrix $A$ is convergent matrix iff $\rho(A)<1$
+
+>[!PROOF]
+
+>[!COROLLARY]
+>A matrix $A$ is convergent matrix iff $\left \|  A \right \|<1$
+
+>[!PROOF]
+
+## Condition number
+
+For a system of equations$$Ax=b$$
+If the constant term $b$ has a small disturbance, then$$A(x+\delta x)=b+\delta b$$
+Then $$\delta x=A^{-1}(b+\delta b)-x=A^{-1}\delta b$$
+Hence,$$\left \|  \delta x \right \|=\left \|  A^{-1}\delta b \right \|\le\left \|  A^{-1} \right \|\left \| \delta b \right \|$$
+$$\left \|  b \right \|=\left \|  Ax \right \|\le \left \|  A \right \| \left \|  x \right \|$$
+$$\frac{\left \|  \delta x \right \|}{\left \|x\right \|}\le\left \|  A^{-1} \right \|\left \|  A \right \|\frac{\left \|  \delta b \right \|}{\left \|b\right \|}$$
+Define $\left \|  A^{-1} \right \|\left \|  A \right \|$ as the condition number $Cond(A)$ of the matrix $A$.
+
+We can find that
+$$Cond(A)=\left \|  A^{-1} \right \|\left \|  A \right \|\ge\left \|  I \right \|=1$$
+If the matrix $A$ has a small disturbance $\delta A$, we can also find that $$\frac{\left \|  \delta x \right \|}{\left \|x\right \|}\le\frac{Cond(A)\frac{\left \|  \delta A \right \|}{\left \|A\right \|}}{1-Cond(A)\frac{\left \|  \delta A \right \|}{\left \|A\right \|}}$$
+# Sums of Squares
+
+> [!NOTE] Brahmagupta–Fibonacci identity
+> $$(a^2 + b^2)(c^2 + d^2) = (ac + bd)^2 + (ad - bc)^2 = (ac - bd)^2 + (ad + bc)^2$$
+
+> [!NOTE] Euler's four-square identity
+> $(a_1^2 + a_2^2 + a_3^2 + a_4^2)(b_1^2 + b_2^2 + b_3^2 + b_4^2)$ is again a sum of four squares (bilinear in the $a_i, b_j$). Similarly **Degen's eight-square identity** holds for eight squares.
+
+> [!THEOREM] Lagrange's Four-Square Theorem
+> Every positive integer is a sum of four integer squares.
+> *Proof sketch.* By Euler's identity it suffices to treat primes. There exist $a, b \in \{0, \dots, \frac{p-1}{2}\}$ with $a^2 + b^2 + 1 \equiv 0 \pmod p$, so some $np = \sum x_i^2$ with $1 \le n < p$. If the minimal such $n > 1$, reducing $x_i \bmod n$ to $y_i \in (-\frac{n}{2}, \frac{n}{2}]$ and applying Euler's identity produces a smaller multiple — contradiction. Hence $n = 1$. $\square$
+
+Related: **Gauss's three-square theorem** and **Fermat's two-square theorem** (a prime $p$ is a sum of two squares $\iff p = 2$ or $p \equiv 1 \pmod 4$), via the **Hasse–Minkowski theorem** on which integers a quadratic form $ax^2 + by^2 + cz^2 = 0$ represents.
+
+# Pell's Equation
+
+**Type I: $x^2 - Dy^2 = 1$** ($D \in \mathbb{Z}$, $D \neq 0$). For $D = -1$, only $(\pm 1, 0), (0, \pm 1)$; for $D < -1$ or $D$ a perfect square, only the trivial $(\pm 1, 0)$. For $D > 0$ non-square, factor $x^2 - Dy^2 = (x + y\sqrt{D})(x - y\sqrt{D}) = 1$, and call the nontrivial solution minimizing $x + y\sqrt{D}$ the **fundamental solution** $(x_1, y_1)$.
+
+> [!THEOREM]
+> All positive solutions are given by $x_n + y_n\sqrt{D} = (x_1 + y_1\sqrt{D})^n$, equivalently
+> $$x_n = \tfrac{1}{2}\big[(x_1 + y_1\sqrt{D})^n + (x_1 - y_1\sqrt{D})^n\big], \quad y_n = \tfrac{1}{2\sqrt{D}}\big[(x_1 + y_1\sqrt{D})^n - (x_1 - y_1\sqrt{D})^n\big]$$
+> with the linear recurrence $x_n = 2x_1 x_{n-1} - x_{n-2}$, $\;y_n = 2x_1 y_{n-1} - y_{n-2}$.
+> *Proof.* If a solution $(x, y)$ were not a power, choose $n$ with $(x_1 + y_1\sqrt{D})^n < x + y\sqrt{D} < (x_1 + y_1\sqrt{D})^{n+1}$; then $(x + y\sqrt{D})(x_1 - y_1\sqrt{D})^n$ is a smaller nontrivial solution, contradicting minimality. $\square$
+
+**Type II: $x^2 - Dy^2 = -1$.** When solvable, with fundamental solution $(x_1, y_1)$, all positive solutions are $x_n + y_n\sqrt{D} = (x_1 + y_1\sqrt{D})^n$ for **odd** $n$.
+
+# Fermat's Last Theorem, $n = 3$
+
+In the **Eisenstein integers** $\mathbb{Z}[\omega] = \{a + b\omega + c\omega^2 \mid a, b, c \in \mathbb{Z},\ \omega = e^{2\pi i/3}\}$, the equation $x^3 + y^3 + z^3 = 0$ has no nontrivial solution. Consequently $x^3 + y^3 = 3z^3$ has no integer solution, so $3$ is not a sum of two rational cubes.
+
+# The Riemann Zeta Function and the Prime Number Theorem
+
+**Euler product.** $\displaystyle \zeta(s) = \sum_{n=1}^{\infty}\frac{1}{n^s} = \prod_p \frac{1}{1 - p^{-s}}$ for $\operatorname{Re}(s) > 1$. Taking logarithms and using $-\ln(1 - p^{-s}) = \sum_n \frac{1}{n}p^{-ns}$ and $\frac{1}{n}p^{-ns} = \int_{p^n}^{\infty}\frac{1}{n}s\, x^{-s-1}dx$,
+$$\frac{1}{s}\ln\zeta(s) = \int_0^{\infty} J(x)\, x^{-s-1}\,dx, \qquad J(x) = \sum_{p^n \le x}\frac{1}{n}$$
+By Mellin inversion, $J(x) = \frac{1}{2\pi i}\int_{a - i\infty}^{a + i\infty}\frac{\ln\zeta(z)}{z}x^z\,dz$. The completed function $\xi(s) = \Gamma\!\left(\frac{s}{2} + 1\right)(s-1)\pi^{-s/2}\zeta(s)$ is symmetric about $s = \tfrac12$ and has a Hadamard product over the nontrivial zeros. Möbius inversion of $J(x) = \sum_n \frac{1}{n}\pi(x^{1/n})$ gives
+$$\pi(x) = \sum_n \frac{\mu(n)}{n}J(x^{1/n}), \qquad J(x) = \operatorname{Li}(x) - \sum_\rho \operatorname{Li}(x^\rho) - \ln 2 + \int_x^{\infty}\frac{dt}{t(t^2 - 1)\ln t}$$
+Showing $\zeta$ has no zeros on $\operatorname{Re}(s) = 1$ yields the **Prime Number Theorem** (Hadamard, de la Vallée Poussin).
+
+# The Hierarchy of Rings
+
+$$\text{Field} \subsetneq \text{ED} \subsetneq \text{PID} \subsetneq \text{UFD} \subsetneq \text{GCD domain} \subsetneq \text{Integral domain}$$
+(Euclidean domain $\subsetneq$ principal ideal domain $\subsetneq$ unique factorization domain.) Examples: $\mathbb{Z}[i]$ (Gaussian integers, a ED); $\mathbb{Z}\!\left[\frac{1 + \sqrt{-19}}{2}\right]$ (a PID that is not Euclidean); $\mathbb{Z}[x]$ (a UFD that is not a PID).
+
+> [!NOTE] Planned sections
+> Linear algebra (Gaussian elimination / rank, similarity, congruence, determinant) and algebraic number theory (headings only in the source).
+
+# Selected Exercises
+
+1. A ring isomorphism $\varphi : \mathbb{R} \to \mathbb{R}$ is the identity ($\varphi^2 = \mathrm{id}$): order is preserved since squares (hence positivity) are preserved, and $\varphi$ fixes $\mathbb{Q}$ densely.
+2. If $x \mapsto x^2$ is a homomorphism on $G$, then $G$ is Abelian: $abab = aabb \Rightarrow ba = ab$.
+3. If positive integers $\{a_i\}$ satisfy $(a_i, a_j) = (i, j)$ for all $i \neq j$, then $a_i = i$.
+4. For odd $m$: $(2^m - 1,\ 2^n + 1) = 1$ — via $(2^m - 1, 2^{2n} - 1) = 2^{(m, 2n)} - 1 = 2^{(m,n)} - 1$.
+5. The Gaussian-type element $\frac{1}{2}(1 + i)$ has infinite multiplicative order (its coordinates satisfy a recurrence that is never $\equiv (1,0) \bmod 5$).
+6. For any $n$, there exist $n$ consecutive integers each divisible by a perfect square (CRT with distinct primes $p_k^2$).
+7. For an odd prime $p$ and $0 \le i \le p - 2$: $\sum_{x} x^i \equiv 0 \pmod p$ (use a primitive root: $\sum x^i \equiv \sum (gx)^i$).
+8. For coprime $n, a$: $n \mid \varphi(a^n - 1)$ — since $a$ has order $n$ in $(\mathbb{Z}/(a^n - 1)\mathbb{Z})^*$, apply Lagrange.
+9. Binomial congruences: $\binom{p-1}{i} \equiv (-1)^i \pmod p$, and $\sum_i \frac{1}{i}i^{p-1} \equiv \sum_i \frac{1}{i^p} \pmod p$.
+10. There are infinitely many primes of each form $8n + 1, 8n + 3, 8n + 5, 8n + 7$ (using $N = (2P_1\cdots P_k)^4 + 1$, $(P_1\cdots P_k)^2 + 2$, $+4$, $-2$ respectively, and quadratic residue analysis mod 8).
+
+# Appendix
+
+## Groups of order 1–15
+
+| Order | Abelian | Non-Abelian |
+|---|---|---|
+| 1 | $\{1\}$ | |
+| 2 | $\mathbb{Z}_2$ | |
+| 3 | $\mathbb{Z}_3$ | |
+| 4 | $\mathbb{Z}_4,\ K_4$ | |
+| 5 | $\mathbb{Z}_5$ | |
+| 6 | $\mathbb{Z}_6$ | $S_3$ |
+| 7 | $\mathbb{Z}_7$ | |
+| 8 | $\mathbb{Z}_8,\ \mathbb{Z}_4 \times \mathbb{Z}_2,\ \mathbb{Z}_2^3$ | $D_4,\ Q_8$ |
+| 9 | $\mathbb{Z}_9,\ \mathbb{Z}_3 \times \mathbb{Z}_3$ | |
+| 10 | $\mathbb{Z}_{10}$ | $D_5$ |
+| 11 | $\mathbb{Z}_{11}$ | |
+| 12 | $\mathbb{Z}_{12},\ \mathbb{Z}_3 \times K_4$ | $A_4,\ Q_{12},\ D_6$ |
+| 13 | $\mathbb{Z}_{13}$ | |
+| 14 | $\mathbb{Z}_{14}$ | $D_7$ |
+| 15 | $\mathbb{Z}_{15}$ | |
+
+## Primitive roots of small odd primes
+
+| $p$ | Primitive roots |
+|---|---|
+| 3 | 2 |
+| 5 | 2, 3 |
+| 7 | 3, 5 |
+| 11 | 2, 6, 7, 8 |
+| 13 | 2, 6, 7, 11 |
+| 17 | 3, 5, 6, 7, 10, 11, 12, 14 |
+| 19 | 2, 3, 10, 13, 14, 15 |
+| 23 | 5, 7, 10, 11, 14, 15, 17, 19, 20, 21 |
+
+## Mersenne primes and perfect numbers
+
+| $P$ | $2^P - 1$ | $2^{P-1}(2^P - 1)$ |
+|---|---|---|
+| 2 | 3 | 6 |
+| 3 | 7 | 28 |
+| 5 | 31 | 496 |
+| 7 | 127 | 8128 |
+| 13 | 8191 | 33 550 336 |
+| 17 | 131 071 | 8 589 869 056 |
+| 19 | 524 287 | 137 438 691 328 |
+| 31 | 2 147 483 647 | 2 305 843 008 139 952 128 |
+
+## Open problems
+
+- Does an **odd perfect number** exist?
+- **Twin prime conjecture:** infinitely many primes $p$ with $p + 2$ prime.
+- **Goldbach's conjecture:** every even integer $> 2$ is a sum of two primes.
+- Are there infinitely many **Mersenne primes** / even perfect numbers?
+- **Fermat numbers** $F_n = 2^{2^n} + 1$: $F_0, \dots, F_4$ are prime ($3, 5, 17, 257, 65537$); are any $F_n$ ($n \ge 5$) prime? ($F_5 = 4294967297 = 641 \times 6700417$.) (Note: if $2^n + 1$ is prime then $n$ is a power of $2$.)
+- **Erdős–Straus conjecture:** for every $n > 1$, $\frac{4}{n} = \frac{1}{x} + \frac{1}{y} + \frac{1}{z}$ with positive integers $x, y, z$.
+- **Rational distance problem:** is there a point in the unit square at rational distance from all four corners?
+- **Perfect cuboid:** a box with integer edges, face diagonals, and space diagonal ($a^2 + b^2 = m^2$, $a^2 + c^2 = n^2$, $b^2 + c^2 = p^2$, $a^2 + b^2 + c^2 = q^2$). Dropping the space-diagonal condition gives an **Euler brick**; the smallest is $(a, b, c) = (44, 117, 240)$.
+        </script>
+    </main>
+
+    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/comments.js"></script>
+</body>
+</html>

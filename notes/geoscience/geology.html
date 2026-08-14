@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geology | Yang</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" type="image/png" href="../../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../notes.html">Notes</a>
+            <a href="../../articles.html">Articles</a>
+            <a href="../../research.html">Research</a>
+            <a href="../../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../geoscience.html" class="article-back-link">&larr; Geoscience</a>
+            <h1>Geology</h1>
+            <p>An introduction to minerals, rocks, stratigraphy, structural geology, plate tectonics, sedimentary processes, and the history recorded in Earth materials...</p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Rocks</span>
+                    <span>Tectonics</span>
+                    <span>Stratigraphy</span>
+                </div>
+                <time datetime="2026-08-08">Aug 8, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+# Crystallography (TODO)
+
+
+# Rock (TODO)
+
+## Igneous Rock
+
+## Sedimentary Rock
+
+## Metamorphic Rock
+
+# Earth's Age
+
+What is the age of the Earth? This is an important problem in geoscience. The first answer based on geoscience was made by Lord Kelvin, who estimated that Earth's age ranged from 400 million to 20 million years. He assumed that its origin was by cooling from a molten state.
+
+In 1894, Henri Becquerel reported evidence for radioactivity by showing that photographic film became exposed when adjacent to uranium minerals. Then, Marie Curie and Pierre Curie identified two new radioactive elements – radium and polonium, which came to be recognized as intermediate elements formed from the radioactive decay of uranium.
+
+In 1907, Rutherford suggested that radioactive decay in uranium-bearing minerals could be used to date the crystallization age of the mineral if the rate of decay was known.
+
+- How does radiometric dating work and what can it tell us?
+- How accurate is radiometric dating?
+- Can we place confidence in radiometric dating?
+
+Radioactive source decay equations$$N=N_0 e^{-\lambda t}$$where $\lambda$ is called as <span style="color: red;">decay constant </span>
+<span style="color: red;">half time </span>$$T_{\frac{1}{2}}=\frac{\ln 2}{\lambda}$$
+Some common radioactive elements in the Earth:
+
+| Parent    | Half-life ($10^9$yrs) | Daughter   | Materials Dated                                                       |
+| --------- | --------------------- | ---------- | --------------------------------------------------------------------- |
+| $^{235}U$ | 0.704                 | $^{207}Pb$ | zircon, uraninite, pitchblende                                        |
+| $^{40}K$  | 1.251                 | $^{40}Ar$  | muscovite, biotite, hornblende, volcanic rock, glauconite, K-feldspar |
+| $^{238}U$ | 4.468                 | $^{206}Pb$ | zircon, uraninite, pitchblende                                        |
+| $^{87}Rb$ | 48.8                  | $^{87}Sr$  | K-micas, K-feldspar, biotite, metamorphic rock, glauconite            |
+
+If the model is a closed system
+![Screenshot 2026-05-16 at 14.03.18](../attachments/Screenshot%202026-05-16%20at%2014.03.18.png){width=370}
+In this picture, the yellow column represents the daughter atom ($d$), and the blue one represents the parent atom ($P$).
+$$P_t=P_0 e^{-\lambda t}$$
+$$P_0+d_0=P_t+d_t$$
+We cannot accurately measure $d_0,d_t$ and $P_0,P_t$, but we can accurately measure $d_0/P_0$ and $d_t/P_t$, denoted as $R_0$ and $R_t$.
+
+$$1+\frac{d_0}{P_0}=\frac{P_0+d_0}{P_0}=\frac{P_t+d_t}{P_0}=\frac{P_t+d_t}{P_t e^{\lambda t}}=e^{-\lambda t}(1+\frac{d_t}{P_t})$$
+$$t=\frac{1}{\lambda}\ln \frac{1+R_t}{1+R_0}$$
+
+It is a simplified model. Most of the time, we cannot get $R_0$. Also the daughter isotope is not completely from the parent isotope.
+
+In the next model, we define:
+- Radiogenic daughter isotope $d$
+- Initial daughter isotope $d_0$
+- Stable reference isotope $D$
+![Screenshot 2026-05-16 at 14.44.13](../attachments/Screenshot%202026-05-16%20at%2014.44.13.png){width=372}
+$d$ and $d_0$ is hard to distinguish. We can only measure $\frac{d+d_0}{D}$
+$$\frac{d+d_0}{D}=\frac{P_0-P+d_0}{D}=\frac{P}{D}(e^{\lambda t}-1)+\frac{d_0}{D}$$
+This is linear equation. By measuring lots of radioactive elements, we can draw an <span style="color: red;">Isochron</span>.
+![Screenshot 2026-05-16 at 15.02.24](../attachments/Screenshot%202026-05-16%20at%2015.02.24.png){width=410}
+Then$$m=e^{\lambda t}-1$$
+$$t=\frac{1}{\lambda}\ln (m+1)$$
+We can choose zircons to measure the age of the Earth.
+- Zircons are everywhere
+	- They form in igneous and metamorphic rocks and then erode and are incorporated into sedimentary rocks
+- Zircons are tough
+	- They are hard and can survive intact as the rest of the rock around it erodes. Then they can be transported and incorporated into sedimentary rocks.
+- Zircons are good for radiometric dating
+	- When they form in igneous and metamorphic rocks, they pull radioactive parent nuclides (isotopes) into their crystal structure like $^{238}U$, $^{235}U$ and $^{232}Th$
+
+![Screenshot 2026-05-16 at 15.11.13](../attachments/Screenshot%202026-05-16%20at%2015.11.13.png){width=532}
+Valley et al., 2014
+
+We can find that the age of the oldest rock is 4.4 billion years, which represents the earliest known magma crystallization event on Earth.
+
+Ages of meteorites
+![Screenshot 2026-05-28 at 13.19.04](../attachments/Screenshot%202026-05-28%20at%2013.19.04.png)
+Terrestrial planets and asteroids in the solar system were formed through accretion around the same time (See details in [Astronomy](astronomy.html)). By measuring meteorites that fell to Earth (such as the Diablo Canyon meteorite, which cooled quickly after formation and did not undergo the same active geological remelting process as Earth) and lunar rocks brought back by the Apollo program, scientists have calculated the absolute time of formation of celestial bodies throughout the solar system—<span style="color: red;">4.54 billion years</span>.
+
+## Geologic Time Scale
+
+![Geo-Time-Scale-FY17](../attachments/Geo-Time-Scale-FY17.webp)
+
+Carboniferous: PN+M
+# The structure and composition of Earth
+
+![Screenshot 2026-05-27 at 21.46.44](../attachments/Screenshot%202026-05-27%20at%2021.46.44.png)
+## Crust
+
+The crust can be classified as Oceanic crust (5-15 km in thickness) and Continental crust (30-50 km in thickness or even 70 km thick).
+
+|                      | Continental crust             | Oceanic crust      |
+| -------------------- | ----------------------------- | ------------------ |
+| Thickness            | 30-50 km, or even 70 km thick | 5-15 km            |
+| Representative rocks | Granite                       | Basalt             |
+| Density              | $2.7\text{g/cm}^3$            | $3.0\text{g/cm}^3$ |
+| Age                  | Can be very old               | Geologically young |
+
+![Screenshot 2026-05-27 at 21.54.36](../attachments/Screenshot%202026-05-27%20at%2021.54.36.png)
+Every rock type known on Earth occurs in continental crust. Constitutes only 0.4% of the Earth’s mass, but covers about 41% of the Earth’s surface and comprises 79% of the total crystal volume.
+![Screenshot 2026-05-27 at 22.20.29](../attachments/Screenshot%202026-05-27%20at%2022.20.29.png)
+
+## Composition in different depth
+![Screenshot 2026-05-27 at 22.12.57](../attachments/Screenshot%202026-05-27%20at%2022.12.57.png)
+
+![Screenshot 2026-05-27 at 22.18.21](../attachments/Screenshot%202026-05-27%20at%2022.18.21.png)
+
+## Formation of Continental crust
+
+Partial melts generated in the mantle wedge rise either as diapirs of melt and crystals, which increasingly melt and become more basic as they rise and decompress, or as rapidly moving segregated melt. The upwelling melt cools by up to 1 °C/km (in contrast to 0.5 °C/km in solid mantle). At the base of the continental crust, lighter liquids can pass straight upwards to the surface. But most liquids are probably trapped by their density, because the continental crust may be less dense than the magma.
+
+Hot magma collecting at the base of the crust loses heat to the overlying continent and cools and fractionates, precipitating minerals such as clinopyroxene, together with garnet, olivine, or orthopyroxene. After fractionation, the lighter liquids rise to the surface, most probably as basalt and basaltic andesite magmas. After partial melting, the residual material left behind in the deep continental crust is granulite. It is depleted of all heating-producing elements, such as U, Th, and K, which are moved to the shallow level.
+
+![Screenshot 2026-05-27 at 22.30.26](../attachments/Screenshot%202026-05-27%20at%2022.30.26.png){width=532}
+## Formation of oceanic crust
+
+Pressure decrease/water content increase:
+![Screenshot 2026-05-27 at 22.40.37](../attachments/Screenshot%202026-05-27%20at%2022.40.37.png)
+### Infinite Onions
+![Screenshot 2026-05-27 at 22.39.01](../attachments/Screenshot%202026-05-27%20at%2022.39.01.png)
+This model is nicknamed ‘infinite onions’, infinite because of its continuity in time and along the axis of the mid-ocean-ridge system, terminated only by transform faults, and onion because of its shape and because it peels off layers of oceanic crust at its side. This model is not suitable for the slow-spreading ridges where such a body would freeze and is thermodynamically unfavorable.
+
+### Infinite leek
+![Screenshot 2026-05-27 at 22.39.18](../attachments/Screenshot%202026-05-27%20at%2022.39.18.png)
+It did not require a steady-state magma chamber; rather, magma was envisaged as rising intermittently in packets from the mantle, nucleating a crack in the basaltic crust and rising to the surface. Each crack is likely to be in the same location as the previous crack. A small, shallow magma chamber could be a temporary feature of this model.
+
+## Mantle
+
+Most of observed mantle material is not primary, but has a liquid (basalt) fraction removed by partial melting. Ringwood coined the term <span style="color: red;">“pyrolite”</span> for primitive fertile mantle.
+![Screenshot 2026-05-27 at 22.49.31](../attachments/Screenshot%202026-05-27%20at%2022.49.31.png)
+
+The following figure illustrates the high-pressure phase transitions of the Earth's mantle minerals as pressure (depth) increases.
+![Screenshot 2026-05-27 at 22.56.51](../attachments/Screenshot%202026-05-27%20at%2022.56.51.png)
+Due to the different phase of olivine under different pressure, mantle has three discontinuities.
+
+![Screenshot 2026-05-27 at 23.36.38](../attachments/Screenshot%202026-05-27%20at%2023.36.38.png)
+If the temperature conditions and mineral composition of the upper and lower boundaries of the Earth's mantle transition zone are different, the morphology of the transition zone will also change accordingly.
+![Screenshot 2026-05-27 at 23.26.27](../attachments/Screenshot%202026-05-27%20at%2023.26.27.png)
+The following figure can intuitively illustrate this property.
+![Screenshot 2026-05-27 at 23.27.17](../attachments/Screenshot%202026-05-27%20at%2023.27.17.png)Agius et al. (2021) 
+
+### 410 km
+The main process involves the transformation of Olivine into the more compact Wadsleyite.
+![Screenshot 2026-05-27 at 23.04.15](../attachments/Screenshot%202026-05-27%20at%2023.04.15.png)Chambers et al. (2005)
+### 520 km
+The main process involves the further transformation of Wadsleyite into Ringwoodite.
+![Screenshot 2026-05-27 at 23.04.40](../attachments/Screenshot%202026-05-27%20at%2023.04.40.png)Tian et al. (2020)
+### 660 km
+This is an extremely dramatic and important phase transition zone. Ringwoodite decomposes here, transforming into Perovskite and Periclase.
+![Screenshot 2026-05-27 at 23.05.47](../attachments/Screenshot%202026-05-27%20at%2023.05.47.png)Deuss et al. (2006)
+### Composition and Mineralogy of the lower mantle
+
+Almost all direct observations of deep mantle come from seismology. Any mineralogical model has to match the seismic observations.
+
+Small-scale heterogeneities (Scatterers):
+- Thickness is several or tens of kilometers
+-  Velocity perturbation is 0.1–1% (throughout the mantle)
+- Shear velocity could be up to ~12% lower than the ambient mantle in local regions (Mariana and Peru)
+![Screenshot 2026-05-28 at 11.29.36](../attachments/Screenshot%202026-05-28%20at%2011.29.36.png){width=483}
+Large-scale heterogeneities:
+- Low-velocity columns beneath prominent hotspots
+- Positive velocity anomalies near subduction zones
+- Large low shear velocity provinces(LLSVPs)
+![Screenshot 2026-05-28 at 11.29.50](../attachments/Screenshot%202026-05-28%20at%2011.29.50.png){width=509}
+
+A pyrolitic composition along the normal geotherm can well reproduce the reference velocities and densities for the upper mantle.
+
+### Mid-ocean Ridge Basalts (MORB)
+
+As the subduction zone sinks into the oceanic crust deep into the mantle, it undergoes partial melting during the formation of the mid-ocean ridge. Its composition is rich in Si, Ca, and Al, resulting in a high-pressure mineral assemblage completely different from the surrounding normal mantle.
+![Screenshot 2026-05-27 at 23.42.53](../attachments/Screenshot%202026-05-27%20at%2023.42.53.png)
+### Large Low Shear Velocity Provinces (LLSVP)
+![Screenshot 2026-05-28 at 11.46.20](../attachments/Screenshot%202026-05-28%20at%2011.46.20.png)
+
+The overall density of the LLSVPs is lower than the surrounding mantle.
+![Screenshot 2026-05-28 at 11.47.47](../attachments/Screenshot%202026-05-28%20at%2011.47.47.png)Koelemeijer et al. (2017)
+
+The mean density of the ==lower== two-thirds of the two LLSVPs is ~0.5% higher than that of the surrounding mantle.
+![Screenshot 2026-05-28 at 11.48.18](../attachments/Screenshot%202026-05-28%20at%2011.48.18.png)Lau et al. (2017)
+
+Relationship between large igneous provinces(LIP) and LLSVPs
+![Screenshot 2026-05-28 at 11.52.09](../attachments/Screenshot%202026-05-28%20at%2011.52.09.png)
+Relationship between Hotspots and LLSVPs![Screenshot 2026-05-28 at 11.52.44](../attachments/Screenshot%202026-05-28%20at%2011.52.44.png)McNamara (2018)
+## Core
+
+It is generally believed that the Earth's core is the cause of the Earth's magnetic field; see details in [Geomagnetism & Geoelectricity](geomagnetism_and_geoelectricity.html).
+### Core Formation
+![Screenshot 2026-05-16 at 15.39.08](../attachments/Screenshot%202026-05-16%20at%2015.39.08.png)
+The solidus lines that Melt adiabats first encounter are located in the middle mantle region at a depth of approximately tens to one hundred GPa, rather than at the very bottom at 140 GPa. This thermodynamically explains why the mantle freezes first in the "middle" region.
+# The Theory of Plate Tectonics
+
+## Continental drift
+At the beginning of 1900s, scientists realized that that they could not explain many of the Earth’s structures and processes with a single theory. Many scientific hypotheses were developed to try and support the conflicting observations. One hypotheses was <span style="color: red;">continental drift</span>, which was proposed by Alfred Wegener in a series of papers from 1910 to 1928.  
+
+Wegener suggested that at one time all the continents were connected together. This super continent he called <span style="color: red;">Pangaea</span>. Wegener hypothesized that Pangaea broke apart roughly in the 200 Myr ago and the continents “drifted” towards their present positions.
+![Pasted image 20260530114304](../attachments/Pasted%20image%2020260530114304.png)
+Evidence:
+- Fit of continents
+![Pasted image 20260530114144](../attachments/Pasted%20image%2020260530114144.png){width=331}
+
+![Pasted image 20260530114318](../attachments/Pasted%20image%2020260530114318.png)
+- Continuous Climate Belts
+![Pasted image 20260530114342](../attachments/Pasted%20image%2020260530114342.png)
+- Fossil Evidence
+![Pasted image 20260530114412](../attachments/Pasted%20image%2020260530114412.png)
+- Geologic Features
+![Pasted image 20260530114457](../attachments/Pasted%20image%2020260530114457.png)
+
+## Seafloor spreading
+
+![Pasted image 20260530114813](../attachments/Pasted%20image%2020260530114813.png)
+Evidence: 
+- Marine magnetic anomalies
+![Pasted image 20260530114959](../attachments/Pasted%20image%2020260530114959.png)
+- Seafloor age
+![Pasted image 20260530115132](../attachments/Pasted%20image%2020260530115132.png)
+- Seafloor Topography
+![Screenshot 2026-05-30 at 11.52.08](../attachments/Screenshot%202026-05-30%20at%2011.52.08.png){width=550}
+## World Plates
+![Pasted image 20260530114714](../attachments/Pasted%20image%2020260530114714.png)
+
+## Three types of plate boundaries
+
+- Divergent boundaries——New crust is generated as the plates diverge
+![Pasted image 20260530115330](../attachments/Pasted%20image%2020260530115330.png)
+- Convergent boundaries——Crust is destroyed as one plate dives beneath another
+![Pasted image 20260530115359](../attachments/Pasted%20image%2020260530115359.png)
+- Transform boundaries——Crust is neither created or destroyed
+![Pasted image 20260530115410](../attachments/Pasted%20image%2020260530115410.png)
+
+Current rates motion of selected surface points collected from satellite data
+![Pasted image 20260530115500](../attachments/Pasted%20image%2020260530115500.png)
+## Driving force of plate tectonics
+
+![Screenshot 2026-03-30 at 20.08.40](../attachments/Screenshot%202026-03-30%20at%2020.08.40.png)
+### Slab Pull
+
+Slab Pull is widely considered the primary force driving plate movement. This is because, over time, rocks formed from mid-ocean ridges are continuously pushed outwards, their temperature decreases, and their density increases. When this high-density oceanic plate collides with another plate, it bends under its own weight and subducts into the mantle. This force is also transmitted to the plate that has not yet subducted, pulling it along as well.
+
+During the subduction process, the increasing pressure on the rocks leads to phase transitions. For example, at depths of about 40-60 kilometers, basalt in the oceanic crust transforms into eclogite. Phase transitions are a significant reason for the increased density in subduction zones.
+
+![Screenshot 2026-03-30 at 20.48.09](../attachments/Screenshot%202026-03-30%20at%2020.48.09.png)
+
+As shown in the figure, we assume that the tectonic plate inserts into the mantle at an angle $\Psi$, and denote the density of the lithosphere as $\rho_L$ and the density of the mantle as $\rho_M$. Since the plate density gradually changes from $\rho_L$ to $\rho_M$ during subduction, we denote the density difference as $\frac{1}{2}(\rho_L-\rho_M)$. Let $E$ be the depth at which the density difference disappears during subduction, and $L$ be the thickness of the lithosphere. Because subduction actually involves a certain inclination, the actual extension length of the plate in the mantle (along the slope) is $E / \sin \Psi$. Therefore, the tensile force exerted by the plate on the subduction zone is...$$F_{sp}=\frac{\rho_L-\rho_M}{2\sin \Psi}ELg$$
+### Ridge Push
+
+Mid-ocean ridge thrust is considered the second strongest force driving plate movement after plate tension. Its formation is generally attributed to two main factors:
+
+1. Due to the thinner lithosphere and higher elevation at mid-ocean ridges, the entire plate "slips" from the ridge to the sides under gravity, generating a horizontal pressure gradient force.
+2. Over time, newly formed plates gradually harden and age, increasing their density and beginning to sink, causing seafloor depth to increase with distance from the mid-ocean ridge.
+
+We can quantitatively analyze this physical process. First, from the one-dimensional heat conduction equation, we have$$\frac{\partial T}{\partial t}=\kappa \frac{\partial^2 T}{\partial z^2}$$We assume:
+- The surface temperature is constant, i.e., $T(z=0,t)=T_0$
+- The temperature in the deep mantle is constant, i.e., $T(z=+\infty,t)=T_m$
+- We assume the lithosphere "floats" on the asthenosphere and that the pressure is equal at a certain compensation depth.
+
+
+The solution is:$$\frac{T(z, t) - T_0}{T_m - T_0} = \text{erf}\left( \frac{z}{2\sqrt{\kappa t}} \right)$$
+
+Therefore, for two points with the same temperature, $\frac{z}{2\sqrt{\kappa t}}$ is constant, meaning that the later the formation time, the thicker the plate.
+
+Considering the coefficient of thermal expansion $\alpha_v$, density distribution:$$\rho(z, t) = \rho_m [1 + \alpha_v (T_m - T(z, t))]$$
+Substituting the temperature formula into:$$\rho(z, t) = \rho_m \left[ 1 + \alpha_v (T_m-T_0) \left( 1 - \text{erf}\left( \frac{z}{2\sqrt{\kappa t}} \right) \right) \right]$$
+The thrust of the mid-ocean ridge, $F_{rp}$, is the resultant force of the pressure difference between the two locations over the entire depth.
+$$\begin{align*}F_{rp} &= \int_0^\infty (P_{plate}(z, t) - P_{ridge}(z)) \, dz\\&=g \rho_m \alpha_v (T_m-T_0) \int_0^\infty \left[ \int_z^\infty \text{erfc}\left( \frac{z'}{2\sqrt{\kappa t}} \right) dz' \right] dz\\= &g \rho_m \alpha_v (T_m - T_0) \left[ 1 + \frac{2}{\pi} \frac{\rho_m \alpha_v (T_m - T_0)}{\rho_m - \rho_0} \right] \kappa t\end{align*}$$
+## Plate Motions
+### Relative Plate Motions
+
+Detect Method:
+- Global Navigation Satellite System
+![Pasted image 20260530133933](../attachments/Pasted%20image%2020260530133933.png)
+- Interferometric synthetic aperture radar
+![Pasted image 20260530134038](../attachments/Pasted%20image%2020260530134038.png)
+
+Representation
+![Screenshot 2026-05-30 at 11.56.44](../attachments/Screenshot%202026-05-30%20at%2011.56.44.png)
+### Absolute Plate Motions
+
+Hot-plume hypothesis: Hot spot hypothesis assumes certain linear volcanic trends result from plate motion over a hot spot, fixed source of volcanism, causing melting in the overriding plate.
+![Pasted image 20260530134213](../attachments/Pasted%20image%2020260530134213.png)
+
+Hot Spot distribution
+![Pasted image 20260530120040](../attachments/Pasted%20image%2020260530120040.png)
+
+- Midplate continental (Yellowstone …)
+- Midplate oceanic (Hawaii, Bermuda …)
+- On or near ridge (Iceland, Azores, Easter …)
+
+## Morphology and fate of subducted slabs
+
+Subduction zones
+
+![Pasted image 20260530134323](../attachments/Pasted%20image%2020260530134323.png)
+
+The <span style="color: red;">Wadati-Benioff region</span> is a deep, tilted zone of intense seismic activity within the Earth's interior.
+
+![Wadati-Benioff_zone](../attachments/Wadati-Benioff_zone.jpg)
+Earthquakes in the Benioff Belt are generally classified into three categories based on depth:
+- Shallow-focus earthquakes (0-70 km): Primarily occur at the frictional interface between subducting and overlying plates, exhibiting extremely high destructive power and easily triggering tsunamis.
+- Intermediate-focus earthquakes (70-300 km): Occur within the subducting plate, mainly caused by plate bending and dehydration embrittlement.
+- Deep-focus earthquakes (300-700 km): Extremely deep, generally believed to be caused by volumetric collapse resulting from abrupt changes in mineral structure (such as the transformation of olivine into spinel).
+
+Ultimate depth (approximately 660-700 km): Seismic activity in the Benioff Belt typically disappears abruptly at around 700 km. This is because at this depth, the plate is finally fully heated and softened, or encounters the denser lower mantle, no longer possessing the conditions for brittle fracture.
+
+It is noted that the cause of deep-focus earthquakes (>300km) remains a mystery, because at this depth, rocks should exhibit plasticity under high temperature and pressure and should not undergo brittle fracture.
+
+Slab morphology
+![Pasted image 20260530134757](../attachments/Pasted%20image%2020260530134757.png)Li et al. (2019, ESR) 
+
+Why does plate tectonics only occur on the Earth's surface?
+- Surface liquid water. When water penetrates deep into the lithosphere, it significantly lowers the melting point and physical strength of silicate rocks. Water molecules enter the mineral lattice, making the normally extremely hard lithosphere more ductile, thus allowing faults to form and plates to break apart.
+- Just the right surface temperature. The temperature of a planet's surface directly determines the mechanical properties of the lithosphere; it must be within a temperature range that allows rocks to exhibit brittleness (the ability to fracture and form plates).
+- Mantle convection. The Earth's large size and mass contain an immense amount of heat. This heat causes slow and persistent thermal convection in the mantle. Hot material rises to form mid-ocean ridges, while cooler material sinks to form subduction zones.
+
+# Earth Evolution
+
+1. Hadean and Early Archean Eon (approximately 4.5-3 billion years ago): The Insane "Non-Plate" Era
+
+Early Earth was much hotter than it is today (mantle temperatures may have been 200-300°C higher), primarily due to the accretion of heat from numerous meteorites and high concentrations of radioactive decay.
+
+Heat-pipe Tectonics: The extremely hot mantle resulted in a very thin, magnesium-rich crust, resembling a soft, "pasty" layer. At this time, the crust had high buoyancy and could not sink into the mantle. The primary way Earth dissipated heat was not through horizontal plate movement, but through countless magma columns erupting vertically from deep within the mantle, like "chimneys," penetrating the crust.
+
+Drip Tectonics: As localized areas of the crust cooled and became heavier, they did not slide or subduct laterally like plates today, but instead "dripped" or sank directly into the mantle, like water droplets from a ceiling.
+
+2. Late Archean to Paleoproterozoic (approximately 3-2 billion years ago): The Pains and Initiation of Plate Tectonics
+
+This was a crucial transitional period, with the Earth cooling to a critical point.
+
+Episodic Subduction: Decreasing mantle temperatures caused the lithosphere to become thicker, denser, and more rigid. Occasionally, fragments of cooled lithosphere would begin to sink into the mantle, marking the beginning of subduction.
+
+Fragile Plates: However, the mantle was still relatively warm at this time, and the subducting plates would quickly soften and fracture, often breaking off shortly after submersion. Therefore, early plate tectonics was localized, intermittent, and sporadic, lacking a globally interconnected network. Liquid water also played a crucial "lubricant" role during this stage, facilitating fault activity.
+
+3. Proterozoic to Present (Approximately 2 billion years ago to present): Modern Plate Tectonics and the Supercontinent Cycle
+
+As mantle temperatures further decreased and the lithosphere became sufficiently hard and heavy, global modern plate tectonics were finally fully established.
+
+The Wilson Cycle Dominates: The Earth's crust began to fracture regularly, seafloor spreading, oceans closing, and continental collisions creating mountains. Deep and continuous subduction zones (the Vadati-Benioff zones) formed globally.
+
+The Supercontinent Cycle: The horizontal movement of plates causes continental blocks on Earth to assemble into a "supercontinent" approximately every 400 to 600 million years, only to break apart again. Famous supercontinents in geological history include: Nuna/Columbia, Rodinia, and the most recent supercontinent, Pangea, which formed approximately 250 million years ago.
+
+## Wilson cycle
+
+The <span style="color: red;">Wilson cycle</span> is a model that describes the opening and closing of ocean basins and the subduction and divergence of tectonic plates during the assembly and disassembly of supercontinents.
+![Screenshot 2026-05-14 at 17.34.48](../attachments/Screenshot%202026-05-14%20at%2017.34.48.png){width=498}
+
+
+## Snowball Incident
+
+Snowball Earth is a fascinating and awe-inspiring hypothesis in geology and paleoclimatology. It refers to one or more extreme global glacial events that occurred during Earth's long history. During these periods, the Earth's surface—from the poles to the equator—was almost entirely or completely covered by thick ice and snow. From space, the Earth at that time resembled a giant, dazzling "snowball."
+
+Earth's history has seen more than one such extreme ice age, the two most famous and well-documented occurring during the Neoproterozoic Era, approximately 720 million to 635 million years ago, known as the Sturtian and Marinoan Glaciations.
+![Screenshot 2026-05-14 at 17.42.43](../attachments/Screenshot%202026-05-14%20at%2017.42.43.png){width=680}
+
+
+
+# Structural Geology (TODO)
+
+# Regional Tectonics of China (TODO)
+        </script>
+    </main>
+
+    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/comments.js"></script>
+</body>
+</html>

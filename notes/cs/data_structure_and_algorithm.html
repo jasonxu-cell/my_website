@@ -1,0 +1,3841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structure and Algorithm | Yang</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" type="image/png" href="../../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../notes.html">Notes</a>
+            <a href="../../articles.html">Articles</a>
+            <a href="../../research.html">Research</a>
+            <a href="../../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../cs.html" class="article-back-link">&larr; Computer Science</a>
+            <h1>Data Structure and Algorithm</h1>
+            <p>Notes on arrays, linked lists, trees, graphs, hashing, sorting, searching, dynamic programming, and algorithmic strategies, with attention to correctness and time-space complexity...</p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Data Structures</span>
+                    <span>Algorithms</span>
+                    <span>Complexity</span>
+                </div>
+                <time datetime="2026-08-12">Aug 12, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+# Theoretical Basis
+
+## Data Structure
+
+<span style="color: red;">Data Structure</span> is a format of organizing, managing, and storing data.
+
+In data structures, the representation in computer memory refers to the storage structure of the data, while the logical structure of the data is independent of the computer used.
+
+## Algorithm analysis
+
+Algorithm analysis aims to analyzing the correctness and operating efficiency of the algorithm.
+
+In fact, the operating efficiency of the algorithm is not only related to itself, but related to the following factors:
+
+1. Input & data size
+2. Programming languages
+3. Hardware: Memory, cache, CPU & GPU (instruction set, # cores, . . . )
+
+Many issues affect the time by fixed constant factors ==except input/data size==
+
+---
+
+Consider running time $\approx$ # steps/instructions. For simplicity, Our algorithms in each step can
+
+1. $+,−,\times ,\div,\bmod$ for any integer ($<2^{64}$)
+2. load, store, copy an integer
+3. control operations: If-Else, subroutine call, . . .
+
+Define the parameter of the algorithm as $n$, and $T(n)$ is the maximum number of steps (or instructions) for inputs of parameter $n$
+
+We stipulate:
+
+1. For function $g(n)$, if $\exists$ const $c>0$ and $n_0​$ s.t. when $n>n_0​$, $T(n) \le cg(n)$, then $T(n)=O(g(n))$.
+2. For function $g(n)$, if $\exists$ const $c>0$ and $n_0​$ s.t. when $n>n_0$​, $T(n)\ge cg(n)$, then $T(n)=\Omega (g(n))$.
+3. For function $g(n)$, if $\exists$ const $c_1>0$​,$c_2>0$ and $n_0$ s.t. when $n>n_0$​, $T(n)\le c_1​g(n)$ and $T(n)\ge c_2​g(n)$, then $T(n)=\Theta(g(n))$.
+
+---
+
+## Randomized Algorithms vs. Deterministic Algorithms
+
+Deterministic Algorithm
+![Screenshot 2026-05-19 at 21.28.46](../attachments/Screenshot%202026-05-19%20at%2021.28.46.png)
+Definition: Given a deterministic algorithm $B$ and $n$
+the longest running time of $B$ among all inputs of parameter $n$ $$T(n)=\max_{ \Phi:∣\Phi∣=n​}Time(B(\Phi))$$
+the average-case time denotes the average time of $B$ on all input of parameter $n$$$T(n)=\sideset{}{}{\mathbb{E}}_{ \Phi:∣\Phi∣=n​}Time(B(\Phi))$$
+Randomized Algorithm
+![Screenshot 2026-05-19 at 21.36.18](../attachments/Screenshot%202026-05-19%20at%2021.36.18.png){width=457}
+
+Define: Given a randomized Algorithm with input $\Phi$ and random string $r$
+The expected running time (also called running time in the worst case) of $A$ among all inputs of parameter $n$ $$T(n)=\max_{ \Phi:∣\Phi∣=n​}\{\sideset{}{}{\mathbb{E}}_{ r​}[Time(A(\Phi,r))]\}$$
+The average-case running time of $A$ among all inputs of parameter $n$ $$T(n)=\sideset{}{}{\mathbb{E}}_{ \Phi:∣\Phi∣=n​}\{\sideset{}{}{\mathbb{E}}_{ r​}[Time(A(\Phi,r))]\}$$
+## Amortized Analysis
+
+For an algorithm with lots of process, we can use amortized analysis to evaluate the average performance of the algorithm.
+
+- Aggregate Method: Directly compute the total cost $T(n)$, then amortize it $T(n)/n$.
+- Accounting Method: Pay extra for fast operations (deposit credit), and use the deposited money to offset slow operations when they occur.
+- Potential Method: Define a potential function $\Phi$ and the amortized cost $\hat{c}$ as:$$\hat{c_i}=c_i+\Phi_i-\Phi_{i-1}$$If the potential function is non-negative and $\Phi_0=0$, then$$\sum_{i=1}^k \hat{c_i}=\sum_{i=1}^kc_i+\Phi_k-\Phi_0\ge\sum_{i=1}^kc_i$$
+It will be used in [Linear List & Generalized List](#linear-list-generalized-list), [Cartesian Tree](#cartesian-tree), and [Kruskal Algorithm and Disjoint Sets](#kruskal-algorithm-and-disjoint-sets).
+## Turing Machine (TM)
+
+Does every problem have an efficient algorithm? No. Some decidable problems are too expensive, and some problems are not decidable by any algorithm at all.
+
+Turing proposed the Turing Machine:
+1. Consider it as a low-level programming language — even lower than assembly language.
+2. Finite set of states $Q$
+3. Input alphabet $\Sigma$ and tape alphabet $\Gamma \supseteq \Sigma$ (including a blank symbol)
+4. A finite transition table
+5. Its input is all $\{0, 1\}$-strings, and its output is $\{0, 1\}$
+6. Unbounded memory space
+7. Transition function$$\delta: Q \times \Gamma \rightarrow Q \times \Gamma \times \{L, R\}$$
+If $\delta(q, a) = (r, b, D)$, then we switch the machine's internal state to $r$, rewrite the symbol $a$ at the current position on the paper tape to $b$, and move the read/write head one unit in the direction $D$ ($L$ represents moving one unit to the left, $R$ represents moving one unit to the right).
+
+We define some states as accept state $q_{accept}$ and reject state $q_{reject}$. Regulate: $q_{reject} \neq q_{accept}$. If the state is $q_{accept}$ or $q_{reject}$, the TM will halt.
+
+>[!THESIS] Church-Turing Thesis
+>Any physical computation can be simulated by a Turing machine. (The stronger version with poly-time overhead is the **Extended Church-Turing Thesis**, which is challenged by quantum computing.)
+>Note: This is a thesis (an unprovable physical assumption), not a theorem.
+
+Turing machine is simple enough to argue the limitation of modern computers
+
+The following problems can not be solved by computer. We call them undecidable problems:
+1. HALT: Given a program $M$ and input $x$, will $M$ halt on input $x$ within a finite number of steps?
+2. EMPTY: Given a program $M$, is $L(M)=\emptyset$, i.e., does $M$ accept no input?
+3. ALL: Given a program $M$, is $L(M)=\{0,1\}^*$, i.e., does $M$ accept every input?
+4. EQ: Given two programs $M_1$ and $M_2$, are they equivalent?
+
+>[!THEOREM]
+>HALT is undecidable.
+
+>[!PROOF]
+>Suppose HALT is decidable, i.e., there exists a TM $H(M, x)$ that decides whether TM $M$ halts on input $x$. Construct a TM $D$: on input $\langle M \rangle$ (the encoding of a TM $M$), $D$ runs $H(M, \langle M \rangle)$; if $H$ says "$M$ halts on $\langle M \rangle$", then $D$ loops forever; otherwise $D$ halts.
+>Now run $D$ on its own encoding $\langle D \rangle$: if $D$ halts on $\langle D \rangle$, then by construction $D$ loops on $\langle D \rangle$; if $D$ loops on $\langle D \rangle$, then by construction $D$ halts on $\langle D \rangle$. Either way we get a contradiction, so $H$ cannot exist.
+
+An interesting thing is, the undecidability of HALT implies Gödel's incompleteness theorem. For the details of the theorem, see [Mathematical Logic & Set Theory](../math/mathematical-logic-and-set-theory.html).
+
+>[!PROOF]
+>Suppose there were a complete and consistent axiomatic system in which every true statement about TMs is provable. Then we could decide HALT as follows: given $(M, x)$, enumerate all proofs in parallel, searching for either a proof of "$M$ halts on $x$" or a proof of "$M$ does not halt on $x$". By completeness one of them will be found, so this procedure always terminates and decides HALT. This contradicts the undecidability of HALT, so no such complete system exists.
+
+>[!THEOREM]
+>EMPTY and ALL are undecidable.
+
+>[!PROOF]
+>Both are proved by reduction from HALT. Given an instance $(M, x)$ of HALT, construct a TM $M_x$: on any input $w$, $M_x$ ignores $w$, simulates $M$ on $x$, and outputs ACCEPT if the simulation halts.
+>
+>Then: $M$ halts on $x$ $\iff$ $M_x$ accepts some input (in fact, every input) $\iff$ $M_x$ accepts all inputs.
+>
+>EMPTY: If we could decide whether a program accepts no input, we could run this decider on $M_x$ and thereby decide whether $M$ halts on $x$ — contradicting the undecidability of HALT.
+>
+>ALL: Identically, deciding whether $M_x$ accepts every input also decides whether $M$ halts on $x$. So both EMPTY and ALL are undecidable.
+
+>[!THEOREM]
+>EQ is undecidable.
+
+>[!PROOF]
+>We reduce ALL to EQ. Given a TM $M'$, let $M_1$ be a TM that accepts every input, and let $M_2 = M'$. Then $M_1$ and $M_2$ are equivalent $\iff$ $M'$ accepts all inputs, which is exactly the ALL problem. If EQ were decidable, ALL would be decidable — a contradiction. So EQ is undecidable.
+
+Another classic problem is Domino Problem, also called TILE, which was proposed by Chinese mathematician Wang Hao.
+
+>[!THEOREM]
+>TILE is undecidable.
+
+>[!PROOF]
+## Computational Complexity
+
+A natural question: Given two problems A and B, how to compare their hardness?
+
+The answer is <span style="color: red;">reduction</span>: if problem $Q$ can be transformed into problem $L$ efficiently, then $L$ is at least as hard as $Q$. There are two common notions:
+
+<span style="color: red;">Karp Reduction</span> (polynomial-time many-one reduction), denoted $Q \le_p L$: $\exists$ a poly-time computable function $f$ s.t. for every input $x$,$$x \in Q \iff f(x) \in L$$
+i.e., we transform an instance of $Q$ into **one** instance of $L$ with the same yes/no answer, and call the solver of $L$ exactly once at the end.
+
+<span style="color: red;">P</span> is the class of decision problems (languages) solvable by a deterministic algorithm in polynomial time.
+
+A decision problem $L$ is in <span style="color: red;">NP</span> if and only if there exist a polynomial $p$ and a polynomial-time verifier $V$ s.t.
+1. For any $x \in L$, $\exists$ a certificate $y$ with $|y|\le p(|x|)$ s.t. $V(x,y)=1$ — completeness
+2. For any $x \not\in L$, for every certificate $y$ with $|y|\le p(|x|)$, $V(x,y)=0$ — soundness
+
+If a problem is in P, we can construct a verifier $V$: when receiving $(x,y)$, $V$ ignores the proof $y$ and uses the polynomial time algorithm $M$ to solve $x$ directly. If $M$ accepts, $V$ accepts; if $M$ rejects, $V$ rejects. The process only needs polynomial time, so the problem is in NP. Hence $P \subseteq NP$.
+
+A problem $L$ is <span style="color: red;">NP-Complete</span> iff
+1. $L \in NP$
+2. $\forall Q \in NP$, $Q \le_p L$
+
+A problem $L$ is <span style="color: red;">NP-Hard</span> iff  $\forall Q \in NP$, $Q \le_p L$
+
+Summary:
+![Screenshot 2026-06-10 at 13.31.28](../attachments/Screenshot%202026-06-10%20at%2013.31.28.png)
+
+
+>[!THEOREM] Cook-Levin Theorem
+>SAT is NP-Complete.
+>Boolean Satisfiability Problem (SAT): Determine whether a given logical formula—built using variables, parentheses, and the operators AND, OR, and NOT—can be made TRUE by assigning specific TRUE/FALSE values to its variables.
+
+The proof of the theorem can refer [this article](https://content.scirp.org/pdf/ojapps_2017042614010446.pdf#page=5.16)
+
+>[!COROLLARY]
+>3SAT is NP-Complete.
+>$$\Phi=C_1​ \land C_2 ​\land \dots \land C_m​$$
+>$$C_j​=(l_{j,1}​ \lor l_{j,2​} \lor l_{j,3}​),l_{j,k}​\in\{x_1​,\neg x_1​,\dots,x_n​,\neg x_n​\}$$
+
+>[!PROOF]
+>$k=1$:$$x_1\iff(x_1 \lor a \lor b) \land (x_1 \lor a \lor \neg b) \land (x_1 \lor \neg a \lor b) \land (x_1 \lor \neg a \lor \neg b)$$
+>$k=2$:$$x_1\lor x_2 \iff(x_1 \lor x_2 \lor a) \land (x_1 \lor x_2 \lor \neg a)$$
+>$k>3$: Assume that the clause is $(l_1 \vee l_2 \vee \dots \vee l_k)$. Introduce $k-3$ new auxiliary variables $y_1, y_2, \dots, y_{k-3}$. The clause is equisatisfiable with (not logically equivalent to, since new variables are introduced):
+>$$(l_1 \vee l_2 \vee y_1) \wedge (\neg y_1 \vee l_3 \vee y_2) \wedge (\neg y_2 \vee l_4 \vee y_3) \wedge \dots \wedge (\neg y_{k-3} \vee l_{k-1} \vee l_k)$$
+>So SAT problem can be transformed into 3SAT problem.
+
+An interesting thing is: 3SAT is NP-Complete, while 2SAT is in P. We will prove it in [Strongly Connected Components](#strongly-connected-components).
+
+This problem illustrates that the difference between problems in P and NP-Complete problems can be extremely subtle.
+
+Also, we can give similar problems:
+3SAT-thrice: Each variable has at most three total occurrences across all clauses, counting both $x_i$ and $\neg x_i$, where clauses are allowed to have at most three literals.
+
+>[!THEOREM]
+>3SAT-thrice is NP-Complete.
+
+>[!PROOF]
+>It's easy to see that the 3SAT-thrice problem is in NP (a satisfying assignment can be verified in polynomial time).
+>
+>We will now prove that the 3SAT problem can be reduced to the 3SAT-thrice problem. For each variable $x$, let $k$ be the number of occurrences of $x$ and $\neg x$. If $k \le 3$, no action is needed.
+>
+>If $k > 3$, we can add variables $x_1, x_2, \dots, x_{k}$ to replace the $k$ occurrences of $x$ and $\neg x$ in the boolean statement (the $i$-th occurrence of $x$ is replaced by $x_i$, and the $i$-th occurrence of $\neg x$ is replaced by $\neg x_i$). We need to ensure that $$x_1=x_2=\dots=x_{k}$$
+>
+>This condition can be achieved by adding a cyclic chain of implications: $$(\neg x_1 \lor x_2) \land (\neg x_2 \lor x_3) \land \dots \land (\neg x_{k-1} \lor x_k) \land (\neg x_{k} \lor x_1)$$
+>
+>In this way, if all these variables are equal, every clause in the implication chain is true. Otherwise, if the variables contain both true and false values, then there must exist adjacent elements satisfying $x_i=true, x_{i+1}=false(i=1,\dots,k)$, where $x_{k+1}=x_1$. Therefore, this implication chain is false.
+>
+>Thus, this operation ensures that the number of occurrences of all variables does not exceed 3 (each $x_i$ appears once in the original clauses and twice in the chain). The implication chain uses clauses of size two, so this proof is for the standard "at most three literals per clause" version of 3SAT. The time complexity of this reduction process is linear with respect to the number of occurrences of the variables. Since the 3SAT problem is NP-Complete, the 3SAT-thrice problem is also NP-Complete.
+
+# Linear List & Generalized List
+
+A linear list is a finite sequence of $n$ **data elements**.
+
+```cpp
+#include<vector>
+vector<int> vec(n);
+vec.push_back(number);
+vec.pop_back();
+int n=vec.size();
+vec.clear();
+bool flag=vec.empty();
+for (auto num:vec){
+    cout<<num<<endl;
+}
+```
+
+Initially, the vector has a small capacity (the exact value is implementation-defined; assume $1$ for analysis). It will double its capacity if the capacity is not enough. As a result, The worst-case time of one INSERT is $\Theta(n)$.
+
+However, the total cost of $n$ INSERT operations is $\Theta(n)$, so the amortized cost is $O(1)$. We can use amortized analysis to analyze its time complexity.
+
+Charge $\hat{c_i} = 3$ for every INSERT.
+- $1$ pays for the immediate insertion.
+- $2$ is stored for later table change — $1$ for a recent item and $1$ for an old item.
+Obviously, bank balance is always non-negative.
+
+Another method is the potential method. For an insertion-only dynamic array, after the first insertion the capacity invariant gives $n>\frac{m}{2}$. Define the potential as
+$$\Phi(n,m)=\max\{2n-m,0\}$$
+where $n$ is the number of elements in the array and $m$ is the array capacity. Under this invariant, $\Phi$ is non-negative.
+
+We can find that $$\hat{c_i}\le 3=O(1)$$
+## Sequential representation
+
+The sequential representation of a linear list refers to storing the data elements of the linear list sequentially in a set of contiguous memory locations.
+
+```cpp
+#define LIST_INIT_SIZE 100 //Initialization
+#define LISTINCREMENT 10   //Increment
+typedef struct{
+    ElemType *elem;   //base
+    int length;       //current length
+    int listsize;
+}SqList;
+```
+
+## Chain representation
+
+The characteristic of a linear list linked storage structure is that it uses a set of arbitrary storage units to store the data elements of the linear list (these storage units can be contiguous or non-contiguous). Therefore, to represent the logical relationship between each data element $a[i]$ and its direct successor $a[i+1]$, for each data element $a[i]$, in addition to storing its own information, it also needs to store information indicating its direct successor (i.e., the storage location of the direct successor). These two parts of information constitute the storage image of the data element $a[i]$, called a <span style="color: red;">node</span>. It includes two fields: the field storing the data element information is called the <span style="color: red;">data field</span>; the field storing the storage location of the direct successor is called the <span style="color: red;">pointer field</span>. The information stored in the pointer field is called a <span style="color: red;">pointer</span> or <span style="color: red;">link</span>. $n$ nodes (storage images of $a[i]$ ($1\le i \le n$)) are linked together to form a <span style="color: red;">linked list</span>.
+
+### Linear linked list
+
+If each node in a linked list contains only one pointer field pointing to its successor, the linked list is called a <span style="color: red;">linear linked list</span>.
+
+```cpp
+typedef struct LNode{
+    ElemType data;
+    struct LNode *next;
+}LNode,*LinkList;
+```
+
+```cpp
+//Head insertion
+void CreateList_L(LinkList &L, int n) {
+//By reversing the order of n elements, a singly linked linear list L with a header node is created.
+    L=(LinkList)malloc(sizeof(LNode));
+    L->next = NULL;
+    for(int i=n; i>0; i--) {
+        LNode *p=(LinkList)malloc(sizeof(LNode));
+        cin>>p->data;
+        p->next=L->next;
+        L->next=p;     //Insert into table header
+    }
+}
+```
+
+```cpp
+//Tail insertion
+void CreateList_L(LinkList &L, int n) {
+//Insert n elements in positive order to create a singly linked linear list L with a header node.
+    L=(LinkList)malloc(sizeof(LNode));
+    L -> next = NULL;
+    auto r = L;
+    for (int i = n; i > 0; i--) {
+        LNode *p = (LinkList)malloc(sizeof(LNode));
+        cin>>p->data;
+        p -> next = NULL;
+        r -> next = p;   //Insert into table tail
+        r = p;           //Update tail
+    }
+}
+```
+
+### Doubly Linked List
+
+If each node in a linked list contains two pointer fields, one pointing to the predecessor and the other pointing to the successor, the linked list is called a <span style="color: red;">doubly linked list</span>.
+
+```cpp
+typedef struct DuLNode{
+    ElemType data;
+    struct DuLNode *prior;
+    struct DuLNode *next;
+}DuLNode,*DuLinkList;
+```
+
+### Floyd Cycle Detection Algorithm (Tortoise and Hare Algorithm)
+
+![Screenshot 2026-05-29 at 15.26.23](../attachments/Screenshot%202026-05-29%20at%2015.26.23.png){width=368}
+
+Floyd Cycle Detection Algorithm is typically used to identify whether a linked list contains a cycle and its starting point. In this algorithm, we define two pointers: a fast pointer and a slow pointer. In each iteration, the fast pointer moves two positions, and the slow pointer moves one position. If the two pointers meet, the linked list contains a cycle; otherwise, the fast pointer reaches the end of the list, and the list does not contain a cycle.
+
+If the linked list contains a cycle, we return the fast pointer to the beginning and set its speed to the same as the slow pointer. It is easy to prove that when they meet, the meeting point is the starting point of the cycle.
+
+```cpp
+typedef struct LNode{
+    ElemType data;
+    struct LNode *next;
+}LNode,*LinkList;
+LNode* FloydCycleDetection(LinkList &L){
+    LNode *fast=L,*slow=L;
+    while(fast && fast->next){
+        fast = fast -> next -> next;
+        slow = slow -> next;
+        if(fast == slow)break;
+    }
+    if(!fast||!fast->next)return nullptr;//no circle
+    fast=L;
+    while(fast!=slow){
+        fast = fast -> next;
+        slow = slow -> next;
+    }
+    return fast;
+}
+```
+
+## Multidimensional array
+
+For a multidimensional array, assuming each data element occupies $L$ storage units, the address of any point is
+
+$$\begin{align*}&LOC(j_1​,j_2​,\dots,j_n​)\\=&LOC(0,0,\dots,0)+(b_2​\times \dots \times b_n​ \times j_1​+b_3​\times \dots \times b_n​ \times j_2​+\dots+b_n​ \times j_{n−1}​+j_n​)L\\=&LOC(0,0,…,0)+(\sum_{i=1}^{n−1}​j_i​\prod _{k=i+1}^n​ b_k​+j_n​)L\end{align*}​$$
+
+which can be recorded as
+
+$$LOC(j_1​,j_2​,\dots,j_n​)=LOC(0,0,...,0)+\sum _{i=1}^n​c_i​j_i​$$
+
+where$$ c_n​=L,c_{i−1}​=b_i​c_i​,1<i\le n$$
+
+```cpp
+#define MAX_ARRAY_DIM 8
+typedef struct {
+    ElemType *base;
+    int dim;
+    int *bounds;        //Array dimension bound base address
+    int *constants;     //Array mapping function constant base address
+}Array;
+```
+
+## Generalized List
+
+In a generalized list, each data element can be a different element (such as an atom or a list).
+
+```cpp
+typedef enum {ATOM, LIST}ElemTag;     //ATOM==0:atom, LIST==1:list
+typedef struct GLNode{
+    ElemTag tag;
+	//The common part is used to distinguish between atomic nodes and table nodes.
+    union{
+    //The combined part of atomic nodes and table nodes
+        AtomType atom;                //The range of atomic nodes
+        struct{
+            struct GLNode *hp,*tp;    //Head and tail of the table
+        }ptr;                         //Pointer field of table node
+    };
+}*GList;
+```
+
+Many problems with generalized lists can be solved recursively.
+
+```cpp
+//Determining the depth of a generalized list
+int GListDepth(GList L){
+    if (!L) return 1;                   //The empty table has a depth of 1.
+    if (L->tag == ATOM) return 0;       //The atom has a depth of 0.
+    int max = 0;
+    for (auto pp = L; pp; pp = pp->ptr.tp) {
+        int dep = GListDepth(pp->ptr.hp);
+        if (dep > max) max = dep;
+    }
+    return max + 1;
+}
+```
+
+# Stack
+
+<span style="color: red;">Stack</span> is a linear list in which insertion and deletion operations are restricted to the end of the list. Therefore, the end of the list has a special meaning and is called <span style="color: red;">the top of the stack</span>, while the beginning of the list is called <span style="color: red;">the bottom of the stack</span>.
+
+Modifications to a stack are performed according to the <span style="color: red;">Last-In-First-Out (LIFO)</span> principle; therefore, a stack is also known as a Last-In-First-Out (LIFO) linear list.
+
+```cpp
+//Stack storage structure
+typedef struct {
+    SElemType *base;
+    SElemType *top;
+    int stacksize;
+} SqStack;
+```
+
+```cpp
+//Stack in stl
+#include <stack>
+stack<SElemType> st;
+st.push(e);
+st.pop();
+SElemType top=st.top();
+int n=st.size();
+bool IsEmpty=st.empty();
+```
+
+# Queue
+
+Unlike a stack, a **queue** is a first-in-first-out (FIFO) linear list. It only allows insertions at one end and deletions at the other. In a queue, the end where insertions are allowed is called the **tail**, and the end where deletions are allowed is called the **head**.
+
+If insertion and deletion operations on a linear list are allowed at both the head and the tail, this data structure is called a **deque (double-ended queue)**.
+
+## Linked queue (linked representation)
+
+A queue represented by a linked list is abbreviated as a **linked queue**.
+
+```cpp
+//Storage structure of a linked queue
+typedef struct QNode{
+    QElemType data;
+    struct QNode *next;
+}QNode,*QueuePtr;
+typedef struct{
+    QueuePtr front; //Head of queue pointer
+    QueuePtr rear;  //Tail of queue pointer
+}LinkQueue;
+```
+
+```cpp
+#include <queue>
+queue<QElemType> q;
+q.push(e);
+q.pop();
+int n=q.size();
+bool isEmpty=q.empty();
+QElemType first=q.front();
+QElemType last=q.back();
+```
+
+```cpp
+#include <deque>           //Double-ended queue
+deque<QElemType> q;
+q.push_back(e);
+q.push_front(e);
+q.pop_back();
+q.pop_front();
+QElemType frontElem=q.front();
+QElemType backElem=q.back();
+int n=q.size();
+bool isEmpty=q.empty();
+```
+
+## Circular queue (sequential order)
+
+If sequential storage is performed in the usual way, it is easy to cause "false overflow", as shown in the figure below.
+![Screenshot 2026-05-28 at 14.53.20](../attachments/Screenshot%202026-05-28%20at%2014.53.20.png)
+
+To solve this problem, the sequential queue can be visualized as a circular structure, called a **circular queue**.
+
+![Screenshot 2026-05-28 at 14.53.39](../attachments/Screenshot%202026-05-28%20at%2014.53.39.png)
+
+```cpp
+//Storage structure of a circular queue
+#define MAXQSIZE 100
+typedef struct{
+    QElemType *base;
+    int front;
+    int rear;
+} SqQueue;
+```
+
+If one empty slot is reserved to distinguish empty and full states:
+- Empty: `front == rear`
+- Full: `(rear + 1) % MAXQSIZE == front`
+- Length: `(rear - front + MAXQSIZE) % MAXQSIZE`
+
+# String
+
+A string is a finite sequence of zero or more characters.
+
+```cpp
+//Storage structure
+#define MAXSTRLEN 255
+typedef unsigned char SString[MAXSTRLEN+1];
+```
+
+```cpp
+#include <string>                     //String
+string s1;                            //Initialize
+string s2 = s1;
+string s3(s2);
+s1 = "hello world";
+string s5("hello world");
+string s6(6,'a');
+string s7(s6,3);
+//s7 is a character copy starting from index 3 of s6.
+string s8(s6,pos,len);
+//s8 is a copy of len characters starting from index pos of s6.
+//Query string information, index
+flag=s1.empty();
+int n1=s1.size();
+int n2=s1.length();
+//splicing, comparison and other operations
+string s=s1+s2;                //Return the result of concatenating s1 and s2.
+//Characters can be compared lexicographically using <, <=, >, >=, ==, !=, etc.
+//Operations to modify a string
+for (auto &c : s1)c = c+1;
+//Operations on modifying strings
+s1.insert(0,s2);                 //Insert a copy of s2 before position 0 of s1.
+s1.erase(0,5);                   //Delete the first 5 characters starting with 0.
+s1.replace(3,6,"aaa");
+//Starting from position 3, delete 6 characters and insert "aaa".
+s1.append("aaa");                     //Insert "aaa" at the end of s1.
+s1.pop_back();                        //Delete the last character
+//Search string operations
+s.find(args);                         //Find the first occurrence of args in s
+s.rfind(args);                        //Find the last occurrence of args in s
+s.find_first_of(args);
+//Find the first occurrence of any character in args within s.
+s.find_last_of(args);
+//Find the last occurrence of any character in args within s.
+s.find_first_not_of(args);
+//Find the position of the first character in s that is not in args.
+s.find_last_not_of(args);
+//Find the position of the last character in s that is not in args.
+//These search functions return string::npos if no matching position exists.
+```
+
+## String Matching
+
+Given text $T [1, \dots, n]$ and pattern $P[1, \dots ,m]$, find all shifts s such that$T [s + 1 ,\dots, s + m] = P[1 ,\dots, m]$
+![Screenshot 2026-05-28 at 14.40.27](../attachments/Screenshot%202026-05-28%20at%2014.40.27.png)
+The simplest method needs time $O(mn)$.
+### Rabin-Karp Algorithm
+
+Basic idea: Instead of comparing the string, compare their hash values.
+
+Consider the pattern $P[1, \dots ,m]$ as a huge number in radix-26:$$h(P)=P[1]\cdot26^{m-1}+P[2]\cdot 26^{m-2}+\dots+P[m] \bmod q \text{ for prime }q<2^{64}$$
+Let $t_i$ denote the number $T [i+1, \dots, i+m]$, i.e.$$t_i=T[i+1]\cdot26^{m-1}+T[i+2]\cdot26^{m-2}+\dots+T[i+m]\bmod q$$
+Observation:$$t_{i+1}=((t_i-T[i+1]\cdot26^{m-1})\cdot26+T[i+m+1])\bmod q$$
+As a result, we can calculate the hash tags of $h(P)$ and $t_0,\dots,t_{n-m}$ in time $O(n + m)$.
+
+One question is it is possible $T[s+1,\dots,s+m] \ne P$ but $t_s=h(P)$ (a hash collision). So we need to character-by-character compare when we meet the same hash value. With a random large prime $q$, collisions between unequal strings are rare, so the expected time is $O(n+m)$. However, the verification cost can still degenerate to $O(nm)$ in the worst case — e.g., when the text is `AAAAAAA` and the pattern is `AAA`, every shift is a **true match**, and each one must be verified character by character.
+### KMP Algorithm
+
+The KMP algorithm was invented by D.E. Knuth, V.R. Pratt, and J.H. Morris.
+
+Given text $T='t_1​t_2​\dots t_n'$​ and the pattern string $P='p_1​p_2​\dots p_m'$​. To implement the improved algorithm, we need to solve the following problem: when a mismatch occurs during the matching process (i.e., $t_i​\ne p_j​$), what is the feasible distance for the pattern string to "slide to the right"?
+
+If $t_i\ne p_j$, then$$'t_{i-j+1}t_{i-j+2}\dots t_{i-1}'='p_{1}p_{2}\dots p_{j-1}'$$
+Instead of restarting, we want the pattern to keep sliding. If after sliding we continue the comparison with $t_i$ against $p_d$ $(d<j)$, the characters already matched must satisfy
+$$'t_{i-d+1}t_{i-d+2}\dots t_{i-1}'='p_{1}p_{2}\dots p_{d-1}'$$
+Therefore, the following equation can be obtained.
+$$'p_{j-d+1}p_{j-d+2}\dots p_{j-1}'='p_{1}p_{2}\dots p_{d-1}'$$
+Obviously, we want to get the maximum $d$. We can find that $d$ is related to $j$, so we first need to determine the value of $d$ for all $j$, and store them in the array $next$.
+![Screenshot 2026-05-29 at 14.06.58](../attachments/Screenshot%202026-05-29%20at%2014.06.58.png){width=215}
+The following question is how to solve the array $next$. If $next[j]=d$, if we want to solve $next[j+1]$, there are two circumstances:
+1. $p_d​=p_j​$, obviously $next[j+1]=next[j]+1$
+2. $p_d​\ne p_j​$, let $next[j+1]=k$, then
+$$'p_{j-d+1}p_{j-d+2}\dots p_{j-1}'='p_{1}p_{2}\dots p_{d-1}'$$
+$$'p_{j-k+2}p_{j-k+3}\dots p_{j}'='p_{1}p_{2}\dots p_{k-1}'$$
+Therefore,$$'p_{d-k+2}p_{d-k+3}\dots p_{d-1}'='p_{1}p_{2}\dots p_{k-2}' \text{ and } p_j=p_{k-1}$$
+As a result, if $p_j=p_{k-1}$, then $k-1 = next[d]$. Otherwise, this process can be called recursively.
+
+We can further optimize this algorithm, for example, if $P='aaaab'$,  $T='aaabaaaab'$. When $i=4,j=4$, we need $i=4,j=3;i=4,j=2;i=4,j=1$ three comparisons. In fact, since the first to third characters and the fourth character in the pattern are all equal, there is no need to compare them with the fourth character in the main string. Instead, the pattern can be slid four characters to the right to directly compare the characters when $i=5,j=1$. In other words, if we get $next[j] = k$ according to the above definition, and $p_j​ = p_k$​ in the pattern, we can directly shift the pattern string to $next[k]$, i.e., $next[j] = next[k]$.
+
+```cpp
+void get_next(const string& T, vector<int>& nxt){
+    int m = (int)T.size() - 1;
+    nxt.assign(m + 1, 0);
+    int i=1;
+    int j=0;
+    while(i<m){
+        if(j==0||T[i] ==T[j]){
+            ++i;
+            ++j;
+            if(T[i] != T[j]) nxt[i] = j;
+            else nxt[i] = nxt[j];
+        }
+        else j=nxt[j];
+    }
+} //get_next
+int Index_KMP(const string& S,const string& T,const vector<int>& nxt){
+    int n = (int)S.size() - 1;
+    int m = (int)T.size() - 1;
+    int i=1;
+    int j=1;
+    while(i<=n&&j<=m){
+        if(j==0||S[i] ==T[j]){
+            i++;
+            j++;
+        }                       //Continue comparing subsequent characters
+        else j=nxt[j];          //Shift the pattern string to the right
+    }
+    if(j>m) return i-m;         //Match successful
+    else return 0;
+}
+```
+
+This algorithm optimizes the time complexity from $O(mn)$ to $O(m+n)$.
+
+# High-Precision Simulation
+
+Due to the bit width limitation of CPU registers, large integers cannot be directly added or subtracted. We need to use a simulated columnar calculation process to handle the four arithmetic operations.
+
+(Nothing to say)
+
+```cpp
+struct big{
+    string s;
+    int len;
+};
+int compare(big a,big b){//High-Precision Compare
+    if(a.len>b.len)return 1;
+    if(a.len<b.len)return -1;
+    for(int i=0;i<a.len;i++){
+        if(a.s[i]>b.s[i])return 1;
+        else if(a.s[i]<b.s[i])return -1;
+    }
+    return 0;
+}//1:a>b  -1:a<b  0:a=b
+big bigplus(big a,big b){//High-Precision Plus
+    if(compare(a,b)<0)return bigplus(b,a);
+    string c=a.s;
+    int p=0;//Carry
+    for(int i=a.len-1;i>=0;i--){
+        char l='0';
+        if(i>=a.len-b.len)l=b.s[i-a.len+b.len];
+        if(a.s[i]+l+p-'0'-'0'<10){
+            c[i]=a.s[i]+l+p-'0';
+            p=0;
+        }
+        else{
+            c[i]=a.s[i]+l-10+p-'0';
+            p=1;
+        }
+    }
+    //Carry from the Highest Bit
+    if (p > 0) {
+        c = "1" + c;
+    }
+
+    big ans;
+    ans.s = c;
+    ans.len = c.length();
+    return ans;
+}
+big bigminus(big a,big b){//High-Precision Minus, get the absolute
+    string c=a.s;
+    int p=0;//borrowing
+    if(compare(a,b)==-1)return bigminus(b,a);
+    for(int i=a.len-1;i>=0;i--){
+        char l='0';
+        if(i>=a.len-b.len)l=b.s[i-a.len+b.len];
+        if(a.s[i]-l-p>=0){
+            c[i]=a.s[i]-l-p+'0';
+            p=0;
+        }
+        else{
+            c[i]=a.s[i]-l+10-p+'0';
+            p=1;
+        }
+    }
+    big ans;
+    int start = 0;
+    //Skip the character '0'
+    while (start < a.len - 1 && c[start] == '0') start++;
+    ans.s = c.substr(start);
+    ans.len=ans.s.length();
+    return ans;
+}
+big bigmultiple(big a, big b) {  //High-Precision Multiple
+    //temp[k] stores the coefficient of 10^k (least significant digit first)
+    vector<int> temp(a.len + b.len, 0);
+    for (int i = a.len - 1; i >= 0; i--) {
+        for (int j = b.len - 1; j >= 0; j--) {
+            int pos = (a.len - 1 - i) + (b.len - 1 - j);
+            temp[pos] += (a.s[i] - '0') * (b.s[j] - '0');
+        }
+    }
+    //Unified carry propagation
+    for (int i = 0; i + 1 < (int)temp.size(); i++) {
+        temp[i + 1] += temp[i] / 10;
+        temp[i] %= 10;
+    }
+    //Skip the leading zeros (keep at least one digit for the result 0)
+    int top = temp.size() - 1;
+    while (top > 0 && temp[top] == 0) top--;
+    string c = "";
+    for (int i = top; i >= 0; i--) c += (char)(temp[i] + '0');
+
+    big ans;
+    ans.s = c;
+    ans.len = c.length();
+    return ans;
+}
+big bigdivide(big a, big b) {   //High-Precision Divide, get the quotient (a/b)
+    if (compare(a, b) < 0) {     //The quotient is 0
+        big ans;
+        ans.s = "0";
+        ans.len = 1;
+        return ans;
+    }
+    big rem;                     //Current remainder
+    rem.s = "";
+    rem.len = 0;
+    string q = "";               //Quotient
+    for (int i = 0; i < a.len; i++) {
+        rem.s += a.s[i];         //Bring down the next digit
+        //Remove leading zeros of the remainder
+        int start = 0;
+        while (start < (int)rem.s.length() - 1 && rem.s[start] == '0') start++;
+        rem.s = rem.s.substr(start);
+        rem.len = rem.s.length();
+        //How many times b fits into the current remainder (0~9)
+        int cnt = 0;
+        while (compare(rem, b) >= 0) {
+            rem = bigminus(rem, b);
+            cnt++;
+        }
+        q += (char)(cnt + '0');
+    }
+    //Skip the leading zeros of the quotient
+    int start = 0;
+    while (start < (int)q.length() - 1 && q[start] == '0') start++;
+    q = q.substr(start);
+
+    big ans;
+    ans.s = q;
+    ans.len = q.length();
+    return ans;
+}
+big bigmod(big a, big b) { //High-Precision Modulo
+    big res = a;
+    while (compare(res, b) >= 0) {
+        big temp_b = b;
+        int shift = res.len - temp_b.len;
+        string padding(shift, '0');
+        temp_b.s += padding;
+        temp_b.len += shift;
+        if (compare(res, temp_b) < 0) {
+            temp_b.s.pop_back();
+            temp_b.len--;
+        }
+        while (compare(res, temp_b) >= 0) {
+            res = bigminus(res, temp_b);
+        }
+    }
+    return res;
+}
+```
+
+For plus and minus, the time complexity is $O(\log a+\log b)$, and for multiple, divide and modulo, the time complexity is $O(\log a\log b)$
+# Divide & Conquer
+
+Divide and conquer divides a large problem into smaller subproblems, solves them recursively, and combines their solutions into a solution to the original problem.
+
+## Analysis of Time Complexity
+
+If we use a recurrence to analyze time complexity, assume that each problem of size $n$ is divided into $a$ subproblems of size $\frac{n}{b}$, and the divide/combine work costs $f(n)$, i.e.$$T(n)=aT(\frac{n}{b})+f(n)$$
+We can use recursion-tree to get the time complexity of the problem.
+
+>[!EXAMPLE]
+>$$T(n)=3T(\frac{n}{4}​)+O(n^2)$$
+>![Screenshot 2026-06-27 at 22.16.20](../attachments/Screenshot%202026-06-27%20at%2022.16.20.png)
+
+Also, we can use recursion-tree to prove the following theorem.
+
+>[!THEOREM] Master Theorem
+>Let constant $a>1,b>1$, then:
+>1. If $f(n)=\Theta (n^{\log _b ​a})$, then $$T(n)=\Theta(n^{ \log_b​ a} \log n)$$
+>2. If $f(n)=O(n^{\log_b ​a−\Omega(1)})$, then $$T(n)=\Theta(n^{\log_b ​a})$$
+>3. If $f(n)=\Omega(n^{\log_b ​a+\Omega(1)})$, and for sufficiently large $n$, $$\exists \epsilon>0,af(\frac{n}{b}​)\le(1−\epsilon)f(n)$$then $$T(n)=\Theta(f(n))$$
+
+>[!PROOF]
+>![Screenshot 2026-06-27 at 22.20.16](../attachments/Screenshot%202026-06-27%20at%2022.20.16.png)
+>We can find that
+>$$T(n)=\Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}​a^jf(\frac{n}{b^j}​)$$
+>For circumstance 1,
+>$$\begin{align*}T(n)​&=\Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}​a^jf(\frac{n}{b^j}​)\\&= \Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}​a^j\Theta((\frac{n}{b^j}​)^{\log_b​a})\\&=\Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}\Theta(n^{\log_b​a})\\&=\Theta(n^{\log_b​a}\log n)\end{align*}​$$
+>For circumstance 2,
+>$$\begin{align*}T(n)​&=\Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}​a^jf(\frac{n}{b^j}​)\\&= \Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}​a^jO((\frac{n}{b^j}​)^{\log_b​a-\Omega(1)})\\&=\Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}O(n^{\log_b​a-\Omega(1)}b^{j\Omega(1)})\\&=\Theta(n^{\log_b​a})+O(n^{\log_b​a-\Omega(1)})\sum_{j=0}^{\lfloor \log_b​n \rfloor}O(​b^{j\Omega(1)})\\&=\Theta(n^{\log_b​a})+O(n^{\log_b​a-\Omega(1)})\frac{1−b^{(\lfloor \log_b​n \rfloor+1)\Omega(1)​)}}{1−b^{\Omega(1)}}​\end{align*}$$
+>Given that $\Omega(1)>0,b>1$, hence $b^{\Omega(1)}>1$, $1−b^{\Omega(1)}<0$. We focus on the fastest-growing term in the numerator:
+>$$\frac{1−b^{(\lfloor \log_b​n \rfloor+1)\Omega(1)​)}}{1−b^{\Omega(1)}}=O(b^{(\log_b​n)\Omega(1)})=O(n^{\Omega(1)})$$
+>As a result,$$T(n)=\Theta(n^{\log_b​a})$$
+>For circumstance 3, because for sufficiently large $n$, $$\exists \epsilon>0,af(\frac{n}{b}​)\le(1−\epsilon)f(n)$$
+>We can find that$$a^jf(\frac{n}{b^j})\le(1-\epsilon)^jf(n)$$
+>Hence,
+>$$\begin{align*}T(n)​&=\Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}​a^jf(\frac{n}{b^j}​)\\&< \Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}​(1-\epsilon)^jf(n)\\&<\Theta(n^{\log_b a})+\frac{1}{\epsilon} f(n)​\end{align*}$$
+>Because $f(n)=\Omega(n^{\log_b ​a+\Omega(1)})$, we can find that
+>$$T(n)=\Theta(f(n))$$
+## Binary Search
+
+```cpp
+bool check(int x);//Specific questions require specific analysis.
+int Search_Bin(int max) {
+    int  l = 0,r = max - 1;
+    while (l <= r) {
+        int mid = l + (r - l) / 2;
+        if(check(mid)) l = mid + 1;
+        else r = mid - 1;
+    }
+    return r; //last position satisfying check, or -1 if none
+}
+```
+
+## Fast Exponentiation
+
+Noted $$a^n=(a^2)^{\left \lfloor \frac{n}{2} \right \rfloor}∗a^{n \bmod2}$$
+```cpp
+int fastpow(int a,int n) {
+    if(n==0)return 1;
+    if(n==1)return a;
+    if(n%2==1)return fastpow(a*a,n/2)*a;
+    else return fastpow(a*a,n/2);
+}
+```
+
+Under this circumstance, $$T(n)=T(\frac{n}{2})+O(1)$$$$T(n)=O(\log n)$$
+We can also use this method to compute Fibonacci numbers, because:$$\begin{bmatrix}
+ F_n\\F_{n-1}
+
+\end{bmatrix}=\begin{bmatrix}
+ 1 &1 \\
+  1&0
+\end{bmatrix}\begin{bmatrix}
+ F_{n-1}\\F_{n-2}
+
+\end{bmatrix}=\begin{bmatrix}
+ 1 &1 \\
+  1&0
+\end{bmatrix}^{n-1}\begin{bmatrix}
+ F_1\\F_{0}
+
+\end{bmatrix}$$
+## Strassen Algorithm
+
+Generally, define the multiplication of two $n\times n$ matrices $A,B$ as $C$, where$$c_{i,j}​=\sum_k​a_{i,k}​b_{k,j}​$$
+Define the exponent of matrix multiplication as $\omega$, so the time complexity is $O(n^\omega)$. We know $\omega \in [2,3]$.
+
+If we divide the matrix into blocks, i.e.
+
+$$\begin{bmatrix}
+ A_{11} & ​A_{12}\\
+ ​A_{21} &​A_{22}
+\end{bmatrix}\begin{bmatrix}
+ B_{11} & ​B_{12}\\
+ ​B_{21} &​ B_{22}
+\end{bmatrix}=\begin{bmatrix}
+ C_{11} & ​C_{12}\\
+ ​C_{21} &​C_{22}
+\end{bmatrix}$$
+
+This time, $$T(n)=8T(\frac{n}{2}​)+O(n^2),T(n)=O(n^3)$$
+Strassen's crucial observation is:
+
+$$P_1​=(A_{11}​+A_{22}​)(B_{11}​+B_{22}​)$$
+$$P_2​=(A_{21}​+A_{22}​)B_{11}​$$
+$$P_3​=A_{11}​(B_{12}​−B_{22}​)$$
+$$P_4​=A_{22}​(B_{21}​−B_{11}​)$$
+$$P_5​=(A_{11}​+A_{12}​)B_{22}​$$
+$$P_6​=(A_{21}​−A_{11}​)(B_{11}​+B_{12}​)$$
+$$P_7​=(A_{12}​−A_{22}​)(B_{21}​+B_{22}​)$$
+$$C_{11}​=P_1​+P_4​−P_5​+P_7​$$
+$$C_{12}​=P_3​+P_5​$$
+$$C_{21}​=P_2​+P_4​$$
+$$C_{22}​=P_1​+P_3​−P_2​+P_6​$$
+
+Then
+
+$$T(n)=7T(\frac{n}{2}​)+O(n^2),T(n)=O(n^{\log_2​7})=O(n^{2.807})$$
+
+## Fast Fourier Transform (FFT)
+
+If $\omega_N$ is a primitive $N$-th root of unity, for ease of discussion, let $N=2^k,k \in \mathbb{Z}$.
+
+Define a Vandermonde matrix as
+$$V_N=\begin{bmatrix}
+ \omega_N^{0\cdot0}&\omega_N^{0\cdot1}&\cdots &\omega_N^{0\cdot(N-1)}\\\omega_N^{1\cdot0}&\omega_N^{1\cdot1}&\cdots &\omega_N^{1\cdot(N-1)}\\\cdots\\\omega_N^{(N-1)\cdot0}&\omega_N^{(N-1)\cdot1}&\cdots& \omega_N^{(N-1)\cdot(N-1)}
+
+\end{bmatrix}$$
+
+DFT asks us to calculate $Y=V_N\cdot A$, where $A=[a_0,a_1,\dots,a_{N-1}]^T$. A direct multiplication takes $O(n^2)$ time.
+
+Each component $y_k$ of $Y$ is the value of the polynomial
+$$f(x)=\sum_{j=0}^{N-1}a_jx^j$$
+at $x=\omega_N^k$.
+
+Let
+$$f_e(x)=\sum_{j=0}^{N/2-1}a_{2j}x^j,\quad f_o(x)=\sum_{j=0}^{N/2-1}a_{2j+1}x^j.$$
+Observe that
+$$f(\omega_N^k)=f_e(\omega_{N/2}^k)+\omega_N^k f_o(\omega_{N/2}^k)$$
+and
+$$f(\omega_N^{k+N/2})=f_e(\omega_{N/2}^k)-\omega_N^k f_o(\omega_{N/2}^k).$$
+
+Thus the problem can be divided into two subproblems, one for the even-indexed coefficients and one for the odd-indexed coefficients.
+
+Then $T(n)=2T(\frac{n}{2})+O(n)$, so the time complexity becomes $O(n\log n)$.
+
+The inverse DFT has the same divide-and-conquer structure: use $\omega_N^{-1}$ instead of $\omega_N$, and divide every entry by $N$ at the end.
+
+In implementation, a recursive FFT repeatedly creates two new lists for the even and odd coefficients. The iterative version avoids that extra allocation by first applying a bit-reversal permutation, which places elements in the same order as the leaves of the recursion tree. After that, blocks of length $2,4,8,\dots,N$ are merged from bottom to top.
+
+The following figure shows FFT algorithm whose $N=8$.
+![v2-d726388f6b1afffbdcc4f4c246ab2037_1440w](../attachments/v2-d726388f6b1afffbdcc4f4c246ab2037_1440w.jpg)
+
+The merge step is called a **butterfly operation**. For a block of length `len`, let `half = len / 2` and let $w$ be the current twiddle factor. Each paired state
+$$u=a[i+j],\quad v=w\cdot a[i+j+\text{half}]$$
+is updated as
+$$a[i+j]=u+v,\quad a[i+j+\text{half}]=u-v.$$
+The two outputs share the same two inputs and cross in the computation graph, which gives the operation its butterfly shape. The inverse FFT uses the same butterflies with inverse roots of unity, and finally divides every coefficient by $N$.
+
+```cpp
+typedef complex<double> cd;
+void fft(vector<cd>& a, bool invert) {
+    int n = a.size();
+    for (int i = 1, j = 0; i < n; i++) {
+        int bit = n >> 1;
+        for (; j & bit; bit >>= 1) j ^= bit;
+        j ^= bit;
+        if (i < j) swap(a[i], a[j]);
+    }
+    for (int len = 2; len <= n; len <<= 1) {
+        double ang = 2 * PI / len * (invert ? -1 : 1);
+        cd wlen(cos(ang), sin(ang));
+        for (int i = 0; i < n; i += len) {
+            cd w(1);
+            for (int j = 0; j < len / 2; j++) {
+                cd u = a[i + j], v = a[i + j + len / 2] * w;
+                a[i + j] = u + v;
+                a[i + j + len / 2] = u - v;
+                w *= wlen;
+            }
+        }
+    }
+    if (invert) for (cd & x : a) x /= n;
+}
+```
+
+This implementation assumes `a.size()` is a power of two. For convolution, pad both input sequences with zeros until the length is at least the required result length and is a power of two.
+
+The FFT has many applications. We can find that$$\mathcal{F}\{f*g\}=\mathcal{F}\{f\}\cdot\mathcal{F}\{g\}$$
+As a result, the FFT can accelerate convolution. For example, multiplication can be treated as a convolution operation: let $f,g$ be polynomials and take the variable $x$ as $10$, then polynomial multiplication becomes fast integer multiplication, which has time $\tilde{O}(\log a+\log b)$ rather than $O(\log a\log b)$.
+
+>**Tip** The definition of notation $\tilde{O}$
+>The notation means the time complexity ignores times less than $O(\log n)$
+## Closest Pair of Points
+
+Given the coordinates of $n$ points, compute the closest pair.
+
+Obviously, brute-force enumeration takes $O(n^2)$ time.
+
+If we solve this problem by divide and conquer, a natural idea is to split the plane into two halves and recursively solve each half.
+
+The key issue is how to handle the closest pair that crosses the separating line.
+
+As shown below, if the two subproblems give a minimum distance `min`, we only need to consider cross-line pairs whose points lie within distance `min` of the separating line.
+
+![Screenshot 2026-06-28 at 22.04.13](../attachments/Screenshot%202026-06-28%20at%2022.04.13.png)
+
+To optimize further, sort the points in this strip by their $y$-coordinates. While scanning the strip, the $y$-coordinate difference keeps increasing; once it exceeds `min`, the inner loop can stop immediately.
+
+Now we can prove the following theorem, which reduces the double loop over the strip to $O(n)$ time.
+
+>[!THEOREM]
+>For each point, at most 8 candidate points need to be checked.
+
+>[!PROOF]
+>Without loss of generality, consider a point on the left side of the strip. Pairs entirely inside the left half have already been handled by the recursive subproblem, so we only need to check the right-side strip of width `min`.
+>
+>Moreover, only points whose $y$-coordinate differs by at most `min` can improve the current answer.
+>
+>Therefore, it is enough to inspect a `min` by `2min` rectangle. Divide it into $2\times4$ small cells of size $\frac{min}{2}\times\frac{min}{2}$. If two points lie in the same small cell, their distance is at most $\frac{\sqrt{2}}{2}min<min$, which contradicts the definition of `min`.
+>
+>Thus each small cell contains at most one relevant point, so at most 8 points need to be considered.
+
+$$T(n)=2T(\frac{n}{2}​)+O(n\log n)$$$$T(n)=O(n\log^2 n)$$
+We can also combine the divide and sort; that is, by adopting the divide-and-conquer sorting approach, we can sort the points while solving each subproblem. Then,$$T(n)=2T(\frac{n}{2})+O(n)$$$$T(n)=O(n\log n)$$
+```cpp
+#include <iostream>
+#include <algorithm>
+#include <climits>
+#define MAXN 2500005
+using namespace std;
+struct point{
+    long long x;
+    long long y;
+}a[MAXN],temp1[MAXN],temp2[MAXN],strip[MAXN];
+//Preprocessing: Sort a according to x, with temp1=a. Subsequent sorting according to y-coordinate is done within temp.
+bool compare_px(point p1,point p2){
+    return p1.x < p2.x;
+}
+long long solve(point a[],int start,int end){//calculate the squared distance
+    if(start==end)return LLONG_MAX / 4;
+    int mid=(start+end)>>1;
+    long long midx=a[mid].x;
+    long long min1=solve(a,start,mid);
+    long long min2=solve(a,mid+1,end);
+    long long min=min1<min2?min1:min2;
+    int i=start,j=mid+1,k=start;
+    while(i<=mid&&j<=end) {
+        if(temp1[i].y<temp1[j].y)temp2[k++]=temp1[i++];
+        else temp2[k++]=temp1[j++];
+    }
+    while(i<=mid)temp2[k++]=temp1[i++];
+    while(j<=end)temp2[k++]=temp1[j++];
+    for(i=start;i<=end;i++)temp1[i]=temp2[i];
+    int cnt=0;
+    for (int i=start;i<=end;i++) {
+        long long dx=temp1[i].x-midx;
+        if (dx*dx<min)
+            strip[cnt++]=temp1[i];
+    }
+    for(int i=0;i<cnt;i++){
+        for(int j=i+1;j<cnt;j++){
+            if((strip[j].y-strip[i].y)*(strip[j].y-strip[i].y)>=min)break;
+            long long d=(strip[i].x-strip[j].x)*(strip[i].x-strip[j].x)+(strip[i].y-strip[j].y)*(strip[i].y-strip[j].y);
+            min=min<d?min:d;
+        }
+    }
+    return min;
+}
+```
+
+# Sort
+
+If $a[i]=a[j]$ and $i<j$ in the original array, and after sorting the element originally at index $i$ still appears before the element originally at index $j$, the sorting algorithm is called <span style="color: red;">stable</span>. Otherwise, it is called <span style="color: red;">unstable</span>.
+
+## Bubble Sort
+
+Bubble sort repeatedly checks adjacent elements and swaps them if the latter is smaller than the former. After the $i$-th pass, the last $i$ elements are the largest $i$ elements in sorted order. As a result, bubble sort needs at most $n-1$ passes.
+
+```cpp
+void BubbleSort(int a[], int n) {
+	for(int i=1;i<n;i++){
+		for(int j=0;j<n-i;j++){
+		    if(a[j]>a[j+1]){
+		        int cnt=a[j];
+		        a[j]=a[j+1];
+		        a[j+1]=cnt;
+		    }
+		}
+	}
+}
+```
+
+Obviously, bubble sort is stable and the time complexity is $O(n^2)$.
+
+## Selection Sort
+
+In the $i$-th pass, selection sort selects the $i$-th smallest element and swaps it into position. It needs $n-1$ passes.
+
+```cpp
+void SelectionSort(int a[], int n) {
+	for(int i=1;i<n;i++){
+	    int cnt=i-1;
+	    for(int j=i-1;j<n;j++)
+		    if(a[j]<a[cnt])cnt=j;
+	    int p=a[i-1];
+	    a[i-1]=a[cnt];
+	    a[cnt]=p;
+	}
+}
+```
+
+Selection sort is unstable and the time complexity is $O(n^2)$.
+
+## Insertion Sort
+
+The idea of insertion sort is that before the $i$-th step $(1\le i<n)$, the first $i$ elements are already sorted. We compare the $(i+1)$-th element with the previous $i$ elements from right to left and insert it into the correct position, so the first $i+1$ elements become sorted.
+
+```cpp
+void insertionSort(int a[], int n) {
+	for(int i=1;i<n;i++){
+	    int t=a[i];
+	    int j=i-1;
+	    while(j>=0&&a[j]>t){
+	        a[j+1]=a[j];
+	        j--;
+	    }
+	    a[j+1]=t;
+	}
+}
+```
+
+Insertion sort is stable. Its worst-case time complexity is $O(n^2)$, and its best-case time complexity is $O(n)$ when the array is already sorted.
+
+## Shell Sort
+
+Shell sort is an improvement of insertion sort. Instead of comparing neighboring elements only, it chooses a gap $h$, splits the array into $h$ interleaved subsequences, and applies insertion sort to each subsequence.
+
+To guarantee correctness, the last gap must be $1$, because a final $1$-sort is exactly ordinary insertion sort on the whole array.
+In the code below, the gap sequence `H` should be given from large to small and end with `1`.
+
+```cpp
+void ShellSort(int a[],int H[],int n,int gapCount) {
+	for(int i=0;i<gapCount;i++){
+	    int gap=H[i];
+	    for(int j=gap;j<n;j++){
+		    int t=a[j];
+		    int k=j-gap;
+		    while(k>=0&&a[k]>t){
+		        a[k+gap]=a[k];
+		        k-=gap;
+		    }
+		    a[k+gap]=t;
+	    }
+	}
+}
+```
+
+Shell sort is unstable in general.
+
+Choosing a good gap sequence is a subtle problem.
+
+If an array has already been sorted with gap $h$, we call it **$h$-sorted**.
+
+Shell sort has the following important preservation property.
+
+>[!THEOREM]
+>If an array is $h_2$-sorted, then after sorting it with gap $h_1$, it is still $h_2$-sorted.
+
+>[!PROOF]
+>If $h_1\mid h_2$, the conclusion is immediate. Otherwise, we need to prove that for every valid $x$, $a[x]\le a[x+h_2]$ still holds after the $h_1$-sort.
+>
+>Let $x=i+k h_1$, where $0\le i<h_1$ and $k\in\mathbb{Z}$. Then $x+h_2=i+h_2+k h_1$. Let $b$ be the array before the $h_1$-sort. Since $b$ is $h_2$-sorted, we have
+>$$b[i+k h_1]\le b[i+h_2+k h_1],\quad \forall k.$$
+>During the $h_1$-sort, both sides are sorted within their own $h_1$-spaced subsequences. Sorting preserves the componentwise order between these two subsequences, so after sorting we still have $a[x]\le a[x+h_2]$.
+
+Generally, we have the following theorem.
+
+>[!THEOREM]
+>If an array has already been sorted with two coprime gaps $h_{t+1}$ and $h_t$, then sorting it with gap $h_{t-1}$ costs $O(nh_t)$ for Hibbard-like gap sequences where consecutive gaps differ by only a constant factor.
+
+>[!PROOF]
+>Since the array is already sorted by gaps $h_{t+1}$ and $h_t$, we have
+>$$a[x+m h_{t+1}+n h_t]\ge a[x]\quad(m,n\in\mathbb{N}).$$
+>Because $\gcd(h_{t+1},h_t)=1$, every sufficiently large offset can be written as $m h_{t+1}+n h_t$. In particular, by the Frobenius bound, every offset greater than $(h_{t+1}-1)(h_t-1)$ is representable.
+>
+>Therefore, while performing the $h_{t-1}$-sort, each insertion only needs to scan back $O(h_{t+1}h_t/h_{t-1})$ positions in its gap subsequence. For Hibbard-like gap sequences, consecutive gaps are within a constant factor, so this is $O(h_t)$ per element and $O(nh_t)$ for the whole pass.
+
+Thus, we get the following theorem.
+
+>[!THEOREM] Hibbard Gap Sequence Theorem
+>For the **Hibbard sequence** $H=\{2^k-1 \mid k=1,\dots,\lfloor\log_2 n\rfloor\}$, Shell sort has worst-case time complexity $O(n^{3/2})$.
+
+>[!PROOF]
+>It is easy to see that consecutive Hibbard gaps are coprime, so the previous theorem applies.
+>
+>For gaps larger than $h^*$, each pass has worst-case time $O(n^2/h)$, so the total cost is $O(n^2/h^*)$.
+>
+>For gaps smaller than $h^*$, the previous theorem gives $O(nh)$ per pass. Since the gaps form a geometric sequence, the total cost is $O(nh^*)$.
+>
+>Choosing $h^*=\Theta(\sqrt n)$ gives a total worst-case time of $O(n^2/h^*+nh^*)=O(n^{3/2})$.
+
+## Merge Sort
+
+The idea of merge sort is to recursively split an array into smaller subarrays, sort each subarray, and then merge the sorted subarrays.
+
+```cpp
+void Merge(int a[],int p,int m,int q){
+	vector<int> temp;
+	int i=p,j=m+1;
+	while(i<=m&&j<=q){
+	    if(a[i]<=a[j])temp.push_back(a[i++]);
+	    else temp.push_back(a[j++]);
+	}
+	while(i<=m)temp.push_back(a[i++]);
+	while(j<=q)temp.push_back(a[j++]);
+	for(int k=0;k<(int)temp.size();k++)a[p+k]=temp[k];
+}
+void MergeSort(int a[],int p,int q) {
+	if(p<q){
+	    int m = p + (q - p) / 2;
+	    MergeSort(a,p,m);
+	    MergeSort(a,m+1,q);
+	    Merge(a,p,m,q);
+	}
+}
+```
+
+We can find that $$T(n)=2T(\frac{n}{2})+O(n)$$
+As a result, the time complexity of merge sort is $O(n\log n)$. It is stable, but it needs $O(n)$ extra space.
+
+## Quick Sort
+
+The idea of quicksort is to choose a pivot $x_0$, move elements smaller than $x_0$ to its left, and move elements larger than $x_0$ to its right.
+
+If the chosen pivot is always the maximum or minimum element, the partition is extremely unbalanced and the time complexity degenerates to $O(n^2)$.
+
+If each pivot is close to the median, the time complexity reaches $O(n\log n)$.
+
+Therefore, the key question is how to choose $x_0$.
+
+One common solution is to choose the pivot randomly.
+
+```cpp
+int Partition(int a[],int p,int q) {
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(p, q);
+	int k = dis(gen),x = a[k];//pivot value
+	a[k]=a[q];
+	a[q]=x;
+	int i = p;
+	for(int j=p;j<q;j++){
+	    if(a[j]<x){
+		    int cnt=a[i];
+		    a[i]=a[j];
+		    a[j]=cnt;
+		    i++;
+	    }
+	}
+	a[q]=a[i];
+	a[i]=x;
+	return i;
+}
+void QuickSort(int a[],int p,int q) {//QuickSort(a,0,n-1)
+	if(p<q){
+	    int r=Partition(a,p,q);
+	    QuickSort(a,p,r-1);
+	    QuickSort(a,r+1,q);
+	}
+}
+```
+
+>[!THEOREM]
+>For distinct keys, randomized quicksort has expected time complexity $O(n\log n)$.
+
+>[!PROOF]
+>Consider two elements $z_i$ and $z_j$ in sorted order, where $i<j$. They are compared if and only if the first pivot chosen from the interval $Z_{ij}=\{z_i,z_{i+1},\dots,z_j\}$ is either $z_i$ or $z_j$.
+>
+>Let $X_{ij}$ be the indicator random variable for the event that $z_i$ and $z_j$ are compared. Since every element in $Z_{ij}$ is equally likely to be the first pivot,
+>$$P(X_{ij}=1)=\frac{2}{j-i+1}.$$
+>
+>Let $X$ be the total number of comparisons. Then
+>$$\begin{align*}
+>E[X]&=\sum_{1\le i<j\le n}E[X_{ij}]\\
+>&=\sum_{1\le i<j\le n}\frac{2}{j-i+1}\\
+>&=\sum_{d=1}^{n-1}(n-d)\frac{2}{d+1}\\
+>&=O(n\log n).
+>\end{align*}$$
+>
+>Thus the expected running time is $O(n\log n)$.
+
+Quicksort is unstable in this in-place partition form. Also note that when there are many equal keys, a two-way partition can still degrade; a three-way partition is usually preferred in that case.
+
+### Quick Select
+
+If we only want the $k$-th smallest element, we can reuse the partition step of quicksort and discard the side that cannot contain the answer.
+
+```cpp
+int Partition(int a[],int p,int q) {
+	//Use static so the generator is initialized only once.
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(p, q);
+	int k = dis(gen),x = a[k];//pivot value
+	a[k]=a[q];
+	a[q]=x;
+	int i = p;
+	for(int j=p;j<q;j++){
+	    if(a[j]<x){
+		    int cnt=a[i];
+		    a[i]=a[j];
+		    a[j]=cnt;
+		    i++;
+	    }
+	}
+	a[q]=a[i];
+	a[i]=x;
+	return i;
+}
+int QuickSelect(int a[],int p,int q,int k) {//QuickSelect(a,0,n-1,k)
+	if (p == q) return a[p];
+	if (p < q){
+	    int r=Partition(a,p,q);
+	    if(r-p+1==k)return a[r];
+	    else if(r-p+1>k)return QuickSelect(a,p,r-1,k);
+	    else if(r-p+1<k)return QuickSelect(a,r+1,q,k-r+p-1);
+	}
+	return -1;
+}
+```
+
+>[!THEOREM]
+>Randomized quickselect has expected time complexity $O(n)$; selecting the median is the hardest rank up to constant factors.
+
+>[!PROOF]
+>Let $T(n)$ be the worst expected time over all ranks on an input of size $n$. After one partition, only one side is searched recursively. Since the pivot is uniformly random,
+>$$T(n)\le cn+\frac{1}{n}\sum_{r=1}^n T(\max\{r-1,n-r\}).$$
+>At most two pivot ranks can produce the same larger-side size, so
+>$$T(n)\le cn+\frac{2}{n}\sum_{s=\lceil n/2\rceil}^{n-1}T(s).$$
+>By induction, assuming $T(s)\le Cs$ for all $s<n$ and choosing $C$ large enough, the right-hand side is at most $Cn$. Hence $T(n)=O(n)$.
+
+## Non-comparison algorithms
+
+The comparison-based algorithms above cannot beat the $\Omega(n\log n)$ lower bound in the worst case. A natural question is whether we can design sorting algorithms with time complexity below $O(n\log n)$.
+
+Since every element must be inspected, any sorting algorithm needs at least $\Omega(n)$ time.
+
+A sorting algorithm is called a **comparison sort** if its output is determined only by comparisons between elements such as $a[i]$ and $a[j]$. All sorting algorithms mentioned above are comparison sorts.
+
+>[!THEOREM]
+>Any deterministic comparison sort requires $\Omega(n\log n)$ comparisons in the worst case.
+
+>[!PROOF]
+>The running time of a comparison sort is at least the number of comparisons it performs.
+>
+>Any deterministic comparison sort can be represented by a decision tree, as shown below.
+>
+>![Screenshot 2026-06-28 at 23.23.09](../attachments/Screenshot%202026-06-28%20at%2023.23.09.png)
+>
+>Each sorting process follows one path from the root to a leaf, and the number of comparisons equals the path depth.
+>
+>There are $n!$ possible input permutations, so the decision tree must have at least $n!$ leaves. Therefore its height is at least
+>$$\log_2(n!)=\Omega(n\log n).$$
+>Thus every deterministic comparison sort has worst-case time complexity $\Omega(n\log n)$.
+
+As a result, to obtain a sorting algorithm with time complexity below $O(n\log n)$, we need non-comparison algorithms.
+
+We list two non-comparison algorithms as follows.
+
+### Counting Sort
+
+Counting sort sorts the array by counting how many times each key appears and recording those counts in an auxiliary array indexed by key value.
+
+```cpp
+void CountingSort(int a[],int n,int k) { //keys must be in [0,k)
+    vector<int> B(n),C(k,0);
+    for(int i=0;i<n;i++)C[a[i]]++;
+    for(int j=1;j<k;j++)C[j]=C[j]+C[j-1];
+    for(int i=n-1;i>=0;i--) {
+        int val = a[i];
+        int p = C[val] - 1;
+        B[p] = val;
+        C[val]--;
+    }//This backward scan guarantees stability.
+    for (int i = 0; i < n; i++) a[i] = B[i];
+}
+```
+
+Counting sort is stable and its time complexity is $O(n+k)$, where $k$ is the size of the key range. The code above assumes all keys are integers in $[0,k)$.
+
+Although the time complexity is low, the space complexity can be large, and the method only applies naturally to integer keys with a limited range. Overall, counting sort is not flexible enough.
+
+### Radix Sort
+
+When the key range $k$ is large, counting sort becomes inefficient. Radix sort avoids sorting the whole range at once: it processes the digits of each number from low to high, using a stable distribution step for each digit. The following implementation uses binary digits.
+
+```cpp
+int l[MAXN],r[MAXN];
+void RadixSort(int a[],int n) {
+	int maxValue=0;
+	for(int i=0;i<n;i++)
+		if(maxValue<a[i])maxValue=a[i];
+	int b=0;
+	while((maxValue>>b)>0)b++;//binary length of the maximum data
+	for(int i=0;i<b;i++){
+	    int l1=0,r1=0;
+	    for(int j=0;j<n;j++){
+		    int x=(a[j] >> i) & 1;
+		    if(x==0)l[l1++]=a[j];
+		    else r[r1++]=a[j];
+	    }
+	    for(int j=0;j<l1;j++)a[j]=l[j];
+	    for(int j=0;j<r1;j++)a[j+l1]=r[j];
+	}
+}
+```
+
+Radix sort is stable and its time complexity is $O(n(b+1))=O(nb)$, where $b=\lfloor\log_2\max_i a[i]\rfloor+1$ for nonzero non-negative keys.
+
+If $a[i]\le 2^{O(1)}$, then $T(n)=O(n)$.
+
+# Linear Programming
+
+Linear programming problem can be defined as:
+$$\max /\min z=c_1x_1+c_2x_2+\dots+c_nx_n$$$$s.t.\left\{\begin{matrix}
+a_{11}x_1+a_{12}x_2+\dots+a_{1n}x_n\le(\text{or} =,\ge)b_1\\a_{21}x_1+a_{22}x_2+\dots+a_{2n}x_n\le(\text{or} =,\ge)b_2\\ \dots\\a_{m1}x_1+a_{m2}x_2+\dots+a_{mn}x_n\le(\text{or} =,\ge)b_m\\x_1,x_2,\dots,x_t\ge0 \quad (t\le n)
+\end{matrix}\right.$$
+It can be transformed into standard form. The usual transformations are: convert minimization to maximization by negating the objective, multiply constraints by $-1$ when needed to make the right-hand side non-negative, add slack or surplus variables to turn inequalities into equalities, and replace every free variable by the difference of two non-negative variables.
+
+The standard form can be written as:
+$$\max z=c_1x_1+c_2x_2+\dots+c_nx_n$$$$s.t.\left\{\begin{matrix}
+a_{11}x_1+a_{12}x_2+\dots+a_{1n}x_n=b_1\\a_{21}x_1+a_{22}x_2+\dots+a_{2n}x_n=b_2\\ \dots\\a_{m1}x_1+a_{m2}x_2+\dots+a_{mn}x_n=b_m\\x_1,x_2,\dots,x_n\ge0
+\end{matrix}\right.$$
+## Simplex Algorithm
+
+The following discussion assumes an initial feasible basis has already been found. If no such basis is obvious, Phase I of the simplex method is needed to find one or prove infeasibility.
+
+We can first transform the system of equations into:
+$$\left\{\begin{matrix}
+x_1+a_{1(m+1)}x_{m+1}+\dots+a_{1n}x_n=b_1
+\\x_2+a_{2(m+1)}x_{m+1}+\dots+a_{2n}x_n=b_2\\ \dots\\x_m+a_{m(m+1)}x_{m+1}+\dots+a_{mn}x_n=b_m
+\\x_1,x_2,\dots,x_n\ge0
+\end{matrix}\right.$$
+If the feasible region is non-empty and the optimum is finite, OPT is achieved at a vertex of the feasible region.
+
+As a result, assume that $x_{m+1},\dots,x_n=0$, then 
+$$\left\{\begin{matrix}
+x_1=b_1
+\\x_2=b_2\\ \dots\\x_m=b_m
+\end{matrix}\right.$$
+So we need $$b_i\ge 0,\forall i=1,2,\dots,m$$
+The simplex algorithm gets the optimal solution through adjusting the vertex.
+$$\begin{align*}\max z=&c_1x_1+c_2x_2+\dots+c_nx_n\\=&\sum_{i=1}^mc_i(b_i-\sum_{j=m+1}^na_{ij}x_j)+\sum_{i=m+1}^n c_ix_i\\=&\sum_{i=1}^mc_ib_i+\sum_{i=m+1}^n(c_i-\sum_{j=1}^mc_j a_{ji})x_i\end{align*}$$
+If $$c_i-\sum_{j=1}^mc_j a_{ji}\le0,\forall i=m+1,\dots,n$$
+then the solution is the optimal solution.
+
+Otherwise, we need to adjust the variable values. A method is let $x_i$ bigger when ensuring every variable is non-negative. 
+
+Therefore, let $$x_i=\min_{1\le k\le m,a_{ki}>0}{\frac{b_k}{a_{ki}}}$$
+and the basic variable $x_{k^*}$ achieving this minimum ratio becomes $0$ and leaves the basis. This operation will change the basic variable and make the objective bigger.
+
+Note: if $a_{ki}\le 0$ for all $k=1,\dots,m$, then $x_i$ can increase without bound and the problem is **unbounded**.
+
+The analysis of time complexity of simplex algorithm is really complex. In theory, the worst-case time complexity of the algorithm is exponential, but in practice, the time complexity is linear.
+## Dual Problem
+
+Consider a linear programming problem:
+$$\max z=c_1x_1+c_2x_2+\dots+c_nx_n$$$$s.t.\left\{\begin{matrix}
+a_{11}x_1+a_{12}x_2+\dots+a_{1n}x_n\le b_1\\a_{21}x_1+a_{22}x_2+\dots+a_{2n}x_n \le  b_2\\ \dots\\a_{m1}x_1+a_{m2}x_2+\dots+a_{mn}x_n \le  b_m\\x_1,x_2,\dots,x_n\ge0
+\end{matrix}\right.$$
+
+Let $k$-th equation multiply $y_k$ and sum up:
+$$\sum_{i=1}^m\sum_{j=1}^n a_{ij}y_i x_j \le\sum_{i=1}^m b_iy_i$$
+If $$\sum_{i=1}^m a_{ij}y_i\ge c_j$$
+Then $$z=\sum_{j=1}^nc_j x_j \le\sum_{i=1}^m b_iy_i$$
+This is another linear programing problem:
+$$\min w=b_1y_1+b_2y_2+\dots+b_my_m$$$$s.t.\left\{\begin{matrix}
+a_{11}y_1+a_{21}y_2+\dots+a_{m1}y_m\ge c_1\\a_{12}y_1+a_{22}y_2+\dots+a_{m2}y_m\ge c_2\\ \dots\\a_{1n}y_1+a_{2n}y_2+\dots+a_{mn}y_m\ge c_n\\y_1,y_2,\dots,y_m\ge0
+\end{matrix}\right.$$
+It is called <span style="color: red;">Dual Problem</span>.
+
+Easy to obtain
+>[!THEOREM] Weak Duality Theorem
+>$$\min w\ge \max z$$
+
+We also have another stronger theorem:
+
+>[!THEOREM] Strong Duality Theorem
+>If the primal problem has an optimal solution, then the dual problem also has an optimal solution, and the objective function values of the two problems are equal.
+
+>[!PROOF]
+
+If the equality sign of the $k$-th inequality is not true, based on Strong duality theorem, we can find that $y_k=0$. Similarly, if the equality sign of the $k$-th dual inequality is not true, then $x_k=0$.
+
+>[!THEOREM] Complementary Slackness Theorem
+>Original slackness complement
+>$$\mathbf{y}^{*\top} (\mathbf{b} - \mathbf{A}\mathbf{x}^*) = 0$$
+>Dual slackness complement
+>$$(\mathbf{A}^\top \mathbf{y}^* - \mathbf{c})^\top \mathbf{x}^* = 0$$
+
+## Integer Linear Programming (ILP)
+
+If the variable $x_i$ is integer, we need to use another method to solve it.
+
+The basic idea is same: cut the non-integer part.
+### Branch and bound
+
+Given a linear programming problem:
+$$\max z=c_1x_1+c_2x_2+\dots+c_nx_n$$$$s.t.\mathbf{A}\mathbf{x}=\mathbf{b}$$
+If $x_1^*$ in the optimal solution $(x_1^*,x_2^*,\dots,x_n^*)$ is not integer, then consider the following two linear programming problem:
+$$\max z=c_1x_1+c_2x_2+\dots+c_nx_n$$$$s.t.\mathbf{A}\mathbf{x}=\mathbf{b},x_1\le\left \lfloor x_1^* \right \rfloor $$
+and $$\max z=c_1x_1+c_2x_2+\dots+c_nx_n$$$$s.t.\mathbf{A}\mathbf{x}=\mathbf{b},x_1\ge\left \lceil x_1^*  \right \rceil$$
+### Gomory Cut
+
+If$$x_i + \sum_{j =m+1}^n a_{ij} x_j = b_i$$
+Then let
+- $b_i = \lfloor b_i \rfloor + f_i$, where $0 < f_i < 1$ 
+- $a_{ij} = \lfloor a_{ij} \rfloor + f_{ij}$, where $0 \le f_{ij} < 1$
+
+Therefore
+$$x_i + \sum_{j =m+1}^n (\lfloor a_{ij} \rfloor + f_{ij}) x_j = \lfloor b_i \rfloor + f_i$$
+$$x_i + \sum_{j =m+1}^n \lfloor a_{ij} \rfloor x_j-\lfloor b_i \rfloor =  f_i-\sum_{j =m+1}^nf_{ij} x_j$$
+It is easy to see that the left-hand side is an integer, so the right side is an integer. Because $f_i<1$ and $f_{ij}x_j\ge0$, the right side is strictly less than $1$; being an integer, it is non-positive.
+
+So we can let$$f_i-\sum_{j =m+1}^nf_{ij} x_j=-s,s\in \mathbb{N}$$
+Therefore, we introduce another integer variable, and the current non-integer optimal vertex has been excluded by this new constraint.
+
+## Transportation problem
+
+Given $m$ origins, origin $A_i$ has supply $a_i$, and $n$ destinations, destination $B_j$ has demand $b_j$, and the cost from $A_i$ to $B_j$ is $c_{ij}$.  We need to get the optimal solution to minimize the cost from the origin to the destination.
+
+This is a linear programming problem:
+$$\min \sum_{i=1}^m \sum_{j=1}^n c_{ij} x_{ij}$$
+$$s.t.\left\{\begin{matrix}
+\sum_{j=1}\limits^n x_{ij}=a_i\\\sum_{i=1}\limits^m x_{ij}=b_j\\x_{ij}\ge0
+\end{matrix}\right.$$
+
+Types of Transportation problems:
+- Balanced: Total supply equals total demand, i.e., $\sum_{i=1}^m a_i=\sum_{j=1}^n b_j$. (The equality constraints above are feasible only in this case.)
+- Unbalanced: Total supply and total demand are not equal. In this type of problem, either a dummy row or a dummy column is added according to the requirement to make it a balanced problem. Then it can be solved similar to the balanced problem.
+### Vogel's Approximation Method (VAM)
+
+VAM can give a feasible solution to the transportation problem, though it does not guarantee it as an optimal solution.
+
+The basic idea of constructing an initial solution relies on a greedy algorithm: focus on one origin-destination pair, and allocate the maximum possible transportation volume, which is the minimum of the available supply and the remaining demand. Then, both the supply and demand are reduced by this allocated amount.
+
+The key challenge is determining which origin and destination to choose first. To solve this, Vogel proposed calculating a "penalty" for each row and column. The penalty is defined as the absolute difference between the lowest and the second-lowest **unit costs** in that row or column. We then select the row or column with the maximum penalty and apply the greedy allocation to the cell with the lowest cost within that selected row or column.
+
+This forward-looking approach effectively avoids high-cost allocations, yielding an excellent average-case performance.
+### The Method of Potentials
+
+When we get an initial solution, we need to verify whether the solution is optimal. 
+
+Observation: Considering the dual problem, we can define potential for every origin and destination as $u_i$ and $v_j$. Then $$u_i+v_j\le c_{ij}$$
+According to Complementary Slackness Theorem, if $x_{ij}\ne 0$, then $u_i+v_j=c_{ij}$. We can find that the number of basic variables is $n+m-1$ (in the non-degenerate case). So if we want to solve the potential, only regulate a potential as $0$ and combine with $u_i+v_j=c_{ij}$ is enough.
+
+Then we only need to check whether $u_i+v_j\le c_{ij}$ for every $i=1,2,\dots,m;j=1,2,\dots,n$.
+
+If $\exists i,j,s.t.u_i+v_j>c_{ij}$, we can use graph theory to adjust the plan. Imagine the origin and destination as a node, we connect the origin and destination if we have cargo transported from origin to destination. Obviously, it is a bipartite graph, and a tree. So when we add the edge $(u_i,v_j)$, the graph has only one cycle. Along this cycle, we label the newly added edge as "positive (+)", and then alternately label the subsequent edges as "negative (-)", "positive (+)", and "negative (-)" along the cycle.
+
+Let adjustment amount $\theta$:
+$$\theta = \min \{x_{kl} \mid \text{edge} (k,l) \text{ is denoted as negative} \}$$
+
+- Add $\theta$ to the edges marked "+" on the cycle. 
+- Subtract $\theta$ from the edges marked "-" on the cycle. 
+- There must be one edge marked "-" whose flow is reduced to $0$. We remove this edge from the graph.
+
+It will make the cost reduced by $\theta (u_i+v_j-c_{ij})>0$. And the graph is also a bipartite graph, and a tree.
+
+# Tree
+
+## Binary tree
+
+```cpp
+//Storage structure of a binary tree
+typedef struct BiTreeNode{
+    TElemType data;
+    struct BiTreeNode *lchild, *rchild; //left and right child pointers
+}BiTreeNode, *BiTree;
+```
+
+## Binary Tree Traversal
+
+```cpp
+//Preorder traversal: root, left subtree, right subtree
+bool PreOrderTraverse(BiTree T, Status(*Visit)(TElemType e)){
+    if(T){
+        if(Visit(T->data))
+            if(PreOrderTraverse(T->lchild,Visit))
+                if(PreOrderTraverse(T->rchild,Visit))return true;
+        return false;
+    }
+    else return true;
+}
+//Inorder traversal: left subtree, root, right subtree
+//Postorder traversal: left subtree, right subtree, root
+```
+
+## Threaded Binary Tree
+
+To directly find the predecessor and successor of a node in a traversal sequence, we can add two tag fields, $LTag$ and $RTag$, to every node:
+
+$$LTag=\begin{cases}
+0, & \text{the } lchild \text{ field points to the node's left child}\\
+1, & \text{the } lchild \text{ field points to the node's predecessor}
+\end{cases}$$
+
+$$RTag=\begin{cases}
+0, & \text{the } rchild \text{ field points to the node's right child}\\
+1, & \text{the } rchild \text{ field points to the node's successor}
+\end{cases}$$
+
+![images](../attachments/images.png){width=311}
+
+```cpp
+//Storage structure of a threaded binary tree
+typedef struct BiTNode{
+    TElemType data;
+    struct BiTNode *lchild, *rchild;    //left and right child pointers
+    bool LTag, RTag;                    //left and right tags
+}BiThrNode, *BiThrTree;
+```
+
+## Storage Structures of Trees and Forests
+
+### Parent Representation
+
+Use an array to record the parent of every node.
+
+![Screenshot 2026-06-30 at 20.25.22](../attachments/Screenshot%202026-06-30%20at%2020.25.22.png)
+
+```cpp
+//Parent representation
+#define MAX_TREE_SIZE 100
+typedef struct PTNode{
+    TElemType data;
+    int parent;              //parent index
+}PTNode;
+typedef struct{
+    PTNode nodes[MAX_TREE_SIZE];
+    int r, n;                //root position and number of nodes
+}PTree;
+```
+
+### Child Representation
+
+Arrange the children of each node as a linear list, and store that list with a singly linked list.
+
+The child representation can also be combined with the parent representation, as shown below.
+
+![Screenshot 2026-06-30 at 20.25.41](../attachments/Screenshot%202026-06-30%20at%2020.25.41.png)
+
+
+```cpp
+//Child representation
+#define MAX_TREE_SIZE 100
+typedef struct CTNode{        //child node
+    int child;
+    struct CTNode *next;
+}*ChildPtr;
+typedef struct{
+    TElemType data;
+    ChildPtr firstchild; //head pointer of the child linked list
+}CTBox;
+typedef struct{
+    CTBox nodes[MAX_TREE_SIZE];
+    int r,n; //root position and number of nodes
+}CTree;
+```
+
+### First-Child Next-Sibling Representation
+
+Store a tree using a binary linked structure: each node points to its first child and its next sibling.
+![Screenshot 2026-06-30 at 20.25.56](../attachments/Screenshot%202026-06-30%20at%2020.25.56.png)
+```cpp
+//First-child next-sibling representation
+typedef struct CSNode{
+    TElemType data;
+    struct CSNode *firstchild,*nextSibling;
+}CSNode,*CSTree;
+```
+
+### Storage Structure of a Forest
+
+Convert every tree in the forest into a binary tree using the first-child next-sibling representation. Then regard the roots of these binary trees as siblings and connect them to build one corresponding binary tree.
+
+![Screenshot 2026-06-30 at 20.26.43](../attachments/Screenshot%202026-06-30%20at%2020.26.43.png)
+
+## Traversal of Trees and Forests
+
+There are two common tree traversals: **pre-root traversal** and **post-root traversal**. Pre-root traversal visits the root before its children; post-root traversal visits the children before the root. Under the first-child next-sibling transformation, they correspond to preorder traversal and inorder traversal of the corresponding binary tree, respectively.
+
+![Screenshot 2026-06-30 at 20.29.53](../attachments/Screenshot%202026-06-30%20at%2020.29.53.png)
+
+As shown in the figure:
+
+- The tree's pre-root traversal `ABEFCDG` corresponds to the binary tree's preorder traversal `ABEFCDG`.
+- The tree's post-root traversal `EFBCGDA` corresponds to the binary tree's inorder traversal `EFBCGDA`.
+
+Similarly, a forest has two common traversals: **preorder traversal** and **postorder traversal**. Forest preorder traversal performs pre-root traversal on every tree in order; forest postorder traversal performs post-root traversal on every tree in order. Under the forest-to-binary-tree transformation, they correspond to preorder traversal and inorder traversal of the corresponding binary tree, respectively.
+
+![Screenshot 2026-06-30 at 20.31.46](../attachments/Screenshot%202026-06-30%20at%2020.31.46.png)
+
+As shown in the figure:
+
+- The forest's preorder traversal `ABCDEFJHGI` corresponds to the binary tree's preorder traversal `ABCDEFJHGI`.
+- The forest's postorder traversal `BCDAFEJHIG` corresponds to the binary tree's inorder traversal `BCDAFEJHIG`.
+
+## Huffman tree & Huffman coding
+
+Suppose there are $m$ weights $w_1,w_2,\dots,w_m$. We can construct a binary tree with `m` leaf nodes, where the weight of the $i$-th leaf is $w_i$. Among all such binary trees, the tree with the minimum weighted path length (WPL) is called an **optimal binary tree** or a **Huffman tree**.
+
+We can build a Huffman tree using the Huffman algorithm. The core idea is to repeatedly merge the two nodes with the smallest weights into one new node, as shown below.
+
+![images-1](../attachments/images-1.png)
+
+```cpp
+//Huffman algorithm
+typedef struct{
+    int weight;                        //node weight
+    int parent, lchild, rchild;        //indices of parent, left child, and right child
+} HTNode, *HuffmanTree;                //Huffman tree node
+void CreateHuffmanTree(HuffmanTree &HT, int n) {
+    if (n < 1) return;
+    int m = 2 * n - 1;
+    HT = new HTNode[m + 1];            //allocate m + 1 units; HT[m] is the root
+    HT[0].weight = INT_MAX;
+    for (int i = 1; i <= m; i++) {
+        HT[i].parent = 0;
+        HT[i].lchild = 0;
+        HT[i].rchild = 0;
+    }//initialize
+    for (int i = 1; i <= n; i++) cin >> HT[i].weight;
+    for (int i = n + 1; i <= m; i++) {
+        int s1 = 0, s2 = 0;
+        for (int j = 1; j < i; j++) {
+            if (HT[j].parent == 0 && HT[s1].weight > HT[j].weight)
+                s1 = j; //select s1
+        }
+        for (int j = 1; j < i; j++) {
+            if (HT[j].parent == 0 && j != s1 && HT[s2].weight > HT[j].weight)
+                s2 = j; //select s2
+        }
+        HT[s1].parent = i;
+        HT[s2].parent = i;
+        HT[i].lchild = s1;
+        HT[i].rchild = s2;
+        HT[i].weight = HT[s1].weight + HT[s2].weight;
+    }
+}
+```
+
+Huffman trees can be used for coding.
+
+Two related concepts are listed below:
+
+1. **Prefix code**: If no codeword in a coding scheme is a prefix of any other codeword, the coding scheme is called a prefix code. Prefix codes guarantee unambiguous decoding.
+2. **Huffman code**: For a Huffman tree with $n$ leaves, assign `0` to every left branch and `1` to every right branch. The sequence of branch labels on the path from the root to a leaf forms the Huffman code of that leaf.
+
+It is easy to see that Huffman coding is a prefix code. Since the Huffman tree has minimum WPL, Huffman coding is an optimal prefix code.
+
+```cpp
+//Huffman coding
+typedef struct{
+    int weight;                         //node weight
+    int parent, lchild, rchild;         //indices of parent, left child, and right child
+}HTNode,*HuffmanTree;                   //Huffman tree node
+typedef char ** HuffmanCode;            //dynamically allocated Huffman code table
+void CreateHuffmanCode(HuffmanTree HT, HuffmanCode &HC, int n) {
+    HC = new char*[n+1];                //allocate the code table for n characters
+    char *cd = new char[n];             //temporary space for one character code
+    cd[n-1] = '\0';
+    for (int i = 1; i <= n; i++) {
+        int start = n-1;
+        int c = i;
+        int f = HT[i].parent;
+        while (f != 0) {
+            start--;                    //move start one position left when backtracking
+            if (HT[f].lchild == c) cd[start]='0';
+            else cd[start]='1';
+            c = f;
+            f = HT[f].parent;           //continue backtracking upward
+        }
+        HC[i] = new char[n-start];
+        strcpy(HC[i], &cd[start]);
+    }
+    delete[] cd;
+}
+```
+
+## Heap & Heap Sort
+
+A **heap** is usually a complete binary tree that satisfies a heap-order property. A heap can be represented directly by an array. If the root index is $1$, then for a node whose index is $n$, its left child has index $2n$ and its right child has index $2n+1$. Conversely, for a node whose index is $n$, its parent has index $\left \lfloor \frac{n}{2} \right \rfloor$, as shown below.
+
+![Screenshot 2026-06-29 at 10.46.55](../attachments/Screenshot%202026-06-29%20at%2010.46.55.png)
+
+Below we discuss operations on a **max-heap**, where every parent is at least as large as its children.
+
+### Search
+
+There are two kinds of search operations in a heap:
+
+- **Find the maximum**: This is simple. Read the root node directly, so the time complexity is $O(1)$.
+- **Find an arbitrary value**: A heap does not guarantee any order between the left and right children. Therefore, searching for a specific element may require traversing the whole heap, so the time complexity is $O(n)$.
+
+### Insert
+
+The insertion logic is: first insert the new element at the bottom of the heap, and then move it upward step by step to restore the max-heap property.
+
+```cpp
+void InsertHeap(int heap[],int n,int a){//there are n elements in the heap; insert a
+    heap[n+1]=a;
+    int t=n+1;
+    while(t>1){
+        int p=t/2;
+        if(heap[p]<a)swap(heap[p],heap[t]);
+        else break;
+        t=p;
+    }
+}
+```
+
+The time complexity depends on the height of the tree, so it is $O(\log n)$.
+
+If the heap contains $n$ elements and has $N$ levels, then $2^{N−1}\le n\le 2^N−1$.
+
+For bottom-up heap construction, the total adjustment cost is:
+$$T(n)=1\cdot(N−1)+2\cdot(N−2)+\dots+2^{N−2}\cdot1=−(N−1)+2^N−2<2^N−2\le2n−2$$
+As a result, $$T(n)=O(n)$$
+
+### Delete
+
+When deleting an element, first move the last element into the deleted position, and then move it upward or downward as needed. This avoids leaving a hole in the heap.
+
+```cpp
+void DeleteHeap(int heap[],int& n,int k){//there are n elements in the heap; delete heap[k]
+    if(k<1||k>n)return;
+    if(k==n){
+        n--;
+        return;
+    }
+    heap[k]=heap[n];
+    n--;
+    int t=k;
+    if(k>1 && heap[k]>heap[k/2]){
+        while(t>1){
+            int p=t/2;
+            if(heap[p]<heap[t])swap(heap[p],heap[t]);
+            else break;
+            t=p;
+        }
+        return;
+    }
+    while(t*2<=n){
+        int p=t*2;
+        if(p<n&&heap[p+1]>heap[p])p++;
+        if (heap[t]<heap[p]){
+            swap(heap[t],heap[p]);
+            t=p;
+        }
+        else break;
+    }
+}
+```
+
+The time complexity depends on the height of the tree, so it is $O(\log n)$.
+
+### Heap Sort
+
+The heap data structure can be used for sorting. Heap sort consists of two steps: building a heap and sorting.
+
+The code below builds the heap by repeated insertion. During sorting, we repeatedly delete the root node, which gives the current maximum element.
+
+```cpp
+void HeapSort(int a[],int n){
+    int heap[n+1];
+    for(int i=0;i<n;i++)InsertHeap(heap,i,a[i]);
+    int s=n;
+    for(int i=0;i<n;i++){
+        int t=heap[1];
+        DeleteHeap(heap,s,1);
+        heap[s+1]=t;
+    }
+    for(int i=0;i<n;i++)a[i]=heap[i+1];
+}
+```
+
+Heap sort is unstable. In the code above, repeated insertion makes the heap-building step take $O(n\log n)$ time, and the sorting step also takes $O(n\log n)$ time. Therefore, the overall time complexity is $O(n\log n)$. If bottom-up heap construction is used, the heap-building step can be reduced to $O(n)$, while the overall time complexity remains $O(n\log n)$.
+
+### Priority Queue
+
+In an ordinary queue, we strictly follow the FIFO principle. In a priority queue, however, every element has a **priority**. The core rule is: **the element with the highest priority is removed first**.
+
+A priority queue can be implemented conveniently with a heap, because a max-heap can return the maximum element in $O(1)$ time.
+
+```cpp
+//Priority queue operations in the STL
+#include <queue>
+priority_queue<int> max_heap;
+max_heap.push(10); //corresponds to InsertHeap
+max_heap.push(30);
+max_heap.push(20);
+cout << "maximum: " << max_heap.top() << endl; //output the maximum value
+max_heap.pop(); //remove the maximum value
+cout << "new maximum: " << max_heap.top() << endl; //output 20
+```
+
+# Graph
+
+## 图的存储结构
+
+### 邻接矩阵
+
+用二维数组的方式表示图中关系，其中$AdjMatrix[i][j]$表示顶点$i$与顶点$j$的指向关系及权值。
+
+```cpp
+//邻接矩阵  
+#define INFINITY INT_MAX                //最大值  
+#define MAX Veronica_NUM 20             //最大顶点个数  
+typedef enum{DG,DN,UDG,UDN} GraphKind;  //{有向图，有向网，无向图，无向网}  
+typedef struct ArcCell{  
+    VRType adj;                         //顶点关系  
+    InfoType *info;                     //该弧相关信息的指针  
+}ArcCell,AdjMatrix[MAX Veronica_NUM][MAX Veronica_NUM];  
+typedef struct{  
+    VertexType vexs[MAX Veronica_NUM];  //顶点向量  
+    AdjMatrix arcs;                     //邻接矩阵  
+    int vexnum,arcnum;                  //当前的顶点数和弧数  
+    GraphKind kind;                     //图的种类  
+}MGraph;
+```
+
+### 邻接表
+
+对图中每个顶点vi​建立一个单链表，把与vi​相邻接的顶点放在这个链表中。
+
+```cpp
+//邻接表  
+#define INFINITY INT_MAX                 //最大值  
+#define MAX Veronica_NUM 20              //最大顶点个数  
+typedef enum{DG,DN,UDG,UDN} GraphKind;   //{有向图，有向网，无向图，无向网}  
+typedef struct ArcNode{ 
+    int adjvex;                          //该弧所指向的顶点的位置  
+    struct ArcNode *nextarc;             //指向下一条弧的指针  
+    InfoType *info;                      //该弧相关信息的指针  
+}ArcNode;  
+typedef struct VNode{ 
+    VertexType data;                     //顶点信息  
+    ArcNode *firstarc;                   //指向第一条依附该顶点的弧的指针  
+}VNode,AdjList[MAX Veronica_NUM];  
+typedef struct{ 
+    AdjList vertices; 
+    int vexnum,arcnum;                   //当前的顶点数和弧数  
+    GraphKind kind;                      //图的种类  
+}ALGraph;
+```
+
+## Search
+
+### Deep First Search (DFS)
+
+选择一个起始点$v$作为当前结点，执行如下操作：
+
+1. 访问当前结点$v$并且标记该结点已被访问；
+2. 如果存在一个和当前结点相邻并且尚未被访问的结点$u$，则将$u$设为当前结点，继续执行步骤1；
+3. 如果不存在这样的$u$，则进行回溯，即回退当前结点;
+4. 如果所有结点均已访问，结束算法。
+
+算法实现上，可以采用递归的方式进行实现。
+
+```cpp
+bool visited[MAX];  
+for(int v=0; v<MAX; v++) visited[v] = false;  
+void DFS(MGraph G, Status(*Visit)(int v), int v) {  
+    Visit(v);  
+    visited[v] = true;  
+    for(int w = 0; w < G.vexnum; w++)  
+        if(G.arcs[v][w] != 0 && !visited[w]) DFS(G, Visit, w);  
+}
+```
+
+当用邻接矩阵表示图时，DFS查找每个顶点的邻接点的时间复杂度为$O(v^2)$
+
+当用邻接表表示图时，DFS查找每个顶点的邻接点的时间复杂度为$O(v+e)$
+
+### Broad First Search (BFS)
+
+选择一个起始点v作为当前结点，执行如下操作：
+
+1. 将当前结点v压入队列；
+2. 取出队列头结点并访问，然后压入该结点所有未进入队列的邻结点；
+3. 重复步骤2，直到队列为空，结束算法。
+
+容易看出，可以采用队列的方式实现广度优先搜索。
+
+```cpp
+bool visited[MAX];   
+for(int v=0;v<MAX;v++)visited[v]=false;   
+void BFS(MGraph G,Status (*Visit)(int v),int v){ 
+    queue<int>Q; 
+    Q.push(v); 
+    visited[v]=true;
+    while(!Q.empty()){ 
+        int u=Q.front(); 
+        Q.pop(); 
+        Visit(u); 
+        for(int w=0;w<G.vexnum;w++) 
+            if(G.arcs[u][w]!=0&&!visited[w]){ 
+                Q.push(w); 
+                visited[w]=true; 
+            }   
+    }
+}
+```
+
+当用邻接矩阵表示图时，BFS查找每个顶点的邻接点的时间复杂度为$O(v^2)$
+
+当用邻接表表示图时，BFS查找每个顶点的邻接点的时间复杂度为$O(v+e)$
+
+图搜索的一些经典问题：[N皇后问题](https://www.luogu.com.cn/problem/P1219)、[全排列问题、](https://www.luogu.com.cn/problem/P1706)[最短路计数](https://www.luogu.com.cn/problem/P1144)
+
+## Minimum Spanning Tree (MST)
+
+### Prim Algorithm
+
+Prim算法思想是将图中顶点分为已取出顶点$U$和未取出顶点$\bar{U}$两个集合，每次取出连接两个集合权值最小的边，并将边连接的顶点中未被选取的顶点加入到$U$，直到取到$v−1$条边。
+
+```cpp
+struct Edge{
+    int vex1;
+    int vex2;
+    VRType weight;
+    bool Tree; //该边是否位于生成树内
+}Edges[MNum];
+bool compareEdges(const Edge& a, const Edge& b) {
+    return a.weight < b.weight;
+}
+void Kruskal(MGraph G){
+    int ecount = 0;
+    for (int i = 0; i < G.vexnum; i++) {
+        for (int j = i + 1; j < G.vexnum; j++) {
+            if (G.arcs[i][j] != 0) {
+                Edges[ecount].vex1 = i;
+                Edges[ecount].vex2 = j;
+                Edges[ecount].weight = G.arcs[i][j];
+                ecount++;
+            }
+        }
+    }
+    sort(Edges, Edges + ecount, compareEdges);
+    bool vertex[G.vexnum];
+    vertex[1]=1;
+    for (int i = 0; i < ecount; i++) {
+        if (vertex[Edges[i].vex1]==0&&vertex[Edges[i].vex2]==1) {
+            Edges[i].Tree = 1;
+			vertex[Edges[i].vex1]=1;
+        }
+        else if (vertex[Edges[i].vex1]==1&&vertex[Edges[i].vex2]==0) {
+            Edges[i].Tree = 1;
+			vertex[Edges[i].vex2]=1;
+        }
+    }
+}
+```
+
+Prim算法的时间复杂度为$O(e\log v)$, 因此适用于求稠密网的最小生成树。
+
+### Kruskal Algorithm & Disjoint Sets
+
+The essence of Kruskal Algorithm is算法思想是在保证不成圈的情况下不断取最小的边，直到取到$v−1$ edges.
+
+如何判定不成圈呢？可以采用**并查集**，它管理一系列不相交的集合，并支持两种操作：
+
+1. Union：把两个不相交的集合合并为一个集合。
+2. Find：查询两个元素是否在同一个集合中。
+
+```cpp
+int fa[MAXN];  
+for(int i=1; i<=n; i++) fa[i] = i; //Initialize
+int find(int x) {
+    if(fa[x] == x) return x;
+    return  fa[x] = find(fa[x]);
+}
+void union(int i, int j) {  
+    fa[find(i)] = find(j);  
+}
+```
+
+可以参考[亲戚问题](https://www.luogu.com.cn/problem/P1551)
+
+We can analyze its time complexity as the following.
+
+
+>[!THEOREM]
+ $T=O(m+n)\log ^* n$, where $\log ^* n$ is number of log operations that bring $n$
+ down to $1$.
+
+>[!PROOF]
+>均摊分析时间复杂度
+
+
+若$fa[i]==fa[j]$，则两个结点在同一个联通片中，因而不能连接这两个结点。
+
+```cpp
+struct Edge{
+    int vex1;
+    int vex2;
+    VRType weight;
+    bool Tree; //该边是否位于生成树内
+}Edges[MNum];
+bool compareEdges(const Edge& a, const Edge& b) {
+    return a.weight < b.weight;
+}
+void Kruskal(MGraph G){
+    int ecount = 0;
+    for (int i = 0; i < G.vexnum; i++) {
+        for (int j = i + 1; j < G.vexnum; j++) {
+            if (G.arcs[i][j] != 0) {
+                Edges[ecount].vex1 = i;
+                Edges[ecount].vex2 = j;
+                Edges[ecount].weight = G.arcs[i][j];
+                ecount++;
+            }
+        }
+    }
+    sort(Edges, Edges + ecount, compareEdges);
+    for (int i = 0; i < ecount; i++) {
+        if (fa[Edges[i].vex1] != fa[Edges[i].vex2]) {
+            Edges[i].Tree = 1;
+            union(Edges[i].vex1, Edges[i].vex2);
+        }
+        else Edges[i].Tree = 0;
+    }
+}
+```
+
+Time complexity: $O(e \log e)$, which is unrelated to the number of the vertex. Therefore, Kruskal Algorithm is suitable for solving MST in sparse graph.
+## Maximum Branching
+
+Edmonds Algorithm
+## 有源最短路径算法
+
+### Dijkstra Algorithm
+
+Dijkstra algorithm is used to 用于求解图中从某一顶点出发到图中其余顶点的最短路径，其具体内容如下：
+
+1. 令$d(u_0​)=0$, $l(u_0​)=u_0$​, 其中$d$和$l$分别表示顶点到$u_0$​ 的最短距离和最短路径的顶点前继。对其他顶点$u$，$d(u)=\infty$,$l(u)=0$，用$S$存储已求解结束的顶点, 初始状态$S={u_0​}$；$i=0$；
+2. 对任给 $u \in V(G)−S$，若$d(u_i​)+w(u_i ​u)<d(u)$，则令$d(u) \leftarrow d(u_i​)+w(u_i ​u)$，令 $l(u)=u_i$​；
+3. 选出$u_i+l \in V(G)−S$，使得d(ui+1​)=u∈V(G)−Smin​d(u)，令 $S=S\cup\{u_{i+1}​\}$；
+4. 若$i=V(G)−1$，算法停止；否则，令$i\leftarrow i+1$，转步骤2。
+
+Dijkstra算法的时间复杂度为$O(e\log v)$。
+
+需要注意的是，Dijkstra算法只能用于求解非负权重加权图，如果需要处理负权边，可以采用下面将要介绍的Bellman-Ford算法。
+
+### Bellman-Ford Algorithm
+
+Bellman-Ford算法比Dijkstra算法更具普遍性，因为它对边没有要求，可以处理负权边与负权回路。其核心思想是在每一轮循环中遍历所有边，直到所有可能的最短路径都被找到。这一操作称之为松弛。理论证明得，若图中不存在负权环，算法在第$v-1$ 轮松弛操作后必然收敛，否则算法无法收敛。
+
+>[!THEOREM]
+> 若图中不存在负权环，算法在第$v−1$轮松弛操作后必然收敛，否则算法无法收敛。
+
+>[!PROOF]
+>假设从源点s到任意顶点v存在一条最短路径P，那么P最多包含v−1条边。
+
+设最短路径P的顶点序列为：v0​,v1​,v2​,…,vk​，其中v0​=s，vk​=v。
+
+由于是简单路径，边数k≤v−1。
+
+我们可以通过数学归纳法证明：在第i次全局松弛后，dist[vi​]达到了其最短路径值。
+
+对初始状态，dist[v0​]=dist[s]=0
+
+第 1 次迭代： 算法会遍历所有边。由于边(v0​,v1​)也在其中，根据松弛公式dist[v1​]=min(dist[v1​],dist[v0​]+w(v0​,v1​))，在第 1 次迭代结束时，dist[v1​]一定能获得其最短路径值。
+
+第i次迭代： 假设第i−1次迭代后，dist[vi−1​]已经取得了最短路径值。在第i次迭代中，算法必然会松弛边(vi−1​,vi​)。由于dist[vi−1​]已经是最小，松弛操作会将dist[vi​]更新为dist[vi​]=min(dist[vi​],dist[vi−1​]+w(vi−1​,vi​))。
+
+此时dist[vi​]就达到了从源点经过i条边到达该点的最短距离
+
+这样我们就证明了对任意i在第i次全局松弛后，dist[vi​]达到了其最短路径值。
+
+那么v−1次迭代是足以覆盖所有可能的最短简单路径的上限。
+
+Time complexity: $O(ve)$
+
+```C++
+int pre[MAXN];
+long long dis[MAXN];
+const long long INF = 4e18;
+struct edge{
+    int u;
+    int v;
+    long long w;
+}edges[MAXM];
+Bellman-Ford(int n,int m,int s,int t,edge edges[]){//number of the vertexs,edges,source,t
+    for(int i=1;i<=n;i++){
+        if(i==s){
+            dis[i]=0;
+            pre[i]=s;
+        }
+        else{
+            dis[i]=INF;
+            pre[i]=-1;
+        }
+    }
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<m;j++){
+            if(dis[edges[j].u]!=INF&&dis[edges[j].v]>dis[edges[j].u]+edges[j].w){
+                dis[edges[j].v]=dis[edges[j].u]+edges[j].w;
+                pre[edges[j].v]=edges[j].u;
+            }
+        }
+    }
+    bool circle=true;//check the negative circle
+    for(int j=0;j<m;j++)
+        if(dis[edges[j].u]!=INF&&dis[edges[j].v]>dis[edges[j].u]+edges[j].w){
+            circle=false;
+            break;
+        }
+    if(circle){
+        printf("%lld\n",dis[t]);
+        stack<int> point;
+        point.push(t);
+        int temp=t;
+        while(temp!=s){
+            temp=pre[temp];
+            point.push(temp);
+        }
+        int len=point.size();
+        printf("%d\n",len);
+        for(int i=0;i<len;i++){
+            printf("%d ",point.top());//print the path
+            point.pop();
+        }
+    }
+    else{
+        printf("-1\n");//print the negative circle
+    }
+    return 0;
+}
+```
+
+## All Pairs Shortest Paths (APSP)
+
+### Floyd-Warshall Algorithm
+
+Floyd-Warshall Algorithm is suitable to solve APSP in dense map.
+
+We will maintain two arrays: distance array $D$ and predecessor array $P$. $D[i][j]$ denotes the shortest distance between $i$ and $j$, and $P[i][j]$ denotes the predecessor of $j$ in the shortest path from $i$ to $j$. In $k$-th iteration, iterate through each vertex of $D[i][j]$ and compare $D[i][j]$ and $D[i][k]+D[k][j]$. If $$D[i][k]+D[k][j]<D[i][j]$$let $$D[i][j]=D[i][k]+D[k][j], P[i][j]=P[k][j]$$
+```cpp
+void FloydWarshall(MGraph G, VRType D[], int P[]) {
+    for (int i = 0; i < G.vexnum; i++) {
+        for (int j = 0; j < G.vexnum; j++) {
+            D[i][j] = G.arcs[i][j];
+            if (D[i][j] == INT_MAX) P[i][j] = -1;
+            else P[i][j] = i;
+        }
+    }
+    for (int k = 0; k < G.vexnum; k++) {
+        for (int i = 0; i < G.vexnum; i++) {
+            for (int j = 0; j < G.vexnum; j++) {
+                if (i == j) continue;
+                if (D[i][k] + D[k][j] < D[i][j]) {
+                    D[i][j] = D[i][k] + D[k][j];
+                    P[i][j]=P[k][j];
+                } 
+            }
+        }
+    }
+}
+```
+
+The time complexity of Floyd-Warshall algorithm is $O(v^3)$, and it is effective for the graph with negative edges.
+### Johnson Algorithm
+
+Johnson Algorithm is suitable to solve APSP in sparse map.
+
+Consider about the time complexity of Dijkstra algorithm is $O(e\log v)$, we want to optimize the time complexity to $O(ve\log v)$, but only use Dijistra algorithm cannot tackle the graph with negative edges. The idea behind Johnson's algorithm is adjust the weight of edge as follow:
+
+$$\hat{w}(i,j)=w(i,j)+h(i)−h(j)$$
+
+where $h(i)$ is the potential of the vertices. This adjust can guarantee every path from $i$ to $j$ increasing the same weight $h(i)−h(j)$, so that the relative magnitudes of path weights remain unchanged.
+
+We now want to find a function that can guarantee the following requirements $h$：
+
+$$\hat{w}(i,j)=w(i,j)+h(i)−h(j)\ge0,\forall i,j$$
+
+Johnson has a really brilliant observation: we can introduce a virtual vertex $S$. Connect it to every vertex and let the weight of edges as $0$. Then we use Bellman-Ford algorithm to get the shortest distance between $S$ and vertex $i$, which can be defined as $h(i)$.
+
+It is easy to prove that
+$$\text{dist}(S, v) \le \text{dist}(S, u) + w(u, v)$$
+As a result,$$h(v) \le h(u) + w(u, v)$$
+It is equivalent to$$\hat{w}(i,j)=w(u, v) + h(u) - h(v) \ge 0$$
+In this way we design the algorithm with time complexity $O(ve\log v)$ successfully.
+## Topological Sort
+
+A graph is called an <span style="color: red;">Activity on Vertex (AOV) Graph</span> if vertices represent activity and edges represent the activity priority. It is readily apparent that an AOV graph is a directed acyclic graph. Define partial order relation $v_1​<v_2​$ as $v_1​$ point to $v_2$​. The order is called <span style="color: red;">Topological Sort</span>.
+
+拓扑排序的实现方式如下：
+
+1. 在有向图中选一个没有前驱的顶点并输出；
+2. 从图中删除该顶点和所有以它为尾的弧。
+
+Time complexity $T(n)=O(v+e)$
+
+## 关键路径
+
+## Strongly Connected Components
+
+Tarjan Algorithm
+
+Lowest Common Ancestor (LCA)
+
+We can use Tarjan algorithm to prove the following theorem:
+
+> [!THEOREM]
+> 2SAT is P.
+
+> [!PROOF]
+
+## Cartesian Tree
+
+A Cartesian tree of an array needs to satisfy:
+1. The Inorder traversal of the tree is the array.
+2. The node must be bigger than its sons. 
+![Cartesian_tree.svg](../attachments/Cartesian_tree.svg.webp)
+均摊分析时间复杂度
+
+We can find that Cartesian tree can transform finding the minimum value of the interval to the lowest common ancestor of two nodes. And the fast algorithm will be introduced in [Lowest Common Ancestor (LCA)](#lowest-common-ancestor-lca).
+
+## Lowest Common Ancestor (LCA)
+## Max-flow & Min-cut
+
+> [!THEOREM] Max-flow min-cut theorem
+
+> [!PROOF]
+> Max-flow problem:
+> $$\max\sum_{(s,v)\in E} f_{sv}$$
+> $$s.t.\left\{\begin{matrix}f_e\le c_e,\forall e\\
+ \sum_{(i,v)\in E}f_{iv}-\sum_{(v,j)\in E}f_{vj}=0, \forall v \in V\setminus  \{s,t\}\\
+ f_e\ge 0
+ \end{matrix}\right.$$
+ Min-cut problem:
+ $$\min \sum_e y_e\cdot c_e$$ $$s.t.\left\{\begin{matrix}
+ y_e+z_v\ge1, \forall e=(s,v)\\
+ y_e-z_v\ge0, \forall e=(v,t)\\
+ y_e+z_v-z_u\ge0, \forall e=(u,v)\\
+ y_e\ge 0
+ \end{matrix}\right.$$
+ Obviously, they are dual problems.
+
+### Ford-Fulkerson Algorithm
+
+### Edmonds–Karp Algorithm
+
+### Karger’s Min-cut Algorithm
+
+>[!THEOREM]
+>$P=\frac{2}{n(n-1)}$
+
+>[!PROOF]
+### Stoer-Wagner Algorithm
+
+### Maximum Weight Closure Problem
+
+An interesting thing is: min-cut is P, but max-cut is NP-Hard.
+
+>[!THEOREM]
+>Max-cut is NP-Hard.
+
+>[!PROOF]
+
+## Clique
+
+We defined a subgraph as a <span style="color: red;">clique</span> if it is a complete graph.
+
+It is difficult to determine whether a graph has a k-clique. We will prove that it is NP-Complete.
+
+> [!THEOREM] 
+> Clique is NP-Complete.
+
+>[!PROOF]
+>
+
+## Matching & Vertex Cover
+
+We define <span style="color: red;">matching</span> $M$ as the subset of $E(G)$, where every edge in $M$ do not has the same vertex.
+
+We define <span style="color: red;">vertex cover</span> $C$ as the subset of $V(G)$, where every edge in graph has at least an endpoint belongs to $C$.
+
+Matching and vertex cover look very similar, but the difficulty of solving two problems are different. We will introduce in this section that matching can be solved by [Edmonds' Blossom Algorithm](#edmonds-blossom-algorithm), so it is P. However, vertex cover is NPC.
+
+Before we prove it, we will introduce another problem to reduce it.
+
+<span style="color: red;">Independent set</span>: the subset of $V(G)$, where each vertex in the set is not linked.
+
+Independent Set Problem is: given $k$ and a graph $G$, we want to find an independent set has $k$ vertices.
+
+> [!THEOREM] 
+> Independent Set (IS) is NP-Complete.
+
+>[!PROOF]
+>Consider the complement of $G$. The Independent Set is correspond to the clique. As a result, Clique can be reduced to Independent Set. So it is NP-Complete.
+
+Vertex Cover Problem is: given $k$ and a graph $G$, we want to find a vertex cover has $k$ vertices.
+
+> [!THEOREM] 
+> Vertex Cover (VC) is NP-Complete.
+
+>[!PROOF]
+>If $S$ is the vertex cover of graph $G$, then $V(G)/S$ is the independent set of graph $G$. As a result, Independent Set can be reduced to Vertex Cover. So it is NP-Complete.
+### Bipartite graph
+
+Although for general graph, vertex cover is NP-Complete, in bipartite graph, we can find that max-matching is equal to min-cover, which can be reduced to max-flow. As a result, in bipartite graph, they are P.
+
+> [!THEOREM] Hall Theorem
+
+>[!THEOREM]
+>3SAT-twice is always satisfiable.
+
+>[!PROOF]
+>
+
+> [!THEOREM] Kőnig's Theorem
+> In bipartite graph, max-matching is equal to min-cover.
+
+>[!PROOF]
+
+### Hungarian Algorithm
+
+### Kuhn-Munkreas Algorithm
+
+### Edmonds' Blossom Algorithm
+
+Hence, matching is P. However, if we change two matching to three matching, the problem is NP-Complete.
+
+Mathematically, three-dimension matching (3DM) problem is 
+
+> [!THEOREM] 
+> 3DM is NP-Complete.
+
+>[!PROOF]
+>
+
+
+Exact 3-Cover (X3C)
+
+> [!THEOREM] 
+> X3C is NP-Complete.
+
+>[!PROOF]
+>
+## Colorable
+
+Analysis of 2-colorable problem:
+
+Perform a Browsing Search (BFS) on the graph, coloring the starting point $s$ with color A, and its adjacent points with color B, and so on.
+
+If the BFS finds that two adjacent points $v_1$ and $v_2$ along an edge are colored the same color, it means that the lengths of the paths from $s$ to $v_1$ and from $s$ to $v_2$ have the same parity. Since $v_1$ and $v_2$ are adjacent, $s-v_1$, $v_1v_2$, and $v_2-s$ form a cycle, which must be an odd cycle. It's easy to see that an odd cycle cannot be 2-colored. This proves that if the coloring scheme of the BFS algorithm is contradictory, it's because the graph cannot be 2-colored. Therefore, if the BFS algorithm provides a coloring scheme, since we traverse all edges in the algorithm, it guarantees that any two points on any edge have different colors, making the scheme valid.
+
+The time complexity of the BFS algorithm is $O(v+e)$. If the graph is disconnected, the time complexity of finding the next node is $O(v)$. Therefore, the overall time complexity of the algorithm is $O(v+e)$.
+
+As a result, 2-colorable is P.
+
+However, when we discuss 3-colorable, we have the following theorem.
+
+> [!THEOREM] 
+> 3-colorable is NP-Complete.
+
+>[!PROOF]
+>Clearly, the 3-colorable problem is NP. We will prove that the 3-colorable problem is NP-complete by reducing a 3SAT problem to it.
+>
+>Consider the clauses $x_1\lor x_2\lor x_3$, and introduce vertices $B$ and $v_{ij}$, where $i=1,2,3$ and $j=1,2$. Here, $v_{i1}$ represents $x_i$, and $v_{i2}$ represents $\neg x_i$. Then, we connect $(v_{i1},v_{i2})$ to ensure that $x_i$ and $\neg x_i$ are distinct, and all are connected to vertex $B$. In this way, all variables and text can only be chosen between two colors, $T$ and $F$, and $T$ uniformly represents "true" and $F$ uniformly represents "false" throughout the graph.
+>
+>We use the three colors B, T, and F to color the graph. If vertex $B$ is colored with color B, then $v_{ij}$ can only be colored with color T or F, representing the corresponding variable as true or false, respectively. To represent OR, we create virtual nodes $a_i, i = 1-6$. We connect $(a_1, x_1), (a_2, x_2), (a_1, a_2), (a_1, a_3), (a_2, a_3),$ $(a_3, a_4), (x_3, a_5), (a_4, a_5), (a_4, a_6), (a_5, a_6)$. We then connect $a_6$ to the datum F, where the color of F is always F. As shown in the diagram: (To ensure that the colors of B and F are inconsistent, we connect them.)
+>
+>![Screenshot 2026-06-11 at 00.16.30](../attachments/Screenshot%202026-06-11%20at%2000.16.30.png)
+>
+>If $x_1, x_2, x_3$ are all false, then $a_1, a_2$ are not false, therefore $a_3$ must be false. Similarly, $a_6$ must be false, which contradicts the fact that $a_6$ is connected to F.
+>
+>If $x_1$ is true, then setting $a_1$ to false will make $a_3$ not false; setting $a_4$ to false will make $a_6$ not false. It's easy to verify that this is a valid coloring scheme. Similarly, when $x_2$ is true, setting $a_2$ to false; when $x_3$ is true, setting $a_5$ to false will also construct feasible schemes.
+>
+>Furthermore, by repeating this process for multiple such boolean expressions, we can reduce it to a 3-colorable problem. Thus, we reduce the 3SAT problem to a 3-colorable problem. And since each clause constructs at most 15 vertices and 20 edges, the reduction process has linear time complexity. Therefore, the 3-colorable problem is an NP-Complete problem.
+
+## Euler Circuit & Hamilton Path
+
+Euler Circuit is P.
+
+> [!THEOREM] 
+> Directed Hamilton Path (D-HAM-PATH) is NP-Complete.
+
+>[!PROOF]
+>Let $G$ be a directed graph. We can check if a potential $s, t$ path is Hamiltonian in $G$ in polynomial time. Now, we will give a polynomial-time reduction 3SAT $\le_p$ D-HAM-PATH to complete the proof of completeness.
+>
+>To simplify the proof, we may assume that no clause in $\Phi$ contains both a variable $x_i$ and its negation $\neg{x_i}$, since any clause containing both literals can be removed with $\Phi$ without affecting its satisfiability. The reduction uses the following steps.
+>1. First, for every variable $x_i$, we generate $2m+1$ vertices labelled $v_{i,j}$ and add directed edges $(v_{i,j} , v_{i,j+1})$and $(v_{i,j+1}, v_{i,j} )$ for $0 \le j \le 2m$.
+>2. Next, we connect vertices associated to different variables by adding four directed edges $(v_{i,0}, v_{i+1,0})$,$(v_{i,0}, v_{i+1,2m+1})$, $(v_{i,2m+1}, v_{i+1,0})$, $(v_{i,2m+1}, v_{i+1,2m+1})$.
+>3. Next, we create a vertex labelled $c_j$ . If xi appears in clause $\phi_j$ positively, add directed edges $(v_{i,2j−1}, c_j )$ and $(c_j , v_{i,2j} )$. Otherwise, if $x_i$ appears negatively in clause $\phi_j$ , add directed edges $(v_{i,2j} , c_j )$ and $(c_j , v_{i,2j−1})$.
+>4. Finally, we add two extra vertices s and t connect s by adding $(s, v_{1,1})$,$(s, v_{1,2m+1})$ and connect t by adding $(v_{n,1}, t)$ and $(v_{n,2m+1}, t)$. Call the graph generated Gφ. 
+>
+>See Figure for what the resulting graph looks like.
+>![Screenshot 2026-06-21 at 22.19.31](../attachments/Screenshot%202026-06-21%20at%2022.19.31.png)
+>
+
+We can also prove that undirected Hamilton path is NP-Complete. 
+
+> [!THEOREM] 
+> Directed Hamilton Path (U-HAM-PATH) is NP-Complete.
+
+>[!PROOF]
+
+# Search
+
+## 二叉排序树 (Binary Search Tree, BST)
+
+**二叉排序树**或者是一个空树，或者是具有下列性质的二叉树：
+
+1. 若它的左子树不空，则左子树上所有结点的值均小于它的根结点的值；
+2. 若它的右子树不空, 则右子树上所有结点的值均大于它的根结点的值;
+3. 它的左、右子树也分别为二叉排序树。
+
+二叉排序树的查找，插入，删除操作均采用递归的方式进行，具体如下：
+
+### 查找
+
+```cpp
+bool SearchBST(BiTree &T,TElemType key){
+    if(!T)return false;//查找不成功
+    else if(key==T->data)return true;//查找成功
+    else if(key<T->data)return SearchBST(T->lchild,key); //查找左子树
+    else if(key>T->data)return SearchBST(T->rchild,key); //查找右子树
+    return true;
+}
+```
+
+### 插入
+
+```cpp
+bool InsertBST(BiTree &T,TElemType key){
+    if(!T){
+        BiTree s=new BiTreeNode;
+        s->data =key;
+        s->lchild=NULL;
+        s->rchild=NULL;
+        T=s;
+        return true;
+    }
+    else if(key==T->data)return false;//树中已经存在该结点
+    else if(key<T->data)return InsertBST(T->lchild,key);
+    else return InsertBST(T->rchild,key);
+}
+```
+
+### 删除
+
+删除结点共有三种情况：
+
+1. 删除叶子结点，直接删除即可；
+2. 删除只有一个子结点的结点，此时将该结点的子结点变为其父结点的子结点；
+3. 删除有两个子结点的结点，此时应当用该结点的中序前继结点替换此结点。
+
+```cpp
+bool Delete(BiTree &T){
+    BiTree s;
+    if(!T->rchild){
+        BiTree q=T;
+        T=T->lchild;
+        delete q;
+    }
+    else if(!T->lchild){
+        BiTree q=T;
+        T=T->rchild;
+        delete q;
+    }
+    else{
+        BiTree q=T;
+        s=T->lchild;
+        while(s->rchild){
+            q=s;
+            s=s->rchild;
+        }//寻找中序前继
+        T->data=s->data;              //s指向被删除结点的前驱
+        if(q!=T)q->rchild=s->lchild;  //s不是T的直接左孩子
+        else q->lchild=s->lchild;     //s是T的直接左孩子
+        delete s;
+    }
+    return true;
+}
+bool DeleteBST(BiTree &T,TElemType key){
+    if(!T)return false;
+    else if(T->data==key)return Delete(T);
+    else if(T->data>key)return DeleteBST(T->lchild,key);
+    else if(T->data<key)return DeleteBST(T->rchild,key);
+    return true;
+}
+```
+
+容易看出，相比顺序查找，利用二叉排序树可以降低的时间复杂度。二叉排序树的各类操作的时间复杂度都与树的高度有关。关于树的高度，我们有以下定理：
+
+---
+
+**定理：**随机性的构建含有n个元素的二叉排序树，其高度的期望为O(logn)
+
+---
+
+**证明：**
+
+容易得到递推式E[hn​]=E[i=0∑n−1​n1​max{hi​,hn−1−i​}+1],h0​=0
+
+由期望的线性性，E[hn​]=i=0∑n−1​n1​E[max{hi​,hn−1−i​}]+1
+
+令Yn​=2hn​，那么
+
+E[Yn​]=E[n1​i=0∑n−1​2max{hi​,hn−1−i​}+1]=n2​i=0∑n​E[2max{hi​,hn−1−i​}]≤n2​i=0∑n−1​E[2hi​+2hn−1−i​]=n4​i=0∑n−1​E[Yi​]
+
+若∀i<n，都有E[Yi​]≤Ci2,C>0，那么E[Yn​]≤C⋅32​(n−1)(2n−1)≤Cn2
+
+因此由归纳假设可得∀n∈N,E[Yn​]=O(n2)
+
+由Jensen不等式，对凸函数f(E[x])≤E[f(x)]
+
+因此2E[hn​]≤O(n2)，那么E[hn​]=O(logn)
+
+■
+
+---
+
+## 平衡二叉树 (Adelson-Velsky and Landis Tree, AVL树)
+
+对相同的两个序列，我们可以有多个二叉排序树，如图所示。容易得到，这两个二叉排序树的查找效率是不同的，因为b树的查找已经退化为了顺序查找。
+
+注意到二叉排序树的查找效率与树高有关。树越高，效率越低。因此，我们希望二叉树尽可能低，这就要求二叉树更“平衡”，即尽可能充分利用每层的空间。
+
+为了定量描述“平衡”，我们引入**平衡因子(BF)** 这一概念。定义某个结点的平衡因子为该结点的左子树深度减去右子树深度。我们认为，当二叉排序树中的所有结点的平衡因子为-1，0或1时，该树为**平衡二叉树(AVL树)**。
+
+平衡二叉树的查找与二叉排序树类似，对于插入和删除操作，则需注意操作过程中是否会破坏树的平衡。
+
+### 插入
+
+插入一个元素时，结点的平衡因子可能变为2或-2，为了调整平衡因子，我们需要旋转二叉树，分为4种情况：
+
+1. LL型：失衡结点的平衡因子为2，失衡结点的左孩子平衡因子为1，此时应当对A右旋
+
+
+
+2. RR型：失衡结点的平衡因子为-2，失衡结点的右孩子平衡因子为-1，此时应当对A左旋
+
+
+
+3. LR型：失衡结点的平衡因子为2，失衡结点的左孩子平衡因子为-1，此时应当对B左旋，对A右旋
+
+
+
+4. RL型：失衡结点的平衡因子为-2，失衡结点的左孩子平衡因子为1，此时应当对B右旋，对A左旋
+
+
+
+值得注意的是，如果添加一个结点导致两个结点同时失衡，我们只需要调整距离插入结点最近的结点即可。
+
+### 删除
+
+删除操作中调整平衡因子的方式与插入类似，不同的是，删除操作需要沿着祖先路径依次检查是否失衡并加以调整。
+
+## 红黑树（TODO）
+
+红黑树是一种平衡二叉查找树的变体。
+
+### 插入
+
+### 删除
+
+C++中map是基于红黑树实现的。
+
+```cpp
+#include <map>
+map<string, int> m;
+
+// 常用函数
+int n=m.size();
+m[key]=value;  
+m.erase(key);
+s.count(key);
+
+// 遍历元素
+map<string, int>::iterator it;
+for (it = m.begin(); it != m.end(); it++)
+    cout<<it->first<<" "<<it->second<<endl;
+
+for(auto it : m)
+    cout<<it.first<<" "<<it.second<<endl;
+```
+
+## B-树（TODO）
+
+前文提及的AVL树和红黑树通常用于在内存中处理数据，而当数据量较大，内存无法存储时，我们只能将大规模的数据存储到硬盘中。每次处理数据，我们将当前结点从硬盘里读取至内存，再在内存里处理数据。然而，硬盘的单次访问时毫秒级的，而内存的单次访问时纳秒级的。因此，我们希望硬盘访问次数越少越好。容易得到，硬盘访问次数与树高正相关。为了让树高降低，B-树应运而生。
+
+m阶**B-树**，或为空树，或为满足下列特性的m叉树：
+
+1. 树中每个结点至多有m棵子树；
+2. 若根结点不是叶子结点，则至少有两棵子树；
+3. 除根之外的所有非终端结点至少有⌈m/2⌉棵子树；
+4. 所有的叶子结点都出现在同一层次上，并且不带信息，通常称为失败结点（失败结点并不存在，指向这些结点的指针为空。引入失败结点是为了便千分析B-树的查找性能）；
+5. 所有的非终端结点最多有m−1个关键字
+
+在具体实现时，为记录其双亲结点，B-树结点的存储结构通常增加一个parent指针，指向其双亲结点，如图所示。其中K为关键字，P为指向子树根结点的指针。
+
+
+
+```cpp
+#define m 3                   //B-树的阶  
+typedef struct BTNode{
+    int keynum;              //结点中关键字个数
+    struct BTNode *parent;   //指向双亲结点
+    KeyType key[m+1];        //关键字向量，0号单元未用
+    struct BTNode *ptr[m+1]; //子树指针向量
+    Record *recptr[m+1]；    //记录指针向量，0号单元未用
+}BTNode,*BTree;
+```
+
+### 查找
+
+### 插入
+
+### 删除
+
+## Hash表
+
+为了减少数据的存储与查找的时间复杂度，我们可以通过一个函数，将任意长度的关键字通过函数映射为一个固定范围的数组下标（地址）。这个函数称为**Hash函数**，构建的表称为**Hash表**。这样我们可以做到以接近O(1)的平均时间复杂度实现数据的存储与查找。
+
+```cpp
+#define m 20 
+typedef struct{ 
+    KeyType key; 
+    InfoType otherinfo; 
+}HashTable[m];
+```
+
+在实际操作过程中，我们常常采用除留余数法构建Hash函数。即令Hash函数H(key)=key%p。理论和实践证明，当p 为不超过Hash表表长的最大质数时，Hash函数发生冲突的可能性较小。因此，我们一般将p取为不超过Hash表表长的最大质数。
+
+### 冲突
+
+当$H(key1)==H(key2)$但$key1\ne key2$ 时，Hash函数发生了**冲突**。
+
+以下定理说明，Hash表中冲突的出现几乎不可避免
+
+>[!THEOREM]
+>若Hash表的Hash函数随机将数值映射到对应的下标，则有Prh​[h(x1​),…,h(xk​)不存在冲突]≤e−(2k​)/m
+
+>[!PROOF]
+>注意到k 个元素均不冲突的概率：P=∏i=1k−1​(1−mi​)
+又1−x≤e−x，故P≤e−1/m⋅e−2/m…e−(k−1)/m=e−m1​∑i=1k−1​i=e−(2k​)/m
+
+处理冲突的方式有很多，较为常用的方式有**线性探测法、拉链法**和**Cuckoo法**。
+
+线性探测法是先访问索引为H(key)的结点，若未放入关键字，则放入；否则访问索引为H(key)+1的结点，直到访问到空结点。这里需要注意的是，由于我们的Hash表长是有限制的，因此此处的加法是在对表长取模的意义下进行的。
+
+拉链法则是在插入时，通过Hash函数计算键key的Hash值H(key)，找到对应的桶索引。将键值对封装成节点，直接插入到该桶对应的链表中。
+
+拉链法同样可以进一步优化，我们可以提供n个哈希函数Hi​(key)，分别计算它们的结果，并比较结果对应的链表长度，选择最短的插入即可。我们称该方法为**多重选择拉链法**。
+
+Cuckoo模拟布谷鸟生蛋的过程，利用两个哈希函数H1​(key)，H2​(key)。Hash表中每个位置只存储一个元素。若H1​(x)已经有元素y时，更新下标H1​(x)的数据为x，并计算H2​(y)。若H2​(y)已经有元素z时，更新下标H2​(y)的数据为y。用z递归调用这一过程。如果递归次数过多，则重新定义Hash函数并从头开始该过程。
+
+Cuckoo Hash的优点在于，它将Hash表查找和删除操作的时间复杂度极限压缩至O(1)
+
+---
+
+C++中unordered_set是基于链表Hash实现的。
+
+```cpp
+#include <unordered_set>   
+unordered_set<int> myset;   
+myset.insert(3);                //插入元素   
+myset.insert(1);   
+myset.insert(4);   
+myset.insert(3);                //重复插入，不会生效   
+for (auto it = myset.begin(); it != myset.end(); ++it) 
+    cout << *it << " ";         //遍历myset，输出：4 1 3   
+cout<<myset.count(3) << endl;   //判断元素是否存在   
+myseterase(1);                  //删除元素   
+myset.clear();                  //清空元素   
+cout<<myset.size() << endl;     //获取元素个数
+```
+
+## Prefix sum and Binary Index Tree (BIT)
+
+如果我们需要求解多组数列中的i=x∑y​a[i]，容易得到，常规的求法时间复杂度为$O(n)$
+
+为了优化这一算法，我们可以建立一个前缀和数组b[i+1]=j=0∑i​a[j],b[0]=0，那么i=x∑y​a[i]=b[y+1]−b[x]，时间复杂度为$O(1)$
+
+但是这一方法又会存在新的问题，就是如果我们修改一个数据a[i]，我们便需要修改数据b[i+1],…,b[n+1]，时间复杂度为$O(n)$
+
+我们是否可以改进这一数据结构使得求和运算和修改运算的时间复杂度相平衡？由此，树状数组应运而生。
+
+树状数组的思路是，每一个位置 C[i] 管理的范围是 (i−2k,i]，其中 2k 是 i 的二进制中最低位 1 所代表的值。在计算机中，我们可以通过`lowbit(i)=i&(-i)`操作获取2k
+
+当求和时，我们不断减去`lowbit(i)`，并逐项累加即可；当更新数据时，我们不断加上`lowbit(i)`，并直接更改即可
+
+```cpp
+int getSum(int BITree[], int index){
+    int sum = 0;
+    index = index + 1;
+    while (index>0){
+        sum += BITree[index];
+        index -= index & (-index);
+    }
+    return sum;
+}
+void updateBIT(int BITree[], int n, int index, int val){
+    index = index + 1;
+    while (index <= n){
+        BITree[index] += val;
+        index += index & (-index);
+    }
+}
+```
+
+由此可见，树状数组将求和和修改的时间复杂度都均衡到了$O(\log n)$
+
+借此我们可以求解数组中单调递增的数列，即满足i1​<i2​<⋯<ij​,a[i1​]<a[i2​]<⋯<a[ij​]的j元组个数
+
+我们记以a[i]为末尾的k元组个数为c[k][i]，那么c[k][i]=∑t=0,a[t]<a[i]i−1​c[k−1][t]
+
+我们可以借助计数排序，即在遍历时将以a[i]前的数为末尾的k−1元组个数，即∑j=0a[i]−1​cnt[k−1][j]放入cnt[k][a[i]]，最后求和即可。由于此时尚未遍历到a[i]后到数据，因此此时k元组个数均满足条件
+
+```cpp
+#define MAXN 100005
+#define MAXK 10
+int cnt[MAXK][MAXN];
+int solve(int a[], int n,int k) {
+    for (int i = 0; i < n; i++) {
+        int v = a[i];
+        updateBIT(cnt[1], n, v, 1);
+        for(int j=2;j<=k;j++)updateBIT(cnt[j], n, v, getSum(cnt[j-1], v - 1));
+    }
+    return getSum(cnt[k], n);
+}
+```
+
+由于求前缀和及更新数据时间复杂度均为$O(\log n)$，因此该问题时间复杂度为$O(kn\log n)$
+
+# Dynamic Programming (DP)
+
+动态规划基于自底向上设计算法。先从简单的问题出发，逐步扩展至困难的问题。而扩展的方式我们称之为**动态转移方程**。
+
+此前的[Floyd-Warshall Algorithm](#floydwarshall-algorithm)就基于这一思想。
+
+## 最大子段和问题
+
+[问题描述](https://www.luogu.com.cn/problem/P1115)
+
+利用前缀和数组，并暴力枚举，时间复杂度为$O(n^2)$
+
+本题的算法有一个专门的名称：**Kadane算法**。我们考虑以a[n]为结尾的最长子段和。那么要么是只有一个元素，要么就是该序列去掉a[n]后为以a[n−1]为末尾的子段和。显然，该子段和必然为以a[n−1]为末尾的最长子段和
+
+由此可知
+
+$$L(n)=\max\{a[n],L(n−1)+a[n]\}$$
+这样就列出了动态转移方程。
+
+```cpp
+int ans[MAXN];
+int max_sum(int a[],int n){
+    ans[0]=a[0];
+    for(int i=1;i<n;i++)ans[i]=a[i]<ans[i-1]+a[i]?ans[i-1]+a[i]:a[i];
+    int max=ans[0];
+    for(int i=0;i<n;i++)
+        if(max<ans[i])max=ans[i];
+    return max;
+}
+```
+
+由此可见，该算法将问题的时间复杂度降至$O(n)$
+
+## Longest Increasing Subsequence (LIS)
+
+我们希望求解一个数组a[n]中最长上升子序列的长度及个数，显然，暴力搜索的时间复杂度为O(2n)
+
+我们考虑以a[n]为结尾的最长上升子序列。那么要么是只有一个元素，要么就是该序列去掉a[n]后仍为上升子序列，我们记该子序列末尾为a[m]，那么该序列必然为以a[m]为末尾的最长上升子序列。
+
+由此可知
+
+$$L(n)=\max \{1,0≤m<n,a[m]<a[n]\max​\{L(m)+1\}\}$$
+
+我们记最长上升子序列的个数为C(n)，容易得到动态转移方程
+
+C(n)=i=1,L(i)+1=L(n)∑n−1​C(i)
+
+由于需要求解最大值和求和，故时间复杂度为$O(n^2)$
+
+为了优化算法的时间复杂度，我们需要引入树状数组进行优化。在树状数组中，每个结点存储：
+
+1. 区间内当前最长$\max \{L(n)\}$
+2. 最长的个数$C(n)$
+
+遍历数组$a[n]$并维护这个树状数组即可
+
+```cpp
+int ans[MAXN];
+long long ans2[MAXN];
+void LIS(vector<int> a,vector<int> sorted_a,int n){
+    int m=sorted_a.size();
+    for(int i=0;i<n;i++){
+        int rank=lower_bound(sorted_a.begin(),sorted_a.end(),a[i])-sorted_a.begin()+1;
+        int k=rank-1;
+        int temp=0;
+        long long temp2=0;
+        while(k>0){
+            if(BIT[k].max_len>temp){
+                temp=BIT[k].max_len;
+                temp2=BIT[k].cnt;
+            }
+            else if(BIT[k].max_len==temp&&temp>0)
+                temp2=temp2+BIT[k].cnt;
+            k-=k&(-k);
+        }
+        temp+=1;
+        if(temp==1)temp2=1;
+        ans[i+1]=temp;
+        ans2[i+1]=temp2;
+        k=rank;
+        while(k<=m){
+            if(temp>BIT[k].max_len){
+                BIT[k].max_len=temp;
+                BIT[k].cnt=temp2;
+            }
+            else if(temp==BIT[k].max_len)
+                BIT[k].cnt=BIT[k].cnt+temp2;
+            k+=k&(-k);
+        }
+    }
+}
+```
+
+这样我们同时将求解最大长度和满足最大长度的数组个数的运算将时间复杂度优化至O(nlogn)
+
+## Longest Common Subsequence (LCS)
+
+[Question description](https://www.luogu.com.cn/problem/P2516)
+
+假设有两个字符串 $S_1$​（长度为 $n$）和 $S_2$​（长度为 $m$）。
+
+我们定义一个二维数组 f[i][j]表示 S1​ 的前 i 个字符与 S2​ 的前 j 个字符的最长公共子序列的长度。
+
+**情况 A**：$S_1​[i]==S_2​[j]$ (字符相等)
+
+这两个字符可以作为公共子序列的一部分。那么长度就在之前的状态基础上加 1。
+
+$$f[i][j]=f[i−1][j−1]+1$$
+
+**情况 B**：$S1​[i]\ne S2​[j]$ (字符不等)
+
+这时 S1​[i] 和 S2​[j] 不可能同时出现在当前的 LCS 中。我们需要“退而求其次”，看看是让 S1​ 少看一个字符比较长，还是让 S2​ 少看一个字符比较长。
+
+$$f[i][j]=\max\{f[i−1][j],f[i][j−1]\}$$
+
+这便是此问题相应的动态转移方程
+
+另一个自然的问题是，我们怎么记录最长公共子串的数量。这一问题同样可以使用动态规划的思路解决，但是比较复杂。
+
+我们定义一个二维数组 g[i][j]表示 S1​ 的前 i 个字符与 S2​ 的前 j 个字符的最长公共子序列的数量。
+
+**情况 A**：$S_1​[i]==S_2​[j]$ (字符相等)
+
+一方面，最长公共子序列可以取这一字符。另一方面，我们也可以不取这一字符。此时要么f[i][j]=f[i−1][j]，要么f[i][j]=f[i][j−1]。但是由上述算法，不可能f[i][j]=f[i−1][j−1]，即不可能两个字符串都不取这个字符
+
+由此可知
+
+g[i][j]=⎩⎨⎧​g[i−1][j−1]+g[i−1][j],g[i−1][j−1]+g[i][j−1],g[i−1][j−1],​f[i][j]=f[i−1][j]f[i][j]=f[i][j−1]others​
+
+**情况 B**：$S_1​[i]\ne S_2​[j]$ (字符不等)
+
+这时 S1​[i] 和 S2​[j] 不可能同时出现在当前的 LCS 中。我们延续之前的思路，可以得到
+
+g[i][j]={g[i][j−1],g[i−1][j],​f[i][j−1]>f[i−1][j]f[i][j−1]<f[i−1][j]​
+
+但是，当f[i][j−1]=f[i−1][j] 时，我们不能简单的认为g[i][j]=g[i−1][j]+g[i][j−1]
+
+这是因为，如果f[i][j−1]=f[i−1][j]=f[i−1][j−1]时，g[i][j−1]和g[i−1][j]会同时计算g[i−1][j−1]，那么我们需要去除重复部分
+
+因此
+
+g[i][j]=⎩⎨⎧​g[i][j−1],g[i−1][j],g[i−1][j]+g[i][j−1],g[i−1][j]+g[i][j−1]−g[i−1][j−1],​f[i][j−1]>f[i−1][j]f[i][j−1]<f[i−1][j]f[i][j−1]=f[i−1][j]=f[i−1][j−1]f[i][j−1]=f[i−1][j]=f[i−1][j−1]​
+
+```cpp
+int f[MAXN][MAXN],g[MAXN][MAXN];//由于g数组中数字一般较大，因此对p取模
+string LCS(string a,string b){
+    string ans="";
+    int lena=a.length();
+    int lenb=b.length();
+    //先求解字符串长度f[lena][lenb]
+    int m=lena,n=lenb;
+    while(m>0&&n>0){
+        if(f[m][n]==f[m-1][n-1]+1&&a[m-1]==b[n-1]){
+            ans=a[m-1]+ans;
+            m--;
+            n--;
+        }
+        else if(f[m][n]==f[m-1][n])m--;
+        else if(f[m][n]==f[m][n-1])n--;
+    }
+    for(int i=0;i<=lena;i++)g[i][0]=1;
+    for(int i=0;i<=lenb;i++)g[0][i]=1;
+    for(int i=1;i<=lena;i++){
+        for(int j=1;j<=lenb;j++){
+            if(a[i-1]==b[j-1]){
+                f[i][j]=f[i-1][j-1]+1;
+                g[i][j]=g[i-1][j-1];
+                if(f[i][j]==f[i-1][j])g[i][j]=(g[i][j]+g[i-1][j]+p)%p;
+                if(f[i][j]==f[i][j-1])g[i][j]=(g[i][j]+g[i][j-1]+p)%p;
+            }
+            else{
+                g[i][j]=0;
+                f[i][j]=(f[i-1][j]>f[i][j-1])?f[i-1][j]:f[i][j-1];
+                if(f[i-1][j]>f[i][j-1])g[i][j]=g[i-1][j];
+                else if(f[i-1][j]<f[i][j-1])g[i][j]=g[i][j-1];
+                else if(f[i-1][j]==f[i][j-1]){
+                    g[i][j]=(g[i][j-1]+g[i-1][j])%p;
+                    if(f[i-1][j-1]==f[i-1][j])g[i][j]=(g[i][j]-g[i-1][j-1]+p)%p;
+                }
+            } 
+        }
+    }
+    return ans;
+}
+```
+
+Time complexity: $O(mn)$
+
+当然，如果拿这段代码提交题目只能得70分，这是因为我们建立的数组$f$和$g$过大导致MLE了。为此，我们可以建立滚动数组，即每次只存储当前行和前一行（此处就略去代码了）
+
+## Optimal Binary Search Tree (OBST)
+
+现有$n$个中间结点$k_1​,\dots,k_n$​和$n+1$叶节点$d_0​,d_1​,\dots,d_n$​，每个根结点对应权重$p_i$​，叶子结点对应权重$q_i$​。We want to make a BST which has the least cost.
+
+此时的BST不一定是AVL树，这是因为现在每个节点都有权重。
+
+容易得到，最优解的左右子树均为最优解。因此本题可以采用动态规划的方式求解，列出动态转移方程
+
+我们定义w(i,j)=l=i∑j​pl​+l=i−1∑j​ql​
+
+那么T(i,j)=r=i,i+1,…,jmin​{w(i,j)+T(i,r−1)+T(r+1,j)},T(i,i−1)=qi−1​
+
+依据这一思想我们可以写出时间复杂度为$O(n^3)$的算法。
+
+这个问题的神奇之处在于，我们可以进一步优化这一算法，这依赖于Kunth提出的定理：
+
+>[!THEOREM]
+>如果用r(i,j)表示在计算T(i,j)时使得w(i,j)+T(i,r−1)+T(r+1,j)取得最大值时r的取值，那么r(i,j−1)≤r(i,j)≤r(i+1,j)
+
+那么在每次计算T(i,j)时，我们只需要在区间$[r(i,j−1),r(i+1,j)]$内遍历$r$即可
+
+```cpp
+int dp[MAXN][MAXN],r[MAXN][MAXN],w[MAXN][MAXN];
+int OBST(int n,int p[],int q[]){
+    for(int i=1;i<=n;i++){
+        r[i][i]=i;
+        w[i][i-1]=q[i-1];
+        dp[i][i-1]=q[i-1];
+    }
+    for(int i=1;i<=n;i++)
+        for(int j=i;j<=n;j++)w[i][j]=w[i][j-1]+p[j]+q[j];
+    for(int i=1;i<=n;i++){
+        for(int j=i;j<=n-i+1;j++){
+            int min=INT_MAX;
+            for(int k=r[j][j+i-1];k<=r[j+1][j+i];k++)
+                if(min>w[j][j+1]+dp[j][k-1]+dp[k+1][j+i]){
+                    min=w[j][j+1]+dp[j][k-1]+dp[k+1][j+i];
+                    r[j][j+i]=k;
+                }
+            dp[j][j+i]=min;
+        }
+    }
+    return dp[1][n];
+}
+```
+
+当某一次循环需要计算长度为l的区间时，查找次数
+
+Time=i=1∑n−l​Time(i,i+l)=i=1∑n−l​r(i+1,i+l)−r(i,i+l−1)+1=r(n−l+1)−r(1,l)+n−1=O(n)
+
+这保证了该问题的时间复杂度为$O(n^2)$
+
+可以考虑类似问题：[Stone merging](https://www.luogu.com.cn/problem/P5569)
+
+## 矩阵链乘
+
+[Problem Description](https://www.luogu.com.cn/problem/P1753)
+
+给定n个矩阵，如果他们的乘积是合法的，且对于矩阵$A_{r\times m}$​和$B_{m\times p}$​，仅考虑他们乘法的时间复杂度为$O(rmp)$
+
+显然，如果改变矩阵乘法的顺序，计算他们乘法的时间复杂度是不同的。我们需要找到时间复杂度最小的情况，显然时间复杂度为$O(2^n)$
+
+一个关键的注意是，考虑矩阵A1​,A2​,…,An​，其大小分别是a[0]×a[1],a[1]×a[2],…,a[n−1]×a[n]我们可以将他们分为两份，如A1​,A2​,…,Am​和Am+1​,Am+1​,…,An​，那么
+
+T(1,n)=m=1,2,…,n−1min​{T(1,m)+T(m+1,n)+a[0]a[m]a[n]}
+
+这样就列出了动态转移方程。
+
+由于此问题将分出多个子问题。为防止递归栈溢出，我们可以迭代计算
+
+```cpp
+long long ans[MAXN][MAXN];
+long long multiple_matrix(long long a[],int n){
+    for(int i=1;i<=n;i++)ans[i][i]=0;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n-i;j++){//求解a[j][i+j]
+            long long min=2e15;
+            for(int k=j;k<i+j;k++){
+                if(min>ans[j][k]+ans[k+1][i+j]+a[j-1]*a[k]*a[i+j])
+                    min=ans[j][k]+ans[k+1][i+j]+a[j-1]*a[k]*a[i+j];
+            }
+            ans[j][i+j]=min;
+        }
+    }
+    return ans[1][n];
+}
+```
+
+三重循环，时间复杂度$O(n^3)$
+
+~~当然，你拿这小破代码去做上述题目只能拿30分，我也不知道怎么办~~
+
+## Weighted Interval Scheduling
+
+给定$n$个位于$[0,T]$的区间$[s_i​,e_i​]$和每个区间的权重$w_i$​，我们希望选出尽可能多的区间，使得区间两两不重叠，且权重和最大。
+
+实际上这一问题与之前问题的思路类似，同样列出动态转移方程
+
+$$dp[T]=\max_{e_i=T}\{dp[T−1],w_i​+dp[s_i​]\}$$
+
+```cpp
+struct interval{
+    int start;
+    int end;
+    int weight;
+};
+int dp[MAXN];
+bool compare(interval a,interval b){
+    return a.end<b.end;
+}
+int solve(interval a[],int n,int T){
+    sort(a,a+n,compare);
+    int w=0;
+    for(int i=1;i<=T;i++){
+        int max=dp[i-1];
+        while(w <n&&a[w].end==i){
+            if(max<a[w].weight+dp[a[w].start])max=a[w].weight+dp[a[w].start];
+            w++;
+        }
+        dp[i]=max;
+    }
+    return dp[T];
+}
+```
+
+由于此问题需要对区间进行排序处理，因此时间复杂度为$O(n\log n+T)$
+
+## Subset Sum (TODO)
+
+Given the integral set $S = \{a_1, a_2, \dots, a_n\}$ and objective $T$. We want to find a subset $M$ s.t. the sum of subset is $T$.
+
+
+
+It is noted that the dynamic programming cannot give a polynomial algorithm. We will prove that the problem is NP-Complete.
+
+>[!THEOREM] 
+>Subset Sum is NP-Complete.
+
+>[!PROOF]
+>We can prove by reducing the 3SAT to the Subset Sum.
+>
+>If the boolean statements has $n$ variables and $m$ clause, for every $x_i$, construct two $(n+m)$-digital numbers $a_{i1},a_{i2}$. Specifically, the $i$-th variable bit is $1$, and if for the $t$-th clause, the clause is true when $x_i$ is true, let the $(n+t)$-th variable bit of $a_{i1}$ be $1$. Otherwise if for the $t$-th clause, the clause is true when $x_i$ is false, let the $n+t$-th variable bit of $a_{i2}$ be $1$.
+>
+>It is obvious that the first $n$ bits of $T$ must be $1$. We want to determine the last $m$ bits of $T$. Obviously, the last $m$ bits of $T$ cannot be $0$, which means the clause cannot be satisfied. A natural idea is: Set the last $m$ bits of $T$ as $3$, and add slack variables. For the $i$-th clause, add two slack variables, except for the last $i$-th digit, which is $1$; all other digits are $0$. We can find that the 3SAT is reduced to the Subset Sum successfully.
+
+## Knapsack (TODO)
+
+### 0-1 Knapsack Problem
+
+>[!THEOREM] 
+>0-1 Knapsack is NP-Hard.
+
+>[!PROOF]
+>We can prove by reducing the Subset Sum to the 0-1 Knapsack.
+>
+>For every number $a_i$, define the weight and value of item as $a_i$. And the capacity of bag is $T$.
+### 完全背包
+
+[问题描述](https://www.luogu.com.cn/problem/B2174)
+
+### 多重背包
+
+[问题描述](https://www.luogu.com.cn/problem/B2173)
+
+
+# Greedy
+
+The essence of greedy is getting the local optimal solution in each step, in order to achieve the global optimal solution. Generally, greedy can greatly reduce time complexity. However, we need more effort to verify the correctness of algorithm.
+
+In many circumstance, greedy cannot give us global optimal solution, but it doesn't mean it is valueless. Because we usually want to get an approximate optimal solution faster.
+
+The previous [Huffman tree & Huffman coding](#huffman-tree-huffman-coding) and [Dijkstra Algorithm](#dijkstra-algorithm) actually used a greedy algorithm.
+## Interval Scheduling
+
+We talked about [Weighted Interval Scheduling](#weighted-interval-scheduling) previously. In this time, we talked about the problem without weight. This one could be solved by greedy algorithm by following operators:
+
+1. Sort all tasks in ascending order of their end time ($f_i$​).
+2. From the sorted task list, select tasks that do not conflict with the currently selected task.
+3. If a task's start time ($s_i$​) is greater than or equal to the end time ($f_l$) of the previously selected task, then select that task.
+
+```cpp
+struct interval{
+    int start;
+    int end;
+};
+bool compare(interval a,interval b){
+    return a.end<b.end;
+}
+int solve(interval a[],int n){
+    sort(a,a+n,compare);          //Sort by end time in ascending order
+    int count=0;
+    int last_end=INT_MIN;         //End time of the previously selected task
+    for(int i=0;i<n;i++){
+        if(a[i].start>=last_end){ //No conflict with the last selected task
+            count++;
+            last_end=a[i].end;
+        }
+    }
+    return count;                 //Maximum number of non-overlapping tasks
+}
+```
+
+## Set Covering
+
+Given that：
+
+- a universal set $U=\{e_1​,e_2​,\dots,e_n​\}$
+- a family of sets consisting of subsets of $U$ : $S=\{S_1​,S_2​,\dots,S_m \}$
+
+We want to fine the smallest set of the subsets $C\subseteq S$, so that the union of all sets in $C$ is equal to $U$.
+
+We can prove that this problem is NP-Hard.
+
+>[!THEOREM]
+>Set Covering is NP-Hard.
+
+>[!PROOF]
+>We can reduce vertex covering to set covering.
+>$$U=E(G),S=\{\delta(v)|\forall v\in V(G)\}$$
+
+The core idea of ​​the greedy algorithm is: **at each step, choose the set containing the most "uncovered elements".**
+
+1. Let the covered set $C \leftarrow \emptyset$, and the remaining set $R \leftarrow U$.
+2. When $R \ne \emptyset$, perform the following:
+	- Find a set $S_i\in S$​ s.t. $∣S_i​\cap R∣$ is maximized (i.e., contains the most uncovered elements).
+	- Add this $S_i​$ to $C$.
+	- Update the remaining elements $R \leftarrow R∖S_i​$.
+3. Return $C$.
+
+This problem cannot give the optimal solution, for example:
+
+Universal set $U$: $\{1,2,3,4,5,6\}$
+Optional set family $S$:
+- $S_1​=\{1,2,3,4\}$
+- $S_2​=\{1,3,5\}$
+- $S_3​=\{2,4,6\}$
+The greedy algorithm provides solutions $S_1, S_2, S_3$, but the globally optimal solution is $S_2,S_3$.
+
+Furthermore, we want to analyze how good the solution provided by the greedy algorithm is, therefore we define an approximation ratio.
+
+$$\alpha=\frac{|C|}{|OPT|}​$$
+
+where $C$  is solution given by greedy, $OPT$ is the optimal solution
+
+>[!THEOREM] 
+>$\alpha \le \log n +1$​
+
+>[!PROOF]
+>Assume that greedy algorithm chooses $k$ sets $S_{g_1},S_{g_2},\dots,S_{g_k}$.  And before choosing the set $S_{g_j}$, the covered set is $R_j$. So the number of newly covered elements $d_j=|S_{g_j}\cap R_j|$.
+>
+>For each element $e$ that is covered for the first time at this step, define its cost
+>$$c_e=\frac{1}{|S_{g_j}\cap R_j|}$$
+>
+>It is easy to obtain
+>$$|C|=\sum_{e\in U} c_e$$
+>
+>Consider any set $S^* \in OPT$. During the execution of the greedy algorithm, examine the cost of the elements in $S^*$.
+>
+>Assume that $S^*$ has $n^*$ elements. Label them $e_1,e_2,\dots,e_{n^*}$ in the order in which they are covered by the greedy algorithm.
+>
+>When the greedy algorithm is about to cover $e_i$, at least $n^*-i+1$ elements of $S^*$ are still uncovered. This means that at this step the greedy algorithm could have chosen $S^*$ to cover these (at least) $n^*-i+1$ elements. Hence the set $S_{g_j}$ actually chosen covers new elements with efficiency **no lower than** that of choosing $S^*$:
+>
+>$$c_{e_i}\le \frac{1}{n^*-i+1}$$
+>
+>Summing the costs over all elements of $S^*$:
+>
+>$$\sum_{e\in S^*} c_e\le \sum_{i=1}^{n^*}\frac{1}{n^*-i+1}=\frac{1}{n^*}+\frac{1}{n^*-1}+\cdots+1=H_{n^*}$$
+>
+>Since $n^*\le n$, for any set $S^*$ in the optimal solution we have $\sum_{e\in S^*} c_e\le H_n$.
+>
+>The optimal solution $OPT$ consists of several sets that together cover the universal set $U$. Therefore:
+>
+>$$|C|=\sum_{e\in U} c_e\le \sum_{S^*\in OPT}\sum_{e\in S^*} c_e\le \sum_{S^*\in OPT} H_n=|OPT|\cdot H_n$$
+
+Mathematicians have proven: unless $P=NP$, no polynomial-time algorithm which has an approximate ratio better than $(1−\epsilon)\log n$.
+
+### Weighted version
+
+If every set has cost $w_i$, and we want to get the least cost, we can adjust the algorithm to calculate the unit cost $c_i​=\frac{w_i}{|S_i​\cap R_i|}$​ each time and select the set with the smallest cost.
+
+Similar proofs can be found$$\alpha \le \log n+1$$
+## Makespan Minimization
+
+We are given $n$ tasks requiring times $t_1,t_2,\dots,t_n$ respectively, and $m$ machines. We need to assign the $n$ tasks to the $m$ machines so as to minimize the maximum running time among all machines.
+
+This problem is NP-Hard even when $m=2$. For the case $m=2$, it can be reduced to the [0-1 Knapsack Problem](#01-knapsack-problem) and solved by dynamic programming, with time complexity $O(nT)$.
+
+In general, we can use a greedy algorithm to obtain an approximate solution. First sort all tasks in descending order of time, then assign each task in turn to the machine with the smallest current load. The time complexity is dominated by the sorting, i.e., $O(n\log n)$.
+
+We define the approximation ratio $$\alpha=\frac{M^*}{M}$$where $M^*$ is the result obtained by the greedy algorithm and $M$ is the optimal solution. Then we have the following theorem:
+
+>[!THEOREM]
+>$\alpha\le\frac{4}{3}$
+
+>[!PROOF]
+>Consider the task that determines the greedy makespan (the last task placed on the busiest machine). If $\alpha>\frac{4}{3}$, then this task must take more than $\frac{1}{3}M$.
+>
+>We may assume this is the smallest task (otherwise, removing it would leave a smaller counterexample). Hence every task takes more than $\frac{1}{3}M$, so in the optimal solution each machine handles at most two tasks.
+>
+>We now prove that in this case the greedy algorithm necessarily finds the optimal solution.
+>
+>If each machine has at most 2 tasks, then the total number of tasks satisfies $n\le 2m$.
+>
+>If $n\le m$, each task occupies its own machine and the greedy algorithm clearly obtains the optimal solution. We now discuss the case $m<n\le 2m$.
+>
+>In this case the greedy algorithm pairs $t_i$ with $t_{2m+1-i}$, where we define $t_i=0$ for $i>n$. We prove by induction that this pairing is optimal.
+>
+>For $m=1$ the proposition obviously holds. Suppose the proposition holds for $m$.
+>
+>For the case $m+1$, the optimal strategy has two cases:
+>1. $t_1$ is paired with $t_{2m+2}$. Then by the induction hypothesis, pairing the remaining tasks first-with-last is optimal, so the proposition holds.
+>2. $t_1$ is not paired with $t_{2m+2}$. Suppose $M_a:\{t_1,t_j\}$ and $M_b:\{t_k,t_{2m+2}\}$.
+>
+>After swapping $t_j$ and $t_k$, we have $\max\{t_1+t_j,\ t_k+t_{2m+2}\}=t_1+t_j\ge\max\{t_1+t_{2m+2},\ t_j+t_k\}$, so the swap does not increase the makespan. Hence we may assume $t_1$ is paired with $t_{2m+2}$, which reduces to case 1.
+>
+>Therefore, when each machine has at most 2 tasks, the greedy algorithm gives the optimal solution, i.e., $\alpha=1$, contradicting the assumption.
+>
+>Hence, in general, $\alpha\le\frac{4}{3}$.
+# Interpolation
+
+## Lagrange Interpolation
+
+We want to construct a polynomial of degree at most $n$, which exactly passes through $n+1$ distinct points. The polynomial satisfying this condition is unique.
+
+We want to construct the following form
+$$L_n(x)=\sum_{i=0}^{n}l_i(x)f(x_i),l_i(x_j)=\delta_{ij}$$
+Observation: the following function satisfies it
+$$l_i(x) = \frac{(x-x_0) \cdots (x-x_{i-1})(x-x_{i+1}) \cdots (x-x_n)}{(x_i-x_0) \cdots (x_i-x_{i-1})(x_i-x_{i+1}) \cdots (x_i-x_n)} = \prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}} \frac{x-x_j}{x_i-x_j}$$
+
+If $f(x)\in C^{n+1}[a,b]$, the interpolation error is$$R_n(x)=f(x)-L_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-x_0)(x-x_1)\cdots(x-x_n),\xi\in[a,b]$$
+>[!PROOF]
+>We can find that $R_n(x)$ has zero point $\{x_0,x_1,\dots,x_n\}$, so let $$R_n(x)=k(x)(x-x_0)(x-x_1)\cdots(x-x_n)$$
+>Let$$\varphi(t)=f(t)-L_n(t)-k(x)(t-x_0)(t-x_1)\cdots(t-x_n)$$
+>We can find that $$\varphi(x)=0,\varphi(x_i)=0,i=0,1,\dots,n$$
+>So $\varphi(t)$ has at least $n+2$ zero points. By Rolle's Theorem, $\varphi'(t)$ has at least $n+1$ zero points. And so on, $\varphi^{(n+1)}(t)$ has at least one zero point $\xi$
+>
+>We can also find that$$\varphi^{(n+1)}(t)=f^{(n+1)}(t)-(n+1)!k(x)$$
+>
+>As a result,$$\varphi^{(n+1)}(\xi)=f^{(n+1)}(\xi)-(n+1)!k(x)=0$$ $$k(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}$$
+
+Time Complexity: $O(n^2)$
+
+## Newton Interpolation
+
+The problem of Lagrange interpolation is: if we want to insert a point, we still need time $O(n^2)$ to update the equation. We introduce Newton interpolation to solve this problem.
+
+Define:
+- <span style="color: red;">First-order divided difference</span> $$f[x_0,x_1]=\frac{f(x_1)-f(x_0)}{x_1-x_0}$$
+- <span style="color: red;">Second-order divided difference</span> $$f[x_0,x_1,x_2]=\frac{f[x_1,x_2]-f[x_0,x_1]}{x_2-x_0}$$
+- <span style="color: red;">k-th-order divided difference</span> $$f[x_0,x_1,\dots,x_k]=\frac{f[x_1,\dots,x_k]-f[x_0,\dots,x_{k-1}]}{x_k-x_0}$$
+We can use induction to prove that $$f[x_0,x_1,\dots,x_k]=\sum_{i=0}^k \frac{1}{(x_i-x_0)\dots(x_i-x_{i-1})(x_i-x_{i+1})\dots(x_i-x_k)}f(x_i)$$
+We can also find that if $\{i_0,i_1,\dots,i_k\}$ is a permutation of $\{0,1,\dots,k\}$, then$$f[x_{i_0},x_{i_1},\dots,x_{i_k}]=f[x_0,x_1,\dots,x_k]$$
+Obviously,$$f(x)=f[x_0,x](x-x_0)+f(x_0)$$
+We can use divided difference to recurse this process
+$$f(x)=f[x_0,x](x-x_0)+f(x_0)=f[x_0,x_1,x](x-x_0)(x-x_1)+f[x_0,x_1](x-x_0)+f(x_0)$$
+
+As a result, we have
+$$f(x)=N_n(x)+R_n(x)$$where$$N_n(x)=f(x_0)+(x-x_0)f[x_0,x_1]+\dots+(x-x_0)(x-x_1)\dots(x-x_{n-1})f[x_0,x_1,\dots,x_n]$$
+$$R_n(x)=(x-x_0)(x-x_1)\dots(x-x_n)f[x,x_0,x_1,\dots,x_n]$$
+Combined with Lagrange interpolation, we have
+$$f[x,x_0,x_1,\dots,x_n]=\frac{f^{(n+1)}(\xi)}{(n+1)!},\xi\in[a,b]$$
+
+Observation:
+$$N_{n+1}(x)=N_{n}(x)+(x-x_0)(x-x_1)\dots(x-x_{n})f[x_0,x_1,\dots,x_n,x_{n+1}]$$
+Given that$$N_{n+1}(x_{n+1})=f(x_{n+1})$$
+We have$$f[x_0,x_1,\dots,x_n,x_{n+1}]=\frac{f(x_{n+1})-N_n(x_{n+1})}{\prod_{i=0}^n(x_{n+1}-x_i)}$$
+Therefore, we only need time $O(n)$ to update the coefficient.
+
+## Hermite Interpolation
+
+Given derivative values of the function, we want to construct an interpolation polynomial. This interpolation is called <span style="color: red;">Hermite Interpolation</span>.
+
+### Lagrange Method
+
+Easy to get:
+$$H(x)=\sum_{i=0}^{n}\sum_{j=0}^{m}l_{ij}(x)f^{(j)}(x_i),\quad l_{ij}^{(k)}(x_r)=\delta_{ir}\delta_{jk}$$
+where $0\le r\le n$ and $0\le k\le m$.
+The problem is to determine the polynomial $l_{ij}(x)$
+
+Define base function
+$$L_i(x) = \frac{(x-x_0) \cdots (x-x_{i-1})(x-x_{i+1}) \cdots (x-x_n)}{(x_i-x_0) \cdots (x_i-x_{i-1})(x_i-x_{i+1}) \cdots (x_i-x_n)} = \prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}} \frac{x-x_j}{x_i-x_j}$$
+For all $r\ne i$, $x_r$ must be a zero of multiplicity $m+1$. So let
+$$l_{ij}(x)=L_i^{m+1}(x)q_{ij}(x)$$
+We want that
+$$l_{ij}^{(k)}(x_i)=\delta_{jk}$$
+As a result,
+$$L_i^{m+1}(x)q_{ij}(x)=\frac{(x-x_i)^j}{j!}+O((x-x_i)^{m+1})$$
+Let
+$$q_{ij}(x)=\frac{(x-x_i)^j}{j!}P_{ij}(x)$$
+Hence,$$l_{ij}(x)=\frac{(x-x_i)^j}{j!}L_i^{m+1}(x)P_{ij}(x)$$
+$$P_{ij}(x)=\frac{1+O((x-x_i)^{m+1-j})}{L_i^{m+1}(x)}$$
+Use Taylor expansion,
+$$\frac{1}{L_i^{m+1}​(x)}=\sum_{s=0}^\infty\frac{1}{s!}
+\left.
+\frac{\mathrm{d}^s}{\mathrm{d}x^s}
+\left(\frac{1}{L_i^{\,m+1}(x)}\right)
+\right|_{x=x_i}
+(x-x_i)^s$$
+Only retain up to $m-j$ times, i.e.
+$$
+l_{ij}(x)
+=
+\frac{(x-x_i)^j}{j!}
+L_i^{\,m+1}(x)
+\sum_{s=0}^{m-j}
+\frac{1}{s!}
+\left.
+\frac{\mathrm{d}^s}{\mathrm{d}x^s}
+\left(\frac{1}{L_i^{\,m+1}(x)}\right)
+\right|_{x=x_i}
+(x-x_i)^s
+$$
+We can verify that it satisfies the required interpolation conditions.
+
+### Newton Method
+
+Newton's method for Hermite interpolation uses repeated nodes. We only need to define$$f[\underbrace{x,x,\dots,x}_{r+1}] = \frac{1}{r!}f^{(r)}(x),\quad r\ge0$$
+
+## Cubic Spline Interpolation
+
+The previous interpolation has a problem. If we fit a large number of points with one high-degree polynomial, the interpolation polynomial may oscillate violently within the interpolation interval. This phenomenon is called <span style="color: red;">Runge phenomenon</span>.
+
+To solve this problem, we can use <span style="color: red;">Cubic Spline Interpolation</span>. The method uses piecewise interpolation. On each interval $[x_i,x_{i+1}]$, we use a third-degree polynomial to interpolate.
+
+Obviously, each third-degree polynomial needs $4$ parameters. So we need $4n$ equations to determine the parameters.
+1. Pass through the data points, which needs $2n$ equations
+2. First derivative continuity, which needs $n-1$ equations
+3. Second derivative continuity, which needs $n-1$ equations
+4. Boundary conditions, which needs the last $2$ equations
+	- Natural spline $$S''(x_0)=S''(x_n)=0$$
+	- Clamped spline: if we know the first derivative of the endpoints, then $$S'(x_0)=k_0,S'(x_n)=k_n$$
+	- Periodic boundary conditions: if the endpoint values are compatible, then $$S'(x_0)=S'(x_n),S''(x_0)=S''(x_n)$$
+
+# Numerical integration and numerical differentiation
+
+## Interpolation-type numerical integration
+
+$$\begin{align*}\int_a^b f(x)\mathrm{d}x\approx \int_a^b L_n(x)\mathrm{d}x=\sum_{i=0}^{n}f(x_i)\int_a^bl_i(x)\mathrm{d}x\\=\sum_{i=0}^{n}f(x_i) \frac{1}{\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x_i-x_j)}\int_a^b\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x-x_j)\mathrm{d}x\end{align*}$$
+
+If we let $$h=\frac{b-a}{n},x_i=a+hi,i=0,1,\dots,n$$
+This method is called <span style="color: red;">Newton–Cotes Formula</span>.
+
+Let
+$$\begin{align*}A_i&=\frac{1}{\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x_i-x_j)}\int_a^b\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x-x_j)\mathrm{d}x\\&=h\frac{(-1)^{n-i}}{i!(n-i)!}\int_0^n t(t-1)\dots(t-i+1)(t-i-1)\dots(t-n)\mathrm{d}t\end{align*}$$
+
+Define Newton-Cotes integral coefficient $c_i^{(n)}$
+
+$$c_i^{(n)}=\frac{A_i}{b-a}=\frac{(-1)^{n-i}}{n\,i!(n-i)!}\int_0^n t(t-1)\dots(t-i+1)(t-i-1)\dots(t-n)\mathrm{d}t$$
+
+Then the closed Newton-Cotes formula is
+$$\int_a^b f(x)\mathrm{d}x\approx (b-a)\sum_{i=0}^n c_i^{(n)}f(x_i).$$
+
+We will have:
+
+| $n$ | $c_0^{(n)}$      | $c_1^{(n)}$     | $c_2^{(n)}$      | $c_3^{(n)}$      | $c_4^{(n)}$     | $c_5^{(n)}$      |
+| --- | ---------------- | --------------- | ---------------- | ---------------- | --------------- | ---------------- |
+| $1$ | $\frac{1}{2}$    | $\frac{1}{2}$   |                  |                  |                 |                  |
+| $2$ | $\frac{1}{6}$    | $\frac{4}{6}$   | $\frac{1}{6}$    |                  |                 |                  |
+| $3$ | $\frac{1}{8}$    | $\frac{3}{8}$   | $\frac{3}{8}$    | $\frac{1}{8}$    |                 |                  |
+| $4$ | $\frac{7}{90}$   | $\frac{16}{45}$ | $\frac{2}{15}$   | $\frac{16}{45}$  | $\frac{7}{90}$  |                  |
+| $5$ | $\frac{19}{288}$ | $\frac{25}{96}$ | $\frac{25}{144}$ | $\frac{25}{144}$ | $\frac{25}{96}$ | $\frac{19}{288}$ |
+
+Commonly, we have
+- Trapezoid formula ($n=1$): $$\int_a^b f(x)\mathrm{d}x\approx\frac{h}{2}(f(x_0)+f(x_1))$$
+- Simpson formula ($n=2$): $$\int_a^b f(x)\mathrm{d}x\approx\frac{h}{3}(f(x_0)+4f(x_1)+f(x_2))$$
+- Simpson $3/8$ formula ($n=3$): $$\int_a^b f(x)\mathrm{d}x\approx\frac{3h}{8}(f(x_0)+3f(x_1)+3f(x_2)+f(x_3))$$
+
+The error of it:$$E_n(f)=\int_a^b R_n(x)\mathrm{d}x=\frac{f^{(n+1)}(\eta)}{(n+1)!}\int_a^b  \prod_{i=0}^n(x-x_i)\mathrm{d}x$$
+If $n$ is even, we can find that $$\int_a^b  \prod_{i=0}^n(x-x_i)\mathrm{d}x=0$$
+So we need to consider about the $(n+2)$-th order polynomial $p(x)$.
+Let $$p(x)-L_n(x)=(\alpha x+\beta)\prod_{i=0}^n(x-x_i)$$
+Then$$\int_a^b  p(x)-L_n(x)\mathrm{d}x=\alpha\int_a^b  x\prod_{i=0}^n(x-x_i)\mathrm{d}x$$
+Therefore, the error will become
+$$E_n(f)=\int_a^b R_n(x)\mathrm{d}x=\frac{f^{(n+2)}(\eta)}{(n+2)!}\int_a^b  x\prod_{i=0}^n(x-x_i)\mathrm{d}x$$
+## Romberg Algorithm
+
+We can also use the composite integral formula divides the entire integration interval $[a, b]$ into many smaller intervals, applies the same simple numerical integral formula to each smaller interval, and finally adds the results together.
+
+If we use trapezoid formula, then $$T(h)=h[\frac{1}{2}f(a)+\sum_{i=1}^{n-1}f(a+ih)+\frac{1}{2}f(b)]$$
+$$T(h)=I+c_1h^2+c_2h^4+\dots$$
+Observation:
+$$T(h/2)=I+c_1h^2/4+c_2h^4/16+\dots$$
+$$(4T(h/2)-T(h))/3=I-\frac{c_2}{4}h^4+\dots$$
+
+We can find that the error transformed from $O(h^2)$ to $O(h^4)$. We can also use this method to limit error to $O(h^6),O(h^8),\dots$ The algorithm is called <span style="color: red;">Romberg Algorithm</span>.
+
+Specifically, Define$$R_{k,0}=T_k=T(\frac{b-a}{2^k})$$
+Then $$R_{k,j}=R_{k,j-1}+\frac{R_{k,j-1}-R_{k-1,j-1}}{4^j-1}$$where$$k=1,2,\dots,j=1,2,\dots,k$$
+We will have$$R_{k,j}=I+O((\frac{b-a}{2^k})^{2j+2})$$
+## Numerical Differentiation
+
+We can use divided difference to estimate the differentiation.
+- Forward difference $$f'(x_0)\approx\frac{f(x_0+h)-f(x_0)}{h}$$
+- Backward difference $$f'(x_0)\approx\frac{f(x_0)-f(x_0-h)}{h}$$
+- Central Difference $$f'(x_0)\approx\frac{f(x_0+h)-f(x_0-h)}{2h}$$
+
+We can use Taylor expansion to get the error.
+- Forward difference
+$$f(x_0+h)=f(x_0)+hf'(x_0)+\frac{h^2}{2!}f''(\xi),\xi\in[x_0,x_0+h]$$
+$$R(x_0)=-\frac{h}{2}f''(\xi)=O(h),\xi\in[x_0,x_0+h]$$
+- Backward difference
+$$f(x_0-h)=f(x_0)-hf'(x_0)+\frac{h^2}{2!}f''(\xi),\xi\in[x_0-h,x_0]$$
+$$R(x_0)=\frac{h}{2}f''(\xi)=O(h),\xi\in[x_0-h,x_0]$$
+
+- Central Difference
+$$f(x_0+h)=f(x_0)+hf'(x_0)+\frac{h^2}{2!}f''(x_0)+\frac{h^3}{3!}f'''(\xi_1),\xi_1\in[x_0,x_0+h]$$
+$$f(x_0-h)=f(x_0)-hf'(x_0)+\frac{h^2}{2!}f''(x_0)-\frac{h^3}{3!}f'''(\xi_2),\xi_2\in[x_0-h,x_0]$$
+$$R(x_0)=-\frac{h^2}{12}(f'''(\xi_1)+f'''(\xi_2))=O(h^2),\xi_1\in[x_0,x_0+h],\xi_2\in[x_0-h,x_0]$$
+
+Another way is to use interpolation to estimate differentiation.
+$$f'(x)\approx L_n'(x)=\sum_{i=0}^{n}l_i'(x)f(x_i)$$
+
+# Ordinary Differential Equations (ODE)
+
+In this section, we will talk about how to numerically solve the equation:
+$$\left\{\begin{matrix}
+ \frac{\mathrm{d}y}{\mathrm{d}x}=f(x,y)\\
+y(a)=y_0
+\end{matrix}\right.$$
+## Euler Formula
+
+We want to solve it in interval $[a,b]$.
+
+Let$$x_n=a+nh;h=\frac{b-a}{m};n=1,2,\dots,m$$
+If we use forward difference, then$$f(x_n,y(x_n))=y'(x_n)\approx\frac{y(x_{n+1})-y(x_n)}{h}$$
+We can use $y_n$ to approximate $y(x_n)$. As a result, $$y_{n+1}=y_n+hf(x_n,y_n)$$
+It is called <span style="color: red;">forward Euler formula</span>.
+
+To analyze the error of it, we use the error of numerical difference.
+$$y(x_{n+1})=y(x_n)+hf(x_n,y(x_n))+
+\frac{h^2}{2!}y''(\xi_n),x_n\le\xi_n\le x_{n+1}$$
+Therefore, if $y_n=y(x_n)$, the error of it is$$T_{n+1}=y(x_{n+1})-y_{n+1}=\frac{h^2}{2!}y''(\xi_n)=O(h^2),x_n\le\xi_n\le x_{n+1}$$
+We can also use backward difference
+$$f(x_{n+1},y(x_{n+1}))=y'(x_{n+1})\approx\frac{y(x_{n+1})-y(x_{n})}{h}$$
+As a result, $$y_{n+1}=y_{n}+hf(x_{n+1},y_{n+1})$$
+It is called <span style="color: red;">backward Euler formula</span>. In this formula, we need to use iterative algorithm.
+## Runge-Kutta Formula
+
+We can also calculate the average of them and get the trapezoid formula:
+$$y_{n+1}=y_n+\frac{h}{2}(f(x_n,y_n)+f(x_{n+1},y_{n+1}))$$
+
+Trapezoid formula needs to use implicit format to solve the equation, so we use the following way to transform it into a display format:
+$$\left\{\begin{matrix}
+ K_1=y_n+hf(x_n,y_n)\\
+f_2(x_1,x_2,\dots,x_n)=0\\ 
+\end{matrix}\right.$$
+
+# Iterative method to solve linear equation
+
+### Jacobi Iterative
+
+JOR Iterative
+### Gauss-Seidel Iterative
+
+SOR Iterative
+
+# Non-linear Equation
+
+### Bisection Method
+
+If the function $f$ is continuous on $[a,b]$ and $f(a)f(b)<0$, we can use [Binary Search](#binary-search) to find a zero point.
+
+### Fixed-point iteration
+
+If the equation $f(x)=0$ can be transformed into $$\varphi(x)=x$$
+We can use <span style="color: red;">fixed-point iteration</span> to solve the equation, i.e.$$x_{n+1}=\varphi(x_n)$$
+The following theorem gives sufficient conditions for iterative convergence:
+
+>[!THEOREM]
+>If $\varphi(x)$ is defined on $[a, b]$ and satisfies
+>1. When $x\in[a,b]$, then $\varphi(x)\in[a,b]$
+>2. $\varphi(x)$ is differentiable on $[a, b]$, and there exists a positive number $L<1$ s.t. for all $x\in[a,b]$, $\left | \varphi'(x) \right | \le L$
+>Then there exists exactly one $x^*$ s.t. $x^*=\varphi(x^*)$. We call $x^*$ a <span style="color: red;">fixed point</span>. Moreover, $x_{n+1}=\varphi(x_n)$ converges to $x^*$ for every $x_0\in[a,b]$, and we have$$\left | x^*-x_k \right |  \le\frac{L^k}{1-L}\left |  x_1-x_0\right |$$
+
+>[!PROOF]
+>Let$$\phi(x)=\varphi(x)-x$$
+>Then $\phi(a)=\varphi(a)-a\ge0$,$\phi(b)=\varphi(b)-b\le0$
+>So we have a fixed point $x^*$, s.t.$$\varphi(x^*)=x^*$$
+>If we have another fixed point $x^{**}\ne x^*$, then
+>$$\left | x^{**}-x^* \right |=\left | \varphi(x^{**})-\varphi(x^*) \right |=\left | \varphi'(\xi)(x^{**}-x^*)\right |\le L\left| x^{**}-x^*\right |<\left| x^{**}-x^*\right |$$where $\xi\in[a,b]$
+>
+>As a result, $x^*$ is unique.
+>
+>$$\left | x^*-x_k \right |=\left | \varphi(x^*)-\varphi(x_{k-1}) \right |=\left | \varphi'(\xi)(x^{*}-x_{k-1})\right |\le L\left| x^*-x_{k-1}\right |$$where $\xi\in[a,b]$
+>We can find that$$\left | x^*-x_k \right |\le L^k\left| x^*-x_0\right |$$
+>So $x_k$ will converge to $x^*$.
+>We can also find that$$\left | x_{k+1}-x_k \right |\le L^k\left| x_1-x_0\right |$$
+>Moreover,$$\begin{align*}\left | x_{k+p}-x_k \right |&\le \left | x_{k+p}-x_{k+p-1} \right |+\dots+\left | x_{k+1}-x_{k} \right |\\&\le(L^{k+p-1}+\dots+L^k)\left| x_1-x_0\right |=\frac{L^k-L^{k+p}}{1-L}\left| x_1-x_0\right |\end{align*}$$
+>Let $p\to\infty$, then$$\left | x^*-x_k \right |\le\frac{L^k}{1-L}\left| x_1-x_0\right |$$
+### Newton Method
+
+![Screenshot 2026-07-09 at 12.52.22](../attachments/Screenshot%202026-07-09%20at%2012.52.22.png)
+
+$$y=f'(x_n​)(x−x_n​)+f(x_n​)$$
+$$x_{n+1​}=x_n​−\frac{f(x_n​)}{f'(x_n​)}​$$
+This iteration requires $f'(x_n)\ne0$. Near a simple root and under suitable smoothness assumptions, Newton's method usually has quadratic convergence.
+
+### Secant Method
+
+Replace the derivative with the difference quotient
+
+$$x_{n+1​}=x_n​−\frac{f(x_n​)}{\frac{f(x_n)-f(x_{n-1})}{x_n-x_{n-1}}}=x_n-\frac{f(x_n)}{f(x_n)-f(x_{n-1})}(x_n-x_{n-1})​$$
+
+Geometrically,
+![Screenshot 2026-07-09 at 12.52.57](../attachments/Screenshot%202026-07-09%20at%2012.52.57.png)
+
+### Newton's method for nonlinear equation systems
+
+For the equation systems
+$$\left\{\begin{matrix}
+ f_1(x_1,x_2,\dots,x_n)=0\\
+f_2(x_1,x_2,\dots,x_n)=0 \\
+ \dots\\
+f_n(x_1,x_2,\dots,x_n)=0
+\end{matrix}\right.$$
+According to Taylor expansion around the current approximation $X^{(k)}=(x_1^{(k)},x_2^{(k)},\dots,x_n^{(k)})$,$$0=f_\ell(X^{(k+1)})\approx f_\ell(X^{(k)})+\sum_{i=1}^n\left(x_i^{(k+1)}-x_i^{(k)}\right)\frac{\partial f_{\ell}}{\partial x_i}(X^{(k)})$$
+As a result, we have the iterative form
+$$
+J\left(X^{(k)}\right)
+\left(X^{(k+1)}-X^{(k)}\right)
+=
+-F\left(X^{(k)}\right)
+$$
+where$$
+J(X)=
+\begin{pmatrix}
+\dfrac{\partial f_1(X)}{\partial x_1}
+&
+\dfrac{\partial f_1(X)}{\partial x_2}
+&
+\cdots
+&
+\dfrac{\partial f_1(X)}{\partial x_n}
+\\[8pt]
+\dfrac{\partial f_2(X)}{\partial x_1}
+&
+\dfrac{\partial f_2(X)}{\partial x_2}
+&
+\cdots
+&
+\dfrac{\partial f_2(X)}{\partial x_n}
+\\[8pt]
+\vdots & \vdots & \ddots & \vdots
+\\[8pt]
+\dfrac{\partial f_n(X)}{\partial x_1}
+&
+\dfrac{\partial f_n(X)}{\partial x_2}
+&
+\cdots
+&
+\dfrac{\partial f_n(X)}{\partial x_n}
+\end{pmatrix}$$
+# Primality Test
+## Prime Number Sieve
+
+### Sieve of Eratosthenes
+
+The essence of this sieve is easy: From $2$ to $\sqrt{n}$, we do the following operators:
+1. If the current number $k$ is not marked, then the number is prime. Do the following operators. Or search the next number.
+2. Mark $k^2,(k+1)k,\dots,\lfloor \frac{n}{k} \rfloor k$. The smaller multiples of $k$ have already been marked by smaller prime factors.
+
+```cpp
+vector<bool> sieve(int n){
+    vector<bool> isprime(n + 1, true);
+    isprime[0] = isprime[1] = false;
+    for(int i = 2; i * i <= n; i++){
+        if(isprime[i]){
+            for(int j = i * i; j <= n; j += i){
+                isprime[j] = false;
+            }
+        }
+    }
+    return isprime;
+}
+```
+
+The approximate number of operations is $$\frac{n}{2} + \frac{n}{3} + \frac{n}{5} + \frac{n}{7} + \dots=n \sum_{p \le \sqrt{n}} \frac{1}{p}$$
+As a result, $$T(n)=O(n\log \log n)$$
+### Sieve of Euler
+
+Sieve of Eratosthenes has a drawback: the same composite number may be repeatedly labeled by multiple prime factors. And sieve of Euler want to solve this problem.
+
+We need to use two arrays:
+- isprime, which is used to mark whether the number is prime.
+- primes, which is used to store the prime that is found.
+
+From $2$ to $n$, we do the following operators:
+1. If the current number $k$ is not marked, then the number is prime. We add $k$ to primes.
+2. Whether $k$ is prime or not, iterate through the current primes list and mark $kp$ as false in isprime. If $p \mid k$, then search the next number.
+
+For every composite $n$, if the least prime factor is $p$, then the $n$ will only be marked through $n=p*\frac{n}{p}$. This is because if the algorithm calculate $q*\frac{n}{q}$, where $q$ is prime. Then $q>p$, so $p\mid\frac{n}{q}$. The algorithm will terminate early.
+
+
+```cpp
+vector<int> sieve(int n){
+    vector<bool> isprime(n + 1, true);
+    vector<int> primes;
+    isprime[0] = isprime[1] = false;
+    for(int i = 2; i <= n; i++){
+        if(isprime[i]) primes.push_back(i);
+        for(auto p : primes){
+            if(i * p > n) break;
+            isprime[i * p] = false;
+            if(i % p == 0) break;
+        }
+    }
+    return primes;
+}
+```
+
+
+As a result, the algorithm achieve every composite only marked once. So $$T(n)=O(n)$$
+## Miller-Rabin Tester
+
+Observation: Fermat’s Little Theorem, you can see its proof in [Algebra & Number Theory](../math/algebra.html). You can get $a^{n-1}\mod n$ in time $O(\log n)$ by fast exponentiation.
+
+If $a^{n-1} \not\equiv 1\mod n$, $n$ is definitely not prime. However, if $a^{n-1} \equiv 1\mod n$, $n$ is only probably prime. Some composite numbers still pass this Fermat test, such as$$100^{560} \equiv 1\mod 561,561=3\times11\times17$$
+This type of number is called <span style="color: red;">Carmichael Numbers</span>. In 1994, Andrew Granville and Carl Pomerance proved that the Carmichael numbers are infinite.
+
+How to improve this algorithm?
+
+Observation: Write $n-1=2^sd$ where $d$ is odd. For base $a$, compute
+$$a^d,a^{2d},a^{2^2d},\dots,a^{2^{s-1}d}\pmod n.$$
+
+If $n$ is an odd prime, then either $a^d\equiv1\pmod n$, or one of these squared values must become $-1\pmod n$ before the final value becomes $1$. Therefore, if $a^d\not\equiv1\pmod n$ and none of $a^d,a^{2d},\dots,a^{2^{s-1}d}$ is congruent to $-1\pmod n$, then $a$ is a witness that $n$ is composite.
+
+For large number, the time complexity of multiplication is $O(\log^2 n)$. As a result, $T(n)=O(\log^3 n)$. If we use [Fast Fourier Transform (FFT)](#fast-fourier-transform-fft) to accelerate it, then $T(n)=\tilde{O} (\log^2 n)$
+
+```cpp
+typedef unsigned long long ull;
+
+ull mod_mul(ull a,ull b,ull m) {
+	return (ull)((__uint128_t)a * b % m);
+}
+
+ull pow_mod(ull a,ull b,ull m) {
+	ull res=1;
+	while(b){
+		if(b&1)res=mod_mul(res,a,m);
+		a=mod_mul(a,a,m);
+		b>>=1;
+	}
+	return res;
+}
+
+//Single-base Miller-Rabin: returns true if n passes the test for this base
+bool miller_rabin(ull n,ull base){
+	ull d=n-1;
+	int s=0;
+	while(d%2==0){       //n-1 = d * 2^s, d odd
+		d>>=1;
+		s++;
+	}
+	ull x=pow_mod(base,d,n);
+	if(x==1||x==n-1)return true;
+	for(int i=0;i<s-1;i++){
+		x=mod_mul(x,x,n);   //successively square: base^(2^i * d)
+		if(x==n-1)return true;
+	}
+	return false;            //base is a witness that n is composite
+}
+
+//Deterministic primality test, correct for all n < 2^64
+bool is_prime(ull n){
+	if(n<2)return false;     
+	for(ull base:{2ull,3ull,5ull,7ull,11ull,13ull,17ull,19ull,23ull,29ull,31ull,37ull}){
+		if(n==base)return true;
+		if(n%base==0)return false;
+		if(!miller_rabin(n,base))return false;
+	}
+	return true;
+}
+```
+
+If we only take one base $a$, we can also have counterexample:
+$$173^{220} \equiv 1\mod 221,173^{110} \equiv 220\mod 221,221=13\times17$$
+Therefore, we need to try several bases. Mathematicians have proven that, if the Generalized Riemann Hypothesis (GRH) is true, it is enough to try every base $1\le a\le 2(\ln n)^2$. This primality test is called the <span style="color: red;">Miller-Rabin Tester</span>.
+
+In practice, if we choose the base $a$ uniformly at random, then we have the following theorem.
+
+>[!THEOREM]
+> If $n$ is an odd composite number, then at most $\frac{1}{4}$ of the possible bases make $n$ pass the Miller-Rabin test.
+
+Therefore, randomly choosing 40 bases can achieve a negligible error rate of $4^{-40}$.
+
+The first proof of PRIMES is P is proposed by AKS algorithm. For more details, you can read [this article](https://annals.math.princeton.edu/wp-content/uploads/annals-v160-n2-p12.pdf)
+
+## Shor Algorithm (TODO)
+        </script>
+    </main>
+
+    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/comments.js"></script>
+</body>
+</html>

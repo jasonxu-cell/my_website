@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Structure of Geophysics | Yang</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/png" href="../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="../notes.html">Notes</a>
+            <a href="../articles.html">Articles</a>
+            <a href="../research.html">Research</a>
+            <a href="../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../articles.html" class="article-back-link">&larr; Articles</a>
+            <h1>The Structure of Geophysics</h1>
+            <p>
+                A short reflection on how physics, mathematics, computation,
+                and field observations fit together inside geophysics.
+            </p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Geophysics</span>
+                    <span>8 min read</span>
+                </div>
+                <time datetime="2026-08-14">Aug 14, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+## Geophysics as a Meeting Point
+
+Geophysics sits between several ways of knowing the Earth. It borrows laws from physics, structure from mathematics, algorithms from computation, and constraints from field observations.
+
+The interesting part is not that these tools coexist. The interesting part is that each one corrects the others. A model without data drifts into elegance; data without a model becomes a list of isolated facts.
+
+## From Observation to Model
+
+A typical geophysical question begins with something measurable: a travel time, an anomaly, a waveform, a gravity signal, or a magnetic pattern. The task is to turn that measurement into a statement about structure or process.
+
+- Observations provide the contact with the real Earth.
+- Equations describe the physical assumptions.
+- Numerical methods make the equations usable.
+- Interpretation connects the result back to geology.
+
+## Why Mathematics Matters
+
+Mathematics gives geophysics its grammar. Differential equations describe waves, fields, diffusion, and deformation. Linear algebra appears whenever an inverse problem asks for a hidden structure from indirect measurements.
+
+For example, many inverse problems can be written in a compact form:
+
+```text
+data = operator * model + noise
+```
+
+This simple line hides a lot of difficulty. The operator may be incomplete, the data may be noisy, and many different models may explain the same observation.
+
+## Computation as a Laboratory
+
+Computation lets us test ideas that cannot be isolated in nature. We can simulate wave propagation, compare candidate Earth models, and examine how sensitive a result is to the assumptions behind it.
+
+| Tool | Role |
+| --- | --- |
+| Forward modeling | Predict data from a model |
+| Inversion | Estimate a model from data |
+| Visualization | Make structure readable |
+
+## A Useful Mental Picture
+
+Geophysics is strongest when it keeps a conversation open between theory and evidence. The best result is rarely just a number. It is usually a disciplined explanation of what can be inferred, what remains uncertain, and which assumptions made the inference possible.
+        </script>
+    </main>
+
+    <script src="../scripts/markdown-article.js"></script>
+    <script src="../scripts/comments.js"></script>
+</body>
+</html>

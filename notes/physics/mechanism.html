@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanism | Yang</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" type="image/png" href="../../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../notes.html">Notes</a>
+            <a href="../../articles.html">Articles</a>
+            <a href="../../research.html">Research</a>
+            <a href="../../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../physics.html" class="article-back-link">&larr; Physics</a>
+            <h1>Mechanism</h1>
+            <p>Notes on classical mechanics, including motion, forces, energy, momentum, oscillations, rigid bodies, and the mathematical structure behind Newtonian dynamics...</p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Mechanics</span>
+                    <span>Dynamics</span>
+                    <span>Energy</span>
+                </div>
+                <time datetime="2026-08-12">Aug 12, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+# Newtonian Mechanics
+
+**Newton's laws**
+
+$$
+\begin{cases}
+\vec{F}=0 \;\Rightarrow\; \dfrac{d\vec{v}}{dt}=0 & \text{(law of inertia)}\\[2mm]
+\vec{F}=m\vec{a} & \text{(equation of motion)}\\[2mm]
+\text{action and reaction} & \text{(third law)}
+\end{cases}
+$$
+
+**Common forces**
+
+- Hooke's law: $\vec{F}=k\vec{x}$
+- Friction: $f=\mu F_N$
+- Gravitation: $\displaystyle \vec{F}=G\frac{m_1 m_2}{r^3}\,\vec{r}$
+
+#  Lagrangian Mechanics
+
+## D'Alembert's principle and the Euler–Lagrange equations
+
+The central problem of mechanics is to study the change of the configuration of a system with time.
+
+- **Constraint**: a restriction on the configuration of the system, written $f(\vec{r}_1,\dots,\vec{r}_N)=0$.
+- **Degrees of freedom**: the number of independent coordinates needed to specify the configuration.
+- **Generalized coordinates** $q_k$: a set of independent coordinates equal in number to the degrees of freedom (need not be Cartesian).
+- **Virtual displacement** $\delta\vec{r}$: an instantaneous, constraint-compatible displacement at fixed time.
+
+**Constraint types**
+
+$$
+\begin{cases}
+\text{holonomic:} & f(\vec{r}_1,\dots,\vec{r}_N,t)=0\\
+\text{non-holonomic:} & f(\vec{r}_1,\dots,\vec{r}_N,\dot{\vec{r}}_1,\dots,t)\le 0
+\end{cases}
+\qquad
+\begin{cases}
+\text{scleronomic:} & f(\vec{r}_1,\dots,\vec{r}_N)=0\\
+\text{rheonomic:} & f(\vec{r}_1,\dots,\vec{r}_N,t)=0
+\end{cases}
+$$
+
+A constraint that does no work on a virtual displacement is called an **ideal constraint**.
+
+**D'Alembert's principle.** For a system of $N$ particles with ideal constraints,
+
+$$
+\sum_{\alpha=1}^{N}\left(\vec{F}_\alpha-m_\alpha\ddot{\vec{r}}_\alpha\right)\cdot\delta\vec{r}_\alpha=0 .
+$$
+
+Expressing $\delta\vec{r}_\alpha=\sum_k\dfrac{\partial\vec{r}_\alpha}{\partial q_k}\,\delta q_k$ and collecting terms,
+
+$$
+\sum_k\left[\sum_{\alpha}\vec{F}_\alpha\cdot\frac{\partial\vec{r}_\alpha}{\partial q_k}-\sum_{\alpha}m_\alpha\ddot{\vec{r}}_\alpha\cdot\frac{\partial\vec{r}_\alpha}{\partial q_k}\right]\delta q_k=0
+=\sum_k\left[Q_k-\sum_{\alpha}m_\alpha\ddot{\vec{r}}_\alpha\cdot\frac{\partial\vec{r}_\alpha}{\partial q_k}\right]\delta q_k=0 .
+$$
+
+Hence for each generalized coordinate
+
+$$
+Q_k-\sum_{\alpha}m_\alpha\ddot{\vec{r}}_\alpha\cdot\frac{\partial\vec{r}_\alpha}{\partial q_k}=0 .
+$$
+
+**Two useful identities**
+
+1. $\displaystyle \frac{d}{dt}\!\left(\frac{\partial\vec{r}_\alpha}{\partial q_k}\right)=\frac{\partial\dot{\vec{r}}_\alpha}{\partial q_k}$
+
+   *Proof.* $\dot{\vec{r}}_\alpha=\dfrac{\partial\vec{r}_\alpha}{\partial t}+\sum_k\dfrac{\partial\vec{r}_\alpha}{\partial q_k}\dot q_k$, so
+   $\dfrac{d}{dt}\!\left(\dfrac{\partial\vec{r}_\alpha}{\partial q_k}\right)=\dfrac{\partial}{\partial t}\dfrac{\partial\vec{r}_\alpha}{\partial q_k}+\sum_j\dfrac{\partial}{\partial q_j}\dfrac{\partial\vec{r}_\alpha}{\partial q_k}\dot q_j=\dfrac{\partial\dot{\vec{r}}_\alpha}{\partial q_k}.\;\square$
+
+2. $\displaystyle \frac{\partial\dot{\vec{r}}_\alpha}{\partial\dot q_k}=\frac{\partial\vec{r}_\alpha}{\partial q_k}$
+
+   *Proof.* $\dfrac{\partial\dot{\vec{r}}_\alpha}{\partial\dot q_k}=\dfrac{\partial}{\partial\dot q_k}\!\left(\dfrac{\partial\vec{r}_\alpha}{\partial t}+\sum_j\dfrac{\partial\vec{r}_\alpha}{\partial q_j}\dot q_j\right)=\dfrac{\partial\vec{r}_\alpha}{\partial q_k}.\;\square$
+
+Using these, the inertial term becomes
+
+$$
+\sum_{\alpha}m_\alpha\ddot{\vec{r}}_\alpha\cdot\frac{\partial\vec{r}_\alpha}{\partial q_k}
+=\frac{d}{dt}\!\left(\sum_{\alpha}m_\alpha\dot{\vec{r}}_\alpha\cdot\frac{\partial\vec{r}_\alpha}{\partial q_k}\right)-\sum_{\alpha}m_\alpha\dot{\vec{r}}_\alpha\cdot\frac{\partial\dot{\vec{r}}_\alpha}{\partial q_k}.
+$$
+
+With the kinetic energy $T=\tfrac12\sum_{\alpha}m_\alpha\dot{\vec{r}}_\alpha\cdot\dot{\vec{r}}_\alpha$,
+
+$$
+\frac{\partial T}{\partial\dot q_k}=\sum_{\alpha}m_\alpha\dot{\vec{r}}_\alpha\cdot\frac{\partial\vec{r}_\alpha}{\partial q_k},
+\qquad
+\frac{\partial T}{\partial q_k}=\sum_{\alpha}m_\alpha\dot{\vec{r}}_\alpha\cdot\frac{\partial\dot{\vec{r}}_\alpha}{\partial q_k}.
+$$
+
+Therefore
+
+$$
+Q_k=\frac{d}{dt}\frac{\partial T}{\partial\dot q_k}-\frac{\partial T}{\partial q_k}.
+$$
+
+For a conservative system $Q_k=-\dfrac{\partial V}{\partial q_k}$, so
+
+$$
+\frac{d}{dt}\!\left(\frac{\partial(T-V)}{\partial\dot q_k}\right)-\frac{\partial(T-V)}{\partial q_k}=0 .
+$$
+
+Defining the **Lagrangian** $L=T-V$ gives the **Euler–Lagrange equation**
+
+$$
+\boxed{\;\frac{d}{dt}\frac{\partial L}{\partial\dot q_k}-\frac{\partial L}{\partial q_k}=0\;}
+$$
+
+If the potential $V$ contains a velocity-dependent (generalized) potential $U$, define $L=T-U$ and
+
+$$
+Q_k=\frac{d}{dt}\frac{\partial U}{\partial\dot q_k}-\frac{\partial U}{\partial q_k}.
+$$
+
+## The principle of least action
+
+Define the **action** of a mechanical system
+
+$$
+S=\int_{t_1}^{t_2}L(t,q_\alpha,\dot q_\alpha)\,dt .
+$$
+
+The condition that $S$ be stationary (a functional extremum) is equivalent to the Euler–Lagrange equations.
+
+**Principle of least action.** Between times $t_1$ and $t_2$, the true motion of a mechanical system makes the action $S$ stationary.
+
+## Systems with dependent coordinates (Lagrange multipliers)
+
+For action $S=\int L(t,q_\alpha,\dot q_\alpha)\,dt$,
+
+$$
+\delta S=\int dt\sum_{\alpha}\left[\frac{\partial L}{\partial q_\alpha}-\frac{d}{dt}\frac{\partial L}{\partial\dot q_\alpha}\right]\delta q_\alpha=0 . \tag{1}
+$$
+
+With a constraint $f(t,q_\alpha)=0$,
+
+$$
+\delta f=\sum_{\alpha}\frac{\partial f}{\partial q_\alpha}\delta q_\alpha=0 .
+$$
+
+Introduce a Lagrange multiplier $\lambda$:
+
+$$
+\int dt\,\lambda\,\delta f=\int dt\,\lambda\sum_{\alpha}\frac{\partial f}{\partial q_\alpha}\delta q_\alpha=0 . \tag{2}
+$$
+
+Adding (1)+(2),
+
+$$
+\int dt\sum_{\alpha}\left[\frac{\partial(L+\lambda f)}{\partial q_\alpha}-\frac{d}{dt}\frac{\partial(L+\lambda f)}{\partial\dot q_\alpha}\right]\delta q_\alpha=0 .
+$$
+
+Choose $\lambda$ so that the coefficient of the dependent coordinate $q_s$ vanishes:
+
+$$
+\frac{\partial(L+\lambda f)}{\partial q_s}-\frac{d}{dt}\frac{\partial(L+\lambda f)}{\partial\dot q_s}=0 .
+$$
+
+The remaining $s-1$ coordinates are independent, giving
+
+$$
+\frac{\partial(L+\lambda f)}{\partial q_\alpha}-\frac{d}{dt}\frac{\partial(L+\lambda f)}{\partial\dot q_\alpha}=0,\qquad \alpha=1,2,\dots,s-1 .
+$$
+
+Altogether there are $s+1$ equations,
+
+$$
+\frac{\partial(L+\lambda f)}{\partial q_\alpha}-\frac{d}{dt}\frac{\partial(L+\lambda f)}{\partial\dot q_\alpha}=0,\quad \alpha=1,\dots,s,
+\qquad f(t,q_\alpha)=0 .
+$$
+
+## Integrals of motion
+
+An **integral of motion** is a function $C=C(q_\alpha,\dot q_\alpha)$ of the coordinates and velocities (and initial conditions) that stays constant throughout the motion. A system with $s$ degrees of freedom has $2s$ independent integrals of motion.
+
+*Reasoning.* Each Euler–Lagrange equation $\dfrac{d}{dt}\dfrac{\partial L}{\partial\dot q_\alpha}-\dfrac{\partial L}{\partial q_\alpha}=0$ is a second-order ODE; the $s$ equations require $2s$ integration constants $C_1,\dots,C_{2s}$ to fix a unique solution. The solution can be written
+
+$$
+q_\alpha=q_\alpha(C_1,\dots,C_{2s};t),\qquad \dot q_\alpha=\dot q_\alpha(C_1,\dots,C_{2s};t),
+$$
+
+an invertible map $\{C_1,\dots,C_{2s};t\}\leftrightarrow\{q_\alpha,\dot q_\alpha\}$ ($2s+1$ on each side). One constant can be absorbed into the time origin, leaving $2s$ independent integrals.
+
+## Cyclic coordinates and conservation laws
+
+If $L$ does not contain a generalized coordinate $q_\alpha$ explicitly, $q_\alpha$ is called a **cyclic (ignorable) coordinate**. Then
+
+$$
+\frac{\partial L}{\partial q_\alpha}=0 \;\Rightarrow\; \frac{d}{dt}\frac{\partial L}{\partial\dot q_\alpha}=0 \;\Rightarrow\; p_\alpha\equiv\frac{\partial L}{\partial\dot q_\alpha}=\text{const},
+$$
+
+the conserved **generalized momentum**.
+
+- **Translational symmetry of space** $\Rightarrow$ the corresponding linear momentum is conserved.
+- **Central force**, $L=\tfrac12 m(\dot r^2+r^2\dot\theta^2)-V(r)$: $\theta$ is cyclic, so $p_\theta=\dfrac{\partial L}{\partial\dot\theta}=mr^2\dot\theta=\text{const}$.
+- **Rotational symmetry** $\Rightarrow$ the corresponding angular momentum is conserved.
+
+**Energy and the Jacobi (energy) function.**
+
+$$
+\frac{dL}{dt}=\frac{\partial L}{\partial t}+\sum_\alpha\frac{\partial L}{\partial q_\alpha}\dot q_\alpha+\sum_\alpha\frac{\partial L}{\partial\dot q_\alpha}\ddot q_\alpha
+=\frac{\partial L}{\partial t}+\sum_\alpha\frac{d}{dt}\!\left(\frac{\partial L}{\partial\dot q_\alpha}\right)\dot q_\alpha+\sum_\alpha\frac{\partial L}{\partial\dot q_\alpha}\ddot q_\alpha .
+$$
+
+Hence
+
+$$
+\frac{d}{dt}\!\left(\sum_\alpha\frac{\partial L}{\partial\dot q_\alpha}\dot q_\alpha-L\right)=-\frac{\partial L}{\partial t}.
+$$
+
+Define the **energy function**
+
+$$
+h=\sum_\alpha\frac{\partial L}{\partial\dot q_\alpha}\dot q_\alpha-L=\sum_\alpha\frac{\partial(T-V)}{\partial\dot q_\alpha}\dot q_\alpha-T+V=\sum_\alpha\frac{\partial T}{\partial\dot q_\alpha}\dot q_\alpha-T+V .
+$$
+
+With $\vec r_i=\vec r_i(q_1,\dots,q_s,t)$ and $\dot{\vec r}_i=\dfrac{\partial\vec r_i}{\partial t}+\sum_\alpha\dfrac{\partial\vec r_i}{\partial q_\alpha}\dot q_\alpha$,
+
+$$
+T=\sum_i\tfrac12 m_i\dot{\vec r}_i\cdot\dot{\vec r}_i
+=\underbrace{\sum_i\tfrac12 m_i\frac{\partial\vec r_i}{\partial t}\cdot\frac{\partial\vec r_i}{\partial t}}_{T_0}
++\underbrace{\sum_i m_i\frac{\partial\vec r_i}{\partial t}\cdot\sum_\alpha\frac{\partial\vec r_i}{\partial q_\alpha}\dot q_\alpha}_{T_1}
++\underbrace{\sum_i\tfrac12 m_i\sum_{\alpha}\frac{\partial\vec r_i}{\partial q_\alpha}\dot q_\alpha\cdot\sum_\beta\frac{\partial\vec r_i}{\partial q_\beta}\dot q_\beta}_{T_2}.
+$$
+
+$T_0,T_1,T_2$ are homogeneous of degree $0,1,2$ in the $\dot q_\alpha$. By Euler's theorem on homogeneous functions,
+
+$$
+h=T_1+2T_2-T_0-T_1-T_2+V=T_2-T_0+V .
+$$
+
+If $\vec r_i$ does not depend on time explicitly, $\dfrac{\partial\vec r_i}{\partial t}=0\Rightarrow T_0=T_1=0$, so $T=T_2$ and
+
+$$
+h=T_2+V=T+V=E .
+$$
+
+Thus **time-translation symmetry $\Rightarrow$ conservation of energy**.
+
+## Noether's theorem
+
+Apply a transformation of the generalized coordinates $q_\alpha(t)\to Q_\alpha(s,t)$, where $s$ is a continuous parameter with $Q_\alpha(0,t)=q_\alpha(t)$. If the transformation leaves $L$ invariant, $\dfrac{\partial}{\partial s}L(t,Q_\alpha,\dot Q_\alpha)=0$, it is a **continuous symmetry transformation**.
+
+**Noether's theorem.** To every continuous symmetry there corresponds a conserved quantity.
+
+*Proof.*
+
+$$
+\frac{\partial L}{\partial s}=\frac{\partial L}{\partial Q_\alpha}\frac{\partial Q_\alpha}{\partial s}+\frac{\partial L}{\partial\dot Q_\alpha}\frac{\partial\dot Q_\alpha}{\partial s}.
+$$
+
+Evaluating at $s=0$ and using the equation of motion,
+
+$$
+\left.\frac{\partial L}{\partial s}\right|_{s=0}
+=\left.\frac{d}{dt}\!\left(\frac{\partial L}{\partial\dot q_\alpha}\right)\frac{\partial Q_\alpha}{\partial s}\right|_{s=0}
++\left.\frac{\partial L}{\partial\dot q_\alpha}\frac{\partial}{\partial s}\dot Q_\alpha\right|_{s=0}
+=\left.\frac{d}{dt}\!\left(\frac{\partial L}{\partial\dot q_\alpha}\frac{\partial Q_\alpha}{\partial s}\right)\right|_{s=0}=0 .
+$$
+
+So $\displaystyle \left.\frac{\partial L}{\partial\dot q_\alpha}\frac{\partial Q_\alpha}{\partial s}\right|_{s=0}$ is conserved. $\square$
+
+## Lagrangian for continuous systems (field theory)
+
+Let the system's potential energy density be $\mathcal{L}$, the **Lagrangian density**, and let
+
+$$
+L=\iiint\mathcal{L}\,dx_1\,dx_2\,dx_3,\qquad
+\mathcal{L}=\mathcal{L}\!\left(\phi,\frac{\partial\phi}{\partial t},\frac{\partial\phi}{\partial x_j},t,x_j\right),\quad \phi=\phi(x_j,t),\; j=1,2,3 .
+$$
+
+Varying the action $S=\int_{t_1}^{t_2}L\,dt$,
+
+$$
+\delta S=\int_{t_1}^{t_2}\!\!\iiint\left[\frac{\partial\mathcal{L}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{L}}{\partial(\partial\phi/\partial t)}\delta\!\left(\frac{\partial\phi}{\partial t}\right)+\sum_{j=1}^{3}\frac{\partial\mathcal{L}}{\partial(\partial\phi/\partial x_j)}\delta\!\left(\frac{\partial\phi}{\partial x_j}\right)\right]dx_1\,dx_2\,dx_3\,dt=0 .
+$$
+
+Integrating by parts in time and space (boundary terms vanish),
+
+$$
+\delta S=\int_{t_1}^{t_2}\!\!\iiint\left[\frac{\partial\mathcal{L}}{\partial\phi}-\frac{\partial}{\partial t}\frac{\partial\mathcal{L}}{\partial(\partial\phi/\partial t)}-\sum_{j=1}^{3}\frac{\partial}{\partial x_j}\frac{\partial\mathcal{L}}{\partial(\partial\phi/\partial x_j)}\right]\delta\phi\,dx_1\,dx_2\,dx_3\,dt=0 ,
+$$
+
+so
+
+$$
+\frac{\partial\mathcal{L}}{\partial\phi}-\frac{\partial}{\partial t}\frac{\partial\mathcal{L}}{\partial(\partial\phi/\partial t)}-\sum_{j=1}^{3}\frac{\partial}{\partial x_j}\frac{\partial\mathcal{L}}{\partial(\partial\phi/\partial x_j)}=0 .
+$$
+
+In Einstein summation notation,
+
+$$
+\boxed{\;\partial_\alpha\left[\frac{\partial\mathcal{L}}{\partial(\partial_\alpha\phi)}\right]-\frac{\partial\mathcal{L}}{\partial\phi}=0\;}
+$$
+
+# Small Oscillations
+
+A physical system with a stable equilibrium configuration, displaced only slightly from equilibrium, executes **small oscillations**.
+
+**Choice of coordinates.** Take $q_1=q_2=\dots=q_s=0$ at the stable equilibrium and set the zero of potential energy there.
+
+$$
+T=\sum_i\tfrac12 m_i\dot{\vec r}_i\cdot\dot{\vec r}_i
+=\sum_i\tfrac12 m_i\sum_\alpha\frac{\partial\vec r_i}{\partial q_\alpha}\dot q_\alpha\cdot\sum_\beta\frac{\partial\vec r_i}{\partial q_\beta}\dot q_\beta
+=\tfrac12\sum_{\alpha\beta}\left(\sum_i m_i\frac{\partial\vec r_i}{\partial q_\alpha}\cdot\frac{\partial\vec r_i}{\partial q_\beta}\right)\dot q_\alpha\dot q_\beta .
+$$
+
+Define the **mass coefficients**
+
+$$
+m_{\alpha\beta}=\left.\sum_i m_i\frac{\partial\vec r_i}{\partial q_\alpha}\cdot\frac{\partial\vec r_i}{\partial q_\beta}\right|_{q=0},
+\qquad
+T=\tfrac12\sum_{\alpha\beta}m_{\alpha\beta}\,\dot q_\alpha\dot q_\beta .
+$$
+
+Clearly $m_{\alpha\beta}=m_{\beta\alpha}$, so the matrix $(m_{\alpha\beta})_{s\times s}$ is symmetric, and since $T>0$ it is positive-definite.
+
+Expand the potential to second order:
+
+$$
+V=V(0,\dots,0)+\sum_\alpha\left.\frac{\partial V}{\partial q_\alpha}\right|_{0}q_\alpha+\tfrac12\sum_{\alpha\beta}\left.\frac{\partial^2 V}{\partial q_\alpha\partial q_\beta}\right|_{0}q_\alpha q_\beta .
+$$
+
+At stable equilibrium the constant and linear terms vanish, so
+
+$$
+V=\tfrac12\sum_{\alpha\beta}\left.\frac{\partial^2 V}{\partial q_\alpha\partial q_\beta}\right|_{0}q_\alpha q_\beta .
+$$
+
+Define the **stiffness coefficients**
+
+$$
+k_{\alpha\beta}=\left.\frac{\partial^2 V}{\partial q_\alpha\partial q_\beta}\right|_{0},
+\qquad
+V=\tfrac12\sum_{\alpha\beta}k_{\alpha\beta}\,q_\alpha q_\beta ,
+$$
+
+with $(k_{\alpha\beta})_{s\times s}$ symmetric and positive-definite.
+
+With $L=T-V$,
+
+$$
+\frac{\partial L}{\partial\dot q_\gamma}=\frac{\partial T}{\partial\dot q_\gamma}=\sum_\alpha m_{\alpha\gamma}\dot q_\alpha,
+\qquad
+\frac{\partial L}{\partial q_\gamma}=-\sum_\alpha k_{\alpha\gamma}q_\alpha,
+$$
+
+so the equations of motion are
+
+$$
+\frac{d}{dt}\frac{\partial L}{\partial\dot q_\gamma}-\frac{\partial L}{\partial q_\gamma}=0
+\;\Rightarrow\;
+\sum_\alpha m_{\alpha\gamma}\ddot q_\alpha+\sum_\alpha k_{\alpha\gamma}q_\alpha=0 .
+$$
+
+**Trial solution** (superposition of normal modes):
+
+$$
+\begin{pmatrix}q_1\\q_2\\\vdots\\q_s\end{pmatrix}
+=\begin{pmatrix}A_{11}\\A_{21}\\\vdots\\A_{s1}\end{pmatrix}\cos(\omega_1 t+\varphi_1)
++\begin{pmatrix}A_{12}\\A_{22}\\\vdots\\A_{s2}\end{pmatrix}\cos(\omega_2 t+\varphi_2)+\cdots
+$$
+
+Substituting,
+
+$$
+\sum_i\left(\sum_\alpha -m_{\alpha\gamma}\omega_i^2 A_{i\alpha}+k_{\alpha\gamma}A_{i\alpha}\right)\cos(\omega_i t+\varphi_i)=0 ,
+$$
+
+so for each mode $\sum_\alpha\left(-m_{\alpha\gamma}\omega_i^2+k_{\alpha\gamma}\right)A_{i\alpha}=0$, i.e.
+
+$$
+\begin{pmatrix}
+k_{11}-m_{11}\omega_i^2 & k_{12}-m_{12}\omega_i^2 & \cdots & k_{1s}-m_{1s}\omega_i^2\\
+k_{21}-m_{21}\omega_i^2 & k_{22}-m_{22}\omega_i^2 & \cdots & k_{2s}-m_{2s}\omega_i^2\\
+\vdots & \vdots & \ddots & \vdots\\
+k_{s1}-m_{s1}\omega_i^2 & k_{s2}-m_{s2}\omega_i^2 & \cdots & k_{ss}-m_{ss}\omega_i^2
+\end{pmatrix}
+\begin{pmatrix}A_{1i}\\A_{2i}\\\vdots\\A_{si}\end{pmatrix}=0 .
+$$
+
+A non-trivial solution requires the **secular (characteristic) equation**
+
+$$
+\det\!\left(k_{\alpha\beta}-m_{\alpha\beta}\omega_i^2\right)=0 ,
+$$
+
+which has $s$ roots $\omega_i$ (the **normal-mode frequencies**). Then
+
+$$
+\begin{pmatrix}q_1\\q_2\\\vdots\\q_s\end{pmatrix}
+=\underbrace{\begin{pmatrix}A_{11}&A_{12}&\cdots&A_{1s}\\A_{21}&A_{22}&\cdots&A_{2s}\\\vdots&\vdots&\ddots&\vdots\\A_{s1}&A_{s2}&\cdots&A_{ss}\end{pmatrix}}_{\text{modal matrix}}
+\begin{pmatrix}\cos(\omega_1 t+\varphi_1)\\\cos(\omega_2 t+\varphi_2)\\\vdots\\\cos(\omega_s t+\varphi_s)\end{pmatrix}.
+$$
+
+Inverting the modal matrix defines the **normal coordinates**
+
+$$
+\begin{pmatrix}\tilde q_1\\\tilde q_2\\\vdots\\\tilde q_s\end{pmatrix}
+=\begin{pmatrix}\cos(\omega_1 t+\varphi_1)\\\cos(\omega_2 t+\varphi_2)\\\vdots\\\cos(\omega_s t+\varphi_s)\end{pmatrix},
+$$
+
+each of which oscillates at a single frequency.
+
+## Damped systems and the Rayleigh dissipation function
+
+For viscous drag $\vec f=-C\dot{\vec r}$, the generalized force is
+
+$$
+Q_j=\sum_i\vec f_i\cdot\frac{\partial\vec r_i}{\partial q_j}=-\sum_i C_i\dot{\vec r}_i\cdot\frac{\partial\vec r_i}{\partial q_j}
+=-\sum_i C_i\dot{\vec r}_i\cdot\frac{\partial\dot{\vec r}_i}{\partial\dot q_j}
+=-\frac{\partial}{\partial\dot q_j}\left(\tfrac12\sum_i C_i\dot{\vec r}_i^{\,2}\right).
+$$
+
+Define the **Rayleigh dissipation function**
+
+$$
+\mathcal{F}=\sum_i\tfrac12 C_i\dot{\vec r}_i\cdot\dot{\vec r}_i
+=\tfrac12\sum_{\alpha\beta}\left(\sum_i C_i\frac{\partial\vec r_i}{\partial q_\alpha}\cdot\frac{\partial\vec r_i}{\partial q_\beta}\right)\dot q_\alpha\dot q_\beta
+=\tfrac12\sum_{\alpha\beta}C_{\alpha\beta}\dot q_\alpha\dot q_\beta,
+\qquad Q_\alpha=-\frac{\partial\mathcal{F}}{\partial\dot q_\alpha}.
+$$
+
+With $T=\tfrac12\sum_{\alpha\beta}M_{\alpha\beta}\dot q_\alpha\dot q_\beta$ and $V=\tfrac12\sum_{\alpha\beta}k_{\alpha\beta}q_\alpha q_\beta$, the equation of motion of a **non-conservative system** is
+
+$$
+\frac{d}{dt}\frac{\partial T}{\partial\dot q_\alpha}-\frac{\partial T}{\partial q_\alpha}+\frac{\partial V}{\partial q_\alpha}=Q_\alpha,
+\quad\text{i.e.}\quad
+\frac{d}{dt}\frac{\partial T}{\partial\dot q_\alpha}-\frac{\partial T}{\partial q_\alpha}+\frac{\partial V}{\partial q_\alpha}+\frac{\partial\mathcal{F}}{\partial\dot q_\alpha}=0
+\;\Rightarrow\;
+M\ddot q+C\dot q+Kq=0 ,
+$$
+
+where $M,C,K$ are matrices.
+
+# Hamiltonian Mechanics
+
+## Legendre transformation
+
+For $F=F(x_1,\dots,x_n)$, $dF=\sum_{i}\dfrac{\partial F}{\partial x_i}dx_i$. Writing $u_i=\dfrac{\partial F}{\partial x_i}$, so $dF=\sum_i u_i\,dx_i$. Construct
+
+$$
+G=G(u_1,\dots,u_n)=\sum_i u_i x_i-F,
+$$
+
+then
+
+$$
+dG=\sum_i x_i\,du_i+\sum_i u_i\,dx_i-dF=\sum_i x_i\,du_i
+\;\Rightarrow\; x_i=\frac{\partial G}{\partial u_i}.
+$$
+
+**Partial Legendre transformation.** For $F=F(x_1,\dots,x_n,y_1,\dots,y_m)$,
+
+$$
+dF=\sum_{i}\frac{\partial F}{\partial x_i}dx_i+\sum_{j}\frac{\partial F}{\partial y_j}dy_j .
+$$
+
+With $u_i=\dfrac{\partial F}{\partial x_i}$, construct $G=G(u_1,\dots,u_n,y_1,\dots,y_m)=\sum_i u_i x_i-F$, so
+
+$$
+dG=\sum_i x_i\,du_i-\sum_j\frac{\partial F}{\partial y_j}dy_j
+\;\Rightarrow\;
+x_i=\frac{\partial G}{\partial u_i},\qquad \frac{\partial F}{\partial y_j}=-\frac{\partial G}{\partial y_j}.
+$$
+
+## The Hamiltonian and Hamilton's canonical equations
+
+For $L=L(q_1,\dots,q_s,\dot q_1,\dots,\dot q_s,t)$, construct the **Hamiltonian**
+
+$$
+H=H(q_1,\dots,q_s,p_1,\dots,p_s,t)=\sum_{\alpha=1}^{s}p_\alpha\dot q_\alpha-L,
+\qquad p_\alpha=\frac{\partial L}{\partial\dot q_\alpha}.
+$$
+
+By the Legendre transformation,
+
+$$
+\boxed{\;
+\begin{cases}
+\dot p_\alpha=-\dfrac{\partial H}{\partial q_\alpha}\\[2mm]
+\dot q_\alpha=\dfrac{\partial H}{\partial p_\alpha}
+\end{cases}\;}
+\qquad\text{(}2s\text{ first-order equations)}
+$$
+
+(Note $-\dfrac{\partial H}{\partial q_\alpha}=\dfrac{\partial L}{\partial q_\alpha}=\dfrac{d}{dt}\dfrac{\partial L}{\partial\dot q_\alpha}=\dot p_\alpha$.)
+
+**Derivation from least action.**
+
+$$
+\delta S=\delta\int_{t_1}^{t_2}\!\left(\sum_\alpha p_\alpha\dot q_\alpha-H\right)dt
+=\int_{t_1}^{t_2}\!\left(\sum_\alpha p_\alpha\delta\dot q_\alpha+\sum_\alpha\dot q_\alpha\delta p_\alpha-\sum_\alpha\frac{\partial H}{\partial q_\alpha}\delta q_\alpha-\sum_\alpha\frac{\partial H}{\partial p_\alpha}\delta p_\alpha\right)dt .
+$$
+
+Using $\sum_\alpha p_\alpha\delta\dot q_\alpha=\dfrac{d}{dt}\!\left(\sum_\alpha p_\alpha\delta q_\alpha\right)-\sum_\alpha\dot p_\alpha\delta q_\alpha$ and dropping the vanishing boundary term,
+
+$$
+\delta S=\int_{t_1}^{t_2}\sum_\alpha\left(\dot q_\alpha-\frac{\partial H}{\partial p_\alpha}\right)\delta p_\alpha-\sum_\alpha\left(\dot p_\alpha+\frac{\partial H}{\partial q_\alpha}\right)\delta q_\alpha\,dt .
+$$
+
+Setting $\delta S=0$ gives Hamilton's equations.
+
+**Conserved quantities.** $\dot p_\alpha=-\dfrac{\partial H}{\partial q_\alpha}$, so $H$ independent of $q_\alpha$ $\Leftrightarrow$ $p_\alpha$ constant $\Leftrightarrow$ $q_\alpha$ cyclic in $L$. Also
+
+$$
+\frac{dH}{dt}=\frac{\partial H}{\partial t}+\sum_\alpha\frac{\partial H}{\partial q_\alpha}\dot q_\alpha+\sum_\alpha\frac{\partial H}{\partial p_\alpha}\dot p_\alpha
+=\frac{\partial H}{\partial t}-\sum_\alpha\dot p_\alpha\dot q_\alpha+\sum_\alpha\dot q_\alpha\dot p_\alpha=\frac{\partial H}{\partial t}.
+$$
+
+Hence **$H$ independent of $t$ explicitly $\Leftrightarrow$ $H$ conserved**.
+
+## The Routhian
+
+For a system of $s$ degrees of freedom, split the generalized coordinates so that $q_{m+1},\dots,q_s$ are cyclic. Construct the **Routhian** (partial Legendre transform on the cyclic momenta)
+
+$$
+R=\sum_{\alpha=m+1}^{s}p_\alpha\dot q_\alpha-L .
+$$
+
+Then
+
+$$
+dR=\sum_{\alpha=m+1}^{s}\dot q_\alpha\,dp_\alpha-\frac{\partial L}{\partial t}dt-\sum_{\alpha=1}^{m}\frac{\partial L}{\partial q_\alpha}dq_\alpha-\sum_{\alpha=1}^{m}\frac{\partial L}{\partial\dot q_\alpha}d\dot q_\alpha ,
+$$
+
+giving
+
+$$
+\frac{\partial R}{\partial t}=-\frac{\partial L}{\partial t},\qquad
+\frac{\partial R}{\partial p_\alpha}=\dot q_\alpha\;(\alpha=m+1,\dots,s),\qquad
+\frac{\partial R}{\partial q_\alpha}=-\frac{\partial L}{\partial q_\alpha}=-\dot p_\alpha\;(\alpha=1,\dots,m).
+$$
+
+So the $m$ non-cyclic coordinates obey Lagrange-type equations
+
+$$
+\frac{d}{dt}\frac{\partial R}{\partial\dot q_\alpha}-\frac{\partial R}{\partial q_\alpha}=0,\qquad \alpha=1,\dots,m,
+$$
+
+while the $s-m$ cyclic coordinates obey Hamilton-type equations
+
+$$
+\dot q_\alpha=\frac{\partial R}{\partial p_\alpha},\qquad \dot p_\alpha=-\frac{\partial R}{\partial q_\alpha}.
+$$
+
+## Poisson brackets
+
+$$
+[f,g]=\sum_{\alpha=1}^{s}\left(\frac{\partial f}{\partial q_\alpha}\frac{\partial g}{\partial p_\alpha}-\frac{\partial f}{\partial p_\alpha}\frac{\partial g}{\partial q_\alpha}\right).
+$$
+
+**Properties**
+
+$$
+\begin{aligned}
+&[f,g]=-[g,f],\\
+&[f,f]=0,\quad [f,c]=0\ (c\text{ constant}),\\
+&[f_1+f_2,g]=[f_1,g]+[f_2,g],\\
+&[f,cg]=c[f,g]=[cf,g],\\
+&[f_1 f_2,g]=f_1[f_2,g]+f_2[f_1,g],\\
+&\frac{\partial}{\partial t}[f,g]=\left[\frac{\partial f}{\partial t},g\right]+\left[f,\frac{\partial g}{\partial t}\right].
+\end{aligned}
+$$
+
+**Jacobi identity**
+
+$$
+[f,[g,h]]+[g,[h,f]]+[h,[f,g]]=0 .
+$$
+
+**Fundamental brackets**
+
+$$
+[q_\alpha,q_\beta]=0,\qquad [p_\alpha,p_\beta]=0,\qquad [q_\alpha,p_\beta]=\delta_{\alpha\beta},\qquad [p_\alpha,q_\beta]=-\delta_{\alpha\beta}.
+$$
+
+**Time evolution.** For $f=f(q_1,\dots,q_s,p_1,\dots,p_s,t)$,
+
+$$
+\frac{df}{dt}=\frac{\partial f}{\partial t}+\sum_\alpha\frac{\partial f}{\partial q_\alpha}\dot q_\alpha+\sum_\alpha\frac{\partial f}{\partial p_\alpha}\dot p_\alpha
+=\frac{\partial f}{\partial t}+\sum_\alpha\left(\frac{\partial f}{\partial q_\alpha}\frac{\partial H}{\partial p_\alpha}-\frac{\partial f}{\partial p_\alpha}\frac{\partial H}{\partial q_\alpha}\right)
+=\frac{\partial f}{\partial t}+[f,H].
+$$
+
+In particular $\dfrac{dH}{dt}=\dfrac{\partial H}{\partial t}$.
+
+If a dynamical variable $f$ does not depend on time explicitly,
+
+$$
+f=f_0+\frac{d}{dt}f\Big|_{t=0}t+\frac{1}{2!}\frac{d^2}{dt^2}f\Big|_{t=0}t^2+\cdots
+=f_0+[f,H]_0\,t+\frac{1}{2!}\big[[f,H],H\big]_0 t^2+\cdots
+$$
+
+**Poisson's theorem.** If $f$ and $g$ are integrals of motion, so is $[f,g]$.
+
+*Proof.* $\dfrac{d}{dt}f=\dfrac{\partial f}{\partial t}+[f,H]=0$, $\dfrac{d}{dt}g=\dfrac{\partial g}{\partial t}+[g,H]=0$. By the Jacobi identity and the time-derivative property,
+
+$$
+[H,[f,g]]+\left[f,\frac{\partial g}{\partial t}\right]+\left[g,\frac{\partial f}{\partial t}\right]=0
+\;\Rightarrow\;
+[[f,g],H]+\frac{\partial}{\partial t}[f,g]=0
+\;\Rightarrow\;
+\frac{d}{dt}[f,g]=0 . \;\square
+$$
+
+## Canonical transformations and generating functions
+
+Consider a transformation
+
+$$
+\begin{cases}
+Q_\alpha=Q_\alpha(q_1,\dots,q_s,p_1,\dots,p_s,t)\\
+P_\alpha=P_\alpha(q_1,\dots,q_s,p_1,\dots,p_s,t)
+\end{cases}\quad \alpha=1,\dots,s .
+$$
+
+It is **canonical** if there exists a function $K(P,Q,t)$ with $\dot Q_\alpha=\dfrac{\partial K}{\partial P_\alpha}$, $\dot P_\alpha=-\dfrac{\partial K}{\partial Q_\alpha}$.
+
+From the least-action principle, $\delta\displaystyle\int_{t_1}^{t_2}\!\left(\sum_\alpha p_\alpha\dot q_\alpha-H\right)dt=0$ and likewise for $(Q,P,K)$. If the two integrands differ by a total time derivative,
+
+$$
+\left(\sum_\alpha p_\alpha\dot q_\alpha-H\right)-\left(\sum_\alpha P_\alpha\dot Q_\alpha-K\right)=\frac{dF}{dt}, \tag{$*$}
+$$
+
+then both action variations vanish (the extra term gives $\delta\int\frac{dF}{dt}dt=\delta\int dF=0$). Expanding,
+
+$$
+\sum_\alpha p_\alpha\,dq_\alpha-\sum_\alpha P_\alpha\,dQ_\alpha+(K-H)\,dt=dF .
+$$
+
+The condition $\sum_\alpha(p_\alpha\delta q_\alpha-P_\alpha\delta Q_\alpha)=\delta F$ is the **generating condition**.
+
+$F$ may be one of four types:
+
+$$
+F_1(q,Q,t),\qquad F_2(q,P,t),\qquad F_3(p,Q,t),\qquad F_4(p,P,t).
+$$
+
+**Type 1: $F=F_1(q,Q,t)$.** From ($*$), $\sum_\alpha p_\alpha\,dq_\alpha-\sum_\alpha P_\alpha\,dQ_\alpha+(K-H)\,dt=dF_1$, with $dF_1=\sum_\alpha\dfrac{\partial F_1}{\partial q_\alpha}dq_\alpha+\sum_\alpha\dfrac{\partial F_1}{\partial Q_\alpha}dQ_\alpha+\dfrac{\partial F_1}{\partial t}dt$, hence
+
+$$
+p_\alpha=\frac{\partial F_1}{\partial q_\alpha},\qquad P_\alpha=-\frac{\partial F_1}{\partial Q_\alpha},\qquad K=H+\frac{\partial F_1}{\partial t},
+$$
+
+with existence condition $\det\!\left(\dfrac{\partial Q_\alpha}{\partial p_\beta}\right)\ne 0,\infty$ and freedom condition $\det\!\left(\dfrac{\partial^2 F_1}{\partial q_\alpha\partial Q_\beta}\right)\ne 0,\infty$.
+
+**Type 2: $F_2=F_1(q,Q,t)+\sum_\alpha P_\alpha Q_\alpha$** (Legendre transform $F=F_2-Q_\alpha P_\alpha$):
+
+$$
+p_\alpha=\frac{\partial F_2}{\partial q_\alpha},\qquad Q_\alpha=\frac{\partial F_2}{\partial P_\alpha},\qquad K=H+\frac{\partial F_2}{\partial t},
+$$
+
+existence $\det\!\left(\dfrac{\partial Q_\alpha}{\partial p_\beta}\right)\ne 0,\infty$, freedom $\det\!\left(\dfrac{\partial^2 F_2}{\partial q_\alpha\partial P_\beta}\right)\ne 0,\infty$.
+
+**Type 3: $F_3=F_1(q,Q,t)-\sum_\alpha p_\alpha q_\alpha$** ($F=F_3+q_\alpha p_\alpha$):
+
+$$
+q_\alpha=-\frac{\partial F_3}{\partial p_\alpha},\qquad P_\alpha=-\frac{\partial F_3}{\partial Q_\alpha},\qquad K=H+\frac{\partial F_3}{\partial t},
+$$
+
+existence $\det\!\left(\dfrac{\partial Q_\alpha}{\partial q_\beta}\right)\ne 0,\infty$, freedom $\det\!\left(\dfrac{\partial^2 F_3}{\partial p_\alpha\partial Q_\beta}\right)\ne 0,\infty$.
+
+**Type 4: $F_4=F_1(q,Q,t)+\sum_\alpha P_\alpha Q_\alpha-\sum_\alpha p_\alpha q_\alpha$** ($F=F_4+q_\alpha p_\alpha-Q_\alpha P_\alpha$):
+
+$$
+q_\alpha=-\frac{\partial F_4}{\partial p_\alpha},\qquad Q_\alpha=\frac{\partial F_4}{\partial P_\alpha},\qquad K=H+\frac{\partial F_4}{\partial t},
+$$
+
+existence $\det\!\left(\dfrac{\partial Q_\alpha}{\partial q_\beta}\right)\ne 0,\infty$, freedom $\det\!\left(\dfrac{\partial^2 F_4}{\partial p_\alpha\partial P_\beta}\right)\ne 0,\infty$.
+
+## The Hamilton–Jacobi equation
+
+We seek a canonical transformation with $K(P,Q,t)\equiv 0$, so that
+
+$$
+\dot Q_\alpha=\frac{\partial K}{\partial P_\alpha}=0\;\Rightarrow\; Q_\alpha=\xi_\alpha=\text{const},\qquad
+\dot P_\alpha=-\frac{\partial K}{\partial Q_\alpha}=0\;\Rightarrow\; P_\alpha=\eta_\alpha=\text{const},
+$$
+
+giving $2s$ integrals of motion. Using $p_\alpha=\dfrac{\partial F_2}{\partial q_\alpha}$, $K=H+\dfrac{\partial F_2}{\partial t}=0$:
+
+$$
+H\!\left(q_1,\dots,q_s,\frac{\partial F_2}{\partial q_1},\dots,\frac{\partial F_2}{\partial q_s},t\right)+\frac{\partial F_2}{\partial t}=0 .
+$$
+
+If $F_2$ is a complete solution, $S=F_2+\text{const}$ is also a solution; $S$ is **Hamilton's principal function**. The **Hamilton–Jacobi equation** is
+
+$$
+\boxed{\;H\!\left(q_1,\dots,q_s,\frac{\partial S}{\partial q_1},\dots,\frac{\partial S}{\partial q_s},t\right)+\frac{\partial S}{\partial t}=0\;}
+$$
+
+**Hamilton's principal function as the action.**
+
+$$
+\frac{\partial S}{\partial t}=\frac{\partial F_2}{\partial t}=-H,\qquad
+\frac{dS}{dt}=\sum_\alpha\frac{\partial S}{\partial q_\alpha}\dot q_\alpha+\frac{\partial S}{\partial t}=\sum_\alpha p_\alpha\dot q_\alpha-H=L,
+$$
+
+so $S=\displaystyle\int L\,dt$ is the action.
+
+**Hamilton's characteristic function.** If $H$ has no explicit time dependence, $\dfrac{\partial S}{\partial t}=-E$, so
+
+$$
+S(q,t)=-Et+W(q)+A,\qquad
+S=\int\!\left(\sum_\alpha p_\alpha\dot q_\alpha-H\right)dt=\int\sum_\alpha p_\alpha\,dq_\alpha-Et+A .
+$$
+
+The **characteristic function** $W(q)$ satisfies
+
+$$
+W(q)=\int\sum_\alpha p_\alpha\,dq_\alpha\;\Rightarrow\; p_\alpha=\frac{\partial W}{\partial q_\alpha},\qquad
+H\!\left(q_1,\dots,q_s,\frac{\partial W}{\partial q_1},\dots,\frac{\partial W}{\partial q_s}\right)=E .
+$$
+
+$W$ is a function of the $s$ generalized coordinates and the constants; the solution involves $s$ constants, but $E$ is already one, so $s-1$ further constants $\eta_2,\dots,\eta_s$ remain. With
+
+$$
+W=W(q_1,\dots,q_s;E,\eta_2,\dots,\eta_s),\qquad F_2=-Et+W,
+$$
+
+the new constant coordinates are
+
+$$
+\xi_\alpha=\frac{\partial F_2}{\partial\eta_\alpha}=
+\begin{cases}
+-t+\dfrac{\partial W}{\partial E}, & \alpha=1\\[2mm]
+\dfrac{\partial W}{\partial\eta_\alpha}, & \alpha=2,\dots,s .
+\end{cases}
+$$
+
+## Symplectic structure and canonical invariance
+
+Let $\eta=\begin{pmatrix}q\\p\end{pmatrix}$. Hamilton's equations read
+
+$$
+\dot\eta=\begin{pmatrix}\dot q\\\dot p\end{pmatrix}=\begin{pmatrix}\partial H/\partial p\\-\partial H/\partial q\end{pmatrix}
+=\begin{pmatrix}0&I_s\\-I_s&0\end{pmatrix}\begin{pmatrix}\partial H/\partial q\\\partial H/\partial p\end{pmatrix}=J\,\frac{\partial H}{\partial\eta},
+\qquad J=\begin{pmatrix}0&I_s\\-I_s&0\end{pmatrix},
+$$
+
+with $J^{T}=J^{-1}=-J$, $\det J=1$.
+
+For a transformation to $\xi=\begin{pmatrix}Q\\P\end{pmatrix}$, the **Jacobian matrix** is $M=\dfrac{\partial\xi}{\partial\eta}$. The transformation is **canonical** $\Leftrightarrow$ $M^{T}J M=J$, i.e. $M$ is a **symplectic matrix**.
+
+*Proof (time-independent transformation).* $\dot\xi=M\dot\eta$ and $\dfrac{\partial H}{\partial\eta}=M^{T}\dfrac{\partial H}{\partial\xi}$, so
+
+$$
+\dot\xi=M J M^{T}\frac{\partial H}{\partial\xi}.
+$$
+
+This equals $J\,\dfrac{\partial H}{\partial\xi}$ for all $H$ iff $M J M^{T}=J$. $\square$
+
+**Invariance of the Poisson bracket.**
+
+$$
+[f,g]_{(q,p)}=\sum_\alpha\left(\frac{\partial f}{\partial q_\alpha}\frac{\partial g}{\partial p_\alpha}-\frac{\partial f}{\partial p_\alpha}\frac{\partial g}{\partial q_\alpha}\right)
+=\left(\frac{\partial f}{\partial\eta}\right)^{T}J\left(\frac{\partial g}{\partial\eta}\right).
+$$
+
+Under a canonical transformation $\dfrac{\partial f}{\partial\eta}=M^{T}\dfrac{\partial f}{\partial\xi}$,
+
+$$
+[f,g]_{(q,p)}=\left(M^{T}\frac{\partial f}{\partial\xi}\right)^{T}J\left(M^{T}\frac{\partial g}{\partial\xi}\right)
+=\left(\frac{\partial f}{\partial\xi}\right)^{T}\!\big(M J M^{T}\big)\frac{\partial g}{\partial\xi}
+=\left(\frac{\partial f}{\partial\xi}\right)^{T}\!J\,\frac{\partial g}{\partial\xi}=[f,g]_{(Q,P)} .
+$$
+
+In particular, $[Q_i,P_j]_{(q,p)}=[Q_i,P_j]_{(Q,P)}=\delta_{ij}$.
+
+## Phase space and Liouville's theorem
+
+**Phase space** is the $2s$-dimensional space spanned by $\{q_1,\dots,q_s,p_1,\dots,p_s\}$. Each point (a **representative point** or **phase point**) specifies a definite dynamical state. As the system evolves, the phase point traces a **phase trajectory**.
+
+**Phase-space density** $\rho=\dfrac{dN}{dV}$, where $dV=dq_1\cdots dq_s\,dp_1\cdots dp_s$.
+
+**Liouville's theorem.**
+
+$$
+\boxed{\;\frac{d\rho}{dt}=0\;}
+$$
+
+*Proof.* Consider a small box in phase space. The number of phase points entering through the face at $q_\alpha$ per unit time is $\rho\dot q_\alpha\,dp_\alpha$; the number leaving the opposite face is, to first order in Taylor expansion, $\left[\rho\dot q_\alpha+\dfrac{\partial}{\partial q_\alpha}(\rho\dot q_\alpha)dq_\alpha\right]dp_\alpha$, and similarly for the $p_\alpha$ faces. Balancing,
+
+$$
+\frac{\partial\rho}{\partial t}=-\sum_\alpha\left[\frac{\partial}{\partial q_\alpha}(\rho\dot q_\alpha)+\frac{\partial}{\partial p_\alpha}(\rho\dot p_\alpha)\right]
+=-\sum_\alpha\left(\frac{\partial\rho}{\partial q_\alpha}\dot q_\alpha+\rho\frac{\partial\dot q_\alpha}{\partial q_\alpha}+\frac{\partial\rho}{\partial p_\alpha}\dot p_\alpha+\rho\frac{\partial\dot p_\alpha}{\partial p_\alpha}\right).
+$$
+
+By Hamilton's equations $\dfrac{\partial\dot q_\alpha}{\partial q_\alpha}=\dfrac{\partial^2 H}{\partial q_\alpha\partial p_\alpha}=-\dfrac{\partial\dot p_\alpha}{\partial p_\alpha}$, so those terms cancel and
+
+$$
+\frac{d\rho}{dt}=\frac{\partial\rho}{\partial t}+\sum_\alpha\left(\frac{\partial\rho}{\partial q_\alpha}\dot q_\alpha+\frac{\partial\rho}{\partial p_\alpha}\dot p_\alpha\right)=0 . \;\square
+$$
+
+In particular, at equilibrium $\dfrac{\partial\rho}{\partial t}=0\Rightarrow[\rho,H]=0$.
+
+## From Hamilton–Jacobi to the Schrödinger equation
+
+For $H=\dfrac{\vec p^{\,2}}{2m}+V(\vec r)=\dfrac{1}{2m}(p_x^2+p_y^2+p_z^2)+V(\vec r)$, the Hamilton–Jacobi equation is
+
+$$
+\frac{1}{2m}\left[\left(\frac{\partial W}{\partial x}\right)^2+\left(\frac{\partial W}{\partial y}\right)^2+\left(\frac{\partial W}{\partial z}\right)^2\right]+V(\vec r)=E .
+$$
+
+**Ansatz 1:** $W=\hbar\ln\psi$, giving
+
+$$
+\frac{\hbar^2}{2m}\left[\left(\frac{\partial\psi}{\partial x}\right)^2+\left(\frac{\partial\psi}{\partial y}\right)^2+\left(\frac{\partial\psi}{\partial z}\right)^2\right]+\big[V(\vec r)-E\big]\psi^2=0 .
+$$
+
+**Ansatz 2:** at microscopic scales particles do not exactly satisfy the above; instead require the integral to be stationary:
+
+$$
+\delta\int\left\{\frac{\hbar^2}{2m}\left[\left(\frac{\partial\psi}{\partial x}\right)^2+\left(\frac{\partial\psi}{\partial y}\right)^2+\left(\frac{\partial\psi}{\partial z}\right)^2\right]+\big[V(\vec r)-E\big]\psi^2\right\}d\vec r=0 .
+$$
+
+That is $\delta\displaystyle\int\left\{\frac{\hbar^2}{2m}(\nabla\psi)^2+[V(\vec r)-E]\psi^2\right\}d\vec r=0$, so
+
+$$
+\int\left\{\frac{\hbar^2}{2m}\nabla\psi\cdot\nabla\delta\psi+[V(\vec r)-E]\psi\,\delta\psi\right\}d\vec r=0 .
+$$
+
+Using $\displaystyle\int\nabla\psi\cdot\nabla\delta\psi\,d\vec r=\oint_S(\nabla\psi\,\delta\psi)\cdot d\vec S-\int\nabla^2\psi\,\delta\psi\,d\vec r$ with vanishing surface term,
+
+$$
+\int\left\{-\frac{\hbar^2}{2m}\nabla^2\psi+[V(\vec r)-E]\psi\right\}\delta\psi\,d\vec r=0 .
+$$
+
+By the arbitrariness of $\delta\psi$,
+
+$$
+\boxed{\;-\frac{\hbar^2}{2m}\nabla^2\psi+V(\vec r)\psi=E\psi\;}\qquad\text{(time-independent Schrödinger equation).}
+$$
+
+# Rigid-Body Dynamics
+
+## Rotation matrices and Chasles' theorem
+
+A change of basis from $\{\vec e_1,\vec e_2,\vec e_3\}$ to $\{\vec e_1{}',\vec e_2{}',\vec e_3{}'\}$ (both orthonormal) is
+
+$$
+\begin{pmatrix}\vec e_1{}'\\\vec e_2{}'\\\vec e_3{}'\end{pmatrix}=A\begin{pmatrix}\vec e_1\\\vec e_2\\\vec e_3\end{pmatrix},\qquad
+A=\begin{pmatrix}\vec e_1{}'\cdot\vec e_1&\vec e_1{}'\cdot\vec e_2&\vec e_1{}'\cdot\vec e_3\\\vec e_2{}'\cdot\vec e_1&\vec e_2{}'\cdot\vec e_2&\vec e_2{}'\cdot\vec e_3\\\vec e_3{}'\cdot\vec e_1&\vec e_3{}'\cdot\vec e_2&\vec e_3{}'\cdot\vec e_3\end{pmatrix},
+$$
+
+with **orthogonality** $AA^{T}=I$ and $\det A=\pm1$ (proper rotation: $\det A=+1$).
+
+For a rotation, $A$ has an eigenvalue $\lambda=1$:
+
+$$
+\det(A-I)=\det(A-AA^{T})=\det A\cdot\det(I-A^{T})=\det(I-A)=-\det(A-I)\;\Rightarrow\;\det(A-I)=0 .
+$$
+
+So $A$ has a fixed direction (eigenvector with $\lambda=1$): a pure rotation about an axis.
+
+**Chasles' theorem.** A general rigid displacement is a rotation about an axis plus a translation:
+
+$$
+\vec r'=A\vec r+\vec a .
+$$
+
+A rigid-body motion can be decomposed into the motion of a reference point (translation) plus rotation about that point.
+
+## Euler angles
+
+The orientation of a rigid body relative to a fixed frame is described by three **Euler angles**.
+
+1. **Precession angle** $\varphi$ ($0\le\varphi<2\pi$): $A_\varphi=\begin{pmatrix}\cos\varphi&\sin\varphi&0\\-\sin\varphi&\cos\varphi&0\\0&0&1\end{pmatrix}$
+2. **Nutation angle** $\theta$ ($0\le\theta\le\pi$): $A_\theta=\begin{pmatrix}1&0&0\\0&\cos\theta&\sin\theta\\0&-\sin\theta&\cos\theta\end{pmatrix}$
+3. **Spin angle** $\psi$ ($0\le\psi<2\pi$): $A_\psi=\begin{pmatrix}\cos\psi&\sin\psi&0\\-\sin\psi&\cos\psi&0\\0&0&1\end{pmatrix}$
+
+The full rotation is
+
+$$
+A=A_\psi A_\theta A_\varphi=
+\begin{pmatrix}
+\cos\varphi\cos\psi-\cos\theta\sin\varphi\sin\psi & \sin\varphi\cos\psi+\cos\theta\cos\varphi\sin\psi & \sin\theta\sin\psi\\
+-\cos\varphi\sin\psi-\cos\theta\sin\varphi\cos\psi & -\sin\varphi\sin\psi+\cos\theta\cos\varphi\cos\psi & \sin\theta\cos\psi\\
+\sin\theta\sin\varphi & -\sin\theta\cos\varphi & \cos\theta
+\end{pmatrix}.
+$$
+
+**Euler kinematic equations.** Resolving $\dot\varphi$, $\dot\theta$, $\dot\psi$ along the body axes,
+
+$$
+\begin{cases}
+\dot\varphi_x=\dot\varphi\sin\theta\sin\psi\\
+\dot\theta_x=\dot\theta\cos\psi\\
+\dot\psi_x=0
+\end{cases}
+\quad
+\begin{cases}
+\dot\varphi_y=\dot\varphi\sin\theta\cos\psi\\
+\dot\theta_y=-\dot\theta\sin\psi\\
+\dot\psi_y=0
+\end{cases}
+\quad
+\begin{cases}
+\dot\varphi_z=\dot\varphi\cos\theta\\
+\dot\theta_z=0\\
+\dot\psi_z=\dot\psi
+\end{cases}
+$$
+
+so
+
+$$
+\begin{cases}
+\omega_x=\dot\varphi\sin\theta\sin\psi+\dot\theta\cos\psi\\
+\omega_y=\dot\varphi\sin\theta\cos\psi-\dot\theta\sin\psi\\
+\omega_z=\dot\varphi\cos\theta+\dot\psi
+\end{cases}
+\;\Rightarrow\;
+\omega=\sqrt{\dot\varphi^2+\dot\theta^2+\dot\psi^2+2\dot\varphi\dot\psi\cos\theta}.
+$$
+
+## The inertia tensor
+
+Angular momentum:
+
+$$
+\vec J=\sum_i\vec r_i\times m_i\vec v_i=\sum_i m_i\vec r_i\times(\vec\omega\times\vec r_i)
+=\sum_i m_i\big[r_i^2\vec\omega-(\vec r_i\cdot\vec\omega)\vec r_i\big].
+$$
+
+Component-wise,
+
+$$
+J_x=\sum_i m_i(y_i^2+z_i^2)\omega_x-\sum_i m_i x_i y_i\,\omega_y-\sum_i m_i x_i z_i\,\omega_z,
+$$
+
+and similarly for $J_y,J_z$. Defining the **inertia tensor**
+
+$$
+\overleftrightarrow{I}=
+\begin{pmatrix}
+\sum_i m_i(y_i^2+z_i^2) & -\sum_i m_i x_i y_i & -\sum_i m_i x_i z_i\\
+-\sum_i m_i x_i y_i & \sum_i m_i(z_i^2+x_i^2) & -\sum_i m_i y_i z_i\\
+-\sum_i m_i x_i z_i & -\sum_i m_i y_i z_i & \sum_i m_i(x_i^2+y_i^2)
+\end{pmatrix},
+\qquad \vec J=\overleftrightarrow{I}\,\vec\omega ,
+$$
+
+i.e.
+
+$$
+I_{ij}=\sum_\alpha m_\alpha\left(\delta_{ij}\sum_k r_{\alpha,k}^2-r_{\alpha,i}r_{\alpha,j}\right).
+$$
+
+**Rotational kinetic energy**
+
+$$
+E_k=\sum_i\tfrac12 m_i\vec v_i^{\,2}=\tfrac12\sum_i m_i\vec v_i\cdot\vec v_i
+=\tfrac12\sum_i m_i\vec v_i\cdot(\vec\omega\times\vec r_i)
+=\tfrac12\vec\omega\cdot\sum_i m_i(\vec r_i\times\vec v_i)
+=\tfrac12\vec\omega\cdot\vec J=\tfrac12\vec\omega^{T}\overleftrightarrow{I}\,\vec\omega .
+$$
+
+For a spatial rotation $\vec\omega=A\vec\omega'$, $E_k=\tfrac12\vec\omega'^{T}A^{T}\overleftrightarrow{I}A\vec\omega'\Rightarrow\overleftrightarrow{I}{}'=A^{T}\overleftrightarrow{I}A$.
+
+**Parallel-axis theorem.** When the centre of mass $C$ is at the origin, for a parallel axis displaced by $\vec a$,
+
+$$
+I_{ij}^{a}=I_{ij}^{C}+M\big(\delta_{ij}a_k^2-a_i a_j\big).
+$$
+
+*Proof.* With $r_{\alpha,i}=r'_{\alpha,i}+a_i$,
+
+$$
+I_{ij}^{a}=\sum_\alpha m_\alpha\!\left(\delta_{ij}\sum_k r_{\alpha,k}^2-r_{\alpha,i}r_{\alpha,j}\right)
+=\sum_\alpha m_\alpha\!\left[\delta_{ij}\sum_k(r'_{\alpha,k}+a_k)^2-(r'_{\alpha,i}+a_i)(r'_{\alpha,j}+a_j)\right],
+$$
+
+and since $\sum_\alpha m_\alpha r'_{\alpha,k}=0$ (centre of mass at origin), the cross terms vanish, leaving $I_{ij}^{a}=I_{ij}^{C}+M(\delta_{ij}a_k^2-a_i a_j)$. $\square$
+
+**Principal axes.** Since $\overleftrightarrow{I}$ is real symmetric, there exists an orthogonal $A=(X_1,X_2,X_3)$ with $A^{T}\overleftrightarrow{I}A=D=\mathrm{diag}(I_1,I_2,I_3)$. The eigenvectors $X_1,X_2,X_3$ are the **principal axes**; any symmetry axis or rotational-symmetry axis of the body is a principal axis. For a thin planar body, $I_3=I_1+I_2$ (since $\int\rho z^2\,dV=0$).
+
+## The inertia ellipsoid
+
+Let the axis $OX$ have direction cosines $(\cos\alpha,\cos\beta,\cos\gamma)$. For a point $P$ at $\vec r=(x,y,z)$ with $R=r\sin\theta$ the distance from the axis,
+
+$$
+\cos\theta=\frac{x\cos\alpha+y\cos\beta+z\cos\gamma}{r},\qquad R^2=r^2-(x\cos\alpha+y\cos\beta+z\cos\gamma)^2=x^2+y^2+z^2-(\dots)^2 .
+$$
+
+The moment of inertia about $OX$ is
+
+$$
+I=\sum_i m_i R_i^2=I_{11}\cos^2\alpha+I_{22}\cos^2\beta+I_{33}\cos^2\gamma+2I_{12}\cos\alpha\cos\beta+2I_{23}\cos\beta\cos\gamma+2I_{13}\cos\alpha\cos\gamma .
+$$
+
+Take a point along the axis at $\overrightarrow{OA}=\dfrac{1}{\sqrt I}\hat n$, i.e. coordinates $Q=\left(\dfrac{\cos\alpha}{\sqrt I},\dfrac{\cos\beta}{\sqrt I},\dfrac{\cos\gamma}{\sqrt I}\right)$, so
+
+$$
+I_{11}x^2+I_{22}y^2+I_{33}z^2+2I_{12}xy+2I_{23}yz+2I_{13}zx=1 ,
+$$
+
+an **ellipsoid equation**. Along any direction, the segment from the centre to the surface is $\ell=1/\sqrt I$; the moment of inertia about that axis is $I=1/\ell^2$. This is the **inertia ellipsoid**.
+
+**Angular momentum and the ellipsoid.** The direction of $\vec J$ is the surface normal of the inertia ellipsoid at the point where the rotation axis pierces it.
+
+*Proof.* Let $\hat\omega\parallel\overrightarrow{OA}$ with $\dfrac{x}{\omega_x}=\dfrac{y}{\omega_y}=\dfrac{z}{\omega_z}=\dfrac{1/\sqrt I}{\omega}=C$. Then
+
+$$
+J_x=I_{11}\omega_x+I_{12}\omega_y+I_{13}\omega_z=C^{-1}(I_{11}x+I_{12}y+I_{13}z),\quad\text{etc.}
+$$
+
+The ellipsoid surface $F=I_{11}x^2+I_{22}y^2+I_{33}z^2+2I_{12}xy+2I_{23}yz+2I_{13}zx-1=0$ has gradient
+
+$$
+\nabla F=2\big(I_{11}x+I_{12}y+I_{13}z,\;I_{12}x+I_{22}y+I_{23}z,\;I_{13}x+I_{23}y+I_{33}z\big),
+$$
+
+so $\vec J\parallel\nabla F$. $\square$ Moreover $\ell=|OA|=\overrightarrow{OA}\cdot\dfrac{\vec J}{J}=\dfrac{\hat\omega}{\sqrt I}\cdot\dfrac{\vec J}{J}=\dfrac{\sqrt{2T}}{J}$.
+
+## Euler's dynamical equations
+
+Using the rotating body frame with principal axes,
+
+$$
+\frac{d\vec e_1}{dt}=\vec\omega\times\vec e_1=\omega_z\vec e_2-\omega_y\vec e_3,\quad
+\frac{d\vec e_2}{dt}=\omega_x\vec e_3-\omega_z\vec e_1,\quad
+\frac{d\vec e_3}{dt}=\omega_y\vec e_1-\omega_x\vec e_2 .
+$$
+
+For $\vec J=I_1\omega_x\vec e_1+I_2\omega_y\vec e_2+I_3\omega_z\vec e_3$,
+
+$$
+\frac{d\vec J}{dt}=\big(I_1\dot\omega_x-(I_2-I_3)\omega_y\omega_z\big)\vec e_1+\big(I_2\dot\omega_y-(I_3-I_1)\omega_z\omega_x\big)\vec e_2+\big(I_3\dot\omega_z-(I_1-I_2)\omega_x\omega_y\big)\vec e_3=\vec N .
+$$
+
+Hence **Euler's equations**
+
+$$
+\boxed{\;
+\begin{cases}
+I_1\dot\omega_x-(I_2-I_3)\omega_y\omega_z=N_x\\
+I_2\dot\omega_y-(I_3-I_1)\omega_z\omega_x=N_y\\
+I_3\dot\omega_z-(I_1-I_2)\omega_x\omega_y=N_z
+\end{cases}\;}
+$$
+
+## The free (Euler) top
+
+A rigid body rotating freely under no external torque. With $\vec N=0$,
+
+$$
+\begin{cases}
+I_1\dot\omega_x-(I_2-I_3)\omega_y\omega_z=0\\
+I_2\dot\omega_y-(I_3-I_1)\omega_z\omega_x=0\\
+I_3\dot\omega_z-(I_1-I_2)\omega_x\omega_y=0
+\end{cases}
+$$
+
+The Lagrangian (kinetic energy only),
+
+$$
+\begin{align*}L&=T=\tfrac12\big(I_1\omega_x^2+I_2\omega_y^2+I_3\omega_z^2\big)
+\\&=\tfrac12 I_1(\dot\varphi\sin\theta\sin\psi+\dot\theta\cos\psi)^2+\tfrac12 I_2(\dot\varphi\sin\theta\cos\psi-\dot\theta\sin\psi)^2+\tfrac12 I_3(\dot\varphi\cos\theta+\dot\psi)^2 \end{align*}
+$$
+
+So $\psi$ is cyclic and
+
+$$
+p_\varphi=\frac{\partial T}{\partial\dot\varphi}=I_1\omega_x\sin\theta\sin\psi+I_2\omega_y\sin\theta\cos\psi+I_3\omega_z\cos\theta=\vec J\cdot\vec e_z=J_z,
+$$
+
+a constant of motion. Since $x,y,z$ are arbitrary, all components of $\vec J$ are constant, $\vec J=\text{const}$. Since $L$ has no explicit time dependence, the energy of the free top is conserved. From
+
+$$
+\begin{cases}
+J^2=I_1^2\omega_x^2+I_2^2\omega_y^2+I_3^2\omega_z^2=J_0^2\\
+E=\tfrac12 I_1\omega_x^2+\tfrac12 I_2\omega_y^2+\tfrac12 I_3\omega_z^2=E_0
+\end{cases}
+\;\Rightarrow\;
+\begin{cases}
+\omega_x=\pm\sqrt{\dfrac{J_0^2-2E_0 I_3-I_1(I_1-I_3)\omega_y^2}{I_1(I_1-I_3)}}\equiv f_1(\omega_y)\\[2mm]
+\omega_y=\pm\sqrt{\dfrac{J_0^2-2E_0 I_1-I_3(I_3-I_1)\omega_y^2}{I_3(I_3-I_1)}}\equiv f_2(\omega_y)
+\end{cases}
+$$
+
+and the third Euler equation $I_3\dot\omega_z-(I_1-I_2)f_1(\omega_y)f_2(\omega_y)=0$ can be solved for $\omega_z=\omega_z(t)$.
+
+**Stability of free rotation** (assume $I_3>I_2>I_1$):
+
+- **About axis 1**, $\vec\omega=\omega_x\vec e_1+\lambda\vec e_2+\mu\vec e_3$ ($\lambda,\mu$ small). Neglecting $\lambda\mu$ (second order), $\omega_x=\text{const}$ and
+  $$
+  \ddot\lambda+\frac{(I_3-I_1)(I_2-I_1)}{I_2 I_3}\omega_x^2\lambda=0\;\Rightarrow\;\lambda(t)=Ae^{-i\Omega_1 t}+Be^{i\Omega_1 t},\quad \Omega_1=\omega_x\sqrt{\frac{(I_2-I_1)(I_3-I_1)}{I_2 I_3}}\;(\text{real}).
+  $$
+  Stable (oscillatory).
+- **About axis 2** ($\vec\omega=\omega_y\vec e_2$): $\Omega_2=\omega_y\sqrt{\dfrac{(I_1-I_2)(I_3-I_2)}{I_1 I_3}}$ is **imaginary** → unstable.
+- **About axis 3** ($\vec\omega=\omega_z\vec e_3$): $\Omega_3=\omega_z\sqrt{\dfrac{(I_1-I_3)(I_2-I_3)}{I_1 I_2}}$ is **real** → stable.
+
+So rotation about the axes of largest and smallest moment of inertia is stable; rotation about the intermediate axis is unstable (the tennis-racket theorem).
+
+## The symmetric (Euler) top, $I_1=I_2$
+
+$$
+T=\tfrac12 I_1(\dot\theta^2+\dot\varphi^2\sin^2\theta)+\tfrac12 I_3(\dot\psi+\dot\varphi\cos\theta)^2 .
+$$
+
+With $N=0$ and $I_1=I_2$,
+
+$$
+\begin{cases}
+I_1\dot\omega_x-(I_1-I_3)\omega_y\omega_z=0\\
+I_1\dot\omega_y-(I_3-I_1)\omega_z\omega_x=0\\
+I_3\dot\omega_z=0
+\end{cases}
+\;\Rightarrow\;
+\omega_z=\text{const}\equiv\omega_{z0},\qquad
+\begin{cases}
+\dot\omega_x=-\dfrac{I_1-I_3}{I_1}\omega_{z0}\,\omega_y\\[2mm]
+\dot\omega_y=\dfrac{I_1-I_3}{I_1}\omega_{z0}\,\omega_x
+\end{cases}
+$$
+
+Writing $\Omega=\dfrac{I_3-I_1}{I_1}\omega_{z0}$,
+
+$$
+\begin{cases}\omega_x=A\cos(\Omega t+\beta_0)\\\omega_y=A\sin(\Omega t+\beta_0)\end{cases}
+\qquad \omega=\sqrt{A^2+\omega_{z0}^2}.
+$$
+
+In the space frame, with $J_x=J\sin\theta_0\sin\psi=I_1\omega_x$, $J_y=J\sin\theta_0\cos\psi=I_1\omega_y$, $J_z=J\cos\theta_0=I_3\omega_{z0}$, one finds $\cos\theta_0=\dfrac{I_3\omega_{z0}}{J}=\text{const}$, and
+
+$$
+\begin{cases}
+\sin\psi=\cos(\Omega t+\beta_0)\\
+\cos\psi=\sin(\Omega t+\beta_0)
+\end{cases}
+\;\Rightarrow\; A=\frac{J\sin\theta_0}{I_1},\qquad \psi=\frac{\pi}{2}-\Omega t-\beta_0 .
+$$
+
+The body axis precesses uniformly. **Stability:** for a perturbation about $\vec\omega=\omega_x\vec e_1$, $\lambda=\dfrac{I_3-I_1}{I_1}\omega_x\mu$, $\dot\mu=0\Rightarrow\mu=\text{const}$, $\lambda=Ct+D$ — the disturbance grows linearly in time. For a perturbation about $\vec\omega=\omega_z\vec e_3$, $\Omega_3=\omega_z\dfrac{|I_3-I_1|}{I_1}$ is real, so the precession frequency is real (stable).
+
+## The Lagrange top (symmetric top under gravity)
+
+A symmetric top ($I_1=I_2$) with its fixed point a distance $l$ from the centre of mass in a gravitational field:
+
+$$
+L=T-V=\tfrac12 I_1(\dot\theta^2+\dot\varphi^2\sin^2\theta)+\tfrac12 I_3(\dot\psi+\dot\varphi\cos\theta)^2-mgl\cos\theta .
+$$
+
+**Conserved momenta** ($\varphi,\psi$ cyclic):
+
+$$
+p_\varphi=\frac{\partial L}{\partial\dot\varphi}=(I_1\sin^2\theta+I_3\cos^2\theta)\dot\varphi+I_3\dot\psi\cos\theta=J_z, \tag{1}
+$$
+$$
+p_\psi=\frac{\partial L}{\partial\dot\psi}=I_3(\dot\psi+\dot\varphi\cos\theta)=J_{z'} . \tag{2}
+$$
+
+Since $L$ has no explicit time dependence, energy is conserved:
+
+$$
+E=\tfrac12 I_1(\dot\theta^2+\dot\varphi^2\sin^2\theta)+\tfrac12 I_3(\dot\psi+\dot\varphi\cos\theta)^2+mgl\cos\theta=\text{const}. \tag{3}
+$$
+
+Equations (1)(2)(3) are the three equations of motion of the Lagrange top. From them,
+
+$$
+p_\theta=\frac{\partial L}{\partial\dot\theta}=I_1\dot\theta\;\Rightarrow\;\dot\theta=\frac{p_\theta}{I_1},\qquad
+\dot\varphi=\frac{J_z-J_{z'}\cos\theta}{I_1\sin^2\theta},\qquad
+\dot\psi=\frac{J_{z'}}{I_3}-\frac{J_z-J_{z'}\cos\theta}{I_1\sin^2\theta}\cos\theta .
+$$
+
+The Hamiltonian reduction gives an effective one-dimensional problem in $\theta$:
+
+$$
+H=\dot\theta p_\theta+\dot\varphi p_\varphi+\dot\psi p_\psi-L=\frac{p_\theta^2}{2I_1}+\frac{(p_\varphi-p_\psi\cos\theta)^2}{2I_1\sin^2\theta}+\frac{p_\psi^2}{2I_3}+mgl\cos\theta,
+$$
+
+so
+
+$$
+\frac{p_\theta^2}{2I_1}=\frac{(J_z-J_{z'}\cos\theta)^2}{2I_1\sin^2\theta}+\frac{J_{z'}^2}{2I_3}+mgl\cos\theta-E\ge 0
+\;\Rightarrow\;\theta\in[\theta_1,\theta_2],
+$$
+
+i.e. the nutation angle is confined between two turning angles.
+
+# Special Relativity
+
+## Galilean transformation
+
+For an inertial frame moving with velocity $\vec V$,
+
+$$
+\begin{cases}\vec r=\vec r'+\vec V t'\\ t=t'\end{cases}
+\quad\Rightarrow\quad
+\vec v=\frac{d\vec r}{dt},\;\vec v'=\frac{d\vec r'}{dt'}\;\Rightarrow\;\vec v=\vec v'+\vec V,\quad \vec a=\vec a',\quad \vec F=\vec F' .
+$$
+
+Corollary: no mechanical experiment can distinguish one inertial frame from another.
+
+## Einstein's two postulates
+
+1. The laws of physics are the same (covariant) in all inertial frames.
+2. The speed of light is invariant ($c\approx 3\times10^8\,\text{m/s}$).
+
+## Spacetime interval
+
+An **event** is a position $\vec r$ plus a time $t$. For two events,
+
+$$
+\Delta t=t_2-t_1,\qquad \Delta\vec r=\vec r_2-\vec r_1,\qquad \text{spacetime interval } \Delta s^2=c^2\Delta t^2-\Delta\vec r^{\,2}.
+$$
+
+Since inertial frames are interchangeable, the inverse transformation has the same form, and all inertial frames are equivalent, the transformation between frames is **linear**. Writing $x_0=ct,\;x_1=x,\;x_2=y,\;x_3=z$, and using the invariance of $c$ (for events connected by a light signal $\Delta s^2=\Delta s'^2=0$), one obtains
+
+$$
+\Delta s'^2=A_{00}(\vec V)\big[c^2\Delta t^2-(\Delta x^2+\Delta y^2+\Delta z^2)\big]=A(\vec V)\,\Delta s^2 .
+$$
+
+By spatial isotropy $\Delta s'^2=A(V)\Delta s^2$. Comparing three frames $k,k_1,k_2$:
+
+$$
+ds=A(V_1)ds_1,\quad ds=A(V_2)ds_2,\quad ds_1=A(V_{12})ds_2\;\Rightarrow\;\frac{A(V_2)}{A(V_1)}=A(V_{12}).
+$$
+
+The left side is independent of the angle between $\vec V_1,\vec V_2$, the right side depends on it, so $A(V_{12})=\text{const}=1$, giving $\Delta s=\Delta s'$: **the spacetime interval is invariant in special relativity.**
+
+## Lorentz transformation
+
+Seek a linear transformation $x_\mu'=a_{\mu\nu}x_\nu$ with $\Delta s'^2=\Delta s^2$. With motion along $x$ ($y=z=0$, $y'=z'=0$) and no rotation, $y'=y$, $z'=z$. Considering $x'=0\Leftrightarrow x=Vt$, write $x'=\gamma(x-Vt)$. The inverse $x=\gamma(x'+Vt')$ gives
+
+$$
+t'=\frac{1}{V}\left(\frac{x}{\gamma}-x'\right)=\frac{1-\gamma^2}{V\gamma}x+\gamma t .
+$$
+
+Imposing $s'^2=s^2$ and taking the limit $V\to0$ fixes
+
+$$
+\gamma=\left(1-\frac{V^2}{c^2}\right)^{-1/2},\qquad k_2=k_3=1 .
+$$
+
+The **Lorentz transformation** is
+
+$$
+\boxed{\;
+\begin{cases}
+ct'=\gamma(ct-\beta x)\\
+x'=\gamma(x-\beta ct)\\
+y'=y\\
+z'=z
+\end{cases}
+\qquad
+\begin{cases}
+ct=\gamma(ct'+\beta x')\\
+x=\gamma(x'+\beta ct')\\
+y=y'\\
+z=z'
+\end{cases}\;}
+\qquad
+\gamma=\left(1-\frac{V^2}{c^2}\right)^{-1/2},\;\beta=\frac{V}{c}.
+$$
+
+**Length contraction** (simultaneous measurement, $\Delta t=0$): $x_0'=\dfrac{x_0-Vt_0}{\sqrt{1-V^2/c^2}}$, $x_1'=\dfrac{x_1-Vt_0}{\sqrt{1-V^2/c^2}}$, so $\Delta x'=\gamma\Delta x$.
+
+**Time dilation** (co-located clock): $t_0'=\dfrac{t_0-\frac{V}{c^2}x_0}{\sqrt{1-V^2/c^2}}$, $t_1'=\dfrac{t_1-\frac{V}{c^2}x_0}{\sqrt{1-V^2/c^2}}$, so $\Delta t'=\gamma\Delta t$. Generally,
+
+$$
+\Delta t=\frac{\Delta t'}{\sqrt{1-V^2/c^2}}\left(1+\frac{V}{c}\frac{\Delta x'}{c\,\Delta t'}\right).
+$$
+
+## The light cone
+
+$$
+\begin{cases}
+\Delta s^2=0,& |\Delta\vec r|=c\Delta t & \text{light-like (null): events connectable by a light signal}\\
+\Delta s^2>0,& |\Delta\vec r|<c\Delta t & \text{time-like}\\
+\Delta s^2<0,& |\Delta\vec r|>c\Delta t & \text{space-like}
+\end{cases}
+$$
+
+Since $|V/c|<1$, for time-like intervals $|\Delta x'|<c|\Delta t'|$, so $\left|\dfrac{\Delta x'}{c\Delta t'}\right|<1$ and $1+\dfrac{V}{c}\dfrac{\Delta x'}{c\Delta t'}>0$: there exist an **absolute future** and an **absolute past**.
+
+## General Lorentz transformation (arbitrary boost direction)
+
+Decompose $\vec r$ into components parallel and perpendicular to $\vec V$:
+
+$$
+\vec r_\parallel'=\frac{\vec r\cdot\vec v}{|\vec v|}\frac{\vec v}{|\vec v|},\qquad \vec r_\perp'=\vec r-\vec r_\parallel' .
+$$
+
+Then
+
+$$
+ct=\gamma\big(ct'+\beta|\vec r_\parallel'|\big)=\gamma\left(ct'+\frac{\vec r'\cdot\vec v}{c}\right),
+\qquad
+\vec r_\parallel=\gamma\big(|\vec r_\parallel'|+\beta ct'\big)\frac{\vec v}{|\vec v|},\qquad \vec r_\perp=\vec r_\perp' .
+$$
+
+Combining,
+
+$$
+\vec r=\vec r_\parallel+\vec r_\perp
+=\vec r'+(\gamma-1)\frac{\vec r'\cdot\vec v}{|\vec v|}\frac{\vec v}{|\vec v|}+\gamma\vec v t' .
+$$
+
+## Velocity transformation
+
+From $dx'=\gamma\,dx-V\gamma\,dt$, $dt'=-\dfrac{V}{c^2}\gamma\,dx+\gamma\,dt$,
+
+$$
+\begin{cases}
+u_x'=\dfrac{dx'}{dt'}=\dfrac{u_x-V}{1-u_x V/c^2}\\[2mm]
+u_y'=\dfrac{dy'}{dt'}=\dfrac{u_y}{\gamma(1-u_x V/c^2)}\\[2mm]
+u_z'=\dfrac{dz'}{dt'}=\dfrac{u_z}{\gamma(1-u_x V/c^2)}
+\end{cases}
+\qquad
+\begin{cases}
+u_x=\dfrac{u_x'+V}{1+u_x' V/c^2}\\[2mm]
+u_y=\dfrac{u_y'}{\gamma(1+u_x' V/c^2)}\\[2mm]
+u_z=\dfrac{u_z'}{\gamma(1+u_x' V/c^2)}
+\end{cases}
+$$
+
+## Minkowski space and four-vectors
+
+With $x^0=ct,\;x^1=x,\;x^2=y,\;x^3=z$,
+
+$$
+ds^2=g_{ij}\,dx^i dx^j=c^2dt^2-d\vec r^{\,2}.
+$$
+
+The **metric tensor**
+
+$$
+(\eta_{\alpha\beta})_{4\times4}=\begin{pmatrix}1&&&\\&-1&&\\&&-1&\\&&&-1\end{pmatrix},
+\qquad ds^2=\eta_{\alpha\beta}\,dx^\alpha dx^\beta,
+\qquad (\eta^{\alpha\beta})_{4\times4}=(\eta_{\alpha\beta})^{-1}_{4\times4}=\eta_{\alpha\beta}.
+$$
+
+Lorentz transformation as a matrix:
+
+$$
+\begin{aligned}
+x^0&=\gamma(x'^0+\beta x'^1)\\
+x^1&=\gamma(x'^1+\beta x'^0)\\
+x^2&=x'^2\\
+x^3&=x'^3
+\end{aligned}
+\qquad
+dx^\alpha=\Lambda^{\alpha}{}_{\beta}\,dx'^\beta,\qquad \Lambda^{\alpha}{}_{\beta}=\frac{\partial x^\alpha}{\partial x'^\beta},
+$$
+
+with Jacobian $\dfrac{\partial(x^0,x^1,x^2,x^3)}{\partial(x'^0,x'^1,x'^2,x'^3)}=\begin{vmatrix}\gamma&\beta\gamma\\\beta\gamma&\gamma\end{vmatrix}=\gamma^2-\beta^2\gamma^2=1$. So $c\,dt\,dx\,dy\,dz$ is a four-dimensional invariant (volume element).
+
+**Four-tensor:** $F^{\alpha\beta}=A^\alpha B^\beta\;\Rightarrow\;A=\Lambda A\Lambda^{T}$.
+
+**Four-gradient:**
+
+$$
+\partial_\mu=\frac{\partial}{\partial x^\mu}=\left(\frac{1}{c}\frac{\partial}{\partial t},\nabla\right),\qquad
+\partial^\mu=\eta^{\mu\nu}\frac{\partial}{\partial x^\nu}=\left(\frac{1}{c}\frac{\partial}{\partial t},-\nabla\right),\qquad
+\partial^\mu\partial_\mu=\frac{1}{c^2}\frac{\partial^2}{\partial t^2}-\nabla^2 .
+$$
+
+**Four-velocity:**
+
+$$
+u^\alpha=\frac{dx^\alpha}{d\tau}=\gamma\frac{dx^\alpha}{dt}\;\Rightarrow\;u^\alpha=(\gamma c,\gamma v_x,\gamma v_y,\gamma v_z),\qquad
+u^\alpha u_\alpha=\gamma^2 c^2-\gamma^2 v^2=c^2 .
+$$
+
+**Four-momentum:**
+
+$$
+p^\alpha=mu^\alpha=(\gamma mc,\gamma m v_x,\gamma m v_y,\gamma m v_z)=\left(\frac{\mathcal{E}}{c},\vec p\right),
+$$
+$$
+p^\alpha p_\alpha=\frac{\mathcal{E}^2}{c^2}-\vec p^{\,2}=m^2 u^\alpha u_\alpha=m^2 c^2
+\;\Rightarrow\;\mathcal{E}^2=\vec p^{\,2}c^2+m^2 c^4 .
+$$
+
+Limits: $v\ll c\Rightarrow\mathcal{E}\approx mc^2$; $v\approx c\Rightarrow\mathcal{E}\approx pc$.
+
+**Four-force:**
+
+$$
+F^\mu=\frac{dp^\mu}{d\tau},\quad dt=\gamma\,d\tau\;\Rightarrow\;
+F^\mu=\gamma\frac{dp^\mu}{dt}=\gamma\frac{d}{dt}\left(\frac{\mathcal{E}}{c},\vec p\right)=\left(\frac{\gamma}{c}\frac{d\mathcal{E}}{dt},\gamma\frac{d\vec p}{dt}\right)=\left(\frac{\gamma}{c}\vec F\cdot\vec v,\gamma\vec F\right).
+$$
+
+## Relativistic Lagrangian of a free particle
+
+Requirements: (1) the action is built from four-scalars; (2) in the limit $v/c\to0$ it reduces to the non-relativistic form.
+
+Since $\alpha\,u^\mu dx_\mu=\alpha\,u^\mu u_\mu\,d\tau=\alpha c^2 d\tau$ is invariant, take
+
+$$
+S_p=\int\alpha\tfrac12 m u^\mu u_\mu\,d\tau=\int_a^b\alpha\tfrac12 mc^2\,d\tau=\int L\,dt
+\;\Rightarrow\;
+L=\frac{\alpha mc^2}{2\gamma}=\frac{\alpha}{2}mc^2\sqrt{1-\frac{v^2}{c^2}} .
+$$
+
+As $v/c\to0$, $L=\dfrac{\alpha}{2}mc^2\left(1-\dfrac{v^2}{2c^2}\right)$. Choosing $\alpha=-2$ gives
+
+$$
+\boxed{\;L=-mc^2+\tfrac12 mv^2=-\frac{mc^2}{\gamma}=-mc^2\sqrt{1-\frac{v^2}{c^2}}\;}
+$$
+
+Then
+
+$$
+\vec p=\frac{\partial L}{\partial\vec v}=\frac{m\vec v}{\sqrt{1-v^2/c^2}}=\gamma m\vec v,
+$$
+$$
+H=\vec v\cdot\vec p-L=\frac{m\vec v^2}{\sqrt{1-v^2/c^2}}+mc^2\sqrt{1-\frac{v^2}{c^2}}=\frac{mc^2}{\sqrt{1-v^2/c^2}}=\gamma mc^2 .
+$$
+
+As $v/c\to0$, $H\to mc^2+\tfrac12 mv^2$.
+
+**Variational derivation of free-particle motion.**
+
+$$
+S_p=-mc^2\int_a^b d\tau=-mc\int_a^b\sqrt{\eta_{\alpha\beta}\,dx^\alpha dx^\beta},\qquad
+x^\alpha\to x^\alpha+\delta x^\alpha,\;\delta x^\alpha(a)=\delta x^\alpha(b)=0 .
+$$
+
+Then
+
+$$
+\delta S_p=-mc\int_a^b\eta_{\alpha\beta}\frac{dx^\beta}{ds}\,\delta(dx^\alpha)\,d\tau
+=-mc\,u_\alpha\delta x^\alpha\Big|_a^b+mc\int_a^b\frac{du_\alpha}{d\tau}\delta x^\alpha\,d\tau
+=mc\int_a^b\frac{du_\alpha}{d\tau}\delta x^\alpha\,d\tau .
+$$
+
+Setting $\delta S_p=0$ gives
+
+$$
+\boxed{\;\frac{du_\alpha}{d\tau}=0\;}
+$$
+
+i.e. the four-velocity of a free particle is constant in spacetime (a geodesic of flat space).
+
+# General Relativity (TODO)
+        </script>
+    </main>
+
+    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/comments.js"></script>
+</body>
+</html>

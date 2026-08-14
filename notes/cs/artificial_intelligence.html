@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artificial Intelligence | Yang</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" type="image/png" href="../../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../notes.html">Notes</a>
+            <a href="../../articles.html">Articles</a>
+            <a href="../../research.html">Research</a>
+            <a href="../../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../cs.html" class="article-back-link">&larr; Computer Science</a>
+            <h1>Artificial Intelligence</h1>
+            <p>Notes on search, optimization, knowledge representation, machine learning, neural networks, probabilistic models, and intelligent systems that learn from data and decisions...</p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Machine Learning</span>
+                    <span>Search</span>
+                    <span>Neural Networks</span>
+                </div>
+                <time datetime="2026-07-30">Jul 30, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+# Glossary
+
+A quick reference for the foundational terms that recur throughout these notes. The last column links to the section where the term is discussed in depth.
+
+| Term                                                    | Definition                                                                                          | See                                            |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| <span style="color: red;">Activation function</span>    | A nonlinear function applied to each hidden unit, giving the network its non-linear modeling power. | [Multilayer Perceptrons](#multilayer-perceptrons)                    |
+| <span style="color: red;">Backpropagation (BP)</span>   | The chain-rule procedure for computing the gradient of the loss w.r.t. every parameter.             | [Backpropagation (BP)](#backpropagation-bp)                      |
+| <span style="color: red;">Batch</span>                  | The subset of training data used in a single iteration to compute the gradient and update weights.  | [Multilayer Perceptrons](#multilayer-perceptrons)                    |
+| <span style="color: red;">Embedding</span>              | A learned, fixed-length dense vector that represents a discrete object (word, token, graph node).   | [Natural Language Processing (NLP)](#natural-language-processing-nlp)         |
+| <span style="color: red;">Epoch</span>                  | One full pass over the entire training set (consists of many iterations/batches).                   | —                                              |
+| <span style="color: red;">Feature</span>                | An individual measurable input variable describing a data point.                                    | [Machine Learning](#machine-learning)                          |
+| <span style="color: red;">Gradient Descent (GD)</span>  | Iterative optimization that moves parameters in the direction of the negative gradient.             | [Linear Neural Networks for Regression](#linear-neural-networks-for-regression)     |
+| <span style="color: red;">Hyperparameter</span>         | A setting chosen by you, not learned by the model (e.g. learning rate, batch size).                 | [Machine Learning](#machine-learning)                          |
+| <span style="color: red;">Iteration (step)</span>       | A single parameter update computed on one batch.                                                    | [Stochastic Gradient Descent (SGD)](#stochastic-gradient-descent-sgd)         |
+| <span style="color: red;">Label</span>                  | The ground-truth target for a data point in supervised learning.                                    | [Machine Learning](#machine-learning)                          |
+| <span style="color: red;">Learning rate ($\eta$)</span> | The step size that scales the gradient in each update.                                              | [Linear Neural Networks for Regression](#linear-neural-networks-for-regression)     |
+| <span style="color: red;">Logits</span>                 | The raw, pre-softmax output scores of a model.                                                      | [Linear Neural Networks for Classification](#linear-neural-networks-for-classification) |
+| <span style="color: red;">Loss function</span>          | A scalar measuring prediction error, minimized during training.                                     | [Linear Neural Networks for Regression](#linear-neural-networks-for-regression)     |
+| <span style="color: red;">Overfitting</span>            | When a model fits training noise and fails to generalize to unseen data.                            | [Machine Learning](#machine-learning)                          |
+| <span style="color: red;">Parameter</span>              | A value learned by the model during training (weights, biases).                                     | [Machine Learning](#machine-learning)                          |
+| <span style="color: red;">Regularization</span>         | A penalty added to the loss (L1/L2) to curb overfitting.                                            | [Linear Neural Networks for Regression](#linear-neural-networks-for-regression)     |
+| <span style="color: red;">Softmax</span>                | Maps a vector of logits to a probability distribution.                                              | [Linear Neural Networks for Classification](#linear-neural-networks-for-classification) |
+| <span style="color: red;">Token</span>                  | The atomic unit of text a model processes; mapped to an id and then an embedding.                   | [Tokenization](#tokenization)                              |
+| <span style="color: red;">Vocabulary ($V$)</span>       | The set of all distinct tokens a model knows.                                                       | [Tokenization](#tokenization)                              |
+
+# Machine Learning
+
+Machine learning is a core branch of artificial intelligence. It enables computer systems to automatically learn patterns through algorithms and statistical models, and make predictions or decisions without being explicitly programmed. The essence of machine learning is building and training models.
+
+Generally, machine learning can be divided into the following two categories:
+
+- <span style="color: red;">Supervised Learning</span>: Each data point can be fed back by "standard answers", which is officially called <span style="color: red;">labels</span>. It aims to learn a mapping (function) from inputs to outputs. It is the standard framework for <span style="color: red;">Regression</span> and <span style="color: red;">Classification</span>.
+- <span style="color: red;">Unsupervised Learning</span>: Each data point can not be fed back a label. The model explores the inherent structure of the data to identify patterns—essentially following the principle of "birds of a feather flock together." It is the standard framework for <span style="color: red;">Clustering</span> and <span style="color: red;">Dimensionality Reduction</span>.
+
+Data Set can be divided as:
+
+- <span style="color: red;">Training Set</span>: The set from which the model directly learns to discern patterns.
+- <span style="color: red;">Validation Set</span>: The set used to tune hyperparameters and prevent overfitting.
+- <span style="color: red;">Testing Set</span>: The set used to objectively evaluate the model after training.
+
+>**Tip** Difference between <span style="color: red;">parameter</span> and <span style="color: red;">hyperparameter</span>:
+>Parameters are learned by the model, while hyperparameters are set by you.
+
+>**Tip** <span style="color: red;">Overfitting</span> occurs when the model performs exceptionally well on the training set, but fails to generalize to the testing set. This is because the model memorizes the noise and unnecessary details of the training data rather than learning the actual underlying patterns.
+
+For the evaluation to be statistically valid, the training, validation, and testing sets must be representative of the same underlying distribution.
+
+For a supervised learning task in prediction (where you only need to answer yes or no), we define a <span style="color: red;">Confusion Matrix</span>：
+
+| Actuality / Prediction | 0   | 1   |
+| ---------------------- | --- | --- |
+| **0**                  | TN  | FP  |
+| **1**                  | FN  | TP  |
+Common Indicators:
+- <span style="color: red;">Accuracy</span> $= \frac{TP+TN}{TP+TN+FP+FN}$
+- <span style="color: red;">Precision</span> $= \frac{TP}{TP+FP}$
+- <span style="color: red;">Recall</span> $= \frac{TP}{TP+FN}$
+- <span style="color: red;">F1 score</span> $=\frac{2 \times Precision \times Recall}{Precision+Recall}= \frac{2TP}{2TP+FP+FN}$
+
+When a dataset is imbalanced, a model can achieve a high accuracy score simply by predicting the majority class for every input, while failing to identify the minority class entirely. This is obviously not a good model. In this case, we can use the precision or F1 score to evaluate the model.
+# Weighted Majority Algorithm
+
+In a large model, we often need to address a question through lots of models. Assume that we have $n$ experts to answer the question, and each question can only be answered with yes ($1$) or no ($0$). How to synthesize the answers from $n$ experts to arrive at the most reasonable answer?
+
+## Deterministic Version
+
+A natural idea is: every expert is given a weight $w_i$，and initialize it as $1$
+- If the answer is wrong, multiply its weight by penalty factor $a$
+- If the answer is right, multiply its weight by reward factor $b$
+where $a<1,b>1$
+For each judgment, we simply compare the sum of the weights of the experts who answered $1$ and those who answered $0$.
+
+```python
+import numpy as np
+
+class WeightedMajority:
+    def __init__(self, n_experts, alpha, beta):
+    # Number of experts, penalty factor, reward factor
+        self.n = n_experts
+        self.alpha = alpha
+        self.beta = beta
+        # Initialize it as 1
+        self.weights = np.ones(n_experts)
+
+    def predict(self, expert_predictions):
+        weight_0 = sum(w for w, p in zip(self.weights, expert_predictions) if p == 0)
+        weight_1 = sum(w for w, p in zip(self.weights, expert_predictions) if p == 1)
+        
+        return 0 if weight_0 > weight_1 else 1
+
+    def update(self, expert_predictions, actual_label):
+        """
+        update the weights of experts
+        :param actual_label: the real answers
+        """
+        for i in range(self.n):
+            if expert_predictions[i] != actual_label:
+	    # Experts who make incorrect predictions are weighted by alpha.
+                self.weights[i] *= self.alpha
+            else:
+        # Experts who make correct predictions are weighted by beta.
+                self.weights[i] *= self.beta
+```
+
+If we let the total weight of all experts after round $t$ be $W^{(t)}$, then there are a total of $m^{(t)}$ rounds of prediction errors, and the $i$-th expert has a total of $s_i^{(t)}$ rounds of prediction errors.
+
+On the one hand, the total weight will inevitably exceed the weight of any single expert, so there is
+$$W^{(t)}\ge a^{s_i^{(t)}}\cdot b^{t−s_i^{(t)}}$$
+
+On the other hand, if the prediction is wrong, at least half of the weights will become $a$ of their original value, and the other will become $b$ of their original value. The total weights will at most become $\frac{1}{2}⋅a+\frac{1}{2}⋅b=\frac{a+b}{2}$ of the original value; if the prediction is right, the total weights will at most become $b$ times their original value. Therefore, we can obtain
+$$W(t)\le n \cdot(\frac{a+b}{2})^{m(t)} \cdot b^{t−m^{(t)}}$$
+From this we can obtain
+$$a^{s_i^{(t)}}\cdot b^{t−s_i^{(t)}}\le n \cdot (\frac{a+b}{2})^{m(t)}\cdot b^{t−m^{(t)}}$$
+Simplify to get
+
+$$m^{(t)}\le \frac{\log \frac{b}{a} \cdot s_i^{(t)}+\log n}{\log \frac{2b}{a+b}}$$
+
+Therefore, the coefficient of $s_i^{(t)}$ depends only on $\frac{b}{a}$.
+
+Let $b=1$ (this is the boundary case of pure-penalty WMA with no reward, relaxing the earlier assumption $b>1$), then the coefficient of $s_i^{(t)}$ is $\frac{\log a}{\log \frac{a+1}{2}}$
+
+Let it be denoted as $f(a)$. Given $a<1$, then $f(a)>2$, and $\lim \limits_{a\rightarrow1}f(a)=2$
+
+Therefore, since $f(a)>2$ for $a<1$ and $\lim_{a\to1}f(a)=2$, **deterministic algorithms can at best ensure that their error rate is bounded by a factor that is always strictly greater than twice, but approaches twice in the limit, that of the best (lowest-error) expert.**
+
+It can be seen that if an expert in an expert system has an extremely high accuracy rate, this algorithm is very suitable for use.
+## Random Weighted Majority (RWM) Algorithm
+
+In the random version, instead of choosing the expert with the largest weight, an expert is randomly selected based on a weighted ratio.
+
+```python
+import numpy as np
+import random
+
+class WeightedMajority:
+    def __init__(self, n_experts, alpha, beta):
+    # Number of experts, penalty factor, reward factor
+        self.n = n_experts
+        self.alpha = alpha
+        self.beta = beta
+        # Initialize it as 1
+        self.weights = np.ones(n_experts)
+
+    def predict(self, expert_predictions):
+        w0 = sum(w for w, p in zip(self.weights, expert_predictions) if p == 0)
+        w1 = sum(w for w, p in zip(self.weights, expert_predictions) if p == 1)
+        
+        return random.choices([0, 1], weights=[w0, w1], k=1)[0]
+
+    def update(self, expert_predictions, actual_label):
+        """
+        update the weights of experts
+        :param actual_label: the real answers
+        """
+        for i in range(self.n):
+            if expert_predictions[i] != actual_label:
+        # Experts who make incorrect predictions are weighted by alpha.
+                self.weights[i] *= self.alpha
+            else:
+        # Experts who make correct predictions are weighted by beta.
+                self.weights[i] *= self.beta
+```
+
+>[!THEOREM]
+>The error rate of the RWM algorithm is close to the minimum expert error rate.
+
+>[!PROOF] Proof
+>Let $W_t$ be the total weight of all experts in round $t$. Initially, $W_0 = n$ (each expert has a weight of $1$).
+>
+>When the algorithm runs randomized prediction in round $t$, the probability $P_t$ of the algorithm making an error is equal to the weight proportion of the experts who make incorrect predictions: $$P_t =\frac{ \sum_{i\in Wrong}w_i^{(t)}}{W_t}$$
+>
+>In each update round, the weights of experts who predict incorrectly are multiplied by $a$, and the weights of experts who predict correctly are multiplied by $b$.
+>
+>The updated total weights $W_{t+1}$ are:$$W_{t+1}=b\sum_{i\in Right}w_i^{(t)}+a\sum_{i\in Wrong}w_i^{(t)}$$
+>
+>Let $b=1+\epsilon_1,a=1-\epsilon_2$, then
+>$$W_{t+1}=W_t+\epsilon_1\sum_{i\in Right}w_i^{(t)}-\epsilon_2\sum_{i\in Wrong}w_i^{(t)}$$
+>
+>Using the previously defined $P_t$, we can write:$$W_{t+1}=W_t(1+\epsilon_1 (1-P_t)-\epsilon_2 P_t)$$
+>
+>After $T$ rounds, the final upper bound of the total weight is:$$W_T=n\prod_{t=1}^{T}(1+\epsilon_1 (1-P_t)-\epsilon_2 P_t)\le n \cdot\exp\{\epsilon_1 \sum_{t=1}^T (1-P_t) -\epsilon_2 \sum_{t=1}^T P_t\}$$
+>
+>Note that $\sum_{t=1}^T P_t$ is the **expected total error** of the algorithm, denoted as $\mathbb{E}[M]$. Therefore:
+>$$W_T\le n e^{\epsilon_1 T} \cdot\exp\{-(\epsilon_1+\epsilon_2)\mathbb{E}[M]\}$$
+>
+>For an expert $i$, let $m_i^{(T)}$ be the number of mistakes he makes in the first $T$ round. Since the total weight is always greater than or equal to the weight of any single expert, we have:$$W_T\ge (1+\epsilon_1)^{T-m_i^{(T)}}(1-\epsilon_2)^{m_i^{(T)}}$$
+>
+>As a result,$$ n e^{\epsilon_1 T} \cdot\exp\{-(\epsilon_1+\epsilon_2)\mathbb{E}[M]\}\ge (1+\epsilon_1)^{T-m_i^{(T)}}(1-\epsilon_2)^{m_i^{(T)}}$$
+>$$\mathbb{E}[M]\le\frac{-(T-m_i^{(T)})\log(1+\epsilon_1)-m_i^{(T)}\log(1-\epsilon_2)+\log n+\epsilon_1 T}{\epsilon_1+\epsilon_2}$$
+>Let $\epsilon_1=0$, then$$\mathbb{E}[M] \le \frac{\log n - m_i^{(T)}\log(1-\epsilon_2)}{\epsilon_2}$$
+>
+>For $\epsilon_2 \in (0, 1/2]$, we know that $-\log(1-\epsilon_2) \le \epsilon_2 + \epsilon_2^2$.
+>$$\mathbb{E}[M] \le \frac{\log n + m_i^{(T)}(\epsilon_2 + \epsilon_2^2)}{\epsilon_2}=\frac{\log n}{\epsilon_2} + (1+\epsilon_2)m_i^{(T)}$$
+>$$\frac{\mathbb{E}[M] }{T}\le\frac{\log n}{\epsilon_2 T} + (1+\epsilon_2)\frac{m_i^{(T)}}{T}$$
+>Therefore, in the RWM algorithm, As $T \to \infty, \epsilon_2 \to 0$, the average error rate $\frac{\mathbb{E}[M]}{T}$ will converge to $\frac{m_i^{(T)}}{T}$, which is the best expert's error rate, thus approaching the minimum expert error rate.
+
+# Linear Neural Networks
+
+## Linear Neural Networks for Regression
+
+Difference between classification and regression: classification outputs discrete values, while regression outputs continuous values.
+
+Assume that regression model is linear, i.e.
+$$\hat{y}=w_1x_1+w_2x_2+\dots+w_nx_n+b=\mathbf{w}^\top \mathbf{x}+b,y=\hat{y}+\epsilon,\mathbb{E}[\epsilon]=0$$
+Assume that $\epsilon$ follows a Gaussian distribution, because this guarantees that Maximum Likelihood Estimate (MLE) is completely equivalent to Minimizing the Squared Error.
+
+To find effective coefficients, we define
+$$L(w,b)=\frac{1}{n}\sum_{i=1}^n l^{(i)}(w,b)=\frac{1}{n}\sum_{i=1}^n (y^{(i)}-\hat{y}^{(i)})^2$$
+For a linear problem, we can get the analytical solution$$\mathbf{w}^∗=(\mathbf{x}^\top \mathbf{x})^{-1}\mathbf{x}^\top \mathbf{y}$$
+Generally, we can use <span style="color: red;">Gradient Descent (GD)</span>, which is based on the fact that the direction of steepest descent is the negative gradient. The algorithm iteratively updates the parameter $w$ by subtracting gradient times the <span style="color: red;">learning rate</span> $\eta$, i.e. $$w \leftarrow w−\eta \nabla L(w)$$
+The learning rate must be neither too large nor too small.
+
+![Screenshot 2026-05-17 at 15.15.10](../attachments/Screenshot%202026-05-17%20at%2015.15.10.png)
+
+To avoid overfitting, we can regularize the loss function by adding $\lambda$ times the model complexity to the prediction loss.
+
+- **L1 regularization**
+
+$$Loss = Original\_Loss + \lambda \sum_{i=1}^{n} |w_i|$$
+It tends to produces a sparse matrix—specifically by setting the weights of unimportant features to zero—thereby serving the function of feature selection.
+- **L2 regularization**
+
+$$Loss = Original\_Loss + \lambda \sum_{i=1}^{n} w_i^2$$
+It tends to reduce weights uniformly, preventing any weight exceedingly large and causing model instability.
+
+To eliminate the influence of dimensions, we need to perform <span style="color: red;">normalization</span> on the data. The most commonly used one is <span style="color: red;">Min-Max Scaling</span>.
+$$x_i'=\frac{x_i−\min(\mathbf{x})}{\max(\mathbf{x})−\min(\mathbf{x})}$$
+
+It will scale the data to $[0,1]$.
+
+In linear regression, we generally assume that the error term follows a normal distribution. To put features on a comparable scale, we typically perform <span style="color: red;">standardization</span>, transforming each feature to have a mean of 0 and a standard deviation of 1. This does not make an arbitrary feature distribution Gaussian; it only recenters and rescales it.
+
+$$x'=\frac{x−μ}{\sigma}$$
+
+The purposes of normalization and standardization operations are similar. Without a unified scale, the direction of weight updates will oscillate wildly during gradient descent, and it cannot be guaranteed that the regularization term's constraint on each feature is fair and consistent.
+
+## Linear Neural Networks for Classification
+
+Regression is the hammer we reach for when we want to answer _how much?_ or _how many?_ questions. In this section, we focus on _classification_ problems where we put aside _how much?_ questions and instead focus on _which category?_ questions.
+
+One way to accomplish this goal is to use probability to predict the answer to the question. We can use Sigmoid function to map a real number to a number between 0 and 1:
+$$\mathrm{Sigmoid}(x)=\frac{1}{1+e^{-x}}$$
+To derive the loss function, we can calculate the following probability
+$$P(\mathbf{Y} \mid \mathbf{X}) = \prod_{i=1}^n P(\mathbf{y}^{(i)} \mid \mathbf{x}^{(i)})$$
+$$-\log P(\mathbf{Y} \mid \mathbf{X}) = \sum_{i=1}^n -\log P(\mathbf{y}^{(i)} \mid \mathbf{x}^{(i)})
+= \sum_{i=1}^n l(\mathbf{y}^{(i)}, \hat{\mathbf{y}}^{(i)})$$
+As a result, we define the <span style="color: red;">Cross-entropy loss</span> 
+$$l(\mathbf{y},\hat{\mathbf{y}})=-\sum_j y_j\log \hat{y_j}$$
+This is the general (multi-class) form paired with Softmax. For the binary case with a single Sigmoid output, it reduces to $l(y,\hat{y})=-[y\log\hat{y}+(1-y)\log(1-\hat{y})]$.
+
+Sigmoid function is only suitable for binary classification problem. If we want to solve multi-class classification problems, we can use <span style="color: red;">Softmax function</span>.
+$$\hat{\mathbf{y}} = \mathrm{softmax}(\mathbf{o}) \quad \textrm{where}\quad \hat{y}_i = \frac{\exp(o_i)}{\sum_j \exp(o_j)}.$$
+# Multilayer Perceptrons
+
+Linear models cannot solve every problem; for example, Marvin Lee Minsky proposed the following theorem:
+
+> [!THEOREM]
+>  Linear models cannot represent the XOR function.
+
+> [!PROOF] Proof
+> The Xor function needs to achieve: 0 Xor 0=0, 0 Xor 1=1, 1 Xor 0=1, 1 Xor 1=0
+It needs to group (0,0), (1,1) together, and (0,1), (1,0) into another group through linear transformation, but this obviously cannot be done by linear segmentation.
+
+We can overcome the limitations of linear models by incorporating one or more <span style="color: red;">hidden layers</span>. Each layer feeds into the layer above it, until we generate outputs. We can think of the first  layers as our representation and the final layer as our linear predictor. This architecture is commonly called a <span style="color: red;">multilayer perceptron (MLP)</span>.
+
+Also, there is a commonly used terminology in AI: <span style="color: red;">batch</span>, which is a subset of the training dataset used in a single iteration to calculate the error and update the model's weights.
+- Smaller Batch Sizes (e.g., 8, 16, 32):
+	- Advantages: Gradient calculations are random (noisy). This "bumpy" update path can sometimes help the model escape local optima (pitfalls) and find a smoother, better-generalizing global optimum. Higher accuracy is usually achieved on the test set.
+	- Disadvantages: The path is winding, and the loss function oscillates significantly in the early stages of training.
+- Larger Batch Sizes (e.g., 256, 512, 1024, etc.):
+	- Advantages: The calculated gradients are very accurate, representing the true direction of the entire dataset. The loss decreases very smoothly and steadily.
+	- Disadvantages: The model can easily get stuck in an extremely steep "local optimum," resulting in high accuracy on the training set but poor performance on the test set (deteriorating generalization ability, i.e., the generalization gap). This conclusion holds true with a fixed number of training steps; the difference will narrow after adjusting the learning rate.
+
+In order to realize the potential of multilayer architectures, we need one more key ingredient: a nonlinear <span style="color: red;">activation function</span> to be applied to each hidden unit following the affine transformation.
+
+The power of multilayer neural networks can be seen from the following theorem:
+
+> [!THEOREM] Universal Approximation Theorem
+>  Even with a single-hidden-layer network, given enough nodes (possibly absurdly many), the right set of weights, and the activation function is nonlinear, we can model any function.
+
+Some common activation functions:
+- ReLU Function$$ReLU(x)=\max(x,0)$$ $$ReLU'(x)=\left\{\begin{matrix}0,\text{if }x\le0\\1,\text{if }x>0\end{matrix}\right.$$ (the derivative is undefined at $x=0$; in practice it is conventionally set to $0$.)
+- Sigmoid Function$$Sigmoid(x)=\frac{1}{1+e^{-x}}$$ $$Sigmoid'(x)=\frac{e^{-x}}{(1+e^{-x})^2}=Sigmoid(x)(1-Sigmoid(x))$$
+- Tanh Function$$\tanh(x)=\frac{1-e^{-2x}}{1+e^{-2x}}$$ $$\tanh'(x)=1-\tanh^2 (x)$$
+## Backpropagation (BP)
+
+<span style="color: red;">Backpropagation</span> refers to the method of calculating the gradient of neural network parameters. Assuming that we have $\mathbf{Y}=f(\mathbf{X})$ and $\mathbf{Z}=g(\mathbf{Y})$, by using the chain rule, we can compute the derivative of $\mathbf{Z}$ with respect to $\mathbf{X}$ via
+$$\frac{\partial \mathbf{Z}}{\partial \mathbf{X}} = \frac{\partial \mathbf{Z}}{\partial \mathbf{Y}}\cdot\frac{\partial \mathbf{Y}}{\partial \mathbf{X}}$$
+
+So we only need to calculate the gradient in every layer, and then we can get the gradient of the neural networks.
+
+## Parameter Initialization
+Core objective: To maintain the variance of the output of each layer consistent with the variance of the input, thereby ensuring the smooth flow of signals in deep networks.
+
+We cannot initialize every parameter as $0$, because it will make all weights within the same layer will calculate the exact same gradient value during BP. We typically initialize the parameters to random small values that follow a Gaussian or uniform distribution.
+
+The followings are the common initialization methods:
+
+| Initialization Method | Activation Function | Uniform Distribution$[-r,r]$      | Gaussian Distribution$N(0,\sigma^2)$     |
+| --------------------- | ------------------- | --------------------------------- | ---------------------------------------- |
+| Xavier Initialization | Sigmoid             | $r=4\sqrt{\frac{6}{M_{l-1}+M_l}}$ | $\sigma^2=16\times\frac{2}{M_{l-1}+M_l}$ |
+| Xavier Initialization | Tanh                | $r=\sqrt{\frac{6}{M_{l-1}+M_l}}$  | $\sigma^2=\frac{2}{M_{l-1}+M_l}$         |
+| He Initialization     | ReLU                | $r=\sqrt{\frac{6}{M_{l-1}}}$      | $\sigma^2=\frac{2}{M_{l-1}}$             |
+where $M_i$ is the dimension of the layer $i$ of nerves.
+## Normalization
+
+Generally,$$y=\frac{x-\mu}{\sqrt{\sigma^2+\epsilon}}\gamma+\beta$$
+Define $B,C,H,W,L,D$ as batch, channel, height, width, sequence length, dimension
+We have lots of methods to normalize:
+- <span style="color: red;">Batch Normalization (BN)</span>
+	It spans the entire batch of samples, calculating the mean $\mu$ and variance $\sigma^2$ for the same feature channel.
+	$$\mu_c=\frac{1}{BHW}\sum_{b=1}^B\sum_{h=1}^H\sum_{w=1}^W x_{b,c,h,w}$$
+	$$\sigma_c^2=\frac{1}{BHW}\sum_{b=1}^B\sum_{h=1}^H\sum_{w=1}^W (x_{b,c,h,w}-\mu_c)^2$$
+- <span style="color: red;">Layer Normalization (LN)</span>
+	It normalizes each token $(b,l)$ independently across the feature dimension $D$.
+	$$\mu_{b,l}=\frac{1}{D}\sum_{d=1}^D x_{b,l,d}$$
+	$$\sigma_{b,l}^2=\frac{1}{D}\sum_{d=1}^D (x_{b,l,d}-\mu_{b,l})^2$$
+	
+- <span style="color: red;">Root Mean Square (RMS) Layer Normalization</span>
+	It is a simplified version of LN. Since subtracting the average incurs significant computational overhead but yields minimal performance improvement, we can simply calculate
+	$$RMS(x) = \sqrt{\frac{1}{d}\sum_{i=1}^{d} x_i^2 + \epsilon}$$
+	$$x_{norm} = \frac{x}{RMS(x)} \cdot \gamma$$
+
+## Dropout
+
+Srivastava et al. (2014) developed a clever idea, called <span style="color: red;">dropout</span>, which involves injecting noise while computing each internal layer during forward propagation, and it has become a standard technique for training neural networks. The method is called dropout because we literally drop out some neurons during training. Throughout training, on each iteration, standard dropout consists of zeroing out some fraction of the nodes in each layer before calculating the subsequent layer.
+
+![Screenshot 2026-05-21 at 13.26.36](../attachments/Screenshot%202026-05-21%20at%2013.26.36.png)
+
+To be clear, the original paper on dropout offers intuition through a surprising analogy to sexual reproduction. The authors argue that neural network overfitting is characterized by a state in which each layer relies on a specific pattern of activations in the previous layer, calling this condition co-adaptation. Dropout, they claim, breaks up co-adaptation just as sexual reproduction is argued to break up co-adapted genes. While such a justification of this theory is certainly up for debate, the dropout technique itself has proved enduring, and various forms of dropout are implemented in most deep learning libraries.
+## Stochastic Gradient Descent (SGD)
+
+When the sample size is too large to fit entirely into memory for gradient calculation, we can use the SGD algorithm, randomly sampling a batch of samples for each calculation. This effectively balances memory requirements and update frequency.
+
+**Potential Problems of SGD:** The discussion addresses the oscillations caused by inconsistent slopes of parameters along different axes, and the risk of getting trapped in local optima or saddle points.
+
+**Optimization Methods**:
+- **Sample Randomness**: Shuffling the sample order.
+- **Learning Rate Strategy**: The learning rate should initially be large to ensure fast convergence, and then decrease as it approaches the optimum to avoid oscillations.
+
+### Optimizers
+
+Vanilla SGD uses the same scalar learning rate $\eta$ for every parameter and only looks at the current gradient. This causes the oscillation and slow-convergence problems above. A series of <span style="color: red;">optimizers</span> were proposed to address them, falling into two complementary ideas: **momentum** (smoothing the update direction) and **adaptive learning rates** (rescaling each parameter's step).
+
+### Momentum
+Instead of moving along the raw gradient, we accumulate an exponentially weighted moving average of past gradients, which damps oscillations along steep directions and accelerates progress along consistent ones.
+$$v_t = \beta v_{t-1} + (1-\beta)\nabla L(w_t)$$
+$$w_{t+1} = w_t - \eta v_t$$
+where $\beta$ (typically $0.9$) controls how much history is retained.
+
+### AdaGrad
+It gives each parameter its own learning rate by dividing by the square root of the accumulated sum of squared gradients, so rarely-updated (sparse) parameters get larger steps.
+$$s_t = s_{t-1} + \nabla L(w_t)\odot\nabla L(w_t)$$
+$$w_{t+1} = w_t - \frac{\eta}{\sqrt{s_t}+\epsilon}\odot\nabla L(w_t)$$
+Drawback: $s_t$ grows monotonically, so the effective learning rate eventually shrinks to zero and training stalls.
+
+### RMSProp
+It fixes AdaGrad's vanishing learning rate by replacing the cumulative sum with an exponentially weighted moving average, so $s_t$ no longer grows without bound.
+$$s_t = \gamma s_{t-1} + (1-\gamma)\nabla L(w_t)\odot\nabla L(w_t)$$
+$$w_{t+1} = w_t - \frac{\eta}{\sqrt{s_t}+\epsilon}\odot\nabla L(w_t)$$
+
+### Adam
+Adam (Adaptive Moment Estimation) combines Momentum (first moment $m_t$) and RMSProp (second moment $v_t$), and is the de-facto default optimizer for deep networks.
+$$m_t = \beta_1 m_{t-1} + (1-\beta_1)\nabla L(w_t)$$
+$$v_t = \beta_2 v_{t-1} + (1-\beta_2)\nabla L(w_t)\odot\nabla L(w_t)$$
+Since $m_0=v_0=0$, the estimates are biased toward zero early on, so we apply bias correction:
+$$\hat{m}_t = \frac{m_t}{1-\beta_1^t},\quad \hat{v}_t = \frac{v_t}{1-\beta_2^t}$$
+$$w_{t+1} = w_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon}\hat{m}_t$$
+Typical defaults are $\beta_1=0.9,\beta_2=0.999,\epsilon=10^{-8}$. (The Transformer warmup schedule in [Transformer](#transformer) is precisely the learning-rate $\eta$ fed into Adam.)
+
+### AdamW
+AdamW (Loshchilov & Hutter, 2019) fixes a subtle but important flaw in how Adam handles L2 regularization / weight decay, and is now the default optimizer for training Transformers and most large models.
+
+The issue: classic <span style="color: red;">L2 regularization</span> adds $\lambda w$ to the gradient (see [Linear Neural Networks for Regression](#linear-neural-networks-for-regression)). In plain SGD this is exactly equivalent to <span style="color: red;">weight decay</span> (shrinking $w$ toward zero each step). But in Adam the extra $\lambda w$ term gets fed *through* the adaptive denominator $\sqrt{\hat v_t}+\epsilon$:
+$$w_{t+1} = w_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon}\,(\hat{m}_t + \lambda w_t)$$
+This means parameters with large historical gradients (large $\hat v_t$) get their decay *scaled down*, so the regularization strength is no longer uniform across parameters—coupling decay to the gradient magnitude is not what we want.
+
+AdamW's fix is to <span style="color: red;">decouple</span> the weight decay from the gradient-based update, applying it directly to the weights:
+$$w_{t+1} = w_t - \eta\left(\frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon} + \lambda w_t\right)$$
+Now every parameter is shrunk by the same factor $\eta\lambda$ regardless of its gradient history, restoring the intended behavior of weight decay. In practice this yields better generalization, which is why frameworks such as PyTorch ship `AdamW` as a separate optimizer and recommend it over `Adam` with `weight_decay` set.
+
+## Residual Networks (ResNet)
+
+For non-nested function classes, a larger (indicated by area) function class does not guarantee we will get closer to the “truth” function ($f^*$). This does not happen in nested function classes.![Screenshot 2026-05-21 at 17.54.32](../attachments/Screenshot%202026-05-21%20at%2017.54.32.png)
+Thus, only if larger function classes contain the smaller ones are we guaranteed that increasing them strictly increases the expressive power of the network. For deep neural networks, if we can train the newly-added layer into an identity function $f(\mathbf{x})=\mathbf{x}$, the new model will be as effective as the original model. As the new model may get a better solution to fit the training dataset, the added layer might make it easier to reduce training errors.
+
+This is the question that He _et al._ considered when working on very deep computer vision models. In order to solve the problem, they proposed <span style="color: red;">residual networks (ResNet)</span>. The essence of it is we can study $g(\mathbf{x})=f(\mathbf{x})-\mathbf{x}$ instead of directly studying $f(\mathbf{x})$.
+![Screenshot 2026-05-21 at 17.51.01](../attachments/Screenshot%202026-05-21%20at%2017.51.01.png)
+If the identity mapping $f(\mathbf{x})=\mathbf{x}$ is the desired underlying mapping, the residual mapping amounts to $g(\mathbf{x})=0$ and it is thus easier to learn: we only need to push the weights and biases of the upper weight layer within the dotted-line box to zero.
+
+
+# Convolutional Neural Networks (CNN)
+
+## Introduction
+
+Imagine that we want to detect an object in an image. It seems reasonable that whatever method we use to recognize objects should not be overly concerned with the precise location of the object in the image. We can make these intuitions more concrete by enumerating a few desiderata to guide our design of a neural network architecture suitable for computer vision:
+1. In the earliest layers, our network should respond similarly to the same patch, regardless of where it appears in the image. This principle is called _translation invariance_ (or _translation equivariance_).
+2. The earliest layers of the network should focus on local regions, without regard for the contents of the image in distant regions. This is the _locality_ principle. Eventually, these local representations can be aggregated to make predictions at the whole image level.
+3. As we proceed, deeper layers should be able to capture longer-range features of the image, in a way similar to higher level vision in nature.
+
+If we use MLP to solve the problem,
+$$\begin{split}\begin{aligned} \left[\mathbf{H}\right]_{i, j} &= [\mathbf{U}]_{i, j} + \sum_k \sum_l[\mathbf{W}]_{i, j, k, l}  [\mathbf{X}]_{k, l}\\ &=  [\mathbf{U}]_{i, j} +
+\sum_a \sum_b [\mathbf{V}]_{i, j, a, b}  [\mathbf{X}]_{i+a, j+b}\end{aligned}\end{split}$$
+We will find that a $1000\times1000$ image (1 megapixel) is mapped to a $1000\times1000$ hidden representation. This requires $10^{12}$ parameters, far beyond what computers currently can handle.
+
+Now we focus on translation equivariance. This implies that a shift in the input $\mathbf{X}$ should simply lead to a shift in the hidden representation $\mathbf{H}$. This is only possible if $\mathbf{V}$ and $\mathbf{U}$ do not actually depend on $(i,j)$. To satisfy the property, let $\mathbf{U}$ be a constant and $[\mathbf{V}]_{i, j, a, b} = [\mathbf{V}]_{a, b}$, then 
+$$[\mathbf{H}]_{i, j} = u + \sum_a\sum_b [\mathbf{V}]_{a, b}  [\mathbf{X}]_{i+a, j+b}$$
+
+This is a _convolution_! $[\mathbf{V}]_{a, b}$ is referred to as a <span style="color: red;">convolution kernel</span>. In this way, we find that we only need $4\times10^6$ parameters to deal with a $1000\times1000$ figure. 
+
+## Padding & Stride
+Assuming that the input shape is $n_\textrm{h}\times n_\textrm{w}$ and the convolution kernel shape is $k_\textrm{h}\times k_\textrm{w}$, the output shape will be $(n_\textrm{h}-k_\textrm{h}+1) \times (n_\textrm{w}-k_\textrm{w}+1)$.
+
+One tricky issue when applying convolutional layers is that we tend to lose pixels on the perimeter of our image. 
+
+![Screenshot 2026-05-21 at 13.37.45](../attachments/Screenshot%202026-05-21%20at%2013.37.45.png)
+
+One straightforward solution to this problem is to add extra pixels of filler around the boundary of our input image, thus increasing the effective size of the image. Typically, we set the values of the extra pixels to zero. This is called as <span style="color: red;">padding</span>.
+
+In general, if we add a total of $p_\textrm{h}$ rows of padding (roughly half on top and half on bottom) and a total of $p_\textrm{w}$ columns of padding (roughly half on the left and half on the right), the output shape will be $(n_\textrm{h}-k_\textrm{h}+p_\textrm{h}+1)\times(n_\textrm{w}-k_\textrm{w}+p_\textrm{w}+1)$.
+
+![Screenshot 2026-05-21 at 13.04.12](../attachments/Screenshot%202026-05-21%20at%2013.04.12.png)
+
+Sometimes, either for computational efficiency or because we wish to downsample, we move our window more than one element at a time, skipping the intermediate locations. This is particularly useful if the convolution kernel is large since it captures a large area of the underlying image. This is called <span style="color: red;">stride</span>.
+
+In general, when the stride for the height is $s_\textrm{h}$ and the stride for the width is $s_\textrm{w}$, the output shape is $\lfloor(n_\textrm{h}-k_\textrm{h}+p_\textrm{h}+s_\textrm{h})/s_\textrm{h}\rfloor \times \lfloor(n_\textrm{w}-k_\textrm{w}+p_\textrm{w}+s_\textrm{w})/s_\textrm{w}\rfloor$.
+
+![Screenshot 2026-05-21 at 13.04.29](../attachments/Screenshot%202026-05-21%20at%2013.04.29.png)
+## Pooling
+
+In many cases, our ultimate task asks some global question about the image, e.g., does it contain a cat? Consequently, the units of our final layer should be sensitive to the entire input. By gradually aggregating information, yielding coarser and coarser maps, we accomplish this goal of ultimately learning a global representation, while keeping all of the advantages of convolutional layers at the intermediate layers of processing. The deeper we go in the network, the larger the receptive field (relative to the input) to which each hidden node is sensitive. Reducing spatial resolution accelerates this process, since the convolution kernels cover a larger effective area.
+
+We can use <span style="color: red;">pooling</span> to downsample an image. Pooling layers serve the dual purposes of mitigating the sensitivity of convolutional layers to location and of spatially downsampling representations.
+
+Pooling operators consist of a fixed-shape window that is slid over all regions in the input according to its stride, computing a single output for each location traversed by the fixed-shape window (sometimes known as the pooling window). There are two common pooling operators:
+- Maximum pooling
+- Average pooling
+
+![Screenshot 2026-05-21 at 13.51.49](../attachments/Screenshot%202026-05-21%20at%2013.51.49.png)
+
+Pooling operators reduce spatial resolution and make the representation less sensitive to small translations. Strictly speaking, pooling is not fully translation invariant; it mainly provides local translation robustness.
+
+# Recurrent Neural Network (RNN)
+
+Traditional neural network assumes that every input and output is independent, but in many circumstances, we need to consider the context to understand the current content. We need to introduce a "loop" structure; specially, when we receive the current input, we simultaneously input the information from the previous time step. As a result, <span style="color: red;">recurrent neural network (RNN)</span> emerged in response to the need.
+
+![Screenshot 2026-05-17 at 15.35.16](../attachments/Screenshot%202026-05-17%20at%2015.35.16.png)
+Its mathematical formulation is:
+$$h_t=f_W(h_{t−1},x_t)=\tanh (W\begin{pmatrix}
+ h_{t-1}\\x_t
+
+\end{pmatrix})$$
+
+![Screenshot 2026-05-17 at 15.41.38](../attachments/Screenshot%202026-05-17%20at%2015.41.38.png)
+Truncated Backpropagation Through Time (TBPTT) divides the complete sequence into multiple segments and performs forward and backward propagation only on each segment, rather than computing the entire sequence.
+
+RNNs have very extensive applications in natural language processing, speech recognition, and time series forecasting. 
+
+However, it is not perfect:
+
+- **Vanishing Gradient**: When sequences are very long, it is difficult for the network to propagate errors from the later stages back to the earlier ones, resulting in the network possessing only short-term memory.
+- **Efficiency**: The requirement for sequential computation limits its computational efficiency.
+
+## Long-Short Term Memory (LSTM)
+
+To solve the problem in RNN, we can optionally forget the information, so we introduce the <span style="color: red;">Long-Short Term Memory (LSTM)</span>.
+
+Its mathematical formulation is:$$\begin{pmatrix}
+ i\\f\\o\\g
+\end{pmatrix}=\begin{pmatrix}
+ \sigma\\ \sigma\\ \sigma\\ \tanh
+\end{pmatrix}W\begin{pmatrix}
+ h_{t-1}\\x_t\\
+\end{pmatrix}
+$$$$c_t=f \odot c_{t-1}+i \odot g$$
+$$h_t=o\odot \tanh(c_t)$$
+where
+- $i$ is input gate
+- $f$ is forget gate
+- $o$ is output gate
+- $g$ is candidate memory.
+
+![Screenshot 2026-05-17 at 15.53.33](../attachments/Screenshot%202026-05-17%20at%2015.53.33.png)
+LSTM cannot guarantee the complete avoidance of gradient vanishing or gradient exploding problems, but it provides an easier mechanism for models to learn long-range dependencies.
+
+## Gated Recurrent Unit(GRU) (TODO)
+
+# Attention Mechanisms & Transformers
+
+So far, all the networks we have reviewed crucially relied on the input being of a well-defined size. This approach can lead to significant problems when the input is truly of varying size with varying information content. In particular, for long sequences, it becomes quite difficult to keep track of everything that has already been generated or even viewed by the network. 
+
+This leads to one of the most exciting concepts introduced in deep learning in the past decade: the <span style="color: red;">attention mechanism</span>. For now, simply consider the following: denote by $\mathcal{D} = \{(\mathbf{k}_1, \mathbf{v}_1), \ldots (\mathbf{k}_m, \mathbf{v}_m)\}$ a database of $m$ tuples of _keys_ and _values_. Moreover, denote by $\mathbf{q}$ a _query_. Then we can define the _attention_ over $\mathcal{D}$ as
+$$\textrm{Attention}(\mathbf{q}, \mathcal{D}) =\sum_{i=1}^m \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i$$
+A common strategy for ensuring that the weights sum up to $1$ and are nonnegative is to normalize them via$$\alpha(\mathbf{q}, \mathbf{k}_i)=\frac{\exp(a(\mathbf{q}, \mathbf{k}_i))}{\sum_j \exp(a(\mathbf{q}, \mathbf{k}_j))}$$where $a(\mathbf{q}, \mathbf{k}_j)$ is an attention scoring function. 
+
+A mainstream attention scoring function is$$a(\mathbf{q}, \mathbf{k}_i) = \frac{\mathbf{q}^\top \mathbf{k}_i}{\sqrt{d_k}}$$where $d_k$ is the dimension of the vector.
+
+If we have many query vectors, arranging them as rows of $Q$ and keys as rows of $K$, the scaled dot-product attention scores are computed by $$\frac{QK^\top}{\sqrt{d_k}}$$
+
+Another one is the _additive attention_ scoring function given by$$a(\mathbf q, \mathbf k) = \mathbf w_v^\top \textrm{tanh}(\mathbf W_q\mathbf q + \mathbf W_k \mathbf k)$$where $\mathbf W_q\in\mathbb R^{h\times q}$, $\mathbf W_k\in\mathbb R^{h\times k}$, and $\mathbf w_v\in\mathbb R^{h}$ are the learnable parameters.
+
+![qkv](../attachments/qkv.svg){width=478}
+
+If the query, key, and value sequences all come from the same input sequence, the mechanism is called a <span style="color: red;">self-attention mechanism</span>. This does not mean $Q=K=V$ after projection: typically $Q=XW_Q$, $K=XW_K$, and $V=XW_V$ are learned projections of the same token representations $X$. Separate projections let the model learn different roles for querying, matching, and carrying information.
+## Multi-Head Attention
+
+Instead of performing a single attention function with $d_{\text{model}}$-dimensional keys, values, and queries, It is beneficial to linearly project the queries, keys, and values $h$ times with different, learned linear projections to $d_k$, $d_k$, and $d_v$ dimensions, respectively, where$$d_k=d_v=d_{model}/h$$On each of these projected versions of queries, keys, and values, we then perform the attention function in parallel, yielding a $d_v$-dimensional output values. These are concatenated and once again projected, resulting in the final values.
+![Screenshot 2026-05-21 at 15.17.56](../attachments/Screenshot%202026-05-21%20at%2015.17.56.png)
+Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. With a single attention head, averaging inhibits this.
+$$MultiHead(Q,K,V)=Concat(head_1,\dots,head_h)W^O$$where$$head_i=\textrm{Attention}(QW_i^Q,KW_i^K,VW_i^V)$$
+$W_i^Q\in\mathbb{R}^{d_{model}\times d_k},W_i^K\in\mathbb{R}^{d_{model}\times d_k},W_i^V\in\mathbb{R}^{d_{model}\times d_v},W_i^O\in\mathbb{R}^{hd_v\times d_{model}}$
+
+When we compute query $q_t$, we cannot get the value of $k_{t+1},\cdots$ To prevent future information leaks, we need to let $k_{t+1},\cdots$ be a very small number (like $-1\times10^{9}$), then the attention of it will be really small. This process is called <span style="color: red;">mask</span>.
+
+Compared with single-head attention, multi-head attention has lots of advantages:
+1.  Multi-head attention projects vectors into multiple different spaces, making it easier to extract different features from the data.
+2. Multi-head mechanisms are similar to ensemble learning, offering better fault tolerance and model robustness.
+## Transformer
+
+![Screenshot 2026-05-21 at 14.50.27](../attachments/Screenshot%202026-05-21%20at%2014.50.27.png){width=380}
+In transformer, we always use LN instead of BN, the reasons are as follows:
+- In Natural Language Processing (NLP) tasks, sentence lengths within each batch are typically varied. To align tensors, shorter sentences are often padded with numerous meaningless tokens. LN, however, normalizes individual tokens independently along the feature dimension (i.e., the hidden layer dimension $d_{model}$). Its computation is completely independent of other tokens in the sentence or other samples in the batch, thus naturally immune to sequence length differences and padding interference.
+- Transformer architecture has a huge number of parameters. Limited by GPU memory, the batch size that can be incorporated during training is often very small. LN's computation only occurs within the current token, completely eliminating the need to collect data across samples.
+
+It is noted that the learning rate in the transformer is not fixed. It increases in the warm-up stage and decreases in the decay stage.
+
+The specific expression is as follows:
+$$lr = d_{model}^{-0.5} \cdot \min(step\_num^{-0.5}, \ step\_num \cdot warmup\_steps^{-1.5})$$
+$$\alpha=lr \times \alpha_0$$
+### Positional Encoding
+
+Unlike RNNs, self-attention processes all tokens in parallel and is **permutation-equivariant**: it has no inherent notion of word order, so "dog bites man" and "man bites dog" would look identical. To inject order information, we add a <span style="color: red;">positional encoding</span> to the token embeddings before the first layer.
+
+The original Transformer uses fixed sinusoidal encodings. For position $pos$ and dimension index $i$:
+$$PE_{(pos,2i)} = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right),\quad PE_{(pos,2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$
+The input to the encoder/decoder is then $x = \text{Embedding}(token) + PE$.
+
+Two nice properties:
+- Each dimension corresponds to a sinusoid of a different wavelength (a geometric progression from $2\pi$ to $10000\cdot2\pi$), so different positions get distinguishable patterns.
+- For any fixed offset $k$, $PE_{pos+k}$ is a linear function of $PE_{pos}$, which makes it easy for the model to attend by **relative** position.
+
+In practice many modern models replace this with learned absolute positions, or with relative schemes such as **RoPE** (Rotary Position Embedding) and **ALiBi**.
+
+### Position-wise Feed-Forward Network
+
+Besides attention, every Transformer block contains a <span style="color: red;">position-wise feed-forward network (FFN)</span>, applied identically and independently to each position:
+$$FFN(x) = \max(0, xW_1+b_1)W_2 + b_2$$
+The inner dimension is usually $4\times d_{model}$ (e.g. $2048$ for $d_{model}=512$). While attention mixes information *across* positions, the FFN transforms each position's representation *in place*, giving the model most of its parameter capacity and non-linear processing power. Each sub-layer (attention and FFN) is wrapped with a residual connection and Layer Normalization: $\text{LayerNorm}(x + \text{Sublayer}(x))$.
+
+### Encoder-Only
+
+When only the Transformer encoder is used, a sequence of input tokens is converted into the same number of representations that can be further projected into output (e.g., classification). A Transformer encoder consists of self-attention layers, where all input tokens attend to each other. Since this representation depends on all input tokens, it is further projected into classification labels. This design was inspired by an earlier encoder-only Transformer pre-trained on text: BERT (Bidirectional Encoder Representations from Transformers) (Devlin et al., 2018). For detailed information, please refer to the following: [Bidirectional Encoder Representations from Transformers (BERT)](#bidirectional-encoder-representations-from-transformers-bert).
+
+Advantage:
+- Because of its unmasked self-attention, when you feed a complete sentence to the Encoder, all the tokens interact with each other. When processing a word in the middle of the sentence, it sees all the information to the left and right of that word.
+### Decoder-Only
+
+Decoder-only Transformers have been the common architecture in large-scale language modeling, which leverages the world’s abundant unlabeled text corpora via self-supervised learning. For detailed information, please refer to the following: [Natural Language Processing (NLP)](#natural-language-processing-nlp).
+
+Advantage:
+- Extremely high training efficiency, perfectly aligned with the [Scaling Law](#scaling-law).
+- No Information Bottleneck.
+- The Decoder-Only architecture is extremely pure, consisting of only one type of Masked Self-Attention that is continuously stacked. This minimalist "isomorphic" design makes it very easy to allocate memory and perform parallel optimization on the underlying hardware (such as GPUs and TPUs).
+### Encoder-Decoder
+
+The **original** Transformer (Vaswani et al., 2017) is an encoder-decoder model, designed for sequence-to-sequence tasks such as machine translation where the input and output are different sequences. The encoder reads the whole source sentence; the decoder generates the target sentence autoregressively.
+
+The key extra ingredient is <span style="color: red;">cross-attention</span> (also called encoder-decoder attention). In a decoder block there are three sub-layers:
+1. **Masked self-attention** over the tokens generated so far ($Q,K,V$ all come from the decoder).
+2. **Cross-attention**, where the queries $Q$ come from the decoder but the keys $K$ and values $V$ come from the encoder's output. This is how the decoder "looks at" the source sequence.
+3. **Position-wise FFN**.
+
+$$\text{CrossAttention} = \text{Attention}(Q_{dec},\ K_{enc},\ V_{enc})$$
+
+Because $K,V$ come from the encoder while $Q$ comes from the decoder, this is *not* self-attention—the two sequences can even have different lengths. Representative encoder-decoder models include the original Transformer, **T5**, and **BART**. The three architecture families compare as:
+
+| Architecture    | Attention                                                                | Sees                           | Typical use                                    |
+| --------------- | ------------------------------------------------------------------------ | ------------------------------ | ---------------------------------------------- |
+| Encoder-only    | Bidirectional self-attention                                             | Full context, both sides       | Understanding (classification, NER), e.g. BERT |
+| Decoder-only    | Masked self-attention                                                    | Left context only              | Generation, e.g. GPT                           |
+| Encoder-decoder | Encoder self-attention + decoder masked self-attention + cross-attention | Source fully, target left-only | Seq2seq (translation, summarization), e.g. T5  |
+
+# Graph Neural Network (GNN)
+
+A <span style="color: red;">Graph Neural Network (GNN)</span> is an optimizable transformation on all attributes of the graph that preserves graph symmetries.
+
+The Learning Objectives of Graph Neural Networks：
+
+- Node-level Prediction
+- Link-level Prediction
+- Graph-level Prediction
+
+The function of the graph can be classified as:
+- Permutation Invariance $$f(A,X)=f(PAP^\top,PX)$$
+- Permutation Equivariance $$Pf(A,X)=f(PAP^\top,PX)$$
+We hope the GNN is permutation equivariant, because in a graph, swapping columns cannot change the structure of the graph.
+
+## Graph Representation Learning
+
+We want to map nodes to an embedding space ($u \rightarrow \mathbb{R}^n$). It is also a method to encode the nodes. We hope the similarity in the embedding space can approximately reflect the similarity of the graph.
+
+Use the following steps to get the similarity of the nodes:
+1. Encoder map the node $$ENC(v)=\mathbf{z}_v \in \mathbb{R}^d$$
+2. Define the similarity function
+3. The decoder recovers the similarity score from the embedding.
+4. Optimize the parameters in the encoder, so that$$similarity(u,v)=z_u^\top z_v$$
+It is noted that
+- This is an unsupervised learning. We don't need the label of the nodes.
+- These embeddings are task-agnostic: they are not trained for a specific task, but can be used for a variety of tasks.
+
+We can use a random walk to get the encoder.
+![Screenshot 2026-05-18 at 12.48.02](../attachments/Screenshot%202026-05-18%20at%2012.48.02.png)
+
+Under this circumstance, $z_u^\top z_v$ is the probability of the nodes $u$ and $v$ occur together on the graph on random walk.
+
+A classic random walk is Node2Vec. Define two parameters:
+- <span style="color: red;">Return parameter</span> $p$
+- <span style="color: red;">In-out parameter</span> $q$
+Assume that the current node $c$, the previous node is $t$, and we are preparing to move to the next node $x$, whose weight is $\alpha$.
+- If $d(t,x)=0$, that is $t=x$, then $\alpha=\frac{1}{p}$
+- If $d(t,x)=1$, then $\alpha=1$
+- If $d(t,x)=2$, then $\alpha=\frac{1}{q}$
+
+Obviously,
+- BFS-like walk: higher value of $q$ makes the walk stay closer to the previous node's neighborhood.
+- DFS-like walk: lower value of $q$ encourages the walk to move outward and explore farther nodes.
+## Neighborhood Aggregation
+
+Limitations of shallow embedding:
+- It needs $O(|V|d)$ parameters.
+- It is essentially transductive.
+- It doesn't utilize node features
+
+This time, we cannot use the MLPs, because change the input order will result in different outputs.
+
+Observation:
+- The neighbor of a node defines a <span style="color: red;">computation graph</span>
+- We can study propagating and transforming information on the graph to compute the node embedding.
+![Screenshot 2026-05-18 at 13.02.15](../attachments/Screenshot%202026-05-18%20at%2013.02.15.png)
+
+$$m_A^{(l)}=f^{(l)}(h_A^{(l)},h_u^{(l)}:u\in \mathcal{N}(A))=f^{(l)}(h_A^{(l)},h_B^{(l)},h_C^{(l)},h_D^{(l)})$$
+$$h_A^{(l+1)} = g^{(l)}(m_A^{(l)})$$where
+- $h_A^{(l)}$ is the embedding of the node $A$ in the $l$-th layer.
+- $\mathcal{N}(A)$ is the neighbors of the node $A$.
+- $f^{(l)}$ is the aggregation function in the $l$-th layer.
+- $g^{(l)}$ is the transformation function in the $l$-th layer.
+- $m_A^{(l)}$ is the message vector of the node $A$ in the $l$-th layer.
+
+Generally, $$m_v^{(l)} = \frac{1}{|\mathcal{N}(v)|} \sum_{u \in \mathcal{N}(v)} h_u^{(l)}$$
+$$h_v^{(l+1)} = \sigma(W^{(l)} \cdot m_v^{(l)})$$
+
+This network is called <span style="color: red;">Graph Convolutional Network (GCN)</span>, which is perfectly permutation equivariant.
+
+![Screenshot 2026-05-18 at 13.14.39](../attachments/Screenshot%202026-05-18%20at%2013.14.39.png)
+The problem of neighborhood aggregation is: the message of node $v$ itself may be lost. This is because the computation of $m_v^{(l)}$ is not related to $h_v^{(l-1)}$. The solution to it is as easy as the following:
+- Message $$m_u^{(l)}=W^{(l)}h_u^{(l-1)},m_v^{(l)}=B^{(l)}h_v^{(l-1)}$$
+- Aggregation $$h_v^{(l)}=concat(AGG(\{m_u^{(l)},u\in \mathcal{N}(v) \}),m_v^{(l)})$$
+As the number of network layers increases, the feature representations of all nodes in the graph gradually converge and become indistinguishable, leading to a precipitous decline in the model's performance on downstream tasks such as node classification.It is called the <span style="color: red;">over-smoothing problem</span>.
+
+This is because if the network is really deep, the "raw input range" that determines the output of a specific node within a particular layer, which is called <span style="color: red;">receptive field</span> officially, is highly overlap.
+![Screenshot 2026-05-18 at 13.28.14](../attachments/Screenshot%202026-05-18%20at%2013.28.14.png)
+The simplest solution is adding virtual node, which alleviates oversmoothing because it shortens the distance between any two nodes in the graph, preventing the receptive field of deep networks from expanding indefinitely and thus preserving the local characteristics of the nodes.
+![Screenshot 2026-05-18 at 13.33.21](../attachments/Screenshot%202026-05-18%20at%2013.33.21.png){width=264}
+
+Another solution is <span style="color: red;">skip connection</span>. Since nodes at different positions within the image require varying contextual ranges—nodes situated at the periphery may necessitate a larger receptive field, whereas a smaller receptive field suffices for those located at the center—outputs from different layers can be combined using skip connections. Consequently, even in deep networks, nodes are able to preserve the local features derived from the shallower layers.
+![Screenshot 2026-05-18 at 13.30.03](../attachments/Screenshot%202026-05-18%20at%2013.30.03.png){width=391}
+Instead of choosing every neighbor of the nodes, we can randomly choose the neighbors of the nodes. It will significantly reduce computing costs and have excellent results in practical applications.
+
+![Screenshot 2026-05-18 at 14.23.34](../attachments/Screenshot%202026-05-18%20at%2014.23.34.png)
+
+## Feature Augmentation
+
+The computational graph cannot represent all of the features of the graph. As shown in the following figure, if we want to count the number of cycles, we cannot only use the computational graph.
+
+![Screenshot 2026-05-18 at 13.31.31](../attachments/Screenshot%202026-05-18%20at%2013.31.31.png)
+In this scenario, we need to artificially "augment" the nodes with features—either to address the lack of features in the original graph or to help the GNN overcome the inherent bottlenecks in its expressive power.
+![Screenshot 2026-05-18 at 13.32.02](../attachments/Screenshot%202026-05-18%20at%2013.32.02.png)
+We can use lots of graph algorithms in [Data Structure & Algorithm](data_structure_and_algorithm.html) to augment node feature.
+# Computer Vision(TODO)
+
+## You Only Look Once (YOLO) Image processing
+
+Two-stage detectors (e.g., the R-CNN family) divide image processing into two stages:
+
+- Region Proposals: Identifying all possible candidate regions for objects in the image
+- Feature Extraction and Classification: Performing CNN feature extraction and prediction separately for each candidate region.
+
+YOLO's emergence represents a paradigm shift, completely abandoning the two-stage architecture and conceiving object detection as a single regression problem. A single network and a single traversal can predict coordinates, confidence scores, and class probabilities.
+
+YOLO divides the input image into $S \times S$ grids:
+
+- If the center of an object falls within a grid cell, that grid cell is responsible for detecting that object.
+- Each grid cell predicts $B$ bounding boxes and $C$ conditional probabilities for each class.
+
+Compared to local observation, YOLO utilizes the surrounding contextual information of the object, significantly reducing the background error rate, and maintaining robust performance even with non-realistic images such as paintings and sketches.
+
+# Reinforcement Learning (RL)
+
+<span style="color: red;">Reinforcement Learning</span> is a suite of techniques that allows us to take the appropriate action at each stage of a sequential decision making problem in order to maximize some utility eventually.
+
+Given a state set $S$ and an action set $A$, we can define an event trajectory as $$\tau = (s_0, a_0, r_0, s_1, a_1, r_1, s_2, a_2, r_2, \ldots)$$where $s_i \in S,a_i \in A$ and $r_i$ is the result of the action $a_i$.
+
+The _return_ of a trajectory is the total reward obtained by the robot along such a trajectory:
+$$R(\tau) = r_0 + r_1 + r_2 + \cdots$$
+A more common return is as following:
+$$R(\tau) = r_0 + \gamma r_1 + \gamma^2 r_2 + \cdots = \sum_{t=0}^\infty \gamma^t r_t,\gamma<1$$
+We call a system a <span style="color: red;">Markov system</span> if the next state $s_{t+1}$ is only a function of the current state $s_t$ and the action $a_t$ taken at the current state. In Markov systems, the next state does not depend on which actions were taken in the past or the states that the robot was at in the past.
+
+It is noted that the reward in reinforcement learning can be sparse or delayed. In some tasks, the agent only receives a clear reward at the end of an episode, such as after winning or losing a game.
+## Value Iteration
+
+Given a stochastic policy denoted as $a_t \sim \pi(s_t)$, then we have$$V^\pi(s_0) = \mathbb{E}_{a_t \sim \pi(s_t)} \Big[ R(\tau) \Big] = \mathbb{E}_{a_t \sim \pi(s_t)} \Big[ \sum_{t=0}^\infty \gamma^t r(s_t, a_t) \Big]$$
+We next break down the trajectory into two stages:
+1. the first stage which corresponds to $s_0 \to s_1$ upon taking the action $a_0$
+2. a second stage which is the trajectory $\tau' = (s_1, a_1, r_1, \ldots)$ thereafter.
+Mathematically, we write the two stages as
+$$V^\pi(s_0) =   \mathbb{E}_{a_0 \sim \pi(s_0)} \Big[r(s_0, a_0) + \gamma  \ \mathbb{E}_{s_1 \sim P(s_1 \mid s_0, a_0)} \Big[ V^\pi(s_1) \Big] \Big]$$
+We can write using the transition probabilities in the Markov decision process (MDP) as$$V^\pi(s) = \sum_{a \in A} \pi(a \mid s) \Big[ r(s,  a) + \gamma\  \sum_{s' \in S} P(s' \mid s, a) V^\pi(s') \Big],\forall s \in S$$
+In implementations, it is often useful to maintain a quantity called the “action value” function which is a closely related quantity to the value function. This is defined to be the average _return_ of a trajectory that begins at $s_0$ but when the action of the first stage is _fixed_ to be $a_0$:
+$$Q^\pi(s_0, a_0) = r(s_0, a_0) + \mathbb{E}_{a_t \sim \pi(s_t)} \Big[ \sum_{t=1}^\infty \gamma^t r(s_t, a_t) \Big]$$
+
+We will next think of the “optimal policy” that achieves the maximal average return $$\pi^* = \underset{\pi}{\mathrm{argmax}} V^\pi(s_0)$$We can use dynamic programming to solve the problem. It is noted that the remainder of an optimal trajectory is also optimal, therefore:$$V^*(s) = \sum_{a \in A} \pi^*(a \mid s) \Big[ r(s,  a) + \gamma\  \sum_{s' \in S} P(s' \mid s, a) V^*(s') \Big],\ \forall  s \in S$$For a deterministic optimal policy $\pi^*$, since there is only one action that can be taken at state $s$, we can also write$$ V^*(s) = \max_{a \in A} \Big\{ r(s,a) + \gamma \sum_{s' \in S} P(s' \mid s, a) V^*(s') \Big\}$$It is called <span style="color: red;">Bellman Optimality Equation</span>, which can give the optimal policy$$\pi^*(s) = \text{argmax}_{a\in A}\{r(s,a) + \gamma \sum_{s'\in S} P(s'|s,a)V^*(s')\}$$
+We can also get Bellman Optimally Equation for $Q$:$$Q^*(s, a) = \mathbb{E} \left[ R_{t+1} + \gamma \max_{a'} Q^*(S_{t+1}, a') \mid S_t=s, A_t=a \right]$$
+We can turn the principle of dynamic programming into an algorithm for finding the optimal value function called <span style="color: red;">value iteration</span>. The key idea behind value iteration is to think of this identity as a set of constraints that tie together $V^*(s)$ at different states $s$. We initialize the value function to some arbitrary values $V_0(s)$ for all states $s$. At the $k^{\textrm{th}}$ iteration, the Value Iteration algorithm updates the value function as
+$$V_{k+1}(s) = \max_{a \in A} \Big\{ r(s,  a) + \gamma\  \sum_{s' \in S} P(s' \mid s, a) V_k(s') \Big\},\ \forall s \in S$$
+It turns out that as $k \to \infty$ the value function estimated by the Value Iteration algorithm converges to the optimal value function irrespective of the initialization $V_0$.$$V^*(s) = \lim_{k \to \infty} V_k(s),\forall s \in S$$
+The same Value Iteration algorithm can be equivalently written using the action-value function as
+
+$$Q_{k+1}(s, a) = r(s, a) + \gamma \sum_{s' \in S} P(s' \mid s, a) \max_{a' \in A} Q_k (s', a'),\forall s \in S, a \in A$$
+$$Q^*(s,a) = \lim_{k \to \infty} Q_k(s,a),\forall s \in S, a \in A$$
+## Q-Learning & Deep Q-Network (DQN)
+
+As we discussed, implementing this algorithm requires knowing the MDP, specifically the transition function $P(s' \mid s, a)$. The key idea behind Q-Learning is to replace the summation over all $s' \in S$ in the above expression by a summation over the states visited by the robot. This allows us to subvert the need to know the transition function.
+
+Mathematically, the essence of Q-learning is as follow:
+$$Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha \left[ R_{t+1} + \gamma \max_{a'} Q(
+s_{t+1}, a') - Q(s_t, a_t) \right]$$
+
+where $\alpha$ is learning rate.
+
+In academia, the convergence of Q-Learning was rigorously proven by Christopher Watkins and Peter Dayan in 1992 using the Robbins-Monro stochastic approximation theorem. The core of the proof lies in constructing a contraction mapping, stating that the following two step-size decay conditions are satisfied: 
+1. $\sum_{t=1}^{\infty} \alpha_t = \infty$ (ensuring sufficient update step size to explore the entire state space) 
+2. $\sum_{t=1}^{\infty} \alpha_t^2 < \infty$ (ensuring that the update magnitude gradually decreases and tends to stabilize over time)
+
+We can find that Q-learning is a value-based algorithm. It doesn't try to understand the environment, which is called model free algorithm. It tries to optimize value function to indirectly derive a strategy
+
+Tabular Q-Learning stores one entry per $(s,a)$ pair, which is infeasible when the state space is huge (e.g. raw game pixels). <span style="color: red;">DQN</span> (Mnih et al., 2015) approximates the action-value function with a neural network $Q(s,a;\theta)$ and minimizes the temporal-difference error
+$$L(\theta) = \mathbb{E}\Big[\big(\underbrace{R_{t+1} + \gamma \max_{a'} Q(s_{t+1}, a';\theta^-)}_{\text{target}} - Q(s_t, a_t;\theta)\big)^2\Big]$$
+Two key tricks stabilize training:
+- <span style="color: red;">Experience Replay</span>: store transitions $(s,a,r,s')$ in a buffer and sample random mini-batches, breaking the temporal correlation between consecutive samples.
+- <span style="color: red;">Target Network</span>: compute the target with a separate, slowly-updated copy of the parameters $\theta^-$, preventing the "chasing a moving target" instability.
+
+## Policy Gradient Methods
+
+The methods above are <span style="color: red;">value-based</span>: they learn $Q$ and derive the policy implicitly via $\mathrm{argmax}$. <span style="color: red;">Policy-based</span> methods instead parameterize the policy $\pi_\theta(a\mid s)$ directly and optimize its parameters by gradient ascent on the expected return. This is essential for **continuous action spaces** (where $\mathrm{argmax}_a$ is intractable) and naturally produces **stochastic policies**.
+
+The objective is $J(\theta) = \mathbb{E}_{\tau\sim\pi_\theta}[R(\tau)]$. The <span style="color: red;">Policy Gradient Theorem</span> gives its gradient without needing to differentiate the environment dynamics:
+$$\nabla_\theta J(\theta) = \mathbb{E}_{\tau\sim\pi_\theta}\Big[\sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t\mid s_t)\, R(\tau)\Big]$$
+
+### REINFORCE
+
+<span style="color: red;">REINFORCE</span> is the basic Monte-Carlo policy gradient algorithm: run a full episode, then for each step push up the log-probability of actions in proportion to the (discounted) return that followed them.
+$$\theta \leftarrow \theta + \eta\, \nabla_\theta \log \pi_\theta(a_t\mid s_t)\, G_t,\qquad G_t = \sum_{k=t}^{T}\gamma^{k-t} r_k$$
+Its main weakness is **high variance**, since $G_t$ depends on the entire random trajectory. A common fix is to subtract a <span style="color: red;">baseline</span> $b(s_t)$ (often an estimate of the state value $V(s_t)$), which reduces variance without introducing bias:
+$$\theta \leftarrow \theta + \eta\, \nabla_\theta \log \pi_\theta(a_t\mid s_t)\, (G_t - b(s_t))$$
+
+### Actor-Critic
+
+<span style="color: red;">Actor-Critic</span> methods combine both worlds: an **actor** $\pi_\theta(a\mid s)$ chooses actions, and a **critic** $V_w(s)$ (or $Q_w$) estimates value and provides a low-variance learning signal in place of the Monte-Carlo return. Using the TD error as the critic's signal (the <span style="color: red;">advantage</span> $A(s,a) = Q(s,a) - V(s)$):
+$$\delta_t = r_t + \gamma V_w(s_{t+1}) - V_w(s_t)$$
+$$\theta \leftarrow \theta + \eta_\theta\, \delta_t\, \nabla_\theta \log \pi_\theta(a_t\mid s_t)\quad\text{(actor)}$$
+$$w \leftarrow w + \eta_w\, \delta_t\, \nabla_w V_w(s_t)\quad\text{(critic)}$$
+This bootstrapping lets the agent update at every step (like TD methods) while still optimizing the policy directly. Modern algorithms such as **A2C/A3C**, **TRPO**, and **PPO** build on this framework; PPO in particular is the workhorse behind RLHF (see Human Alignment in [Construction Method](#construction-method)).
+
+# Natural Language Processing (NLP)
+
+Natural language processing studies interactions between computers and humans using natural languages. In practice, it is very common to use natural language processing techniques to process and analyze text data.
+
+## Tokenization
+
+Before a model can represent or process text, the raw string must be broken into discrete units called <span style="color: red;">tokens</span>. A token is the atomic unit a model actually reads—it is mapped to an integer id, which then indexes into an embedding table to become a vector. The full set of distinct tokens a model knows is its <span style="color: red;">vocabulary</span> $V$, and the process of splitting text into tokens is called <span style="color: red;">tokenization</span>.
+
+A token is *not* necessarily a word. There are several granularities, each with trade-offs:
+
+- **Word-level**: split on spaces/punctuation. Intuitive, but the vocabulary explodes (every inflection like "run/runs/running" is separate), and any word unseen during training becomes an <span style="color: red;">out-of-vocabulary (OOV)</span> token the model cannot handle.
+- **Character-level**: vocabulary is tiny (just the alphabet) and there is no OOV problem, but sequences become very long and individual characters carry little meaning, making learning harder.
+- **Subword-level**: a middle ground that is now standard. Frequent words stay whole, while rare words are split into meaningful pieces (e.g. `tokenization` → `token` + `ization`). This keeps the vocabulary bounded (typically 30k–100k) while eliminating OOV, since any string can ultimately fall back to characters.
+
+The dominant subword algorithms are:
+- <span style="color: red;">Byte Pair Encoding (BPE)</span>: start from individual characters and greedily merge the most frequent adjacent pair into a new token, repeating until the vocabulary reaches the target size. Used by GPT.
+- <span style="color: red;">WordPiece</span>: similar to BPE, but merges the pair that most increases the likelihood of the training corpus rather than the most frequent one. Used by BERT (see [Bidirectional Encoder Representations from Transformers (BERT)](#bidirectional-encoder-representations-from-transformers-bert)).
+- **SentencePiece / Unigram**: operates directly on the raw byte stream (no pre-splitting on whitespace), which makes it language-agnostic and able to handle any script.
+
+For large language models, "length" is almost always measured in tokens, not words or characters—context windows, pricing, and the scaling laws' data size $D$ in [Scaling Law](#scaling-law) are all counted in tokens. As a rough rule of thumb in English, one token $\approx 0.75$ words $\approx 4$ characters.
+
+## One-hot vector
+
+How to represent words? A natural idea is use one-hot vector.
+<span style="color: red;">one-hot vector</span>: If the size of vocabulary $V$ is $|V|$, we represent words using vectors of length $|V|$. For the $i$-th word in the vocabulary, position $i$ in the vector is $1$, and all other positions are $0$.
+
+Drawbacks of one-hot vector: 
+- High dimensionality, $|V|$ often increases, resulting in a large number of parameters for $f$.
+- One-hot support for different words is orthogonal, which cannot prevent the similarity between different words.
+
+As a result, it is a bad choice.
+
+To understand text, we can begin by learning its representations. But the vocabulary is too large to be manually labeled. A better method is self-supervised learning.
+
+<span style="color: red;">Self-supervised learning (SSL)</span> is a machine learning technique where an AI model teaches itself by generating its own "pseudo-labels" directly from raw, unlabeled data, rather than relying on expensive human annotations.
+
+The [word2vec](https://code.google.com/archive/p/word2vec/) tool was proposed to address the above issue. It maps each word to a fixed-length vector, and these vectors can better express the similarity and analogy relationship among different words. The word2vec tool contains two models, namely skip-gram and continuous bag of words (CBOW).
+
+## Contrastive Learning
+
+<span style="color: red;">Contrastive Learning</span> is a representation-learning paradigm—usually self-supervised —whose core idea is extremely simple: **learn an embedding space in which similar samples are pulled close together and dissimilar samples are pushed far apart.** Instead of predicting an explicit label, the model only needs to judge *relative* similarity, so it can learn directly from unlabeled data.
+
+### Positive and Negative Pairs
+
+The supervision signal comes entirely from how we pair up samples.
+
+- <span style="color: red;">Positive pair</span>: two samples that *should* be close in the embedding space because they share the same underlying content. They are typically constructed without labels, for example:
+	- two different **augmentations** of the same image (random crop, color jitter, blur)—the basis of SimCLR;
+	- a word and a word that actually appears in its context (skip-gram);
+	- an image and its matching text caption (CLIP).
+- <span style="color: red;">Negative pair</span>: two samples that *should* be far apart because they come from different content—e.g. augmentations of two **different** images, or a word and a randomly sampled non-context word. Negatives are usually drawn cheaply at random; the number of negatives matters a lot, which is why methods use large batches (SimCLR) or a memory queue (MoCo).
+
+An <span style="color: red;">anchor</span> is the reference sample; a positive is then defined relative to the anchor, and everything else in the batch serves as its negatives.
+
+### Contrastive Loss
+
+The goal is to make the similarity (e.g. cosine similarity or dot product) of a positive pair high, and that of negative pairs low. Two classic formulations:
+
+- **Triplet loss** uses one anchor $a$, one positive $p$, one negative $n$, and enforces that the anchor is closer to the positive than to the negative by at least a margin $m$:
+$$L = \max\big(0,\ \|f(a)-f(p)\|^2 - \|f(a)-f(n)\|^2 + m\big)$$
+
+- <span style="color: red;">InfoNCE</span> (used by SimCLR, MoCo, CLIP) treats it as classification: given an anchor, pick the true positive out of one positive plus $K$ negatives. For a positive pair $(i,j)$ with similarity function $\mathrm{sim}$ and temperature $\tau$:
+$$L_{i,j} = -\log \frac{\exp(\mathrm{sim}(z_i, z_j)/\tau)}{\sum_{k=1}^{K+1} \exp(\mathrm{sim}(z_i, z_k)/\tau)}$$
+The numerator rewards the positive; the denominator (over the positive and all negatives) suppresses them. The temperature $\tau$ controls how sharply the model focuses on the hardest negatives. Note that this is structurally identical to a softmax cross-entropy where the "classes" are the candidate samples—and the negative-sampling objective in word2vec is essentially a special case with a Sigmoid instead of a softmax.
+
+Representative methods: **SimCLR** and **MoCo** (self-supervised vision), and **CLIP** (contrastive image–text pretraining, which powers modern multimodal and text-to-image models).
+## The Skip-Gram Model
+
+The _skip-gram_ model assumes that a word can be used to generate its surrounding words in a text sequence.
+
+![skip-gram](../attachments/skip-gram.svg){width=348}
+The conditional probability of generating any context word $w_o$ (with index $o$ in the dictionary) given the center word $w_c$ (with index $c$ in the dictionary) can be modeled by a softmax operation on vector dot products:
+$$P(w_o \mid w_c) = \frac{\exp(\mathbf{u}_o^\top \mathbf{v}_c)}{ \sum_{i \in V} \exp(\mathbf{u}_i^\top \mathbf{v}_c)}$$
+Given a text sequence of length $T$, where the word at time step $t$ is denoted as $w^{(t)}$. Assume that context words are independently generated given any center word. For context window size $m$, the likelihood function of the skip-gram model is the probability of generating all context words given any center word:
+$$\prod_{t=1}^{T} \prod_{-m \leq j \leq m,\ j \neq 0} P(w^{(t+j)} \mid w^{(t)})$$
+
+In training, we learn the model parameters by maximizing the likelihood function. This is equivalent to minimizing the following loss function:$$- \sum_{t=1}^{T} \sum_{-m \leq j \leq m,\ j \neq 0} \textrm{log}\, P(w^{(t+j)} \mid w^{(t)})$$where$$\log P(w_o \mid w_c) =\mathbf{u}_o^\top \mathbf{v}_c - \log\left(\sum_{i \in V} \exp(\mathbf{u}_i^\top \mathbf{v}_c)\right)$$
+Through differentiation, we can obtain its gradient with respect to the center word vector $\mathbf{v}_c$ as
+$$\begin{split}\begin{aligned}\frac{\partial \textrm{log}\, P(w_o \mid w_c)}{\partial \mathbf{v}_c}&= \mathbf{u}_o - \frac{\sum_{j \in V} \exp(\mathbf{u}_j^\top \mathbf{v}_c)\mathbf{u}_j}{\sum_{i \in V} \exp(\mathbf{u}_i^\top \mathbf{v}_c)}\\&= \mathbf{u}_o - \sum_{j \in V} \left(\frac{\exp(\mathbf{u}_j^\top \mathbf{v}_c)}{ \sum_{i \in V} \exp(\mathbf{u}_i^\top \mathbf{v}_c)}\right) \mathbf{u}_j\\&= \mathbf{u}_o - \sum_{j \in V} P(w_j \mid w_c) \mathbf{u}_j\end{aligned}\end{split}$$
+## The Continuous Bag of Words (CBOW) Model
+
+The _continuous bag of words_ (CBOW) model is similar to the skip-gram model. The major difference from the skip-gram model is that the continuous bag of words model assumes that a center word is generated based on its surrounding context words in the text sequence.
+![cbow](../attachments/cbow.svg){width=338}
+Since there are multiple context words in the continuous bag of words model, these context word vectors are averaged in the calculation of the conditional probability. Specifically, for any word with index $i$ in the dictionary, denote by $\mathbf{v}_i\in\mathbb{R}^d$ and $\mathbf{u}_i\in\mathbb{R}^d$ its two vectors when used as a context word and a center word (meanings are switched in the skip-gram model), respectively. 
+
+The conditional probability of generating any center word $w_c$ (with index $c$ in the dictionary) given its surrounding context words $W_o=\{w_{o_1}, \ldots, w_{o_{2m}}\}$ (with index $o_1, \ldots, o_{2m}$ in the dictionary) and $\bar{\mathbf{v}}_o = \left(\mathbf{v}_{o_1} + \ldots + \mathbf{v}_{o_{2m}} \right)/(2m)$ can be modeled by
+
+$$P(w_c \mid W_o) = \frac{\exp\left(\mathbf{u}_c^\top \bar{\mathbf{v}}_o\right)}{\sum_{i \in V} \exp\left(\mathbf{u}_i^\top \bar{\mathbf{v}}_o\right)}$$
+Given a text sequence of length $T$, where the word at time step $t$ is denoted as $w^{(t)}$. Assume that context words are independently generated given any center word. For context window size $m$, the likelihood function of the CBOW model is the probability of generating all context words given any center word:
+$$\prod_{t=1}^{T}  P(w^{(t)} \mid  w^{(t-m)}, \ldots, w^{(t-1)}, w^{(t+1)}, \ldots, w^{(t+m)})$$
+In training, we learn the model parameters by maximizing the likelihood function. This is equivalent to minimizing the following loss function:
+$$-\sum_{t=1}^T  \textrm{log}\, P(w^{(t)} \mid  w^{(t-m)}, \ldots, w^{(t-1)}, w^{(t+1)}, \ldots, w^{(t+m)})$$
+Notice that$$\log\,P(w_c \mid W_o) = \mathbf{u}_c^\top \bar{\mathbf{v}}_o - \log\,\left(\sum_{i \in V} \exp\left(\mathbf{u}_i^\top \bar{\mathbf{v}}_o\right)\right)$$
+Through differentiation, we can obtain its gradient with respect to any context word vector $\mathbf{v}_{o_i}$ ($i = 1, \ldots, 2m$) as
+$$\frac{\partial \log\, P(w_c \mid \mathcal{W}_o)}{\partial \mathbf{v}_{o_i}} = \frac{1}{2m} \left(\mathbf{u}_c - \sum_{j \in \mathcal{V}} \frac{\exp(\mathbf{u}_j^\top \bar{\mathbf{v}}_o)\mathbf{u}_j}{ \sum_{i \in \mathcal{V}} \exp(\mathbf{u}_i^\top \bar{\mathbf{v}}_o)} \right) = \frac{1}{2m}\left(\mathbf{u}_c - \sum_{j \in \mathcal{V}} P(w_j \mid \mathcal{W}_o) \mathbf{u}_j \right)$$
+
+## Approximate Training
+
+There is a serious computational problem hiding in both models. The softmax denominator $\sum_{i \in V}\exp(\mathbf{u}_i^\top \mathbf{v}_c)$ sums over the **entire vocabulary** $V$, and the gradients above contain a term $\sum_{j\in V}P(w_j\mid w_c)\mathbf{u}_j$. Since $|V|$ can be in the millions, computing this for every training step is prohibitively expensive. Two approximate training methods make word2vec tractable.
+
+### Negative Sampling
+
+<span style="color: red;">Negative sampling</span> reframes the problem from "predict the correct word out of $|V|$" into a set of independent binary classification problems. For a center–context pair $(w_c, w_o)$ that actually co-occurs (a **positive** sample), we also draw $K$ <span style="color: red;">negative</span> words $w_1,\ldots,w_K$ from a noise distribution $P_n(w)$. The objective for one pair becomes
+$$\log \sigma(\mathbf{u}_o^\top \mathbf{v}_c) + \sum_{k=1}^{K} \mathbb{E}_{w_k \sim P_n(w)}\big[\log \sigma(-\mathbf{u}_{w_k}^\top \mathbf{v}_c)\big]$$
+where $\sigma$ is the Sigmoid. Intuitively, we push the model to say "yes, these co-occur" for the true pair and "no" for $K$ random pairs. Each update now costs $O(K)$ instead of $O(|V|)$, with $K$ typically $5$–$20$.
+
+In practice the noise distribution is the unigram frequency raised to the $3/4$ power, $P_n(w) \propto U(w)^{3/4}$, which up-weights rare words relative to plain frequency:
+$$P_n(w) = \frac{U(w)^{3/4}}{\sum_{w'} U(w')^{3/4}}$$
+
+### Hierarchical Softmax
+
+<span style="color: red;">Hierarchical softmax</span> instead organizes the vocabulary as the leaves of a binary tree (often a Huffman tree, so frequent words have shorter paths). The probability of a word is the product of the binary decisions ("go left/right") along the path from the root to its leaf:
+$$P(w \mid w_c) = \prod_{j=1}^{L(w)-1} \sigma\Big( [\![\, n(w,j{+}1)=\mathrm{ch}(n(w,j)) \,]\!] \cdot \mathbf{u}_{n(w,j)}^\top \mathbf{v}_c\Big)$$
+where:
+- $n(w,j)$ is the $j$-th node on the path from the root to word $w$, and $L(w)$ is the path length (so there are $L(w)-1$ internal-node decisions).
+- $\mathbf{u}_{n(w,j)}$ is the vector attached to the **internal node** $n(w,j)$ (not a word vector), and $\mathbf{v}_c$ is the center-word vector.
+- $\mathrm{ch}(n)$ is a fixed child of node $n$ (say, the left child), and $[\![\,\cdot\,]\!]$ is a sign indicator: it equals $+1$ if the path goes to that child and $-1$ otherwise.
+
+Since $\sigma(\mathbf{u}^\top\mathbf{v})$ is the probability of turning one way at a node and $\sigma(-\mathbf{u}^\top\mathbf{v})=1-\sigma(\mathbf{u}^\top\mathbf{v})$ the other way, that $\pm1$ sign just selects the correct direction at each step, and the probability of a word is the product of the correct turns along its path. Because every node's two directions sum to 1, all leaves (words) automatically sum to 1—no full-vocabulary normalization needed. Since each path has length $O(\log |V|)$, the cost of one evaluation drops from $O(|V|)$ to $O(\log |V|)$.
+
+## Bidirectional Encoder Representations from Transformers (BERT)
+
+In order to understand the context instead of only focusing on the word itself, we propose <span style="color: red;">Bidirectional Encoder Representations from Transformers (BERT)</span>.
+
+Input:
+- Token embeddings: the fixed dimension of every token.
+- Segment embeddings: indicate which sentence the current two lexical units come from.
+- Position embeddings: indicate the position of a word in the complete sequence.
+
+Output:
+- Dimension: 768 (BERT base) or 1024 (BERT large)
+- Special token
+	- CLS: The beginning of a sequence serves as a sentence-level representation, providing a semantic representation of the entire sentence.
+	- SEP: The end of two sentences indicates the transition between sentences and the position where the sentences end.
+
+Pre-training:
+- Masked Language Modeling (MLM): Approximately 15% of the words in a sentence are randomly covered (replaced with special `[MASK]` tags), and the model is then asked to guess the word based on the surrounding context. This forces the model to delve deeper into the semantics and contextual dependencies of words.
+- Next Sentence Prediction (NSP): Each time, the model is fed two sentences ($A$ and $B$), and it is asked to determine whether $B$ immediately follows $A$ in the original text. This teaches the model to understand the logical relationships between sentences, which is especially important for subsequent question-answering systems.
+
+## N-gram Language Model
+
+Assume that we have a sentence sequence $W = (w_1, w_2, ..., w_T)$, the probability can be precisely expressed as:
+$$P(w_1, w_2, ..., w_T) = \prod_{i=1}^{T} P(w_i | w_1, w_2, ..., w_{i-1})$$
+The N-gram language model introduces the $N-1$-th order Markov assumption: it assumes that the occurrence of the current word $w_i$ depends only on the N-1 preceding words, and is independent of earlier words. The formula is approximated as:
+
+$$P(w_i | w_1, w_2, ..., w_{i-1}) \approx P(w_i | w_{i-N+1}, ..., w_{i-1})$$
+
+Therefore, the probability of the entire sentence is approximately:
+$$P(W) \approx \prod_{i=1}^{T} P(w_i | w_{i-N+1}, ..., w_{i-1})$$
+N-grams typically use **maximum likelihood estimation**, which calculates probabilities by statistically analyzing word frequencies.
+
+$$P(w_i | w_{i-N+1}, ..., w_{i-1}) = \frac{C(w_{i-N+1}, ..., w_{i})}{C(w_{i-N+1}, ..., w_{i-1})}$$
+
+where $C(x)$ represents the frequency of the string $x$ in the training corpus.
+
+The standard evaluation metric for N-gram models is **Perplexity (PPL)**. The lower the PPL, the stronger the model's predictive ability on the test set.
+$$PPL(W) = \sqrt[T]{\frac{1}{P(w_1, w_2, ..., w_T)}}$$
+
+In practical applications, N-gram models encounter a severe data sparsity problem. If a certain N-gram $(w_{i-N+1}, ..., w_i)$ has never appeared in the training set, its statistical frequency is 0, which will cause the product probability of the entire sentence to directly become zero (Zero Probability Problem).
+
+To address this issue, the algorithm design incorporates a **smoothing technique**, which distributes a portion of the probability mass of high-frequency words to out-of-vocabulary (OOV) words or zero-frequency word groups.
+
+- **Laplace Smoothing (Add-1 Smoothing):** The most basic smoothing, adding 1 to the numerator and the vocabulary size $|V|$ to the denominator.
+- **Good-Turing estimation:** Re-estimate the probability of occurrence with frequency $c$ using the number of N-grams that occur with frequency $c+1$.
+- **Kneser-Ney Smoothing:** Currently the most mature and effective algorithm in N-gram processing, it interpolates based on absolute discounting and the continuity probability of a low-order model.
+
+If the vocabulary size is $|V|$, an N-gram model needs to maintain an order of magnitude of $O(|V|^N)$. Even with sparse matrix storage, the memory consumption is enormous when $N \ge 4$. This is why traditional N-grams rarely use $N > 3$.
+
+## Large language model (LLM)
+
+Advantages:
+
+- Strong reasoning ability for complex tasks
+- Strong human-like instruction-following ability
+- Strong human alignment ability
+- Extensible tool usage capability
+
+Limitations:
+
+- Hallucination and credibility of generated results
+- Explainability and transparency of decision-making process
+- Data bias and fairness
+- Generalization and robustness
+- Resource dependence
+- Negative applications and compliance
+
+### Scaling Law
+
+To establish a quantitative modeling method and study the performance improvement brought about by scaling, we established <span style="color: red;">Scaling Law</span>.
+
+- KM Scaling Law
+	It is established by Kaplan et al. from the OpenAI team in 2020.
+	The model's cross-entropy loss $L$ exhibits a power relationship with the following three core elements:
+	- **Model Size ($N$):** The number of parameters in the model.
+	- **Data Size ($D$):** The number of tokens used during training.
+	- **Computational Power ($C$):** The computational resources (FLOPs) consumed during training.
+	
+$$L(N) = (\frac{N_c}{N})^{\alpha_N},L(D) = (\frac{D_c}{D})^{\alpha_D},L(C) = (\frac{C_c}{C})^{\alpha_C}$$
+	where $\alpha$ is the scaling exponent, and the constants with subscripts, such as $N_c, D_c, C_c$, are the fitted constant parameters.
+	Conclusion: As long as we continuously increase computing power, add data, and expand the number of parameters, the loss of the language model will decrease steadily according to a power law.
+
+
+- Chinchilla Scaling Law
+	It is established by Hoffmann et al. from the DeepMind team in 2022.
+	They proposed an alternative power formula to describe the relationship between model performance and model size $N$ and data size $D$:
+$$L(N,D) = E + \frac{A}{N^\alpha} + \frac{B}{D^\beta}$$
+	where $E, A, B, \alpha, \beta$ are all constants.
+	Based on this model, if your total computing resources $C$ are fixed, the **optimal allocation scheme** for model size and data size can be obtained by differentiation:
+	- Optimal number of model parameters: $N_{opt}(C) = G(\frac{C}{6})^a$
+	- Optimal amount of training data: $D_{opt}(C) = G^{-1}(\frac{C}{6})^b$ , where $G, a, b$ are constants)
+	Conclusion: To achieve optimal performance, **the number of model parameters ($N$) and the amount of training data ($D$) should be increased proportionally**.
+
+### Emergent Abilities
+
+When a model scales to a certain size, advanced capabilities that were not present in smaller models suddenly emerge. 
+
+![Screenshot 2026-05-24 at 21.56.49](../attachments/Screenshot%202026-05-24%20at%2021.56.49.png)
+Typical examples include:
+- In-Context Learning: No gradient updates are required; the new task can be completed simply by following the example in the hint.
+- Instruction Following: Perform operations according to natural language instructions.
+- Step-by-step Reasoning: Utilize the Chain-of-Thought (CoT) strategy to perform complex logical deductions in multiple steps.
+
+It is noted that these emergent capabilities don't appear suddenly, but rather gradually emerge as the model size increases. Furthermore, the emergent capability is also related to the task itself; some tasks require larger models to exhibit emergent behavior.
+
+### Construction Method
+- Pre-training
+	- Objective: To accumulate general knowledge and generate capabilities.
+	- Employ Transformer-based architectures (such as causal decoders). Autoregressive learning is performed by "predicting the next lexical term." Hybrid expert (MoE) architectures are often introduced to scale up the number of parameters without significantly increasing computational power.
+- Supervised Fine-tuning (SFT)
+	- Objective: To stimulate task-solving and instruction comprehension abilities.
+	- Fine-tuning is performed using manually written instructions and high-quality datasets. To reduce computing costs, efficient parameter fine-tuning techniques such as LoRA are often employed.
+- Human Alignment
+	- Objective: Ensure that the output aligns with human values.
+	- The primary approach employed is RLHF (Reinforcement Learning Based on Human Feedback). A reward model is trained to score the output quality, guiding the model to meet the standards of usefulness, honesty, and harmlessness.
+
+
+
+
+# Gaussian Process (TODO)
+# Hyperparameter Optimization (TODO)
+# Generative Adversarial Networks (TODO)
+# Recommender Systems (TODO)
+        </script>
+    </main>
+
+    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/comments.js"></script>
+</body>
+</html>

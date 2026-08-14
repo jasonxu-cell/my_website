@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seismology | Yang</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" type="image/png" href="../../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../notes.html">Notes</a>
+            <a href="../../articles.html">Articles</a>
+            <a href="../../research.html">Research</a>
+            <a href="../../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../geoscience.html" class="article-back-link">&larr; Geoscience</a>
+            <h1>Seismology</h1>
+            <p>A study of earthquakes, seismic waves, source mechanisms, Earth interior structure, wave propagation, and the methods used to infer subsurface properties from seismic records...</p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Earthquakes</span>
+                    <span>Seismic Waves</span>
+                    <span>Earth Interior</span>
+                </div>
+                <time datetime="2026-07-30">Jul 30, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+# The Core Questions
+
+- How does a natural earthquake happen? How to conduct quantitative research in seismology?
+- Why do earthquakes occur? What's the physics mechanism of a natural earthquake?
+- What's the difference in behavior when the elastic wave spreads in the different media? How to research the tectonics of the Earth through elastic waves? What's Earth inside like?
+- Could the natural earthquake be forecast? How to improve the resolution, precision, and accuracy of the Earth inside?
+
+- Macroseismic Observation
+- Seismometry
+	- Seismological Observation and Data Processing
+- Seismicity
+	- Seismic Risk Evaluation
+- Theory of Seismic Wave Propagation
+	- the Structure of the Earth's and Planetary Interior
+- Seismic Source Theory
+	- Seismogenesis, Earth Mechanism, Physics of Earthquake Foci
+- Model Seismology & Field Test
+- Earthquake Prediction and Forecasting
+
+Simple model of an earthquake:
+- Epicentre, Epicentral distance
+- Earthquake parameter:
+	- Origen time ($T_0$)
+	- Latitude and Longitude of the epicentre ($\lambda ,\varphi$)
+	- Focal depth ($h$)
+	- Magnitude ($M$)
+
+Ground vibration is a vector, so we need to describe it by three parameters.
+![Screenshot 2026-05-10 at 22.13.03](../attachments/Screenshot%202026-05-10%20at%2022.13.03.png){width=552}
+
+Chandler Wobble
+# Macroseismic Observation
+![Screenshot 2026-05-12 at 13.33.42](../attachments/Screenshot%202026-05-12%20at%2013.33.42.png){width=462}
+$$-kz(t)-D\dot{z}(t)-mg=m[\ddot{z}(t)+\ddot{u}(t)]$$
+## Earthquake Magnitude
+
+In 1935, Richter found that if we draw a diagram of the logarithm of the maximum amplitude, then we have$$\lg A_1-\lg A_2 \approx Const$$
+It is virtually not related to the epicentral distance $\Delta$.
+![Screenshot 2026-05-10 at 23.39.43](../attachments/Screenshot%202026-05-10%20at%2023.39.43.png)
+As a result, the magnitude can be defined as $$M_L=\lg A-\lg A_0,A_0=10^{-6}\text{m}$$It is called <span style="color: red;">local magnitude</span>.
+## Seismic Moment
+
+Relationship between the energy of the earthquake and the magnitude:$$\lg E=4.8+1.5M$$The unit of the energy is Joule
+
+<span style="color: red;">Seismic Moment </span> $$M_0=\mu \bar{D} A$$where $\mu$ is the shear modulus, $\bar{D}$ is the average slip when it is broken, and $A$ is the area of the fracture surface
+
+Assume that $\sigma$ is the stress of the fracture surface, then$$\bar{\sigma}=\sigma/2$$As a result,$$\Delta W\approx \bar{\sigma}\bar{D}A=\frac{\sigma}{2}\bar{D} A=\frac{\Delta\sigma M_0}{2\mu}$$Estimate that,$$\Delta \sigma \approx 4 \times 10^6 Pa$$$$\mu \approx 4 \times 10^{10} Pa$$Therefore, we can solve the Moment magnitude$$M_W=\frac{2}{3}(\lg \Delta W-4.8)=\frac{2}{3}(\lg \frac{\Delta\sigma M_0}{2\mu}-4.8)=\frac{2}{3}\lg M_0-6.07$$
+# Transportation of the Seismic Wave and Tectonics of the Earth Inside
+
+![Screenshot 2026-05-12 at 13.13.07](../attachments/Screenshot%202026-05-12%20at%2013.13.07.png)
+
+$$\rho\frac{\partial^2 \mathbf{u}}{\partial t^2}= (\kappa +4\mu/3)\nabla(\nabla \cdot \mathbf{u})-\mu \nabla\times\nabla\times\mathbf{u}$$where $\kappa$ is bulk modulus, $\mu$ is shear modulus
+$$\mathbf{u}=\mathbf{u}_p+\mathbf{u}_s=\nabla \varphi+\nabla \times \mathbf{\Psi},\nabla \cdot \mathbf{\Psi}=0$$
+$$\rho\frac{\partial^2\nabla \varphi}{\partial t^2}+\rho\frac{\partial^2 \nabla \times \mathbf{\Psi}}{\partial t^2}= (\kappa +4\mu/3)\nabla(\nabla^2\varphi)-\mu \nabla\times\nabla\times\nabla \times \mathbf{\Psi},\nabla \cdot \mathbf{\Psi}=0$$
+Because$$\nabla\times\nabla\times\nabla \times \mathbf{\Psi}=\nabla(\nabla \cdot \nabla \times \mathbf{\Psi}) -\nabla^2(\nabla \times \mathbf{\Psi}) = -\nabla \times (\nabla^2 \mathbf{\Psi})$$
+We have$$\rho\frac{\partial^2\nabla \varphi}{\partial t^2}+\rho\frac{\partial^2 \nabla \times \mathbf{\Psi}}{\partial t^2}= (\kappa +4\mu/3)\nabla(\nabla^2\varphi)+\mu \nabla \times (\nabla^2 \mathbf{\Psi}),\nabla \cdot \mathbf{\Psi}=0$$$$\nabla(\rho\frac{\partial^2 \varphi}{\partial t^2}-(\kappa +4\mu/3)\nabla^2\varphi)+\nabla \times (\rho\frac{\partial^2 \mathbf{\Psi}}{\partial t^2}-\mu\nabla^2 \mathbf{\Psi})=0,\nabla \cdot \mathbf{\Psi}=0$$
+It is equivalent to$$\left\{\begin{matrix}
+ \rho\frac{\partial^2 \varphi}{\partial t^2}-(\kappa +4\mu/3)\nabla^2\varphi=C_1 \\\rho\frac{\partial^2 \mathbf{\Psi}}{\partial t^2}-\mu\nabla^2 \mathbf{\Psi}=\mathbf{C}_2\\\nabla \cdot \mathbf{\Psi}=0
+
+\end{matrix}\right.$$
+As a result, we have$$v_p=\sqrt{\frac{\kappa +4\mu/3}{\rho}}$$$$v_s=\sqrt{\frac{\mu}{\rho}}$$
+地震射线沿大圆
+
+![Screenshot 2026-05-12 at 13.18.13](../attachments/Screenshot%202026-05-12%20at%2013.18.13.png){width=438}
+
+![Screenshot 2026-05-12 at 13.19.10](../attachments/Screenshot%202026-05-12%20at%2013.19.10.png)
+
+[Seismic phase](https://www.isc.ac.uk/standards/phases/)
+
+散射和有限频率效应
+
+# Physical Property and Chemical Composition of the Earth Inside
+
+crust-mantle boundary / Moho boundary (Andrija Mohorovičić)
+![Screenshot 2026-05-12 at 13.29.03](../attachments/Screenshot%202026-05-12%20at%2013.29.03.png)
+mantle-core boundary / Gutenberg boundary (Beno Gutenberg)
+![Screenshot 2026-05-12 at 13.30.20](../attachments/Screenshot%202026-05-12%20at%2013.30.20.png){width=343}
+
+
+![Screenshot 2026-05-11 at 22.08.55](../attachments/Screenshot%202026-05-11%20at%2022.08.55.png){width=450}
+
+Seismic Discontinuities
+![Screenshot 2026-05-27 at 22.54.52](../attachments/Screenshot%202026-05-27%20at%2022.54.52.png)(Deuss & Woodhouse, 2002)
+
+
+
+# Seismic Wave Excitation and Focal Mechanism
+
+# Main Features and Causal Hypothesis of the Earthquake
+
+Guttenberg-Richter law$$\lg N=a-bM$$N is the number of earthquakes of magnitude over M.
+
+Beach ball representation of focal mechanism solution
+
+Earthquake Sequence:
+- Mainshock (MS) - Aftershock
+- Foreshock - Mainshock (MS) - Aftershock
+- Swarm
+![Screenshot 2026-05-11 at 23.09.26](../attachments/Screenshot%202026-05-11%20at%2023.09.26.png){width=473}
+
+
+为什么会有前震
+前震是否具有普遍性
+余震有什么样的规律？
+余震能预测吗？
+![Screenshot 2026-05-11 at 23.12.55](../attachments/Screenshot%202026-05-11%20at%2023.12.55.png)
+<span style="color: red;">Omori law</span>$$N(t)=\frac{k}{(t+c)^p}$$
+- $N$: number of earthquakes in unit time
+- $k$: efficiency of the aftershock
+- $t$: time
+- $p$: attenuation rate
+- $c$: const
+
+<span style="color: red;">Bath’s law</span>: The difference between the maximum magnitude of the aftershock and the mainshock is approximately $1.2$, which is unrelated to the mainshock magnitude.
+
+# Prediction of the Earthquake
+
+Elastic Rebound Theory
+![Screenshot 2026-05-11 at 22.50.15](../attachments/Screenshot%202026-05-11%20at%2022.50.15.png)![Screenshot 2026-05-27 at 22.16.43](../attachments/Screenshot%202026-05-27%20at%2022.16.43.png){width=483}
+        </script>
+    </main>
+
+    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/comments.js"></script>
+</body>
+</html>
