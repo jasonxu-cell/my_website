@@ -859,6 +859,123 @@
         renderTocNodes(buildTocTree(headings), tocElement);
     }
 
+    function setupTocScrollSpy(headings) {
+        const sections = headings
+            .map((heading) => {
+                const section = document.getElementById(heading.id);
+                const link = tocElement.querySelector(`.toc-link[href="#${CSS.escape(heading.id)}"]`);
+
+                return section && link ? { section, link } : null;
+            })
+            .filter(Boolean);
+
+        if (!sections.length) {
+            return;
+        }
+
+        const tocPanel = tocElement.closest(".article-toc-panel");
+        let activeLink = null;
+        let frameId = null;
+
+        function expandActivePath(link) {
+            let childList = link.closest(".toc-children");
+
+            while (childList) {
+                childList.hidden = false;
+
+                const parentItem = childList.parentElement;
+                parentItem.classList.remove("is-collapsed");
+
+                const toggle = parentItem.querySelector(":scope > .toc-row .toc-toggle");
+                const parentLink = parentItem.querySelector(":scope > .toc-row .toc-link");
+
+                if (toggle) {
+                    toggle.setAttribute("aria-expanded", "true");
+                    toggle.setAttribute("aria-label", `Collapse ${parentLink ? parentLink.textContent : "section"}`);
+                }
+
+                childList = parentItem.parentElement.closest(".toc-children");
+            }
+        }
+
+        function keepActiveLinkVisible(link) {
+            if (!tocPanel || tocPanel.scrollHeight <= tocPanel.clientHeight) {
+                return;
+            }
+
+            const panelRect = tocPanel.getBoundingClientRect();
+            const linkRect = link.getBoundingClientRect();
+            const panelTitle = tocPanel.querySelector("p");
+            const visibleTop = panelTitle
+                ? Math.max(panelRect.top, panelTitle.getBoundingClientRect().bottom + 8)
+                : panelRect.top;
+
+            if (linkRect.top < visibleTop) {
+                tocPanel.scrollTop -= visibleTop - linkRect.top;
+            } else if (linkRect.bottom > panelRect.bottom - 12) {
+                tocPanel.scrollTop += linkRect.bottom - panelRect.bottom + 12;
+            }
+        }
+
+        function setActiveLink(link) {
+            if (link === activeLink) {
+                return;
+            }
+
+            if (activeLink) {
+                activeLink.classList.remove("is-active");
+                activeLink.removeAttribute("aria-current");
+                activeLink.closest(".toc-item").classList.remove("is-active");
+            }
+
+            activeLink = link;
+            activeLink.classList.add("is-active");
+            activeLink.setAttribute("aria-current", "location");
+            activeLink.closest(".toc-item").classList.add("is-active");
+            expandActivePath(activeLink);
+            keepActiveLinkVisible(activeLink);
+        }
+
+        function updateActiveLink() {
+            frameId = null;
+            const readingLine = Math.min(window.innerHeight * 0.28, 200);
+            const atPageEnd = window.scrollY > 0
+                && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+            let activeSection = sections[0];
+
+            if (atPageEnd) {
+                activeSection = sections[sections.length - 1];
+            } else {
+                for (const entry of sections) {
+                    if (entry.section.getBoundingClientRect().top > readingLine) {
+                        break;
+                    }
+
+                    activeSection = entry;
+                }
+            }
+
+            setActiveLink(activeSection.link);
+        }
+
+        function scheduleUpdate() {
+            if (frameId === null) {
+                frameId = window.requestAnimationFrame(updateActiveLink);
+            }
+        }
+
+        window.addEventListener("scroll", scheduleUpdate, { passive: true });
+        window.addEventListener("resize", scheduleUpdate);
+        window.addEventListener("hashchange", scheduleUpdate);
+
+        if (window.ResizeObserver) {
+            const resizeObserver = new ResizeObserver(scheduleUpdate);
+            resizeObserver.observe(bodyElement);
+        }
+
+        scheduleUpdate();
+    }
+
     function copyText(value) {
         if (navigator.clipboard && window.isSecureContext) {
             return navigator.clipboard.writeText(value);
@@ -1011,6 +1128,7 @@
 
     bodyElement.innerHTML = result.html;
     renderToc(result.headings);
+    setupTocScrollSpy(result.headings);
     enhanceCodeBlocks();
     loadHighlightJs();
     loadMathJax();

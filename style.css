@@ -892,6 +892,7 @@ section {
     line-height: 1.35;
     text-decoration: none;
     border-radius: 4px;
+    transition: color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease;
 }
 
 .article-toc-panel .toc-link:hover {
@@ -917,6 +918,20 @@ section {
 
 .article-toc-panel .toc-level-4 > .toc-row .toc-link {
     font-size: 12px;
+}
+
+.article-toc-panel .toc-item.is-active > .toc-row .toc-link {
+    color: #0b536f;
+    font-weight: 800;
+    background: #c8e3ed;
+}
+
+.article-toc-panel .toc-item.is-active > .toc-row {
+    background: #c8e3ed;
+}
+
+.article-toc-panel .toc-item.is-active > .toc-row .toc-toggle {
+    color: #0b536f;
 }
 
 .article-toc-panel .toc-children {
