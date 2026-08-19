@@ -1179,7 +1179,7 @@ In this age, C++ is a mainstream programming languages. But it appears cumbersom
 
 Python was created by Dutch programmer Guido van Rossum. In December 1989, he wanted to find a personal programming project, so he started to design a new programming language. In tribute to the British comedy group Monty Python, Guido van Rossum named the language Python.
 
-Python was strongly influenced by ABC. ABC emphasized readability, simple syntax, indentation-based block structure, and high-level data types. Similarly, A common slogan in the Chinese Python community is: "Life is short, you need Python." Python inherited some of these ideas, but Guido also wanted to make Python more extensible, more practical for system scripting, and easier to integrate with Unix and C programs. This relationship helps explain why Python combines beginner-friendly syntax with strong real-world engineering utility.
+Python was strongly influenced by ABC. ABC emphasized readability, simple syntax, indentation-based block structure, and high-level data types. Python inherited some of these ideas, but Guido also wanted to make Python more extensible, more practical for system scripting, and easier to integrate with Unix and C programs. This relationship helps explain why Python combines beginner-friendly syntax with strong real-world engineering utility. A common slogan in the Chinese Python community, "Life is short, you need Python", captures this emphasis on simplicity and productivity.
 
 Python is commonly used as an interpreted, dynamically typed, high-level language. More precisely, CPython, the reference implementation, compiles Python source code into bytecode and then executes that bytecode on a virtual machine. Python supports multiple paradigms, including procedural programming, object-oriented programming, and functional programming.
 
@@ -1241,6 +1241,12 @@ Another highlight of Python is magic methods, also called dunder methods because
 | Object finalization | `a.__del__()`              |
 
 Notably, although Python is dynamically typed, it is also strongly typed: names do not have fixed declared types, but objects do, and operations do not freely coerce unrelated types. Python also shows why modern type discussions often distinguish several axes, such as static versus dynamic typing, strong versus weak typing, and optional type annotations.
+
+Although Python was initially a relatively small language, its concise syntax and ease of maintenance helped it spread through scripting, web development, education, and scientific computing. Important products and companies, such as YouTube and Dropbox, also helped demonstrate that Python could be used in large real-world systems.
+
+Python's rise became even stronger in data science and AI. Libraries such as NumPy, SciPy, pandas, Matplotlib, scikit-learn, TensorFlow, and PyTorch made Python a convenient front end for numerical computation and machine learning. Google open-sourced TensorFlow in 2015, and PyTorch was announced by Facebook AI Research in early 2017. Together with Python's easy syntax, notebook ecosystem, and strong C/C++ extension mechanism, these tools helped Python become one of the central languages of the AI era.
+
+However, Python also has clear disadvantages. First, pure Python code is usually slower than code written in compiled languages such as C, C++, or Rust, so performance-critical libraries often move heavy computation into native extensions. Second, the transition from Python 2 to Python 3 caused long-term compatibility problems; Python 2 officially reached end of life on January 1, 2020. Third, traditional CPython builds have a Global Interpreter Lock (GIL), which means that only one thread executes Python bytecode at a time in a single interpreter. This limits CPU-bound multithreading, although Python can still use multiprocessing, asynchronous I/O, native extensions, and alternative runtimes to handle different kinds of concurrency. Since Python 3.13, CPython has offered free-threaded builds that can disable the GIL, and Python 3.14 made free-threaded Python officially supported. Even so, ecosystem compatibility and performance tradeoffs mean this area is still evolving.
 
 ## R
 
