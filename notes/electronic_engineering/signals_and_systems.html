@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signals and Systems | Yang</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" type="image/png" href="../../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../notes.html">Notes</a>
+            <a href="../../articles.html">Articles</a>
+            <a href="../../research.html">Research</a>
+            <a href="../../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../electronic-technology.html" class="article-back-link">&larr; Electronic Technology</a>
+            <h1>Signals and Systems</h1>
+            <p>Corresponding courses in USTC:<br>
+            Signals and Systems A (EE2006A)</p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Signals</span>
+                    <span>Systems</span>
+                    <span>Transforms</span>
+                </div>
+                <time datetime="2026-03-04">Mar 4, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+**Signal** — a carrier of information, or a concrete form in which information appears.
+**Information** — the actual content carried by a signal.
+
+# Classification of signals
+
+- **Continuous-time signal** $x(t)$, $y(t)$ (real or complex): the independent variable varies continuously.
+- **Discrete-time signal** $x[n]$, $y[n]$ (real or complex): the independent variable is defined only at discrete (integer) instants and undefined elsewhere.
+- **Analog signal**: both the independent variable and the dependent variable vary continuously.
+- **Digital signal**: both the independent variable and the dependent variable are discrete.
+
+**System** — a whole formed from several mutually related and mutually interacting elements, possessing some specific function(s) and characteristic(s). Systems are likewise classified into continuous-time systems and discrete-time systems.
+# Operations on Signals
+
+| Operation                    | Continuous time                                                       | Discrete time                                      |
+| ---------------------------- | --------------------------------------------------------------------- | -------------------------------------------------- |
+| Scalar multiplication        | $y(t) = c\,x(t)$                                                      | $y[n] = c\,x[n]$                                   |
+| Addition                     | $y(t) = x_1(t) + x_2(t)$                                              | $y[n] = x_1[n] + x_2[n]$                           |
+| Multiplication               | $y(t) = x_1(t)\,x_2(t)$                                               | $y[n] = x_1[n]\,x_2[n]$                            |
+| Differentiation / Difference | $y(t) = x'(t) = \dfrac{\mathrm{d}}{\mathrm{d}t}x(t)$                  | backward: $y[n] = \nabla x[n] = x[n]-x[n-1]$       |
+| Forward difference           | —                                                                     | $y[n] = \Delta x[n] = x[n+1]-x[n]$                 |
+| Integration / Accumulation   | $y(t) = x_{(-1)}(t) = \displaystyle\int_{-\infty}^{t} x(\tau)\,d\tau$ | $y[n] = \displaystyle\sum_{k=-\infty}^{n} x[k]$    |
+| Magnitude                    | $y(t) = \lvert x(t)\rvert = \sqrt{x(t)\,x^{*}(t)}$                    | $y[n] = \lvert x[n]\rvert = \sqrt{x[n]\,x^{*}[n]}$ |
+| Time reversal                | $y(t) = x(-t)$                                                        | $y[n] = x[-n]$                                     |
+| Time shift                   | $y(t) = x(t-t_0)$                                                     | $y[n] = x[n-n_0]$                                  |
+
+**Time scaling (continuous time):** $y(t) = x(at)$, $a \neq 0$.
+
+**Scaling (discrete time):**
+
+1. **Decimator:** $y[n] = x[Mn]$.
+2. **Zero insertion (expander):**
+$$y[n] = \begin{cases} x[n/M], & n = \ell M,\ \ell\in\mathbb{Z} \\ 0, & \text{otherwise} \end{cases}$$
+
+# Elementary Signals and Their Properties
+
+Unit step
+$$u(t) = \begin{cases} 1, & t>0 \\ 0, & t<0 \end{cases} \qquad u[n] = \begin{cases} 1, & n\ge 0 \\ 0, & n<0 \end{cases}$$
+
+Unit impulse
+
+The Dirac delta $\delta(t)$, and discrete impulse
+$$\delta[n] = \begin{cases} 1, & n=0 \\ 0, & n\neq 0 \end{cases}$$
+
+One easily obtains
+$$\int_{-\infty}^{\infty}\delta(t)\,dt = 1, \qquad \sum_{n=-\infty}^{\infty}\delta[n] = 1.$$
+
+$$u(t) = \int_{-\infty}^{t}\delta(\tau)\,d\tau = \int_{0}^{\infty}\delta(t-\tau)\,d\tau, \qquad \delta(t) = \frac{\mathrm{d}}{\mathrm{d}t}u(t).$$
+
+$$u[n] = \sum_{k=-\infty}^{n}\delta[k] = \sum_{k=0}^{\infty}\delta[n-k], \qquad \delta[n] = \nabla u[n] = u[n]-u[n-1].$$
+
+## Sifting property
+
+$$x(t)\,\delta(t-t_0) = x(t_0)\,\delta(t-t_0), \qquad \int_{-\infty}^{\infty}x(t)\,\delta(t-t_0)\,\mathrm{d}t = x(t_0)$$
+(provided $x(t)$ is continuous at $t=t_0$).
+
+$$x[n]\,\delta[n-n_0] = x[n_0]\,\delta[n-n_0], \qquad \sum_{n=-\infty}^{\infty}x[n]\,\delta[n-n_0] = x[n_0].$$
+
+**Scaling**
+$$\int_{-\infty}^{\infty}\delta(kx)g(x)\,dx = \frac{1}{|k|}\int_{-\infty}^{\infty}\delta(x)g\!\left(\frac{x}{k}\right)dx = \frac{1}{|k|}g(0).$$
+Since $$\int_{-\infty}^{\infty}\delta(x)g(x)\,dx = g(0),$$
+we get $$\delta(kx) = \frac{\delta(x)}{|k|}.$$
+
+**Derivative relations.** $$x\delta(x) = 0.$$
+From $$(x\delta(x))' = \delta(x) + x\delta'(x) = 0,$$ we get $$x\delta'(x) = -\delta(x).$$
+**Composition.** If $g(x)$ has only simple zeros $x_i$, then
+$$\delta[g(x)] = \sum_i\frac{\delta(x - x_i)}{|g'(x_i)|}$$
+>[!PROOF] 
+>Near a simple zero, $$g(x)\approx g'(x_i)(x - x_i),$$ so $$\delta[g(x)] = \delta(g'(x_i)(x - x_i)) = \dfrac{\delta(x - x_i)}{|g'(x_i)|}.$$ Summing over zeros gives the result. 
+
+Hence
+$$\delta(\sin x) = \sum_{k=-\infty}^{\infty}\delta(x - k\pi),\qquad \delta(\cos x) = \sum_{k=-\infty}^{\infty}\delta\!\left(x - (k+\tfrac12)\pi\right)$$
+
+>[!THEOREM] Plemelj formula
+> $$\lim_{\varepsilon\to 0^+}\frac{1}{x\pm i\varepsilon} = \mp i\pi\,\delta(x) + \mathcal{P}\!\left(\frac{1}{x}\right)$$
+> where $\mathcal{P}$ denotes the Cauchy principal value.
+
+> [!PROOF]
+> For a smooth test function $f$,
+> $$\begin{align*}\lim_{\varepsilon\to0^+}\int_{-\infty}^{\infty}\frac{f(x)}{x\pm i\varepsilon}\,dx
+> &=\lim_{\varepsilon\to0^+}\int_{-\infty}^{\infty}\frac{x\,f(x)}{x^2+\varepsilon^2}\,dx
+> \mp i\lim_{\varepsilon\to0^+}\int_{-\infty}^{\infty}\frac{\varepsilon f(x)}{x^2+\varepsilon^2}\,dx\\
+> &=\mathcal{P}\int_{-\infty}^{\infty}\frac{f(x)}{x}\,dx \mp i\pi f(0).
+> \end{align*}$$
+## Periodicity
+
+$$\tilde{x}(t) = \tilde{x}(t\pm T),\ T\in\mathbb{R}; \qquad \tilde{x}[n] = \tilde{x}[n\pm N],\ N\in\mathbb{Z}.$$
+
+Denote one period interval by $\langle T\rangle$ and $\langle N\rangle$, and let
+$$x_0(t) = \begin{cases} \tilde{x}(t), & t\in\langle T\rangle \\ 0, & t\notin\langle T\rangle \end{cases} \qquad x_0[n] = \begin{cases} \tilde{x}[n], & n\in\langle N\rangle \\ 0, & n\notin\langle N\rangle \end{cases}$$
+
+Then
+$$\tilde{x}(t) = \sum_{\ell=-\infty}^{\infty}x_0(t-\ell T), \qquad \tilde{x}[n] = \sum_{\ell=-\infty}^{\infty}x_0[n-\ell N].$$
+
+Frequency
+$$f = \frac{1}{T}, \quad F = \frac{1}{N}$$
+Angular Frequency$$\qquad \omega = 2\pi f, \quad \Omega = 2\pi F.$$
+
+## Even / odd signals
+
+- **Even signal:** $x(-t) = x(t)$ and $x[-n] = x[n]$;
+$$\int_{-\infty}^{\infty}x(t)\,dt = 2\int_{0}^{\infty}x(t)\,dt, \qquad \sum_{n=-\infty}^{\infty}x[n] = 2\sum_{n=0}^{\infty}x[n] - x[0].$$
+- **Odd signal:** $x(-t) = -x(t)$ and $x[-n] = -x[n]$;
+$$\int_{-\infty}^{\infty}x(t)\,dt = 0, \qquad \sum_{n=-\infty}^{\infty}x[n] = 0.$$
+
+Any signal can be split into an even part and an odd part:
+$$x_e(t) = \mathrm{Ev}\{x(t)\} = \frac{x(t)+x(-t)}{2}, \qquad x_e[n] = \mathrm{Ev}\{x[n]\} = \frac{x[n]+x[-n]}{2},$$
+$$x_o(t) = \mathrm{Od}\{x(t)\} = \frac{x(t)-x(-t)}{2}, \qquad x_o[n] = \mathrm{Od}\{x[n]\} = \frac{x[n]-x[-n]}{2}.$$
+For unit steps and unit impulse:
+$$u(t) = \tfrac{1}{2} + \tfrac{1}{2}\operatorname{sgn}(t), \qquad u[n] = \tfrac{1}{2} + \tfrac{1}{2}\delta[n] + \tfrac{1}{2}\operatorname{sgn}[n],$$
+where the sign function is
+$$\operatorname{sgn}(t) = \begin{cases} 1, & t>0 \\ -1, & t<0 \end{cases} \qquad \operatorname{sgn}[n] = \begin{cases} 1, & n>0 \\ 0, & n=0 \\ -1, & n<0 \end{cases}$$
+
+## Real / imaginary decomposition of a complex signal
+
+Any complex signal can be split into a real signal and a purely imaginary signal:
+$$x_r(t) = \mathrm{Re}\{x(t)\} = \frac{x(t)+x^{*}(t)}{2}, \qquad x_r[n] = \mathrm{Re}\{x[n]\} = \frac{x[n]+x^{*}[n]}{2},$$
+$$x_i(t) = \mathrm{Im}\{x(t)\} = \frac{x(t)-x^{*}(t)}{2j}, \qquad x_i[n] = \mathrm{Im}\{x[n]\} = \frac{x[n]-x^{*}[n]}{2j}.$$
+
+## Norms, energy and power signals
+
+If $\displaystyle\int_{-\infty}^{\infty}\lvert x(t)\rvert\,dt < \infty$ and $\displaystyle\sum_{n=-\infty}^{\infty}\lvert x[n]\rvert < \infty$, then $x(t)$ and $x[n]$ are **absolutely integrable** / **absolutely summable** (for real signals these are simply called absolutely integrable / summable). Define their **first-order norm**:
+$$\lVert x(t)\rVert_1 = \int_{-\infty}^{\infty}\lvert x(t)\rvert\,dt, \qquad \lVert x[n]\rVert_1 = \sum_{n=-\infty}^{\infty}\lvert x[n]\rvert.$$
+
+If $x(t)$, $x[n]$ are bounded but not absolutely integrable/summable, define the first-order norm as
+$$\lVert x(t)\rVert_1 = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}\lvert x(t)\rvert\,dt, \qquad \lVert x[n]\rVert_1 = \lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}\lvert x[n]\rvert.$$
+
+If $\displaystyle\int_{-\infty}^{\infty}\lvert x(t)\rvert^2\,dt < \infty$ and $\displaystyle\sum_{n=-\infty}^{\infty}\lvert x[n]\rvert^2 < \infty$, then $x(t)$, $x[n]$ are **square integrable** / **square summable**. Define their **second-order norm**:
+$$\lVert x(t)\rVert_2 = \sqrt{\int_{-\infty}^{\infty}\lvert x(t)\rvert^2\,dt}, \qquad \lVert x[n]\rVert_2 = \sqrt{\sum_{n=-\infty}^{\infty}\lvert x[n]\rvert^2}.$$
+The signal **energy** is defined as the square of the second-order norm; such a signal is called an **energy (finite-energy) signal**.
+
+If $x(t)$, $x[n]$ are bounded but not square integrable/summable, define
+$$\lVert x(t)\rVert_2 = \sqrt{\lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}\lvert x(t)\rvert^2\,dt}, \qquad \lVert x[n]\rVert_2 = \sqrt{\lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}\lvert x[n]\rvert^2}.$$
+The signal **power** is the square of this second-order norm; such a signal is called a **power (finite-power) signal**.
+
+# Inner Product and Correlation
+
+For signals defined on $[t_1,t_2]$ and $[n_1,n_2]$, namely $x_1(t),x_2(t)$ and $x_1[n],x_2[n]$, define the **inner product** $\langle *,*\rangle$:
+$$\langle x_1(t),x_2(t)\rangle = \int_{t_1}^{t_2}x_1(t)\,x_2^{*}(t)\,dt, \qquad \langle x_1,x_2\rangle = \sum_{n=n_1}^{n_2}x_1[n]\,x_2^{*}[n].$$
+In particular,
+$$\lVert x(t)\rVert_2^2 = \langle x(t),x(t)\rangle, \qquad \lVert x[n]\rVert_2^2 = \langle x[n],x[n]\rangle.$$
+
+## Least-squares approximation
+
+Approximate $x_1$ by $x_2$: $x_1(t)\approx a_{12}\,x_2(t)$ and $x_1[n]\approx a_{12}\,x_2[n]$, with error
+$$e(t) = x_1(t) - a_{12}\,x_2(t), \qquad e[n] = x_1[n] - a_{12}\,x_2[n].$$
+We want the error as small as possible, i.e. minimize $\lVert e(t)\rVert_2^2$ and $\lVert e[n]\rVert_2^2$. Setting the derivative to zero (for complex $a_{12}$, use the Wirtinger derivative with respect to $a_{12}^{*}$):
+$$\frac{\partial}{\partial a_{12}^{*}}\lVert e(t)\rVert_2^2 = 0, \qquad \frac{\partial}{\partial a_{12}^{*}}\lVert e[n]\rVert_2^2 = 0,$$
+gives
+$$a_{12} = \frac{\langle x_1,x_2\rangle}{\langle x_2,x_2\rangle}.$$
+
+Relative error:
+$$\frac{\varepsilon_{\min}}{\lVert x_1\rVert^2} = 1 - \frac{\lvert\langle x_1,x_2\rangle\rvert^2}{\langle x_1,x_1\rangle\,\langle x_2,x_2\rangle}.$$
+
+Define the **correlation coefficient**
+$$\rho_{12} = \frac{\langle x_1,x_2\rangle}{\sqrt{\langle x_1,x_1\rangle\,\langle x_2,x_2\rangle}}, \qquad \text{so} \qquad \frac{\varepsilon_{\min}}{\lVert x_1\rVert^2} = 1 - \lvert\rho_{12}\rvert^2.$$
+One easily shows $\lvert\rho_{12}\rvert \le 1$.
+
+1. $\lvert\rho_{12}\rvert = 1 \;\Rightarrow\; x_1(t) = a_{12}\,x_2(t)$ and $x_1[n] = a_{12}\,x_2[n]$. For real signals, $\rho_{12}=1$ gives $a_{12}>0$, and $\rho_{12}=-1$ gives $a_{12}<0$. The two signals are **linearly correlated**.
+2. $\rho_{12} = 0 \;\Rightarrow\; \langle x_1,x_2\rangle = 0$. The two nonzero signals are **linearly independent / mutually orthogonal**.
+
+## Cross-correlation and autocorrelation
+
+For energy signals, the **cross-correlation function / sequence** $R_{xv}$:
+$$R_{xv}(\tau) = \int_{-\infty}^{\infty}x(t+\tau)\,v^{*}(t)\,dt = \int_{-\infty}^{\infty}x(t)\,v^{*}(t-\tau)\,dt,$$
+$$R_{xv}[m] = \sum_{n=-\infty}^{\infty}x[n+m]\,v^{*}[n] = \sum_{n=-\infty}^{\infty}x[n]\,v^{*}[n-m].$$
+If $v=x$, then $R_{xx}$ is the **autocorrelation function / sequence**.
+
+Similarly, for power signals:
+$$R_{xv}(\tau) = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}x(t+\tau)\,v^{*}(t)\,dt = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}x(t)\,v^{*}(t-\tau)\,dt,$$
+$$R_{xv}[m] = \lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}x[n+m]\,v^{*}[n] = \lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}x[n]\,v^{*}[n-m].$$
+
+One easily obtains $R_{xv}(\tau)=R_{vx}^{*}(-\tau)$ and $R_{xv}[m]=R_{vx}^{*}[-m]$.
+
+# Basic System Interconnections
+
+**Cascade (series):** 
+$$y(t) = T_2\{T_1\{x(t)\}\}.$$
+![Screenshot 2026-06-16 at 18.52.43](../attachments/Screenshot%202026-06-16%20at%2018.52.43.png)
+**Parallel:**
+$$x(t)=x_1(t)=x_2(t),$$
+$$y(t) = y_1(t) + y_2(t) = T_1\{x_1(t)\} + T_2\{x_2(t)\} = T_1\{x(t)\} + T_2\{x(t)\}.$$
+![Screenshot 2026-06-16 at 18.53.34](../attachments/Screenshot%202026-06-16%20at%2018.53.34.png)
+
+**Feedback connection:**
+$$\begin{cases} y(t) = y_1(t) = T_1\{x_1(t)\} \\ x_1(t) = x(t) - T_2\{y(t)\} \end{cases} \;\Rightarrow\; y(t) = T_1\{x(t) - T_2\{y(t)\}\}$$
+![Screenshot 2026-06-16 at 18.54.07](../attachments/Screenshot%202026-06-16%20at%2018.54.07.png)
+# System Properties
+
+- **Memoryless / instantaneous system:** the output depends only on the input at the same instant. Otherwise it is a **memory / dynamic system**.
+- **Causal system:** the output does not depend on future inputs; otherwise **non-causal**. A causal system can be written as
+$$y(t) = f\{x(t-\tau),\ \tau\ge 0\}, \qquad y[n] = f\{x[n-k],\ k\ge 0\}.$$
+- **Stable system:** when the input is bounded, the output is bounded.
+- **Invertible system:** the output uniquely determines the input:
+$$y(t) = T\{x(t)\},\ y[n] = T\{x[n]\} \;\Rightarrow\; x(t) = T^{-1}\{y(t)\},\ x[n] = T^{-1}\{y[n]\}.$$
+- **Time-invariant system:** for $x(t)\to y(t)$ and $x[n]\to y[n]$, also $x(t-t_0)\to y(t-t_0)$ and $x[n-n_0]\to y[n-n_0]$.
+- **Linear system:** if $x_1(t)\to y_1(t)$, $x_2(t)\to y_2(t)$ (and likewise for discrete), then
+$$x_1(t)+x_2(t)\to y_1(t)+y_2(t), \qquad x_1[n]+x_2[n]\to y_1[n]+y_2[n],$$
+and $c\,x_1(t)\to c\,y_1(t)$, $c\,x_1[n]\to c\,y_1[n]$.
+
+
+# LTI (Linear Time-Invariant) Systems
+
+Using the representations
+$$x[n] = \sum_{k=-\infty}^{\infty}x[k]\,\delta[n-k], \qquad x(t) = \int_{-\infty}^{\infty}x(\tau)\,\delta(t-\tau)\,d\tau,$$
+we only need the response to $\delta[n]$ and $\delta(t)$, denoted $h[n]$ and $h(t)$, the **unit impulse response**. Then
+$$x[n]\to y[n] = \sum_{k=-\infty}^{\infty}x[k]\,h[n-k] = x[n]*h[n],$$
+$$x(t)\to y(t) = \int_{-\infty}^{\infty}x(\tau)\,h(t-\tau)\,d\tau = x(t)*h(t).$$
+
+**Matched filter:**
+$$R_{xg}(t) = x(t)*g^{*}(-t), \qquad R_{xg}[n] = x[n]*g^{*}[-n].$$
+
+## Time-shift property of convolution
+
+If $x(t)*h(t) = y(t)$ and $x[n]*h[n] = y[n]$, then
+$$x(t-t_0)*h(t) = x(t)*h(t-t_0) = y(t-t_0),$$
+$$x[n-n_0]*h[n] = x[n]*h[n-n_0] = y[n-n_0].$$
+
+Differentiation/difference and integration/accumulation of convolution
+
+$$\frac{\mathrm{d}}{\mathrm{d}t}\big[x(t)*h(t)\big] = x(t)*\Big[\tfrac{\mathrm{d}}{\mathrm{d}t}h(t)\Big] = \Big[\tfrac{\mathrm{d}}{\mathrm{d}t}x(t)\Big]*h(t),$$
+$$\Delta\big[x[n]*h[n]\big] = x[n]*(\Delta h[n]) = (\Delta x[n])*h[n],$$
+$$\int_{-\infty}^{t}\big[x(\tau)*h(\tau)\big]\,\mathrm{d}\tau = x(t)*\Big[\int_{-\infty}^{t}h(\tau)\,\mathrm{d}\tau\Big] = \Big[\int_{-\infty}^{t}x(\tau)\,\mathrm{d}\tau\Big]*h(t),$$
+$$\sum_{k=-\infty}^{n}\big(x[k]*h[k]\big) = x[n]*\Big(\sum_{k=-\infty}^{n}h[k]\Big) = \Big(\sum_{k=-\infty}^{n}x[k]\Big)*h[n].$$
+
+## Periodic convolution $\circledast$
+
+$$\tilde{y}(t) = \tilde{x}_1(t)\circledast\tilde{x}_2(t) = \int_{\langle T\rangle}\tilde{x}_1(\tau)\,\tilde{x}_2(t-\tau)\,d\tau,$$
+$$\tilde{y}[n] = \tilde{x}_1[n]\circledast\tilde{x}_2[n] = \sum_{k\in\langle N\rangle}\tilde{x}_1[k]\,\tilde{x}_2[n-k].$$
+Note: the integration/accumulation properties of periodic convolution hold only when $\displaystyle\int_{\langle T\rangle}\tilde{x}_1(t)\,dt = 0$ and $\displaystyle\int_{\langle T\rangle}\tilde{x}_2(t)\,dt = 0$ (or $\displaystyle\sum_{n\in\langle N\rangle}\tilde{x}_1[n] = 0$ and $\displaystyle\sum_{n\in\langle N\rangle}\tilde{x}_2[n] = 0$).
+
+## Properties of LTI systems via the impulse response
+
+- **Memoryless** $\iff h(t)=0,\ t\neq 0$ and $h[n]=0,\ n\neq 0$.
+- **Causal** $\iff h(t)=0,\ t<0$ and $h[n]=0,\ n<0$ (then $h$ is called a causal signal). Usually called the **initial rest / quiescence assumption**.
+
+## Stability
+
+1. If both signals/sequences in a convolution are absolutely integrable or absolutely summable, then their convolution integral / convolution sum necessarily converges.
+2. If, of the two functions/sequences in a convolution, one is bounded and the other is absolutely integrable or absolutely summable, then their convolution necessarily converges.
+
+Hence, for LTI systems: **BIBO stability $\iff h(t)$ is absolutely integrable / $h[n]$ is absolutely summable.**
+
+For an LTI system, the response to the unit step $u(t)$ is defined as the **unit step response** $s(t)$. One easily obtains
+$$u(t)*h(t) = s(t), \qquad h(t) = \frac{\mathrm{d}}{\mathrm{d}t}s(t).$$
+For discrete time,
+$$s[n]=u[n]*h[n], \qquad h[n]=s[n]-s[n-1].$$
+
+# Systems Described by Differential / Difference Equations
+
+$$\begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,y^{(k)}(t) = f(t) \\ y^{(k)}(0) = C_k, \quad k=0,1,\dots,N-1 \end{cases} \qquad \begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,y[n-k] = f[n] \\ y[-k] = C_k, \quad k=1,\dots,N \end{cases}$$
+
+The general solution can be written using the **zero-input response** $y_{zi}$ and the **zero-state response** $y_{zs}$:
+
+$$\text{(zero-input)}\quad \begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,y_{zi}^{(k)}(t) = 0 \\ y_{zi}^{(k)}(0) = C_k \end{cases} \qquad \begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,y_{zi}[n-k] = 0 \\ y_{zi}[-k] = C_k,\quad k=1,\dots,N \end{cases}$$
+
+$$\text{(zero-state)}\quad \begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,y_{zs}^{(k)}(t) = f(t) \\ y_{zs}^{(k)}(0) = 0,\quad k=0,1,\dots,N-1 \end{cases} \qquad \begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,y_{zs}[n-k] = f[n] \\ y_{zs}[-k] = 0,\quad k=1,\dots,N \end{cases}$$
+
+$y_{zi}$ is found via the **characteristic equation**. When
+$$f(t) = \sum_{k=0}^{M}b_k\,x^{(k)}(t), \qquad f[n] = \sum_{k=0}^{M}b_k\,x[n-k],$$
+the system solving for $y_{zs}$ is an LTI system, so it is enough to consider the unit impulse input.
+
+## Impulse response
+
+The unit impulse response satisfies
+$$\begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,h^{(k)}(t) = \sum_{k=0}^{M}b_k\,\delta^{(k)}(t) \\ h^{(k)}(0^-) = 0,\quad k=0,1,\dots,N-1 \end{cases} \qquad \begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,h[n-k] = \sum_{k=0}^{M}b_k\,\delta[n-k] \\ h[-k] = 0,\quad k=1,2,\dots,N \end{cases}$$
+
+**Continuous case.** Consider $h_1(t) = \displaystyle\sum_{k=0}^{M}b_k\,\delta^{(k)}(t)$, with $h_2(t)$ satisfying
+$$\begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,h_2^{(k)}(t) = \delta(t) \\ h_2^{(k)}(0^-) = 0,\quad k=0,1,\dots,N-1 \end{cases}$$
+Then the solution of the original equation is $h(t) = h_1 * h_2$. Here we only consider the causal system, i.e. $h_2(t) = f(t)\,u(t)$ with $f$ the homogeneous solution. Integrating both sides:
+$$a_0\,h_2^{-1}(t)\Big|_{0^-}^{0^+} + a_1\,h_2(t)\Big|_{0^-}^{0^+} + \cdots + a_{N-1}\,h_2^{(N-2)}(t)\Big|_{0^-}^{0^+} + a_N\,h_2^{(N-1)}(t)\Big|_{0^-}^{0^+} = 1.$$
+If $h_2^{(k)}(0^+)\neq 0$ for $k=0,1,\dots,N-2$, then $h_2^{(k+1)}(0^+)=\infty$, a contradiction. Hence
+$$a_N\,h_2^{(N-1)}(0^+) - a_N\,h_2^{(N-1)}(0^-) = 1 \;\Rightarrow\; h_2^{(N-1)}(0^+) = \frac{1}{a_N}, \quad h_2^{(k)}(0^+)=0,\ k=0,1,\dots,N-2,$$
+and the solution follows by the method of undetermined coefficients.
+
+**Discrete case.** Consider $h_1[n] = \displaystyle\sum_{k=0}^{M}b_k\,\delta[n-k]$, with $h_2[n]$ satisfying
+$$\begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,h_2[n-k] = \delta[n] \\ h_2[-k] = 0,\quad k=1,2,\dots,N \end{cases}$$
+Then $h[n] = h_1[n]*h_2[n]$. Again considering only causal coefficients, i.e. $h_2[n] = f[n]\,u[n]$ with $f$ the homogeneous solution, substitution gives $h_2[0] = \dfrac{1}{a_0}$, and the solution follows by the method of undetermined coefficients.
+
+## Free / forced and transient / steady-state response
+
+Besides the zero-input / zero-state split (by **cause**), the total response $y=y_{zi}+y_{zs}$ admits two other decompositions.
+
+**Free (natural) vs forced — by solution form.** The complete solution = homogeneous solution + particular solution.
+
+- **Free (natural) response** $y_{\text{free}}$: the homogeneous part, a combination of the system's natural modes $\sum_i c_i e^{s_i t}$ (Continuous system) / $\sum_i c_i r_i^{\,n}$ (Discrete system), where the $s_i$ (or $r_i$) are the **characteristic roots**.
+- **Forced response** $y_{\text{forced}}$: a particular solution, having the **same form as the input**.
+
+Relation to the cause-based split: $y_{zi}$ is entirely of natural form (coefficients from the ICs), while $y_{zs}$ = natural-form part (forced by the input) + particular part. Hence
+$$y_{\text{free}} = y_{zi} + (\text{natural part of }y_{zs}), \qquad y_{\text{forced}} = (\text{particular part of }y_{zs}).$$
+
+**Transient vs steady-state — by long-time behavior.**
+
+- **Transient response** $y_{\text{tr}}$: the part with $y_{\text{tr}}\to 0$ as $t\to\infty$.
+- **Steady-state response** $y_{\text{ss}}$: the part that persists as $t\to\infty$.
+
+>[!EXAMPLE]
+>From $y'(t)+2y(t)=x(t)$, $x=u(t)$, $y(0^-)=2$: $\;y(t)=\big(\tfrac12+\tfrac32 e^{-2t}\big)u(t)$, with $y_{zi}=2e^{-2t}$, $y_{zs}=\tfrac12-\tfrac12 e^{-2t}$.
+>- Free (root $s=-2$): $\tfrac32 e^{-2t} = 2e^{-2t} + \big(-\tfrac12 e^{-2t}\big)$.  Forced: $\tfrac12$.
+>- Transient: $\tfrac32 e^{-2t}$.  Steady-state: $\tfrac12$.
+>
+>Here free $=$ transient and forced $=$ steady-state, because the system is stable and the step input gives a constant particular solution.
+
+## Block-diagram realizations
+
+For the difference equation $\displaystyle\sum_{k=0}^{N}a_k\,y[n-k] = \sum_{k=0}^{M}b_k\,x[n-k]$:
+
+**Direct Form I** 
+![Screenshot 2026-06-16 at 19.03.46](../attachments/Screenshot%202026-06-16%20at%2019.03.46.png)
+
+For an LTI system the order of the two operations can be exchanged, giving **Direct Form II**, which needs only $\max\{M,N\}$ delay elements.
+![Screenshot 2026-06-16 at 19.04.03](../attachments/Screenshot%202026-06-16%20at%2019.04.03.png)
+For the differential equation $\displaystyle\sum_{k=0}^{N}a_k\,y^{(k)}(t) = \sum_{k=0}^{M}b_k\,x^{(k)}(t)$: since differentiators have poor noise immunity, integrators (better noise immunity) are used. The equation is converted to
+$$\sum_{k=0}^{N}a_k\underbrace{\int\!\cdots\!\int}y(t)\,dt = \sum_{k=0}^{M}b_k\underbrace{\int\!\cdots\!\int}x(t)\,dt,$$
+and the corresponding Direct Form I and Direct Form II systems can likewise be drawn.
+
+# Eigenfunctions of LTI Systems
+
+If $x(t) = e^{st}$, $s\in\mathbb{C}$:
+$$y(t) = \int_{-\infty}^{\infty}h(\tau)\,x(t-\tau)\,d\tau = \int_{-\infty}^{\infty}h(\tau)\,e^{s(t-\tau)}\,d\tau = e^{st}\int_{-\infty}^{\infty}h(\tau)\,e^{-s\tau}\,d\tau.$$
+Writing $H(s) = \displaystyle\int_{-\infty}^{\infty}h(\tau)\,e^{-s\tau}\,d\tau$, $s\in\mathbb{C}$, gives $y(t) = H(s)\,e^{st}$.
+
+$H(s)$ is the **eigenvalue** of the LTI system and $e^{st}$ the corresponding **eigensignal**. If $s=j\omega$, then
+$$e^{j\omega t}\to H(j\omega)\,e^{j\omega t} = e^{j\omega t}\int_{-\infty}^{\infty}h(\tau)\,e^{-j\omega\tau}\,d\tau, \quad \omega\in\mathbb{R}.$$
+$H(j\omega)$ is the **frequency response** of the LTI system.
+
+For discrete signals, if $x[n] = z^{n}$:
+$$y[n] = \sum_{k=-\infty}^{\infty}h[k]\,x[n-k] = \sum_{k=-\infty}^{\infty}h[k]\,z^{n-k} = z^{n}\sum_{k=-\infty}^{\infty}h[k]\,z^{-k}.$$
+Writing $H(z) = \displaystyle\sum_{k=-\infty}^{\infty}h[k]\,z^{-k}$, $z\in\mathbb{C}$, gives $y[n] = H(z)\,z^{n}$.
+
+$H(z)$ is the eigenvalue and $z^{n}$ the corresponding eigensignal. With $z = e^{j\Omega}$,
+$$e^{j\Omega n}\to H(e^{j\Omega})\,e^{j\Omega n} = e^{j\Omega n}\sum_{k=-\infty}^{\infty}h[k]\,e^{-j\Omega k}, \quad \Omega\in\mathbb{R},$$
+and $H(e^{j\Omega})$ is the frequency response.
+
+Thus the complex-exponential signal sets $\{e^{st}\}$, $\{z^{n}\}$ and the complex-sinusoidal sets $\{e^{j\omega t}\}$, $\{e^{j\Omega n}\}$ can serve as basic signals for analyzing LTI systems:
+$$x(t) = \sum_k a_k\,e^{s_k t}\to y(t) = \sum_k a_k\,H(s_k)\,e^{s_k t}, \qquad x[n] = \sum_k a_k\,z_k^{n}\to y[n] = \sum_k a_k\,H(z_k)\,z_k^{n},$$
+$$x(t) = \sum_k a_k\,e^{j\omega_k t}\to y(t) = \sum_k a_k\,H(j\omega_k)\,e^{j\omega_k t}, \qquad x[n] = \sum_k a_k\,e^{j\Omega_k n}\to y[n] = \sum_k a_k\,H(e^{j\Omega_k})\,e^{j\Omega_k n}.$$
+
+# Fourier Series
+
+## CFS — Continuous Fourier Series
+
+$$\tilde{x}(t) = \sum_{k=-\infty}^{\infty}\tilde{F}_k\,e^{jk\frac{2\pi}{T}t} \quad\text{(synthesis)}, \qquad \tilde{F}_k = \frac{1}{T}\int_{\langle T\rangle}\tilde{x}(t)\,e^{-jk\frac{2\pi}{T}t}\,dt \quad\text{(analysis)}.$$
+
+**Dirichlet convergence conditions:**
+
+1. $\displaystyle\int_{\langle T\rangle}\lvert\tilde{x}(t)\rvert\,dt < \infty$.
+2. In any one period there are only finitely many maxima and minima.
+3. In any one period of $\tilde{x}(t)$ only finitely many step (jump) discontinuities are allowed, and at these discontinuities only finite jumps occur.
+
+## DFS — Discrete Fourier Series
+
+$$\tilde{x}[n] = \sum_{k\in\langle N\rangle}\tilde{F}_k\,e^{jk\frac{2\pi}{N}n} \quad\text{(synthesis)}, \qquad \tilde{x}[n]\xrightarrow{\ \mathcal{F}\ }\tilde{F}_k,$$
+$$\tilde{F}_k = \frac{\displaystyle\sum_{n\in\langle N\rangle}\tilde{x}[n]\,e^{-jk\frac{2\pi}{N}n}}{\displaystyle\sum_{n\in\langle N\rangle}\big\lvert e^{jk\frac{2\pi}{N}n}\big\rvert^2} = \frac{1}{N}\sum_{n\in\langle N\rangle}\tilde{x}[n]\,e^{-jk\frac{2\pi}{N}n} \quad\text{(analysis)}, \qquad \tilde{F}[n]\xrightarrow{\ \mathcal{F}\ }\frac{1}{N}\tilde{x}[-k].$$
+
+In matrix form, with $W = e^{j\frac{2\pi}{N}}$:
+$$\begin{pmatrix}\tilde{x}[0]\\ \tilde{x}[1]\\ \tilde{x}[2]\\ \vdots\\ \tilde{x}[N-1]\end{pmatrix} = \begin{pmatrix} 1 & 1 & 1 & \cdots & 1 \\ 1 & W & W^{2} & \cdots & W^{N-1} \\ 1 & W^{2} & W^{4} & \cdots & W^{2(N-1)} \\ \vdots & & & & \vdots \\ 1 & W^{N-1} & W^{2(N-1)} & \cdots & W^{(N-1)^2}\end{pmatrix}\begin{pmatrix}\tilde{F}_0\\ \tilde{F}_1\\ \tilde{F}_2\\ \vdots\\ \tilde{F}_{N-1}\end{pmatrix},$$
+$$\begin{pmatrix}\tilde{F}_0\\ \tilde{F}_1\\ \tilde{F}_2\\ \vdots\\ \tilde{F}_{N-1}\end{pmatrix} = \frac{1}{N}\begin{pmatrix} 1 & 1 & 1 & \cdots & 1 \\ 1 & W^{-1} & W^{-2} & \cdots & W^{-(N-1)} \\ 1 & W^{-2} & W^{-4} & \cdots & W^{-2(N-1)} \\ \vdots & & & & \vdots \\ 1 & W^{-(N-1)} & W^{-2(N-1)} & \cdots & W^{-(N-1)^2}\end{pmatrix}\begin{pmatrix}\tilde{x}[0]\\ \tilde{x}[1]\\ \tilde{x}[2]\\ \vdots\\ \tilde{x}[N-1]\end{pmatrix}.$$
+
+To each frequency $\dfrac{2\pi k}{T}$ and $\dfrac{2\pi k}{N}$ there corresponds a Fourier coefficient $\tilde{F}_k$; this correspondence is called the **spectrum**. For a non-periodic signal $x(t)$ or $x[n]$, its spectrum can still be obtained through the analysis formula.
+
+We can calculate it by FFT algorithm, which is introduced in Data Structure & Algorithm.
+
+# Fourier Transform
+
+## CFT — Continuous Fourier Transform
+
+$$\mathcal{F}\{x(t)\} = X(\omega) = \int_{-\infty}^{\infty}x(t)\,e^{-j\omega t}\,dt \qquad x(t)\xrightarrow{\ \mathcal{F}\ }X(\omega),$$
+$$\mathcal{F}^{-1}\{X(\omega)\} = x(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty}X(\omega)\,e^{j\omega t}\,d\omega \qquad X(t)\xrightarrow{\ \mathcal{F}\ }2\pi\,x(-\omega).$$
+Clearly, $$\delta(t)\xrightarrow{\ \mathcal{F}\ }1.$$
+Also, $$1\xrightarrow{\ \mathcal{F}\ }2\pi\delta(\omega).$$
+Consider the CFS:
+$$\tilde{x}(t) = \sum_{k=-\infty}^{\infty}\tilde{F}_k\,e^{jk\frac{2\pi}{T}t}$$
+$$\mathcal{F}\{\tilde{x}(t)\} = \sum_{k=-\infty}^{\infty}\tilde{F}_k\,\mathcal{F}\{e^{jk\frac{2\pi}{T}t}\}=2\pi\sum_{k=-\infty}^{\infty}\tilde{F}_k\delta\!\left(\omega-\frac{2\pi k}{T}\right).$$
+## DTFT — Discrete-Time Fourier Transform
+
+$$\mathcal{F}\{x[n]\} = \tilde{X}(\Omega) = \sum_{n=-\infty}^{\infty}x[n]\,e^{-j\Omega n} \qquad x[n]\xrightarrow{\ \mathcal{F}\ }\tilde{X}(\Omega)\ \ (T=2\pi),$$
+$$\mathcal{F}^{-1}\{X(\Omega)\} = x[n] = \frac{1}{2\pi}\int_{\langle 2\pi\rangle}\tilde{X}(\Omega)\,e^{j\Omega n}\,d\Omega \qquad \tilde{X}\!\Big(\tfrac{2\pi t}{T}\Big)\xrightarrow{\ \mathcal{F}\ }x[-k]\ \ (T).$$
+
+Also
+$$\mathcal{F}^{-1}\Big\{\sum_{\ell=-\infty}^{\infty}\delta(\Omega-2\pi\ell)\Big\} = \frac{1}{2\pi}\sum_{\ell=-\infty}^{\infty}\int_{\langle 2\pi\rangle}\delta(\Omega-2\pi\ell)\,e^{j\Omega n}\,d\Omega = \frac{1}{2\pi},$$
+hence
+$$1\xrightarrow{\ \mathcal{F}\ }2\pi\sum_{\ell=-\infty}^{\infty}\delta(\Omega-2\pi\ell).$$
+
+Consider the DFS:
+$$\tilde{x}[n] = \sum_{k\in\langle N\rangle}\tilde{F}_k\,e^{jk\frac{2\pi}{N}n} $$
+$$\mathcal{F}\{\tilde{x}[n] \} = \sum_{k\in\langle N\rangle}\tilde{F}_k\,\mathcal{F}\{e^{jk\frac{2\pi}{N}n}\} = 2\pi \sum_{k=-\infty}^{\infty} \tilde{F}_k \, \delta\left(\Omega - \frac{2\pi k}{N}\right)$$
+
+## DFT — Discrete Fourier Transform
+
+To let a computer process the Fourier transform of a discrete signal, we take $N$ points within one $2\pi$ period of the DTFT result, giving
+$$x[n]\xleftrightarrow{\ \text{DFT}\ }X[k] = \sum_{n=0}^{N-1}x[n]\,e^{-jk\Omega_0 n}, \qquad \Omega_0 = \frac{2\pi}{N},\quad k=0,1,\dots,N-1.$$
+The inverse transform (IDFT) is
+$$x[n] = \frac{1}{N}\sum_{k=0}^{N-1}X[k]\,e^{jk\Omega_0 n}, \qquad \Omega_0 = \frac{2\pi}{N},\quad n=0,1,\dots,N-1.$$
+In matrix form, with $W = e^{j\frac{2\pi}{N}}$ (so $X[k]$ uses $W^{-1}$ and $x[n]$ uses $W$):
+$$\begin{pmatrix}X[0]\\ X[1]\\ \vdots\\ X[N-1]\end{pmatrix} = \begin{pmatrix} 1 & 1 & \cdots & 1 \\ 1 & W^{-1} & \cdots & W^{-(N-1)} \\ \vdots & & & \vdots \\ 1 & W^{-(N-1)} & \cdots & W^{-(N-1)^2}\end{pmatrix}\begin{pmatrix}x[0]\\ x[1]\\ \vdots\\ x[N-1]\end{pmatrix},$$
+$$\begin{pmatrix}x[0]\\ x[1]\\ \vdots\\ x[N-1]\end{pmatrix} = \frac{1}{N}\begin{pmatrix} 1 & 1 & \cdots & 1 \\ 1 & W & \cdots & W^{N-1} \\ \vdots & & & \vdots \\ 1 & W^{N-1} & \cdots & W^{(N-1)^2}\end{pmatrix}\begin{pmatrix}X[0]\\ X[1]\\ \vdots\\ X[N-1]\end{pmatrix}.$$
+
+
+## Symmetry Properties
+
+For real signals $x(t)\to X_R(\omega) + jX_I(\omega)$ and $x[n]\to \tilde{X}_R(\Omega) + j\tilde{X}_I(\Omega)$:
+
+$$\begin{align*}X_R(\omega)=\frac{1}{2}(X(\omega)+X^*(\omega))=\frac{1}{2}(\int_{-\infty}^{\infty}x(t)\,e^{-j\omega t}\,\mathrm{d}t+\int_{-\infty}^{\infty}x(t)\,e^{j\omega t}\,\mathrm{d}t)\\=\frac{1}{2}(\int_{-\infty}^{\infty}x(t)\,e^{-j\omega t}\,\mathrm{d}t+\int_{-\infty}^{\infty}x(-t)\,e^{-j\omega t}\,\mathrm{d}t)\\=\frac{1}{2}(\mathcal{F}\{x(t)\}+\mathcal{F}\{x(-t)\})=\mathcal{F}\{x_{\text{even}}(t)\}\end{align*}$$
+$$\begin{align*}X_I(\omega)=\frac{1}{2j}(X(\omega)-X^*(\omega))=\frac{1}{2j}(\int_{-\infty}^{\infty}x(t)\,e^{-j\omega t}\,\mathrm{d}t-\int_{-\infty}^{\infty}x(t)\,e^{j\omega t}\,\mathrm{d}t)\\=\frac{1}{2j}(\int_{-\infty}^{\infty}x(t)\,e^{-j\omega t}\,\mathrm{d}t-\int_{-\infty}^{\infty}x(-t)\,e^{-j\omega t}\,\mathrm{d}t)\\=\frac{1}{2j}(\mathcal{F}\{x(t)\}-\mathcal{F}\{x(-t)\})=\frac{1}{j}\mathcal{F}\{x_{\text{odd}}(t)\}\end{align*}$$
+$$\begin{align*}\tilde{X}_R(\Omega)=\frac{1}{2}(\tilde X(\Omega)+\tilde X^*(\Omega))=\frac{1}{2}(\sum_{n=-\infty}^{\infty}x[n]\,e^{-j\Omega n}+\sum_{n=-\infty}^{\infty}x[n]\,e^{j\Omega n})\\=\frac{1}{2}(\sum_{n=-\infty}^{\infty}x[n]\,e^{-j\Omega n}+\sum_{n=-\infty}^{\infty}x[-n]\,e^{-j\Omega n})\\=\frac{1}{2}(\mathcal{F}\{x[n]\}+\mathcal{F}\{x[-n]\})=\mathcal{F}\{x_{\text{even}}[n]\}\end{align*}$$
+$$\begin{align*}\tilde{X}_I(\Omega)=\frac{1}{2j}(\tilde X(\Omega)-\tilde X^*(\Omega))=\frac{1}{2j}(\sum_{n=-\infty}^{\infty}x[n]\,e^{-j\Omega n}-\sum_{n=-\infty}^{\infty}x[n]\,e^{j\Omega n})\\=\frac{1}{2j}(\sum_{n=-\infty}^{\infty}x[n]\,e^{-j\Omega n}-\sum_{n=-\infty}^{\infty}x[-n]\,e^{-j\Omega n})\\=\frac{1}{2j}(\mathcal{F}\{x[n]\}-\mathcal{F}\{x[-n]\})=\frac{1}{j}\mathcal{F}\{x_{\text{odd}}[n]\}\end{align*}$$
+As a result
+$$x_{\text{even}}(t)\xrightarrow{\ \mathcal{F}\ }X_R(\omega), \qquad x_{\text{odd}}(t)\xrightarrow{\ \mathcal{F}\ }jX_I(\omega),$$
+$$x_{\text{even}}[n]\xrightarrow{\ \mathcal{F}\ }\tilde{X}_R(\Omega), \qquad x_{\text{odd}}[n]\xrightarrow{\ \mathcal{F}\ }j\tilde{X}_I(\Omega).$$
+## Time-shift properties
+
+$$\mathcal{F}\{x(t+t_0)\} = \int_{-\infty}^{\infty}x(t+t_0)\,e^{-j\omega t}\,\mathrm{d}t = \int_{-\infty}^{\infty}x(t)\,e^{-j\omega (t-t_0)}\,\mathrm{d}t=e^{j\omega t_0}\int_{-\infty}^{\infty}x(t)\,e^{-j\omega t}\,\mathrm{d}t=e^{j\omega t_0}\mathcal{F}\{x(t)\} $$
+$$\mathcal{F}\{x[n+n_0]\} = \sum_{n=-\infty}^{\infty}x[n+n_0]\,e^{-j\Omega n} = \sum_{n=-\infty}^{\infty}x[n]\,e^{-j\Omega (n-n_0)}= e^{j\Omega n_0}\sum_{n=-\infty}^{\infty}x[n]\,e^{-j\Omega n}=e^{j\Omega n_0}\mathcal{F}\{x[n]\}$$
+$$\mathcal{F}\{e^{-at}x(t)\} = \int_{-\infty}^{\infty}e^{-at}x(t)\,e^{-j\omega t}\,\mathrm{d}t = \int_{-\infty}^{\infty}x(t)\,e^{-j(\omega -aj)t}\,\mathrm{d}t=X(\omega-aj) $$
+$$\mathcal{F}\{e^{-an}x[n]\} = \sum_{n=-\infty}^{\infty}e^{-an }x[n]\,e^{-j\Omega n} = \sum_{n=-\infty}^{\infty}x[n]\,e^{-j(\Omega -aj)n}=\tilde{X}(\Omega-aj)$$
+# Filtering with LTI systems
+
+We can verify that
+$$y(t) = x(t)*h(t) \xrightarrow{\ \mathcal{F}\ } Y(\omega) = X(\omega)\cdot H(\omega),$$
+$$y[n] = x[n]*h[n] \xrightarrow{\ \mathcal{F}\ } \tilde{Y}(\Omega) = \tilde{X}(\Omega)\cdot \tilde{H}(\Omega).$$
+We can also find that
+$$y(t) = x(t)\cdot h(t) \xrightarrow{\ \mathcal{F}\ } Y(\omega) =\frac{1}{2\pi} X(\omega) * H(\omega),$$
+$$y[n] = x[n]\cdot h[n] \xrightarrow{\ \mathcal{F}\ } \tilde{Y}(\Omega) = \frac{1}{2\pi}\tilde{X}(\Omega)* \tilde{H}(\Omega).$$
+
+**High-pass filter**
+$$\delta'(t)\xrightarrow{\ \mathcal{F}\ }\int_{-\infty}^{\infty}\delta'(t)\,e^{-j\omega t}\,\mathrm{d}t = \int_{-\infty}^{\infty}e^{-j\omega t}\,\mathrm{d}\delta(t) = e^{-j\omega t}\delta(t)\Big|_{-\infty}^{\infty} - \int_{-\infty}^{\infty}\delta(t)\,\mathrm{d} e^{-j\omega t} = -\frac{\mathrm{d} e^{-j\omega t}}{\mathrm{d}t}\Big|_{t=0} = j\omega$$
+
+![Screenshot 2026-06-15 at 23.26.49](../attachments/Screenshot%202026-06-15%20at%2023.26.49.png)
+
+We can find that $$x(t)*\delta'(t)=x'(t)$$
+Hence$$x'(t)\xrightarrow{\ \mathcal{F}\ }j\omega X(\omega)$$
+$$t\,x(t)\xrightarrow{\ \mathcal{F}\ } jX'(\omega), \qquad -j\,t\,x(t)\xrightarrow{\ \mathcal{F}\ } X'(\omega).$$
+
+Discrete analogue:
+$$\delta[n]-\delta[n-1]\xrightarrow{\ \mathcal{F}\ }1-e^{-j\Omega} = 2j\sin\tfrac{\Omega}{2}\,e^{-j\frac{\Omega}{2}}$$
+![Screenshot 2026-06-15 at 23.27.27](../attachments/Screenshot%202026-06-15%20at%2023.27.27.png)
+
+**Low-pass filter.**
+$$e^{-a\lvert t\rvert}\operatorname{sgn}(t) = e^{-at}u(t) - e^{at}u(-t)\xrightarrow{\ \mathcal{F}\ }\int_{0}^{\infty}e^{-at}e^{-j\omega t}\,dt - \int_{-\infty}^{0}e^{at}e^{-j\omega t}\,dt = \frac{-2j\omega}{a^2+\omega^2}$$
+Taking $a\to 0$:
+$$\operatorname{sgn}(t)\xrightarrow{\ \mathcal{F}\ }\frac{2}{j\omega}, \qquad u(t) = \tfrac{1}{2} + \tfrac{1}{2}\operatorname{sgn}(t)\xrightarrow{\ \mathcal{F}\ }\pi\,\delta(\omega) + \frac{1}{j\omega}$$
+
+>**Tip** $\tfrac{\pi}{2}$ phase shifter: $\dfrac{1}{\pi t}\xrightarrow{\ \mathcal{F}\ }-j\operatorname{sgn}(\omega)$
+
+![Screenshot 2026-06-15 at 23.29.40](../attachments/Screenshot%202026-06-15%20at%2023.29.40.png)
+Discrete analogue (with $0<a<1$):
+$$\begin{align*}a^{\lvert n\rvert}\operatorname{sgn}[n] = a^{n}u[n] - a^{-n}u[-n]\xrightarrow{\ \mathcal{F}\ }\sum_{n=0}^{\infty}a^{n}e^{-j\Omega n} - \sum_{n=-\infty}^{0}a^{-n}e^{-j\Omega n}\\ = \frac{1}{1-ae^{-j\Omega}} - \frac{1}{1-ae^{j\Omega}} = \frac{-ae^{j\Omega}+ae^{-j\Omega}}{1+a^2-2a\cos\Omega} = \frac{-2aj\sin\Omega}{1+a^2-2a\cos\Omega}\end{align*}$$
+Taking $a\to 1$:
+$$\operatorname{sgn}[n]\xrightarrow{\ \mathcal{F}\ }\frac{-j\sin\Omega}{1-\cos\Omega}$$
+And
+$$u[n] = \tfrac{1}{2} + \tfrac{1}{2}\operatorname{sgn}[n] + \tfrac{1}{2}\delta[n]\xrightarrow{\ \mathcal{F}\ } \pi\sum_{\ell=-\infty}^{\infty}\delta(\Omega-2\pi\ell) + \frac{1}{1-e^{-j\Omega}}$$
+![Screenshot 2026-06-15 at 23.30.07](../attachments/Screenshot%202026-06-15%20at%2023.30.07.png)
+
+**Ideal low-pass filter.**
+$$\frac{\sin\omega_0 t}{\pi t} = \frac{\omega_0}{\pi}\operatorname{Sa}(\omega_0 t)\xrightarrow{\ \text{CFT}\ }u(\omega+\omega_0) - u(\omega-\omega_0),$$
+$$u(t+t_0) - u(t-t_0)\xrightarrow{\ \text{CFT}\ }\frac{2\sin\omega t_0}{\omega}.$$
+![Screenshot 2026-06-15 at 23.30.26](../attachments/Screenshot%202026-06-15%20at%2023.30.26.png){width=401}
+
+# Sampling Theorem
+
+Sampling function:$$\tilde{p}(t)=\sum_{n=-\infty}^\infty \delta(t-nT_s)$$
+$$\tilde{F}_k = \frac{1}{T_s}\int_{-\frac{T_s}{2}}^{\frac{T_s}{2}}\tilde{p}(t)\,e^{-jk\frac{2\pi}{T_s}t}\,dt=\frac{1}{T_s}$$
+
+$$P(\omega) =\frac{2\pi}{T_s}\sum_{k=-\infty}^{\infty}\delta(\omega-\frac{2\pi k}{T_s})=\frac{2\pi}{T_s}\sum_{k=-\infty}^{\infty}\delta(\omega-k\omega_s)$$
+We can see that the CFT of the sampling function is also a sampling function.
+
+Sampling: $x_p(t) = x(t)\,\tilde{p}(t)$, where $\tilde{p}(t)$ is an impulse train with spacing $T_s$. 
+
+![Screenshot 2026-06-15 at 23.31.51](../attachments/Screenshot%202026-06-15%20at%2023.31.51.png)
+This is clearly a non-invertible operation. To recover $x(t)$ without loss, we require $x(t)$ to be band-limited, i.e. the frequency content of $x(t)$ does not exceed $\omega_M$, and
+$$T_s \le \frac{\pi}{\omega_M}.$$
+![Screenshot 2026-06-15 at 23.32.24](../attachments/Screenshot%202026-06-15%20at%2023.32.24.png)
+In the frequency domain, with $\omega_s = \dfrac{2\pi}{T_s}$, sampling produces periodic replicas of $X(\omega)$ centered at multiples of $\omega_s$. To avoid overlap (aliasing), a low-pass filter is then applied to recover the signal. The condition is the **Nyquist frequency** condition:
+$$\boxed{\ \omega_s \ge 2\omega_M\ }$$
+
+# Laplace Transform and Z-Transform
+
+$$F(s) = \mathcal{L}\{f(t)\} = \int_{-\infty}^{\infty}f(t)\,e^{-st}\,dt, \quad s\in R_F.$$
+$\mathcal{L}\{h(t)\}$ is the eigenvalue of the LTI system for the input $e^{st}$. Its region of convergence (ROC) is a single connected strip parallel to the imaginary axis.
+
+$$F(z) = \mathcal{Z}\{f[n]\} = \sum_{n=-\infty}^{\infty}f[n]\,z^{-n}, \quad z\in R_F $$
+$\mathcal{Z}\{h[n]\}$ is the eigenvalue of the LTI system for the input $z^{n}$. Its ROC is a single annular region centered at the origin.
+
+Clearly, the ROC contains no poles and is bounded by poles.
+
+$$\mathcal{L}[f(at)] = \dfrac{1}{a}F\!\left(\dfrac{s}{a}\right),a>0$$
+
+$$\mathcal{L}[tf(t)] =  \int_{-\infty}^{\infty}tf(t)\,e^{-st}\,\mathrm{d}t=-\frac{\partial }{\partial s}\int_{-\infty}^{\infty}f(t)\,e^{-st}\,\mathrm{d}t=-F'(s)$$
+$$\mathcal{L}[e^{\lambda t}f(t)] = F(s - \lambda)$$
+$$\mathcal{L}[f(t+t_0)] = e^{st_0}F(s)$$
+$$\mathcal{Z}\{f[n+a]\} = z^{a}F(z)$$
+$$\mathcal{L}[f_1 * f_2] = \mathcal{L}[f_1]\cdot \mathcal{L}[f_2],\qquad \mathcal{Z}[f_1 * f_2] = \mathcal{Z}[f_1]\cdot \mathcal{Z}[f_2].$$
+Therefore,
+$$f_1 * f_2 = \mathcal{L}^{-1}[\mathcal{L}[f_1]\cdot \mathcal{L}[f_2]],\qquad f_1 * f_2 = \mathcal{Z}^{-1}[\mathcal{Z}[f_1]\cdot \mathcal{Z}[f_2]].$$
+We can also find that
+$$\mathcal{L}[f_1 \cdot f_2] =\frac{1}{2\pi j} \mathcal{L}[f_1]* \mathcal{L}[f_2]\,\quad \mathcal{Z}[f_1 \cdot f_2] =\frac{1}{2\pi j} \mathcal{Z}[f_1]* \mathcal{Z}[f_2]$$
+(here $*$ denotes convolution along a vertical line in the $s$-plane / the unit circle in the $z$-plane)
+
+## Relationship to the Fourier transform (and inverse transforms)
+
+**Continuous time — Laplace generalizes the CFT.** With $s=\sigma+j\omega$,
+$$X(s)=\int_{-\infty}^{\infty}f(t)e^{-st}\,dt=\int_{-\infty}^{\infty}\big(f(t)e^{-\sigma t}\big)e^{-j\omega t}\,dt=\mathcal{F}\{f(t)e^{-\sigma t}\},$$
+i.e. the Laplace transform is the CFT of $f$ weighted by $e^{-\sigma t}$. When the ROC contains the imaginary axis ($\sigma=0$ is allowed),
+$$X(\omega)=X(s)\big|_{s=j\omega}.$$
+
+Inverse Laplace transform (Bromwich integral):
+$$f(t)=\frac{1}{2\pi j}\int_{\sigma-j\infty}^{\sigma+j\infty}X(s)e^{st}\,ds,$$
+taken along any vertical line $\mathrm{Re}(s)=\sigma$ inside the ROC. Setting $s=j\omega$ ($\sigma=0$, $ds=j\,d\omega$) recovers the inverse CFT $f(t)=\dfrac{1}{2\pi}\displaystyle\int_{-\infty}^{\infty}X(\omega)e^{j\omega t}\,d\omega$.
+
+**Discrete time — Z generalizes the DTFT.** With $z=re^{j\Omega}$,
+$$X(z)=\sum_{n=-\infty}^{\infty}x[n]z^{-n}=\sum_{n=-\infty}^{\infty}\big(x[n]r^{-n}\big)e^{-j\Omega n}=\mathcal{F}\{x[n]r^{-n}\}.$$
+When the ROC contains the unit circle ($r=1$ is allowed),
+$$\tilde X(\Omega)=X(z)\big|_{z=e^{j\Omega}}.$$
+Inverse Z-transform (contour integral):
+$$x[n]=\frac{1}{2\pi j}\oint_{C}X(z)\,z^{\,n-1}\,dz,$$
+where $C$ is any counter-clockwise closed contour lying in the ROC and encircling the origin. Taking $C$ to be the unit circle ($z=e^{j\Omega}$, $dz=je^{j\Omega}\,d\Omega$) gives the inverse DTFT
+$$x[n]=\frac{1}{2\pi}\int_{\langle2\pi\rangle}\tilde X(\Omega)e^{j\Omega n}\,d\Omega.$$
+
+## Inverse systems
+
+For an LTI system,
+$$y(t) = x(t)*h(t),\ Y(s) = X(s)\cdot H(s) \;\Rightarrow\; h^{-1}(t) = \mathcal{L}^{-1}\!\Big\{\frac{1}{\mathcal{L}\{h(t)\}}\Big\},$$
+$$y[n] = x[n]*h[n],\ Y(z) = X(z)\cdot H(z) \;\Rightarrow\; h^{-1}[n] = \mathcal{Z}^{-1}\!\Big\{\frac{1}{\mathcal{Z}\{h[n]\}}\Big\}.$$
+Thus the inverse transfer function is $1/H$. Zeros of $H$ become poles of the inverse system, so exact recovery on a Fourier-domain class requires $H$ not to vanish on the relevant frequency axis / unit circle.
+
+## ROC of $H(s)$
+
+Write $s=\sigma+j\omega$, so $\lvert h(t)e^{-st}\rvert = \lvert h(t)\rvert e^{-\sigma t}$; whether $H(s)$ converges depends only on $\sigma=\mathrm{Re}(s)$. This is why every ROC is a vertical strip (CT) / an annulus (DT).
+
+- **Causal system** $\Rightarrow$ ROC is a right half-plane $\mathrm{Re}(s) > \sigma_{\max}$, where $\sigma_{\max}$ is the largest real part among the poles.
+
+>[!PROOF]
+>For a causal $h(t)$ ($h(t)=0,\ t<0$), $H(s)=\int_{0}^{\infty}h(t)e^{-\sigma t}e^{-j\omega t}\,dt$, so
+>$$\lvert H(s)\rvert\le\int_{0}^{\infty}\lvert h(t)\rvert e^{-\sigma t}\,dt.$$
+>If this converges at some $\sigma_0$, then for any $\sigma>\sigma_0$ and $t>0$ we have $e^{-\sigma t}<e^{-\sigma_0 t}$, so it still converges. Hence the ROC extends to the right — a right half-plane. Its left boundary cannot cross a pole (the integral diverges there), so the boundary is the rightmost pole: $\mathrm{Re}(s)>\sigma_{\max}$.
+
+- **Stable system** $\iff$ the ROC contains the imaginary axis $\mathrm{Re}(s)=0$.
+
+>[!PROOF]
+>BIBO stability $\iff h(t)$ absolutely integrable, $\int_{-\infty}^{\infty}\lvert h(t)\rvert\,dt<\infty$. On the imaginary axis $\sigma=0$,
+>$$\lvert H(j\omega)\rvert\le\int_{-\infty}^{\infty}\lvert h(t)\rvert\,dt<\infty,$$
+>so $s=j\omega$ lies in the ROC. Conversely, if the ROC contains $\sigma=0$ then $\int\lvert h(t)\rvert\,dt<\infty$, i.e. the system is stable.
+
+Combining the two: a **causal and stable** system has a right-half-plane ROC that contains the imaginary axis, which forces $\sigma_{\max}<0$ — i.e. **all poles lie in the left half-plane $\mathrm{Re}(s)<0$** (this is the meaning of the "stable" condition above).
+
+Discrete-time analogue: a causal system has ROC $\lvert z\rvert>r_{\max}$ (outside the outermost pole); a stable system's ROC contains the unit circle $\lvert z\rvert=1$; a **causal-and-stable** system has **all poles inside the unit circle $\lvert z\rvert<1$**.
+
+## Initial-value theorem
+
+Unilateral Laplace Transform
+$$\displaystyle\lim_{s\to\infty} s F(s) = f(0^+)$$
+
+>[!PROOF]
+>From the differentiation property (unilateral, lower limit $0^-$),
+>$$sF(s)-f(0^-) = \int_{0^-}^{\infty}f'(t)e^{-st}\,dt = \int_{0^-}^{0^+}f'(t)e^{-st}\,dt + \int_{0^+}^{\infty}f'(t)e^{-st}\,dt.$$
+>As $s\to\infty$: the second integral $\to 0$ (Riemann–Lebesgue, since $e^{-st}\to0$ for $t>0$), while the first $\to f(0^+)-f(0^-)$. Hence $\lim_{s\to\infty}sF(s)-f(0^-)=f(0^+)-f(0^-)$, i.e. $\lim_{s\to\infty}sF(s)=f(0^+)$.
+
+Z-Transform
+$$x[0] = \displaystyle\lim_{z\to\infty}X(z)\quad(\text{trivial})$$
+
+## Final-value theorem
+
+Unilateral Laplace Transform
+$$\displaystyle\lim_{s\to 0} s F(s) = f(\infty)$$
+
+>[!PROOF]
+>Again from $sF(s)-f(0^-)=\int_{0^-}^{\infty}f'(t)e^{-st}\,dt$, let $s\to0$:
+>$$\lim_{s\to0}\big(sF(s)-f(0^-)\big)=\int_{0^-}^{\infty}f'(t)\,dt=\lim_{t\to\infty}f(t)-f(0^-)=f(\infty)-f(0^-),$$
+>so $\lim_{s\to0}sF(s)=f(\infty)$. This requires $f(\infty)$ to exist, i.e. all poles of $sF(s)$ in the open left half-plane (system stable) — see the note below.
+
+Z-Transform
+$$\lim_{n\to\infty}x[n] = \lim_{z\to 1}(1-z^{-1})X(z) = \lim_{z\to 1}(z-1)X(z).$$
+
+>[!PROOF] 
+>$$\displaystyle\sum_{n=0}^{\infty}\big(x[n]-x[n-1]\big)z^{-n} = (1-z^{-1})X(z)-x[-1].$$
+>As $z\to 1$, $$\displaystyle\lim_{n\to\infty}x[n] - x[-1] = \lim_{z\to 1}\big((1-z^{-1})X(z)-x[-1]\big).$$
+>By causality, $$\displaystyle\lim_{n\to\infty}x[n] = \lim_{z\to 1}(1-z^{-1})X(z)$$
+
+If the final-value theorem conditions fail, $f(\infty)$ and $\lim_{n\to\infty}x[n]$ may not exist. Before using the theorem, verify the pole conditions (for example, no unstable or non-decaying oscillatory modes).
+
+# Parseval's relation
+
+**Energy signals:**
+$$\int_{-\infty}^{\infty}\lvert x(t)\rvert^2\,\mathrm{d}t = \frac{1}{2\pi}\int_{-\infty}^{\infty}\lvert X(\omega)\rvert^2\,\mathrm{d}\omega, \qquad \sum_{n=-\infty}^{\infty}\lvert x[n]\rvert^2 = \frac{1}{2\pi}\int_{\langle 2\pi\rangle}\lvert\tilde{X}(\Omega)\rvert^2\,d\Omega.$$
+
+**Power signals:**
+$$\lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}\lvert x(t)\rvert^2\,dt = \frac{1}{2\pi}\int_{-\infty}^{\infty}\lim_{T\to\infty}\frac{\lvert X_{2T}(\omega)\rvert^2}{2T}\,d\omega,$$
+$$\lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}\lvert x[n]\rvert^2 = \frac{1}{2\pi}\int_{\langle 2\pi\rangle}\lim_{N\to\infty}\frac{\lvert X_{2N+1}(\Omega)\rvert^2}{2N+1}\,d\Omega.$$
+
+# Hilbert Transform
+
+For a causal signal, $$f(t) = f(t)\,u(t)\xrightarrow{\ \mathcal{F}\ }F(\omega) = \frac{1}{2\pi}F(\omega)*U(\omega).$$
+Since $U(\omega) = \pi\,\delta(\omega) + \dfrac{1}{j\omega}$,
+$$F(\omega) = \frac{1}{2\pi}\operatorname{PV}\!\int_{-\infty}^{\infty}F(\theta)\Big(\pi\,\delta(\omega-\theta) + \frac{1}{j(\omega-\theta)}\Big)\,\mathrm{d}\theta = \frac{F(\omega)}{2} + \frac{1}{2\pi}\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F(\theta)}{j(\omega-\theta)}\,\mathrm{d}\theta,$$
+hence
+$$\pi F(\omega) = \operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F(\theta)}{j(\omega-\theta)}\,d\theta.$$
+Writing $F(\omega) = F_R(\omega) + jF_I(\omega)$,
+$$\pi F_R(\omega) + j\pi F_I(\omega) = \operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_I(\theta)}{\omega-\theta}\,d\theta - j\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_R(\theta)}{\omega-\theta}\,d\theta,$$
+so
+$$F_R(\omega) = \frac{1}{\pi}\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_I(\theta)}{\omega-\theta}\,d\theta, \qquad F_I(\omega) = -\frac{1}{\pi}\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_R(\theta)}{\omega-\theta}\,d\theta.$$
+
+# Complex frequency domain analysis of systems described by differential/difference equations
+
+In this section, we use Laplace transform and Z-transform to analyze differential and difference equations. 
+
+To solve the equations, we need the **unilateral Laplace transform**:
+$$\mathcal{L}_u\{f(t)\}=F(s) = \int_{0^{-}}^{\infty} f(t) e^{-st} dt.$$
+We can find that
+$$\mathcal{L}_u[f'(t)] = sF(s) - f(0^-).$$
+More generally,
+$$\mathcal{L}_u[f^{(n)}(t)] = s^n F(s) - s^{n-1}f(0^-) - s^{n-2}f'(0^-) - \cdots - f^{(n-1)}(0^-).$$
+
+We can also define **Unilateral Z-transform**:
+$$\mathcal{Z}_u\{f[n]\} = F(z)= \sum_{n=0}^{\infty}f[n]\,z^{-n}.$$
+Similarly
+$$\mathcal{Z}_u\{x[n-1]\} = z^{-1}X(z) + x[-1].$$
+$$\mathcal{Z}_u\{x[n-k]\} = z^{-k}X(z) + z^{-(k-1)}x[-1] +\dots+ x[-k].$$
+
+## Solving a differential equation
+
+For $\displaystyle\sum_{k=0}^{N}a_k\,y^{(k)}(t) = \sum_{k=0}^{M}b_k\,x^{(k)}(t)$ with initial conditions $y^{(k)}(0^-)$ and a causal input $x(t)$ (so $x^{(k)}(0^-)=0$), apply the unilateral Laplace transform to both sides. Using the differentiation property $\mathcal{L}_u[y^{(k)}]=s^kY(s)-\sum_{i=0}^{k-1}s^{k-1-i}y^{(i)}(0^-)$,
+$$\sum_{k=0}^{N}a_k\Big(s^kY(s)-\sum_{i=0}^{k-1}s^{k-1-i}y^{(i)}(0^-)\Big) = \Big(\sum_{k=0}^{M}b_k s^k\Big)X(s).$$
+Let $A(s)=\sum_{k=0}^{N}a_k s^k$, $B(s)=\sum_{k=0}^{M}b_k s^k$, and let $M_{ic}(s)$ collect all the initial-condition terms. Then
+$$A(s)Y(s) - M_{ic}(s) = B(s)X(s) \;\Rightarrow\; Y(s) = \underbrace{\frac{B(s)}{A(s)}X(s)}_{\text{zero-state }Y_{zs}} + \underbrace{\frac{M_{ic}(s)}{A(s)}}_{\text{zero-input }Y_{zi}}.$$
+The **transfer function** is $H(s)=\dfrac{B(s)}{A(s)}$ (so $h(t)=\mathcal{L}^{-1}\{H(s)\}$); its poles are the roots of $A(s)=0$ (the characteristic roots). Finally recover $y(t)=\mathcal{L}^{-1}\{Y(s)\}$ by partial fractions.
+
+>[!EXAMPLE]
+>$y'(t)+2y(t)=x(t)$, $x(t)=u(t)$, $y(0^-)=2$.
+>Transforming: $sY(s)-2+2Y(s)=\dfrac1s$, so $(s+2)Y(s)=\dfrac1s+2$ and
+>$$Y(s)=\underbrace{\frac{1}{s(s+2)}}_{Y_{zs}}+\underbrace{\frac{2}{s+2}}_{Y_{zi}}=\Big(\tfrac{1/2}{s}-\tfrac{1/2}{s+2}\Big)+\frac{2}{s+2}.$$
+>$$y(t)=\Big(\tfrac12+\tfrac32 e^{-2t}\Big)u(t).$$
+
+## Solving a difference equation
+
+For $\displaystyle\sum_{k=0}^{N}a_k\,y[n-k] = \sum_{k=0}^{M}b_k\,x[n-k]$ with initial conditions $y[-1],\dots,y[-N]$ and causal input, apply the unilateral Z-transform with the shift property above:
+$$\sum_{k=0}^{N}a_k\Big(z^{-k}Y(z)+\textstyle\sum_{m=1}^{k}z^{-(k-m)}y[-m]\Big) = \Big(\sum_{k=0}^{M}b_k z^{-k}\Big)X(z).$$
+With $A(z)=\sum_k a_k z^{-k}$, $B(z)=\sum_k b_k z^{-k}$, and $M_{ic}(z)$ collecting the initial-condition terms,
+$$Y(z)=\underbrace{\frac{B(z)}{A(z)}X(z)}_{Y_{zs}}+\underbrace{\frac{M_{ic}(z)}{A(z)}}_{Y_{zi}},\qquad H(z)=\frac{B(z)}{A(z)},$$
+and $y[n]=\mathcal{Z}^{-1}\{Y(z)\}$ by partial fractions in $z^{-1}$.
+
+>[!EXAMPLE]
+>$y[n]-\tfrac12 y[n-1]=x[n]$, $x[n]=u[n]$, $y[-1]=4$.
+>Transforming: $Y(z)-\tfrac12\big(z^{-1}Y(z)+y[-1]\big)=\dfrac{1}{1-z^{-1}}$, so $\big(1-\tfrac12 z^{-1}\big)Y(z)=\dfrac{1}{1-z^{-1}}+2$ and
+>$$Y(z)=\underbrace{\frac{1}{(1-z^{-1})(1-\tfrac12 z^{-1})}}_{Y_{zs}}+\underbrace{\frac{2}{1-\tfrac12 z^{-1}}}_{Y_{zi}}=\Big(\tfrac{2}{1-z^{-1}}-\tfrac{1}{1-\tfrac12 z^{-1}}\Big)+\frac{2}{1-\tfrac12 z^{-1}}.$$
+>$$y[n]=\Big(2+(\tfrac12)^{n}\Big)u[n].$$
+
+The impulse response itself satisfies (set $x=\delta$, zero initial state)
+$$\begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,h^{(k)}(t) = \sum_{k=0}^{M}b_k\,\delta^{(k)}(t) \\ h^{(k)}(0^-) = 0,\quad k=0,1,\dots,N-1 \end{cases} \qquad \begin{cases} \displaystyle\sum_{k=0}^{N}a_k\,h[n-k] = \sum_{k=0}^{M}b_k\,\delta[n-k] \\ h[-k] = 0,\quad k=1,2,\dots,N \end{cases}$$
+equivalently $H(s)=B(s)/A(s)$ and $H(z)=B(z)/A(z)$.
+
+## All-pass & Minimum-phase System
+
+### All-pass System
+
+For a continuous-time system, if the zeros and poles are mirrored across the imaginary axis, it is an all-pass system $H_{ap}(s)$.
+
+For a discrete-time system, if the zeros and poles are mirrored across the unit circle, it is an all-pass system $H_{ap}(z)$.
+
+The magnitude response is constant, while the phase generally varies:
+$$\lvert H_{ap}(j\omega)\rvert = 1,\qquad \lvert H_{ap}(e^{j\Omega})\rvert = 1.$$
+### Minimum-phase System
+
+For a continuous-time causal stable rational system, if all zeros and poles lie in the open left half-plane, it is a minimum-phase system $H_{min}(s)$.
+
+For a discrete-time causal stable rational system, if all zeros and poles lie inside the unit circle, it is a minimum-phase system $H_{min}(z)$.
+
+The system and its inverse are both causal and stable.
+
+The phase is the sum of the angles of the vectors drawn from each zero/pole **to the test point** $e^{j\Omega}$:
+$$\arg H(e^{j\Omega}) = \sum_{\text{zeros}}\angle\big(e^{j\Omega}-z_k\big) - \sum_{\text{poles}}\angle\big(e^{j\Omega}-p_k\big).$$
+As $\Omega$ runs once around ($0\to2\pi$) the test point traverses the whole circle, and the **net turning** of one such vector is
+- $+2\pi$ if that zero/pole is **inside** the circle (the path encircles it),
+- $0$ if it is **outside** (the path does not encircle it).
+
+Now reflect a zero from outside to its mirror image inside (magnitude unchanged). An **inside** zero sits "under" the moving test point, so its vector tracks the point and turns through a small, monotonic angle; an **outside** zero forces its vector to swing out and back, injecting extra phase excursion that the inside placement avoids. Summed over all $\Omega$, placing every zero inside accumulates the least phase — the geometric meaning of "minimum phase."
+
+> [!NOTE]
+> Continuous-time mirror: reflect a right-half-plane zero $z_0$ to $-z_0^{*}$ in the left half-plane; the difference is the all-pass $\dfrac{s-z_0}{s+z_0^{*}}$ ($\mathrm{Re}(z_0)>0$), again pure lag. A minimum-phase $H(s)$ also has minimum energy delay: $\sum_{n=0}^{m}\lvert h[n]\rvert^2$ is largest for the minimum-phase member at every $m$ (its energy arrives earliest).
+
+Every suitable rational system can be factored into an all-pass part times a minimum-phase part:
+
+$$H(s)=H_{ap}(s)H_{min}(s),\qquad H(z)=H_{ap}(z)H_{min}(z).$$
+## Block-diagram realizations
+
+If $H(s)=\frac{1}{s}$, then $h(t)=u(t)$ and the system is an integrator. If $H(z)=\frac{1}{z}$, then $h[n]=\delta[n-1]$ and the system is a delay. As a result, they can be implemented with simple elements. We will only discuss continuous-time systems; the discrete-time case is similar.
+
+For a large system, we can decompose $H$ into sums or products, corresponding to parallel or cascade connections. Each smaller system can then be constructed by a direct form, as introduced in [Block-diagram realizations](#blockdiagram-realizations).
+
+>[!EXAMPLE]
+>$$\begin{align*}H(s)&=\frac{5s+7}{s^3+5s^2+5s+4}=\frac{5s+7}{s^2+s+1}\frac{1}{s+4}=\frac{s+2}{s^2+s+1}-\frac{1}{s+4}\\&=\frac{5s^{-1}+7s^{-2}}{1+s^{-1}+s^{-2}}\frac{s^{-1}}{1+4s^{-1}}=\frac{s^{-1}+2s^{-2}}{1+s^{-1}+s^{-2}}-\frac{s^{-1}}{1+4s^{-1}}. \end{align*}$$
+>![Screenshot 2026-06-17 at 12.42.37](../attachments/Screenshot%202026-06-17%20at%2012.42.37.png)
+>![Screenshot 2026-06-17 at 12.43.04](../attachments/Screenshot%202026-06-17%20at%2012.43.04.png)
+
+
+
+# Transform Tables
+
+## Fourier Transform
+
+| $x(t)$                          | $\mathcal{F}[x(t)]$                                                         |
+| ------------------------------- | --------------------------------------------------------------------------- |
+| $1$                             | $2\pi\,\delta(\omega)$                                                      |
+| $\sin\omega_0 t$                | $\dfrac{\pi}{j}\big[\delta(\omega-\omega_0) - \delta(\omega+\omega_0)\big]$ |
+| $\cos\omega_0 t$                | $\pi\big[\delta(\omega-\omega_0) + \delta(\omega+\omega_0)\big]$            |
+| $\delta(t)$                     | $1$                                                                         |
+| $\delta'(t)$                    | $j\omega$                                                                   |
+| $u(t)$                          | $\pi\,\delta(\omega) + \dfrac{1}{j\omega}$                                  |
+| $\dfrac{1}{t}$                  | $-j\pi\operatorname{sgn}\omega$                                             |
+| $u(t+t_0) - u(t-t_0)$           | $\dfrac{2\sin\omega t_0}{\omega}$                                           |
+| $\dfrac{\sin\omega_0 t}{\pi t}$ | $u(\omega+\omega_0) - u(\omega-\omega_0)$                                   |
+| $e^{-(t/\tau)^2}$               | $\sqrt{\pi}\tau e^{-(\omega\tau/2)^2}$                                      |
+
+| $x[n]$                                    | $\mathcal{F}[x[n]]$                                                                               |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| $\delta[n]$                               | $1$                                                                                               |
+| $u[n]$                                    | $\pi\displaystyle\sum_{\ell=-\infty}^{\infty}\delta(\Omega-2\pi\ell) + \dfrac{1}{1-e^{-j\Omega}}$ |
+| $1$                                       | $2\pi\displaystyle\sum_{\ell=-\infty}^{\infty}\delta(\Omega-2\pi\ell)$                            |
+| $a^{\lvert n\rvert}\operatorname{sgn}[n]$ | $\dfrac{-2aj\sin\Omega}{1+a^2-2a\cos\Omega}$                                                      |
+
+## Laplace Transform
+
+| $x(t)$                           | $\mathcal{L}\{x(t)\}$              | ROC                 |
+| -------------------------------- | ---------------------------------- | ------------------- |
+| $\delta(t)$                      | $1$                                | whole plane         |
+| $u(t)$                           | $\dfrac{1}{s}$                     | $\mathrm{Re}\,s>0$  |
+| $u(-t)$                          | $-\dfrac{1}{s}$                    | $\mathrm{Re}\,s<0$  |
+| $t\,u(t)$                        | $\dfrac{1}{s^2}$                   | $\mathrm{Re}\,s>0$  |
+| $t^{n}u(t),\ n=0,1,2,\dots$      | $\dfrac{n!}{s^{n+1}}$              | $\mathrm{Re}\,s>0$  |
+| $\dfrac{1-e^{-at}}{t}u(t),\ a>0$ | $\ln(1+a s^{-1})$                  | $\mathrm{Re}\,s>0$  |
+| $e^{-at}u(t)$                    | $\dfrac{1}{s+a}$                   | $\mathrm{Re}\,s>-a$ |
+| $e^{-at}\,t\,u(t)$               | $\dfrac{1}{(s+a)^2}$               | $\mathrm{Re}\,s>-a$ |
+| $\sin(\omega_0 t)\,u(t)$         | $\dfrac{\omega_0}{s^2+\omega_0^2}$ | $\mathrm{Re}\,s>0$  |
+| $\cos(\omega_0 t)\,u(t)$         | $\dfrac{s}{s^2+\omega_0^2}$        | $\mathrm{Re}\,s>0$  |
+
+## Z-Transform
+
+| $x[n]$ | $\mathcal{Z}\{x[n]\}$ | ROC |
+|---|---|---|
+| $a^{n}u[n]$ | $\dfrac{1}{1-az^{-1}}$ | $\lvert z\rvert>\lvert a\rvert$ |
+| $-a^{n}u[-n-1]$ | $\dfrac{1}{1-az^{-1}}$ | $\lvert z\rvert<\lvert a\rvert$ |
+| $n\,a^{n}u[n]$ | $\dfrac{az^{-1}}{(1-az^{-1})^{2}}$ | $\lvert z\rvert>\lvert a\rvert$ |
+| $\dfrac{(-1)^{n+1}a^{n}}{n}u[n-1]$ | $\ln(1+az^{-1})$ | $\lvert z\rvert>\lvert a\rvert$ |
+        </script>
+    </main>
+
+    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/comments.js"></script>
+</body>
+</html>

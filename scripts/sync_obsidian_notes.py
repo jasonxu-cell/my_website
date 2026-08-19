@@ -47,7 +47,9 @@ NOTE_TARGETS: Tuple[NoteTarget, ...] = (
     NoteTarget("physics", "Physics", "Thermodynamics and Statistical Physics", "thermodynamics-and-statistical-physics.html", "Physics", "Thermodynamics and Statistical Physics.md"),
     NoteTarget("physics", "Physics", "Optics", "optics.html", "Physics", "Optics.md"),
     NoteTarget("physics", "Physics", "Quantum Physics", "quantum-physics.html", "Physics", "Quantum Mechanics.md", ("Quantum Mechanics",)),
-    NoteTarget("physics", "Physics", "Electronic Technology", "electronic_technology.html", None, "Signal & System.md", ("Signal & System", "Signals and Systems")),
+    NoteTarget("electronic-technology", "Electronic Technology", "Signals and Systems", "signals-and-systems.html", None, "Signals & Systems.md", ("Signal & System", "Signals & Systems")),
+    NoteTarget("electronic-technology", "Electronic Technology", "Digital Signal Processing", "digital-signal-processing.html", None, "Digital Signal Processing.md", ("DSP",)),
+    NoteTarget("electronic-technology", "Electronic Technology", "Electronic Technology", "electronic-technology.html", None, "Electronic Technology.md"),
     NoteTarget("cs", "Computer Science", "Data Structure and Algorithm", "data_structure_and_algorithm.html", "Computer Science", "Data Structure & Algorithm.md", ("Data Structure & Algorithm",)),
     NoteTarget("cs", "Computer Science", "Computer Organization and Design", "computer_organization_and_design.html", "Computer Science", "Computer Organization & Design.md", ("Computer Organization & Design",)),
     NoteTarget("cs", "Computer Science", "Operating System", "operating_system.html", "Computer Science", "Operating System.md"),
@@ -63,6 +65,7 @@ NOTE_TARGETS: Tuple[NoteTarget, ...] = (
 SUBJECT_LABELS = {
     "math": "Mathematics",
     "physics": "Physics",
+    "electronic-technology": "Electronic Technology",
     "cs": "Computer Science",
     "geoscience": "Geoscience",
 }
@@ -70,6 +73,7 @@ SUBJECT_LABELS = {
 SUBJECT_PAGES = {
     "math": Path("notes/math.html"),
     "physics": Path("notes/physics.html"),
+    "electronic-technology": Path("notes/electronic-technology.html"),
     "cs": Path("notes/cs.html"),
     "geoscience": Path("notes/geoscience.html"),
 }
@@ -422,10 +426,37 @@ def active_targets(root: Path, vault: Path) -> Tuple[List[NoteTarget], Dict[Note
     return targets, vault_paths, cards, skipped
 
 
-def sync_once(root: Path, vault: Path, dry_run: bool = False, quiet: bool = False) -> Dict[str, object]:
+def select_targets(
+    targets: Sequence[NoteTarget],
+    vault_paths: Dict[NoteTarget, Path],
+    only: Optional[Sequence[str]],
+) -> Tuple[List[NoteTarget], Dict[NoteTarget, Path]]:
+    if not only:
+        return list(targets), vault_paths
+
+    requested = {normalize_key(value) for value in only}
+    selected = [
+        target
+        for target in targets
+        if normalize_key(target.title) in requested
+        or normalize_key(f"{target.subject}/{target.title}") in requested
+    ]
+    if not selected:
+        raise SyncError(f"No active notes matched --only: {', '.join(only)}")
+    return selected, {target: vault_paths[target] for target in selected}
+
+
+def sync_once(
+    root: Path,
+    vault: Path,
+    dry_run: bool = False,
+    quiet: bool = False,
+    only: Optional[Sequence[str]] = None,
+) -> Dict[str, object]:
     picture_dir = vault / "Picture"
     attachments_dir = root / "notes" / "attachments"
     targets, vault_paths, cards, skipped = active_targets(root, vault)
+    targets, vault_paths = select_targets(targets, vault_paths, only)
     picture_index = build_picture_index(picture_dir)
     link_map = build_link_map(targets, vault_paths)
     used_images: Set[Path] = set()
@@ -497,10 +528,10 @@ def snapshot(paths: Iterable[Path]) -> Tuple[Tuple[str, int, int], ...]:
     return tuple(sorted(values))
 
 
-def watch(root: Path, vault: Path, interval: float, dry_run: bool) -> None:
+def watch(root: Path, vault: Path, interval: float, dry_run: bool, only: Optional[Sequence[str]] = None) -> None:
     print(f"Watching Obsidian notes in {vault}")
     print(f"Website root: {root}")
-    sync_once(root, vault, dry_run=dry_run)
+    sync_once(root, vault, dry_run=dry_run, only=only)
     previous = snapshot(iter_watch_paths(root, vault))
 
     while True:
@@ -513,7 +544,7 @@ def watch(root: Path, vault: Path, interval: float, dry_run: bool) -> None:
         previous = current
         print(time.strftime("\n[%Y-%m-%d %H:%M:%S] Change detected."))
         try:
-            sync_once(root, vault, dry_run=dry_run)
+            sync_once(root, vault, dry_run=dry_run, only=only)
         except Exception as exc:
             print(f"Sync failed: {exc}", file=sys.stderr)
 
@@ -526,6 +557,11 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--interval", type=float, default=5.0, help="Polling interval in seconds for --watch.")
     parser.add_argument("--dry-run", action="store_true", help="Print what would change without writing files.")
     parser.add_argument("--quiet", action="store_true", help="Reduce output for one-shot sync.")
+    parser.add_argument(
+        "--only",
+        action="append",
+        help="Sync only the note with this title (repeat for multiple notes).",
+    )
     return parser.parse_args(argv)
 
 
@@ -540,9 +576,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         raise SyncError(f"Obsidian vault does not exist: {vault}")
 
     if args.watch:
-        watch(root, vault, interval=args.interval, dry_run=args.dry_run)
+        watch(root, vault, interval=args.interval, dry_run=args.dry_run, only=args.only)
     else:
-        sync_once(root, vault, dry_run=args.dry_run, quiet=args.quiet)
+        sync_once(root, vault, dry_run=args.dry_run, quiet=args.quiet, only=args.only)
     return 0
 
 

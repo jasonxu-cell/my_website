@@ -264,8 +264,13 @@
         const aliases = {
             "c++": "cpp",
             "c#": "csharp",
+            "common-lisp": "lisp",
+            "commonlisp": "lisp",
+            "f90": "fortran",
+            "fortran90": "fortran",
             "js": "javascript",
             "mjs": "javascript",
+            "modula-2": "modula",
             "py": "python",
             "shell": "bash",
             "sh": "bash",
@@ -304,7 +309,8 @@
                 "std", "cin", "cout", "cerr", "endl", "push_back", "pop_back", "clear", "size", "empty",
                 "begin", "end", "sort", "max", "min", "swap", "lower_bound", "upper_bound"
             ],
-            literals: ["true", "false", "nullptr", "NULL"]
+            literals: ["true", "false", "nullptr", "NULL"],
+            metaPatterns: ["#[^\\n]*"]
         },
         javascript: {
             keywords: [
@@ -325,13 +331,171 @@
             ],
             types: [],
             builtIns: ["dict", "enumerate", "float", "int", "len", "list", "print", "range", "set", "str", "sum", "tuple"],
-            literals: ["True", "False", "None"]
+            literals: ["True", "False", "None"],
+            commentPatterns: ["#[^\\n]*"]
         },
         bash: {
             keywords: ["case", "do", "done", "elif", "else", "esac", "fi", "for", "function", "if", "in", "then", "while"],
             types: [],
             builtIns: ["cd", "echo", "exit", "export", "grep", "ls", "mkdir", "npm", "pwd", "rg", "sed"],
-            literals: []
+            literals: [],
+            commentPatterns: ["#[^\\n]*"]
+        },
+        fortran: {
+            caseInsensitive: true,
+            keywords: [
+                "allocate", "call", "case", "contains", "cycle", "deallocate", "do", "else", "elseif", "end",
+                "enddo", "endif", "function", "if", "implicit", "in", "module", "none", "only", "print",
+                "program", "return", "select", "stop", "subroutine", "then", "use", "where", "while"
+            ],
+            types: ["character", "complex", "double", "integer", "logical", "precision", "real", "type"],
+            builtIns: ["abs", "maxval", "minval", "read", "size", "sqrt", "sum", "write"],
+            literals: ["true", "false"],
+            commentPatterns: ["![^\\n]*"]
+        },
+        lisp: {
+            keywords: [
+                "and", "block", "cond", "defmacro", "defparameter", "defun", "do", "dolist", "dotimes", "flet",
+                "funcall", "if", "labels", "lambda", "let", "let*", "loop", "or", "progn", "quote", "return-from",
+                "setq", "unless", "when"
+            ],
+            types: [],
+            builtIns: ["apply", "car", "cdr", "cons", "format", "list", "mapcar", "print", "reduce"],
+            literals: ["nil", "t"],
+            commentPatterns: ["#\\|[\\s\\S]*?\\|#", ";[^\\n]*"],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\""]
+        },
+        algol: {
+            caseInsensitive: true,
+            keywords: [
+                "array", "begin", "boolean", "comment", "do", "else", "end", "for", "goto", "if", "integer",
+                "label", "own", "procedure", "real", "step", "string", "switch", "then", "until", "value", "while"
+            ],
+            types: ["boolean", "integer", "real", "string"],
+            builtIns: ["abs", "entier", "newline", "outinteger", "print", "sqrt"],
+            literals: ["true", "false"],
+            commentPatterns: ["\\bcomment\\b[^;]*;"]
+        },
+        cobol: {
+            caseInsensitive: true,
+            keywords: [
+                "accept", "add", "author", "by", "call", "compute", "data", "display", "division", "else", "end-if",
+                "end-perform", "evaluate", "from", "giving", "identification", "if", "move", "multiply", "perform",
+                "pic", "procedure", "program-id", "run", "section", "stop", "subtract", "then", "to", "until",
+                "varying", "when", "working-storage"
+            ],
+            types: ["binary", "comp", "comp-3", "numeric", "picture"],
+            builtIns: ["function", "length", "lower-case", "reverse", "upper-case"],
+            literals: ["false", "high-value", "low-value", "spaces", "true", "zero", "zeros"],
+            commentPatterns: ["^[ \\t]*\\*[^\\n]*", "\\*>[^\\n]*"]
+        },
+        cpl: {
+            caseInsensitive: true,
+            keywords: [
+                "and", "do", "else", "for", "function", "if", "or", "result", "then", "until", "while"
+            ],
+            types: ["boolean", "integer", "real", "string"],
+            builtIns: [],
+            literals: ["true", "false"],
+            commentPatterns: ["\\bcomment\\b[^;]*;"]
+        },
+        basic: {
+            caseInsensitive: true,
+            keywords: [
+                "and", "data", "dim", "else", "end", "for", "gosub", "goto", "if", "input", "let", "next",
+                "not", "on", "or", "print", "read", "rem", "restore", "return", "step", "stop", "then", "to", "while"
+            ],
+            types: ["double", "integer", "long", "single", "string"],
+            builtIns: ["abs", "chr", "int", "left", "len", "mid", "right", "rnd", "sqr", "str", "val"],
+            literals: ["true", "false"],
+            commentPatterns: ["\\bREM\\b[^\\n]*", "'[^\\n]*"],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\""]
+        },
+        simula: {
+            caseInsensitive: true,
+            keywords: [
+                "activate", "begin", "class", "delay", "do", "else", "end", "for", "if", "inspect", "new",
+                "otherwise", "process", "procedure", "qua", "ref", "resume", "simulation", "then", "this", "while"
+            ],
+            types: ["boolean", "character", "integer", "long", "real", "short", "text"],
+            builtIns: ["First", "Hold", "Out", "OutText", "Wait"],
+            literals: ["none", "notext", "true", "false"],
+            commentPatterns: ["![^\\n]*"]
+        },
+        b: {
+            keywords: ["auto", "break", "case", "default", "else", "extrn", "goto", "if", "return", "switch", "while"],
+            types: [],
+            builtIns: ["char", "getchar", "printn", "putchar"],
+            literals: [],
+            commentPatterns: ["\\/\\*[\\s\\S]*?\\*\\/", "\\/\\/[^\\n]*"]
+        },
+        pascal: {
+            caseInsensitive: true,
+            keywords: [
+                "and", "array", "begin", "case", "class", "const", "constructor", "destructor", "do", "downto",
+                "else", "end", "file", "for", "function", "goto", "if", "implementation", "in", "interface", "mod",
+                "not", "of", "or", "packed", "private", "procedure", "program", "public", "record", "repeat", "set",
+                "then", "to", "type", "unit", "until", "uses", "var", "while", "with"
+            ],
+            types: ["boolean", "char", "integer", "pointer", "real", "string", "text"],
+            builtIns: ["Abs", "Dispose", "Length", "New", "Read", "ReadLn", "Write", "WriteLn"],
+            literals: ["nil", "true", "false"],
+            commentPatterns: ["\\(\\*[\\s\\S]*?\\*\\)", "\\{[\\s\\S]*?\\}", "\\/\\/[^\\n]*"],
+            stringPatterns: ["'(?:[^']|'')*'"]
+        },
+        smalltalk: {
+            keywords: ["self", "super", "thisContext"],
+            types: [],
+            builtIns: [
+                "Array", "Block", "Calculator", "Character", "Class", "Collection", "Color", "Dictionary", "Object",
+                "OrderedCollection", "Set", "String", "Symbol", "Transcript", "initialize", "new", "show", "subclass"
+            ],
+            literals: ["nil", "true", "false"],
+            commentPatterns: ["\"[^\"]*\""],
+            stringPatterns: ["'(?:[^']|'')*'"],
+            patterns: [
+                { pattern: "#[A-Za-z_][A-Za-z0-9_]*", className: "hljs-literal" },
+                { pattern: ":[a-z][A-Za-z0-9_]*", className: "hljs-keyword" },
+                { pattern: "\\b[a-z][A-Za-z0-9_]*(?=:)", className: "hljs-built_in" },
+                { pattern: "\\b[A-Z][A-Za-z0-9_]*\\b", className: "hljs-type" }
+            ]
+        },
+        ml: {
+            keywords: [
+                "abstype", "and", "andalso", "as", "case", "datatype", "do", "else", "end", "exception", "fn",
+                "fun", "handle", "if", "in", "infix", "let", "local", "nonfix", "of", "op", "open", "orelse",
+                "raise", "rec", "then", "type", "val", "with", "withtype"
+            ],
+            types: ["bool", "char", "int", "list", "real", "string", "unit", "word"],
+            builtIns: ["Int", "List", "Option", "String", "print"],
+            literals: ["nil", "true", "false"],
+            commentPatterns: ["\\(\\*[\\s\\S]*?\\*\\)"],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\""]
+        },
+        modula: {
+            keywords: [
+                "AND", "ARRAY", "BEGIN", "BY", "CASE", "CONST", "DEFINITION", "DIV", "DO", "ELSE", "ELSIF", "END",
+                "EXIT", "EXPORT", "FOR", "FROM", "IF", "IMPLEMENTATION", "IMPORT", "IN", "LOOP", "MOD", "MODULE",
+                "NOT", "OF", "OR", "POINTER", "PROCEDURE", "QUALIFIED", "RECORD", "REPEAT", "RETURN", "SET", "THEN",
+                "TO", "TYPE", "UNTIL", "VAR", "WHILE", "WITH"
+            ],
+            types: ["BOOLEAN", "CARDINAL", "CHAR", "INTEGER", "LONGINT", "REAL"],
+            builtIns: ["ABS", "CAP", "DEC", "DISPOSE", "INC", "NEW", "ORD", "WriteLn"],
+            literals: ["FALSE", "NIL", "TRUE"],
+            commentPatterns: ["\\(\\*[\\s\\S]*?\\*\\)"],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\"", "'(?:[^']|'')*'"]
+        },
+        prolog: {
+            keywords: ["as", "catch", "dynamic", "is", "meta_predicate", "module", "not", "once", "repeat", "throw"],
+            types: [],
+            builtIns: ["assert", "findall", "listing", "retract", "setof", "write", "writeln"],
+            literals: ["false", "fail", "true"],
+            commentPatterns: ["%[^\\n]*", "\\/\\*[\\s\\S]*?\\*\\/"],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\"", "'(?:\\\\.|[^'\\\\])*'"],
+            patterns: [
+                { pattern: "\\b[a-z][A-Za-z0-9_]*(?=\\s*\\()", className: "hljs-built_in" },
+                { pattern: "\\b[A-Z_][A-Za-z0-9_]*\\b", className: "hljs-type" }
+            ]
         }
     };
 
@@ -356,70 +520,65 @@
             return escapeHtml(value);
         }
 
-        const keywordSet = new Set(grammar.keywords);
-        const typeSet = new Set(grammar.types);
-        const builtInSet = new Set(grammar.builtIns);
-        const literalSet = new Set(grammar.literals);
-        const tokenPatterns = [
-            "\\/\\*[\\s\\S]*?\\*\\/",
-            "\\/\\/[^\\n]*",
-            "#[^\\n]*",
+        const defaultCommentPatterns = ["\\/\\*[\\s\\S]*?\\*\\/", "\\/\\/[^\\n]*"];
+        const defaultStringPatterns = [
             '"(?:\\\\.|[^"\\\\])*"',
             "'(?:\\\\.|[^'\\\\])*'",
-            "`(?:\\\\.|[^`\\\\])*`",
-            "\\b\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?\\b"
+            "`(?:\\\\.|[^`\\\\])*`"
         ];
+        const tokenDefinitions = [];
         const keywordPattern = makeWordPattern(grammar.keywords);
         const typePattern = makeWordPattern(grammar.types);
         const builtInPattern = makeWordPattern(grammar.builtIns);
         const literalPattern = makeWordPattern(grammar.literals);
 
-        if (keywordPattern) {
-            tokenPatterns.push(`\\b(?:${keywordPattern})\\b`);
+        function addTokenPatterns(patterns, className) {
+            patterns.forEach((pattern) => {
+                tokenDefinitions.push({ pattern, className });
+            });
+        }
+
+        addTokenPatterns(grammar.commentPatterns || defaultCommentPatterns, "hljs-comment");
+        addTokenPatterns(grammar.metaPatterns || [], "hljs-meta");
+        addTokenPatterns(grammar.stringPatterns || defaultStringPatterns, "hljs-string");
+        tokenDefinitions.push({
+            pattern: "\\b\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?\\b",
+            className: "hljs-number"
+        });
+        (grammar.patterns || []).forEach((definition) => tokenDefinitions.push(definition));
+
+        if (literalPattern) {
+            tokenDefinitions.push({ pattern: `\\b(?:${literalPattern})\\b`, className: "hljs-literal" });
         }
 
         if (typePattern) {
-            tokenPatterns.push(`\\b(?:${typePattern})\\b`);
+            tokenDefinitions.push({ pattern: `\\b(?:${typePattern})\\b`, className: "hljs-type" });
         }
 
         if (builtInPattern) {
-            tokenPatterns.push(`\\b(?:${builtInPattern})\\b`);
+            tokenDefinitions.push({ pattern: `\\b(?:${builtInPattern})\\b`, className: "hljs-built_in" });
         }
 
-        if (literalPattern) {
-            tokenPatterns.push(`\\b(?:${literalPattern})\\b`);
+        if (keywordPattern) {
+            tokenDefinitions.push({ pattern: `\\b(?:${keywordPattern})\\b`, className: "hljs-keyword" });
         }
 
-        const tokenPattern = new RegExp(tokenPatterns.join("|"), "g");
+        const tokenPattern = new RegExp(
+            tokenDefinitions.map((definition) => `(${definition.pattern})`).join("|"),
+            grammar.caseInsensitive ? "gim" : "gm"
+        );
         let html = "";
         let lastIndex = 0;
 
-        value.replace(tokenPattern, (match, offset) => {
+        for (const match of value.matchAll(tokenPattern)) {
+            const offset = match.index;
+            const definitionIndex = match.slice(1).findIndex((group) => group !== undefined);
+            const definition = tokenDefinitions[definitionIndex];
+
             html += escapeHtml(value.slice(lastIndex, offset));
-            lastIndex = offset + match.length;
-
-            if (match.startsWith("/*") || match.startsWith("//") || (match.startsWith("#") && ["bash", "python", "shell"].includes(language))) {
-                html += wrapHighlightedToken(match, "hljs-comment");
-            } else if (match.startsWith("#")) {
-                html += wrapHighlightedToken(match, "hljs-meta");
-            } else if (/^["'`]/.test(match)) {
-                html += wrapHighlightedToken(match, "hljs-string");
-            } else if (/^\d/.test(match)) {
-                html += wrapHighlightedToken(match, "hljs-number");
-            } else if (literalSet.has(match)) {
-                html += wrapHighlightedToken(match, "hljs-literal");
-            } else if (typeSet.has(match)) {
-                html += wrapHighlightedToken(match, "hljs-type");
-            } else if (builtInSet.has(match)) {
-                html += wrapHighlightedToken(match, "hljs-built_in");
-            } else if (keywordSet.has(match)) {
-                html += wrapHighlightedToken(match, "hljs-keyword");
-            } else {
-                html += escapeHtml(match);
-            }
-
-            return match;
-        });
+            html += wrapHighlightedToken(match[0], definition.className);
+            lastIndex = offset + match[0].length;
+        }
 
         html += escapeHtml(value.slice(lastIndex));
         return html;
@@ -429,7 +588,9 @@
         const language = normalizeCodeLanguage(languageInfo);
         const codeClasses = ["hljs"];
         const languageLabel = formatCodeLanguage(languageInfo);
-        const highlightedCode = highlightCodeLocally(code, language);
+        const usesLocalHighlighter = language === "plaintext" || Boolean(localHighlightGrammars[language]);
+        const highlightedCode = usesLocalHighlighter ? highlightCodeLocally(code, language) : escapeHtml(code);
+        const highlightedAttribute = usesLocalHighlighter ? ' data-highlighted="local"' : "";
 
         if (language) {
             codeClasses.push(`language-${language}`);
@@ -444,7 +605,7 @@
             "<button type=\"button\" class=\"code-toggle\" aria-expanded=\"true\">Collapse</button>",
             "</div>",
             "</div>",
-            `<pre><code class="${codeClasses.join(" ")}" data-highlighted="local">${highlightedCode}</code></pre>`,
+            `<pre><code class="${codeClasses.join(" ")}"${highlightedAttribute}>${highlightedCode}</code></pre>`,
             "</div>"
         ].join("");
     }
@@ -1054,6 +1215,10 @@
     }
 
     function loadHighlightJs() {
+        if (!bodyElement.querySelector("pre code:not([data-highlighted='local'])")) {
+            return;
+        }
+
         if (window.hljs) {
             highlightCodeBlocks();
             return;
@@ -1075,7 +1240,7 @@
         }
 
         const script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js";
+        script.src = "https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/highlight.min.js";
         script.async = true;
         script.dataset.highlightJs = "true";
         script.addEventListener("load", highlightCodeBlocks, { once: true });

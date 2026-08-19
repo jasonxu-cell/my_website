@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History of Programming Languages | Yang</title>
+    <link rel="stylesheet" href="../style.css?v=20260819-article-3-4">
+    <link rel="icon" type="image/png" href="../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="../notes.html">Notes</a>
+            <a href="../articles.html">Articles</a>
+            <a href="../research.html">Research</a>
+            <a href="../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../articles.html" class="article-back-link">&larr; Articles</a>
+            <h1>History of Programming Languages</h1>
+            <p>
+                This article provides a comprehensive overview of the evolution of programming languages,
+                        tracing their development from early assembly languages to modern high-level languages.
+                        It explores the key milestones, influential languages, and the impact of programming paradigms.
+            </p>
+            <div class="essay-meta article-detail-meta">
+                <div class="essay-tags">
+                    <span>Programming</span>
+                    <span>History</span>
+                    <span>Development</span>
+                </div>
+                <time datetime="2026-09-01">Sep 1, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+
+The following figure is a broad genealogy of programming languages from the 1950s to the 2010s. Each horizontal band marks a decade, while arrows show major lines of influence or descent, such as `CPL -> BCPL -> B -> C`, `ALGOL -> Pascal -> Object Pascal`, and `C -> C++ / Objective-C`. Dotted lines indicate looser design influence rather than direct inheritance. It should be read as a map of language evolution, not as a complete taxonomy or a popularity ranking.
+\begin{figure}[h]
+\centering
+\label{Figure 1}
+\includegraphics[width=0.6\linewidth]{images/programing language.png}
+\caption{Development of programming languages over time.}
+\end{figure}
+
+# 1950s
+## FORTRAN
+
+The name stands for Formula Translation. It was invented by the American computer scientist John Warner Backus. He wanted to develop a language that could translate formulas written by users directly into machine code. This idea became a basic model for modern programming languages.
+
+Common FORTRAN source file extensions include `.f`, `.for`, and `.f90`. The following is an example of FORTRAN code:
+
+```FORTRAN
+program hello
+  print *, "Hello, World!"
+end program hello
+```
+
+FORTRAN primarily serves scientific and engineering computing, so it has two important properties:
+- A natural style of description, with syntax close to mathematical formulas
+- High efficiency in numerical computation
+
+Notably, to optimize the performance of matrix computation, FORTRAN stores arrays in column-major order.
+
+Nowadays, FORTRAN is widely used in parallel computing and high-performance computing, such as weather forecasting, geophysics, and fluid dynamics. As the first widely known programming language, FORTRAN made enormous historical contributions, mainly including the following aspects:
+- Promoting the development of compiler technology
+- Laying the foundation for later programming languages
+- Promoting the standardization of programming languages
+
+## Lisp
+
+Lisp was invented by the American computer scientist John McCarthy in the late 1950s. McCarthy wanted to build a language that could express symbolic reasoning and abstract computation on a computer. The name Lisp comes from "LISt Processing", because lists are the central data structure of the language.
+
+Lisp is a programming language that uses symbolic representation as its core. In Lisp, there is no clear distinction between expressions and statements; programs are built from expressions that return values. The core philosophy of Lisp is: code is data. Because Lisp code is represented using the same list structure as ordinary data, programs can read, generate, and transform other programs. This made Lisp one of the earliest languages to support meta-programming.
+
+As an expression-oriented language, the main properties of Lisp include simplicity, consistency, and extensibility. Therefore, Lisp has been widely used in artificial intelligence, symbolic computation, language research, and rapid prototyping. However, early Lisp systems had weaker support for structured programming and relatively poor runtime performance, so Lisp was used less often in some performance-sensitive application areas.
+
+Lisp programs use S-expressions, which can be seen as a combination of prefix notation and parentheses. The following is an example of Lisp code:
+
+```Lisp
+(defun factorial (n)
+	(if (= n 0)
+		1 ; If n is equal to 0, return 1.
+		(* n (factorial (- n 1))))) ; Otherwise, return n times factorial(n - 1).
+
+(factorial 4) ; Use the function to calculate 4!
+
+; Use dotimes to print "hello world" five times.
+(dotimes (i 5)
+	(print "hello world"))
+```
+
+Lisp's historical contributions are also significant, mainly including the following aspects:
+- Proposing the functional programming paradigm
+- Carrying forward and developing recursion
+- Becoming one of the earliest languages to support meta-programming
+- Becoming one of the earliest dynamically typed languages
+- Supporting the use of functions as arguments to other functions
+- Introducing automatic garbage collection
+
+Lisp also played an important role in the history of artificial intelligence. From the 1960s to the 1980s, many expert systems, symbolic AI systems, and natural language processing (NLP) projects relied heavily on Lisp. It became a practical tool for exploring whether machines could manipulate symbols, represent knowledge, and perform forms of reasoning.
+
+## ALGOL
+
+In 1958, a joint conference for discussing and formulating a common programming language standard was held at ETH Zurich. Some of the participants became the main inventors of ALGOL, which stands for Algorithmic Language.
+
+ALGOL aimed to integrate the newest ideas in programming language design. It was influenced by FORTRAN and promoted the standardization of programming languages and fostered the rapid development of computing.
+
+ALGOL 58 introduced `:=` as the assignment operator, which influenced later programming languages such as [[#Simula]], [[#Pascal]], and [[#Ada]]. We can see it in the following code:
+
+```ALGOL
+begin
+	integer i; 
+	for i := 1 step 1 until 10 do 
+		begin 
+			outinteger(1, i); 
+			newline(1) 
+		end 
+end
+```
+
+It should be noted that there was no standard I/O method in ALGOL 60, because the committee could not reach a consensus on I/O. This flaw was corrected in ALGOL 68.
+
+The design of ALGOL 60 accumulated a wealth of valuable experience for later programming languages. Its complexity greatly exceeded that of FORTRAN and Lisp, so it can be regarded as one of the first truly high-level programming languages. It was also one of the first block-structured programming languages and one of the first programming languages to provide a clear `for` loop mechanism. Although ALGOL has not been widely adopted in industry, its influence is profound, inspiring subsequent languages such as [[#C]], [[#Pascal]], and [[#Java]].
+
+## COBOL
+
+Common Business-Oriented Language (COBOL) was designed to reduce the cost of business programming. In 1959, a meeting held at the Pentagon in the United States marked the beginning of COBOL's development.
+
+COBOL is a business-oriented programming language whose syntax is close to English. Therefore, it has good readability and maintainability, although it may produce relatively long code.
+
+Grammatically, COBOL uses `.` to mark the end of a sentence and uses the keywords `ACCEPT` and `DISPLAY` to interact with users. The following is an example of COBOL code:
+
+```cobol
+* The identification of the code
+IDENTIFICATION DIVISION.
+PROGRAM-ID. FACTORIAL.
+AUTHOR. YANG.
+
+* The definition of the data
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 N PIC S9(5).
+01 FACT PIC 9(18).
+01 I PIC 9(5).
+
+* Calculate the factorial
+PROCEDURE DIVISION.
+MAIN.
+	DISPLAY "Please input a non-negative integer whose factorial is to be calculated:".
+	ACCEPT N.
+	IF N<0
+		DISPLAY "Please input a non-negative number"
+		STOP RUN
+		END-IF.
+	MOVE 1 TO FACT
+	PERFORM VARYING I FROM 1 BY 1 UNTIL I > N
+		MULTIPLY FACT BY I
+	END-PERFORM.
+	
+	DISPLAY "The factorial of " N " is " FACT
+	STOP RUN.
+```
+
+COBOL has more than 300 keywords, which enables engineers to write programs in a similar style and provides convenience for business data processing. Besides, the syntax and structural design of COBOL are very transferable.
+
+COBOL has significant value and influence, making it one of the leading programming languages in commercial applications. Interestingly, in 2020, during the global COVID-19 pandemic, millions of people in the United States became unemployed. This caused many unemployment registration and social security systems to operate beyond capacity. Many of these old systems were written in COBOL, so governments needed COBOL engineers to maintain them.
+
+# 1960s
+
+In the end of 1950s, the programming language have two paths: COBOL, mainly serves bank and insurance,  and ALGOL, mainly pursues mathematicalization. No one knows that what programming language we need in the operating system and the answer will be revealed in the next age.
+## CPL/BCPL
+
+Combined Programming Language (CPL) was developed by Christopher Strachey, David Barron, and others at the University of Cambridge Mathematical Laboratory in the early 1960s. They wished to expand the application scope of ALGOL 60 from scientific computing to a wider range of fields, so the design became very complicated.
+
+```CPL
+function factorial[integer n]=result of §1
+	integer temp = 1
+	until n = 0 do § 1.1
+		temp = n * temp
+	n := n - 1 § / 1.1
+result := temp§/ 1
+```
+In CPL, `§` and `§/` are similar to `{` and `}`. CPL also supports named blocks with identifiers, such as `§ / 1.1`.
+
+CPL introduced the concepts of introduction and replacement. It also introduced the important distinction between lvalues and rvalues. An lvalue, or left-hand value, describes a storage location that can appear on the left side of an assignment. An rvalue, or right-hand value, describes the value computed by an expression, usually appearing on the right side of an assignment. In CPL, this distinction was described as evaluating expressions in left-hand mode or right-hand mode. The same variable name can be used in both modes: as an lvalue, it identifies a location; as an rvalue, it reads the value stored in that location.
+
+```CPL
+integer x, y
+x := 10
+y := x + 1
+```
+
+In `x := 10`, `x` is evaluated as an lvalue because it gives the location to be updated, while `10` is evaluated as an rvalue because it gives the value to store. In `y := x + 1`, `y` is the lvalue, and `x + 1` is the rvalue. The expression `x + 1` cannot be placed on the left side of an assignment, because it computes a value but does not name a writable storage location.
+
+CPL introduced many keywords to make expressions more intuitive. However, many definitions in CPL existed only in design documents. In 1967, Basic Combined Programming Language (BCPL) was invented by Martin Richards. BCPL reduced CPL's redundancy and complexity and added some appropriate extensions.
+
+- BCPL introduced `//` as a form of single-line comment.
+- The BCPL compiler used an intermediate language called "O-code", which divided the compiler into two parts: the first part translated BCPL into O-code, and the second part compiled O-code into the target file.
+- BCPL inherited the concepts of lvalues and rvalues from CPL.
+- BCPL defined the way function parameters are passed; the function parameter list could be defined as an array. This design also made it easier for BCPL to support variadic functions.
+
+However, BCPL used the machine word as its basic data type, so the exact size depended on the target machine. This design could not satisfy the requirements of all machines equally well.
+
+## BASIC
+
+Beginner's All-purpose Symbolic Instruction Code (BASIC) was invented by the American computer scientists John George Kemeny and Thomas Eugene Kurtz. They wanted to create a programming language that was easy for beginners to learn and use.
+
+The first version of BASIC had only a small set of commands. The simplicity of the language made its implementation simple and compact. This enabled BASIC to become one of the first-choice languages for personal computers. At that time, some personal computers had only a few kilobytes of memory, and a small BASIC interpreter suited that limited memory well. In personal computer systems, BASIC was usually implemented by an interpreter instead of a compiler.
+
+The following is an example of BASIC code:
+
+```BASIC
+10 INPUT "Please input a non-negative integer:", n
+20 IF n < 0 THEN PRINT "INPUT WRONG!" : GOTO 10
+30 IF n = 0 OR n = 1 THEN PRINT "FACTORIAL is 1" : GOTO 90
+40 f = 1
+50 FOR i = 2 TO n STEP 1
+60 f = f * i
+70 NEXT i
+80 PRINT "FACTORIAL is:", f
+90 END
+```
+
+BASIC has a very rich history. It has many versions and variants, such as [[#Visual Basic]]. These versions extended the functions and properties of BASIC.
+
+However, the simple grammar and structure of BASIC could lead to redundant and confusing code, which was not conducive to program maintenance and upgrades. Besides, many BASIC implementations had relatively low performance, making them unsuitable for large-scale, high-performance programs. By the end of the 1980s, as personal computer hardware resources increased significantly, the advantage of small BASIC interpreters gradually weakened. Nowadays, [[#Python]], with its simple design and strong readability, has replaced BASIC in many beginner-friendly programming and scripting contexts, while BASIC has gradually faded from the center of the programming ecosystem.
+
+## Simula
+
+Simula was invented by the Norwegian computer scientists Ole-Johan Dahl and Kristen Nygaard. Kristen Nygaard started to write computer simulation programs in 1957. He wanted to find a friendlier programming language for describing simulation problems. The name Simula comes from simulation.
+
+Simula I introduced coroutines, which means it allowed multiple subroutines to cooperate and exchange control during execution. Later, Simula 67 introduced some important concepts of object-oriented programming (OOP), including classes, objects, encapsulation, and inheritance. Therefore, Simula is widely recognized as one of the earliest object-oriented programming languages.
+
+The following code is an example of Simula:
+
+```Simula
+Simulation Begin
+	Class FittingRoom; Begin
+		Ref (Head) door;
+		Boolean in_use;
+		! FittingRoom provides request and leave methods for customers who queue to try on clothes
+		Procedure request; Begin
+			If in_use Then Begin
+				Wait (door);
+				door.First.Out;
+			End;
+			in_use:= True;
+		End;
+		Procedure leave; Begin
+			in_use:= False;
+			Activate door.First;
+		End;
+		door:- New Head;
+	End;
+		
+	Process Class Person (myname); Text myname; Begin
+		While True Do Begin
+			! Simulate each customer: pick up clothes for 15 minutes and try them on for 5 minutes
+			Hold(15);
+			OutText(myname & " is requesting the fitting room");
+			fittingRoom1.request;
+			OutText(myname & " has entered the fitting room");
+			Hold(5);
+			fittingRoom1.leave;
+			OutText(myname & " has left the fitting room");
+		End;
+	End;
+	Ref (FittingRoom) fittingRoom1;
+	fittingRoom1:- New FittingRoom;
+	! Create 3 customers
+	Activate New Person ("Customer_1");
+	Activate New Person ("Customer_2");
+	Activate New Person ("Customer_3");
+	! Start a 60-minute simulation
+	Hold (60);
+End;
+```
+
+Notably, Simula used a garbage collection mechanism for memory management. To emphasize the difference between reference assignment and value assignment, Simula uses `:-` for object references and `:=` for values.
+
+## B
+
+B was developed by Ken Thompson around 1969, with later involvement from Dennis Ritchie. At that time, early Unix was still closely tied to assembly language. Assembly language could provide high performance, but it also depended heavily on the target machine and made system development difficult to port and maintain. Therefore, Thompson designed B as a small systems programming language derived from BCPL. B aimed to keep the essence of BCPL while making the language simpler and more suitable for early Unix development.
+
+B is a typeless or weakly typed programming language. In B, the `=` sign represents assignment and the `==` sign represents equality. B also introduced increment and decrement operators (`++` and `--`). The syntax style used in B was inherited by [[#C]] and became a mainstream style thereafter.
+
+```B
+factorial(n) {
+	if (n == 0)
+		return(1);
+	else
+		return(n * factorial(n - 1));
+}
+
+main() {
+	auto a, result;
+	a = 5;
+	result = factorial(a);
+	printn(result);
+}
+```
+
+The B programming language also revealed several limitations. It was typeless and word-oriented, so it was not convenient for representing different machine data types such as characters, integers, and pointers on newer hardware. It also lacked structures and other mechanisms that would make systems programming safer and clearer. Although B's period of widespread use was short, the experience of designing and using B laid a good foundation for [[#C]].
+
+# 1970s
+## Pascal
+
+Pascal was developed from ALGOL 60 by the Swiss computer scientist Niklaus Wirth. Pascal's name comes from the French mathematician, philosopher, and physicist Blaise Pascal.
+
+Although ALGOL 60 had a unified system architecture and a clean language design, it was not practical enough for many fields outside numerical computation. Therefore, IFIP established a working group to design a successor to ALGOL. Wirth proposed a pragmatic language design called ALGOL W, but the committee eventually chose the more complicated ALGOL 68. ALGOL 68 was powerful but difficult to implement efficiently, which gave Pascal room to survive and develop as a smaller and clearer language.
+
+Pascal is a performance-oriented, statically typed, strongly typed general-purpose programming language, which largely retains the syntax of ALGOL, but it also has some differences, such as:
+- Variable declaration: ALGOL uses the keyword `DECLARE`, but Pascal uses the keyword `VAR`, which gradually became popular later.
+- Array declaration: ALGOL uses the keyword `ARRAY`, but Pascal uses both the keyword `ARRAY` and `[]`.
+- Procedure and function: ALGOL uses the keyword `PROC` for both, while Pascal uses `procedure` and `function` respectively.
+- Form of comment: ALGOL uses the keyword `COMMENT`, while Pascal uses `{}` and `(* *)` for comments.
+- Data type: Compared to ALGOL, Pascal supports richer data types.
+- Control structure: Compared to ALGOL, Pascal provides many control structures, such as if-then-else, case, and while.
+
+Pascal strongly reflects the idea of structured programming. It encourages programmers to divide a program into clear blocks, procedures, and functions, and to use structured control flow such as `if`, `case`, `while`, and `for` instead of relying on arbitrary jumps. This style supports top-down program design: a large problem is decomposed into smaller procedures, each procedure has a clear responsibility, and the program structure becomes easier to read, verify, and maintain. Therefore, Pascal was widely used in programming education to teach structured programming.
+
+```Pascal
+(* Calculate factorial *)
+function factorial(n: integer): integer;
+begin
+	if n = 0 then
+		factorial := 1
+	else
+		factorial := n * factorial(n - 1);
+end;
+```
+
+However, early Pascal lacked separate compilation and high-quality libraries. Besides, early Pascal did not support OOP. But structured programming prevailed in the 1970s and 1980s, and Pascal met the needs of that period, so it became one of the most popular programming languages of that era.
+
+In 1986, Apple released Object Pascal, which was an OOP extension of Pascal and supported OOP features including classes, polymorphism, and inheritance. In 1995, Borland released Delphi, a new visual rapid application development (RAD) environment that used Object Pascal as its main programming language. It mainly supported the Windows operating system. Delphi was once a major development tool for Windows systems, until Microsoft launched Visual Studio, at which point Delphi's market position gradually declined.
+
+```Pascal
+type
+	TPerson = class
+	private
+		FName: string;
+	public
+		procedure SayHello;
+	end;
+
+procedure TPerson.SayHello;
+begin
+	WriteLn('Hello');
+end;
+```
+
+## Smalltalk
+
+Smalltalk's creation largely stemmed from Alan Kay and his team's thinking and research on graphical user interface (GUI) programming. In the era when command-line interface (CLI) programs were popular, a program usually only needed to execute the corresponding instructions based on command parameters. However, in GUI programming, a program needs to respond to users' clicks and operations on interface elements. As a result, existing programming models could not easily support highly abstract GUI systems or provide a convenient programming experience. Smalltalk was born out of this need.
+
+Smalltalk is a pure object-oriented programming language. Objects communicate by sending and receiving messages. Smalltalk uses classes to define the shared behavior of their instances. Every object is an instance of a class, and classes themselves are also objects. This highly uniform object model gives Smalltalk powerful meta-programming capabilities. The following is an example of Smalltalk code:
+
+```Smalltalk
+"Define a class named Calculator"
+Object subclass: #Calculator
+	instanceVariableNames: 'number'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MyApp'
+	
+Calculator >> initialize: n
+	"Define a method named initialize:, which is used to initialize the instance variable number"
+	number := n.
+	
+Calculator >> factorial
+	| result |
+	result := 1.
+	1 to: number do: [:i | result := result * i].
+	^ result.
+	
+"Main program"
+| n fact |
+n := 5.
+fact := Calculator new.
+fact initialize: n.
+Transcript show: 'Factorial of ', n asString, ' is ', (fact factorial) asString.
+```
+
+Smalltalk also has the following advantages:
+- Blocks: A block can be regarded as an anonymous function and can implement the closures commonly mentioned in modern languages.
+
+```Smalltalk
+[:x | x * x]
+```
+
+- Cascading messages: the following two pieces of code are equivalent.
+
+```Smalltalk
+pen color: Color red.
+pen width: 3.
+pen moveTo: 100@200.
+```
+
+```Smalltalk
+pen
+    color: Color red;
+    width: 3;
+    moveTo: 100@200.
+```
+
+Smalltalk innovated in syntax and design. It not only influenced the design of programming languages, but also promoted the evolution of software development methods.
+
+Smalltalk also has several problems:
+- Lack of strong commercial support
+- Relatively low performance
+- Non-mainstream syntax
+
+Later, [[#Objective-C]] inherited some ideas from Smalltalk and was compatible with the C language. It reduced some of Smalltalk's performance and ecosystem problems while maintaining a flexible message-passing style. As a result, Objective-C became an important language for GUI and application development, especially in Apple's ecosystem.
+
+## C
+
+C was developed by Dennis MacAlistair Ritchie around 1972 and was first used for Unix system programming. Unix was originally written in assembly language, but Ken Thompson and Dennis Ritchie wanted to use a higher-level language to improve development efficiency and portability.
+
+Their first choice was B, and Ritchie later developed an intermediate language sometimes called "New B" or NB. However, when they tried to use B-like languages for Unix development on newer machines such as the PDP-11, they faced several problems. B was typeless and word-oriented, so it could not naturally express different data types such as characters, integers, pointers, and structured records. It also made it harder to generate efficient machine code for the new hardware.
+
+To solve these problems, Ritchie added a type system, including types such as `int`, `char`, and later richer type forms. He also introduced structures and improved the compiler so that the generated machine code could be close to the efficiency of assembly language. Through these changes, B gradually evolved into C.
+
+```C
+#include <stdio.h>
+
+int factorial(int n) {
+	if (n == 0) {
+		return 1;
+	} else {
+		return n * factorial(n - 1);
+	}
+}
+
+int main() {
+	int n = 5;
+	int result = factorial(n);
+	printf("%d! = %d\n", n, result);
+	return 0;
+}
+```
+
+C also inherits and develops structured programming ideas. A C program is organized around functions, and each function can use local variables, block scope, and structured control statements such as `if`, `switch`, `while`, `for`, and `do while`. Compared with Pascal, C keeps the structure lighter and closer to hardware: it supports structured decomposition while still allowing pointer manipulation, manual memory control, and `goto` when necessary. This makes C suitable for building large system programs in a structured but low-level style.
+
+Compared to FORTRAN, C is closer to the hardware and can be used to write drivers, kernels, and other low-level system software. Compared to [[#Lisp]], C is more efficient for systems programming and does not rely on a large runtime environment.
+
+The advantages of C include:
+- Introducing a type system
+- Using structures to organize data
+- Directly operating memory through pointers
+- Concise syntax style
+- Good cross-platform capabilities
+
+In C, programmers can control memory and hardware-level details very directly. However, this also means that a single pointer out-of-bounds error can cause a program to crash, corrupt memory, or compromise system stability. Therefore, C is often regarded as a concise but dangerous language. Instead of protecting the programmer from every mistake, it gives the programmer more control and more responsibility.
+
+Because of its simplicity, efficiency, flexibility, and portability, C has gained wide recognition and application. It is widely used in systems programming, network programming, embedded programming, and many other fields.
+
+However, there are also some traps and pitfalls in C:
+- Integer literal notation may cause confusion. For example, `int a = 42;` and `int b = 042;` are different, because the latter is interpreted as an octal number.
+- Lexical analysis rules may cause surprising results. For example, `a---b;` is parsed as `a-- - b;`.
+- The relationship between pointers and arrays can be confusing.
+- The difference between a null pointer and an empty string is easy to misunderstand.
+
+Most importantly, C helped liberate Unix from assembly language. Unix became one of the early major operating systems whose core could be implemented in a relatively portable high-level language. In the 1970s, Unix spread through universities and became an important operating system for many students and researchers. The Unix philosophy influenced many later systems and programmers:
+- Everything is a file, which makes the system model clearer.
+- Each program should do one thing well, making programs simpler and more reliable.
+- The pipeline mechanism allows the output of one program to be directly used as the input of another program.
+
+## Unix Shell
+
+To make computers easier to use, early operating systems provided a simple command-line interpreter called a shell. A shell is a glue language that can run many predefined commands, such as running user programs, logging in and out of the system, and allocating, releasing, or manipulating devices and files.
+
+In the Multics operating system, the shell was defined as the program that read user input from the console and handled that input when no other program was active. Later, in 1971, Ken Thompson developed the Thompson shell for early Unix. Although it was simpler than the Multics shell, it had many important features, such as using `>` and `<` to redirect output and input. Unix shells later introduced pipelines. The pipe symbol was originally written as `^` in some early systems and was later commonly written as `|`, while `>` continued to indicate output redirection to a file.
+
+In 1979, Stephen Bourne introduced the Bourne shell, usually invoked as `sh`, in Version 7 Unix. Compared with the Thompson shell, the Bourne shell was much more suitable for scripting. It added a clearer control-flow syntax, including `if`, `case`, `for`, `while`, and `until`, and it supported shell variables, command substitution, functions in later versions, and signal handling through `trap`. This made shell scripts more like small programs rather than just saved command sequences.
+
+The Bourne shell also helped establish the common Unix shell style. For example, variables are assigned without spaces around `=`, variables are expanded with `$name`, command substitution can insert the output of one command into another command, and exit status is used as the basis of conditional judgment. Many later shells, including Bash, KornShell, and Zsh, inherited Bourne shell syntax while adding their own extensions.
+
+Aside from reserved keywords, shell commands are used by default. Therefore, even within an `if` statement, the `test` command can be used to obtain a logical result. An example is as follows:
+
+```shell
+#!/bin/sh
+
+if test -f "/etc/passwd"
+then
+	echo "The file /etc/passwd exists."
+else
+	echo "The file /etc/passwd does not exist."
+fi
+```
+
+Some common `test` options:
+- `-f`: check whether a regular file exists. If it exists, return `0`; otherwise, return a non-zero value.
+- `-z`: check whether a string is empty.
+- `-eq`: check whether two numbers are equal.
+- `-ne`: check whether two numbers are unequal.
+
+Shell also offers the `[ ]` form as another way to call the `test` command. For example:
+
+```shell
+#!/bin/sh
+
+if [ -f "/etc/passwd" ]
+then
+	echo "The file /etc/passwd exists."
+else
+	echo "The file /etc/passwd does not exist."
+fi
+```
+
+Shell, as one of the programming languages with the heaviest historical burden, lags far behind many modern languages in readability and writability. Because it is deeply tied to operating systems and existing scripts, it is difficult to significantly optimize its syntax while preserving compatibility. To address this problem, operating system vendors often create new shells while still preserving old shell interpreters.
+
+Scenarios suitable for writing automation scripts in shell:
+- System management and maintenance
+- Simple text processing
+- Simple process control
+- System startup and initialization
+
+## ML
+
+Meta Language (ML) is a language primarily based on functional programming. It was developed by Robin Milner and his colleagues in the early 1970s.
+
+The name "Meta Language" reflects its original role as a language for describing and manipulating formal logic. ML was invented to support automatic theorem proving, especially the Logic for Computable Functions (LCF) system. At that time, other symbolic processing languages, such as [[#Lisp]], could also be used for similar tasks. However, because Lisp is usually dynamically typed, many errors are discovered only at runtime and may be difficult to understand. Therefore, one important aim of ML was to let programmers write flexible functions while still using a strong static type system.
+
+ML is a statically typed language. Besides, ML has a type inference mechanism that supports polymorphism, which makes ML both safe and flexible. ML is mainly a functional programming language, but it also supports the imperative programming paradigm. This makes ML a practical general-purpose programming language. Meanwhile, ML supports passing functions as arguments to other functions, which is useful for implementing complex algorithms and data structures.
+
+```ML
+(* Factorial - recursive version *)
+fun factorial_recursive 0 = 1
+	| factorial_recursive n = n * factorial_recursive (n - 1);
+	
+(* Factorial - iterative version *)
+fun factorial_iterative n = 
+	let
+		fun iter acc 0 = acc
+			| iter acc n = iter (acc * n) (n - 1);
+	in
+		iter 1 n;
+	end;
+	
+(* Test data *)
+val n = 5;
+
+(* Calling the factorial function *)
+val result_1 = factorial_recursive n;
+val result_2 = factorial_iterative n;
+
+(* Output result *)
+val () = print ("Factorial (recursive) of " ^ Int.toString n ^ " is: " ^ Int.toString result_1 ^ "\n");
+val () = print ("Factorial (iterative) of " ^ Int.toString n ^ " is: " ^ Int.toString result_2 ^ "\n");
+```
+
+Compared with [[#Lisp]], ML has the following differences:
+- Type system: ML is statically typed and relies on type inference, while Lisp is usually dynamically typed.
+- Data and syntax: ML uses algebraic data types, pattern matching, and expression-oriented syntax, while Lisp uses S-expressions and treats code as data.
+- Meta-programming: Lisp is especially strong in macro systems and language extension, while ML is especially strong in type-safe abstraction.
+- Error detection: ML can catch many type errors at compile time, while Lisp often discovers these errors during execution.
+
+ML is suitable for theorem proving, compiler implementation, language research, type-system research, and reliable functional programming. Lisp is suitable for symbolic computation, artificial intelligence, rapid prototyping, domain-specific languages, and programs that benefit from powerful macro-based extension.
+
+## Modula
+
+Modula was invented by the Swiss computer scientist Niklaus Emil Wirth, who was also the inventor of [[#Pascal]]. He wanted to solve some problems in Pascal. At first, partly because Pascal inherited ideas from ALGOL, Pascal still had some design limitations. Therefore, Wirth wanted to improve Pascal's existing features and eliminate some design flaws. Modula was born as a result.
+
+The highlight of Modula is modular programming, which mainly uses the keywords `MODULE` and `IMPORT`. As software systems became increasingly complex, modularity became an important design principle because it can greatly improve the maintainability of complex systems.
+
+```Modula
+MODULE Factorial;
+(* CalcFactorial is used to calculate the factorial. *)
+PROCEDURE CalcFactorial(n: INTEGER): INTEGER;
+VAR
+	i, result: INTEGER;
+BEGIN
+	result := 1;
+	FOR i := 1 TO n DO
+		result := result * i;
+	END;
+	RETURN result;
+END CalcFactorial;
+
+END Factorial.
+```
+
+To use this module, you can import the Factorial module into another Modula program and use the CalcFactorial procedure to calculate a factorial.
+
+```Modula
+MODULE Main;
+FROM Terminal2 IMPORT WriteLn;
+IMPORT Factorial; (* Import the previous Factorial module. *)
+
+VAR
+	n, result: INTEGER;
+	
+BEGIN
+	n := 5;
+	result := Factorial.CalcFactorial(n);
+	WriteLn("Factorial of ", n, " is ", result);
+END Main.
+```
+
+In 1987, Wirth invented another programming language, Oberon, which aimed to improve functionality and reduce complexity. The key new feature of Oberon is type extension, which supports building new data types from existing data types.
+
+## Prolog
+
+Prolog was developed under the leadership of Alain Colmerauer in 1972. It was one of the earliest logic programming languages and has been widely used in artificial intelligence, automated theorem proving, computational linguistics, and related fields.
+
+Different from many other programming languages, Prolog is a declarative language based on first-order logic. Prolog has one basic kind of data: the term. A Prolog program uses clauses to define relationships, which describe the logic of the program. The Prolog engine tries to satisfy a query by searching for facts and rules that make the query true. If variables can be instantiated in a way that satisfies the query, Prolog returns those bindings as the logical result of the program. The following is a Prolog example.
+
+```Prolog
+% Define parental relationship
+father_child(tom, sally).
+father_child(sally, erica).
+mother_child(trude, sally).
+
+% Define grandparents relationship
+grandparent(X, Y) :- father_child(X, Z), father_child(Z, Y).
+grandparent(X, Y) :- mother_child(X, Z), father_child(Z, Y).
+grandparent(X, Y) :- father_child(X, Z), mother_child(Z, Y).
+grandparent(X, Y) :- mother_child(X, Z), mother_child(Z, Y).
+
+% Query example
+?- grandparent (tom, erica).
+```
+
+## SQL
+
+Structured Query Language (SQL) was developed by Donald D. Chamberlin and Raymond F. Boyce at IBM in the early 1970s. It was originally designed for IBM's relational database research and was first called Structured English Query Language (SEQUEL). Later, the name was shortened to SQL. Nowadays, SQL has become the standard language for relational database management systems.
+
+SQL provides a concise and intuitive interface for data queries, updates, and management. It overcomes many limitations of traditional file systems by storing and processing data in tables, and it uses ideas from relational algebra and set theory to improve the expressiveness and reliability of data operations.
+
+## SAS
+
+Statistical Analysis System (SAS) is one of the earliest data analysis languages. It originated from a statistical analysis project at North Carolina State University that studied agricultural data. James Goodnight, John Sall, Anthony Barr, and Jane Helwig later helped turn this research project into SAS Institute, which was founded in 1976 and marked the start of SAS's commercial operation. Due to its early market entry and strong ability to analyze data, SAS grew rapidly and became a globally renowned analytics software provider.
+
+
+        </script>
+    </main>
+
+    <script src="../scripts/markdown-article.js?v=20260819-highlighting-3"></script>
+    <script src="../scripts/comments.js"></script>
+</body>
+</html>
