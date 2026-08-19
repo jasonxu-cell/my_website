@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年新高考数学压轴题 | Yang</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/png" href="../assets/photo.jpg">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="../notes.html">Notes</a>
+            <a href="../articles.html">Articles</a>
+            <a href="../research.html">Research</a>
+            <a href="../publications.html">Publications</a>
+        </div>
+    </nav>
+
+    <main class="article-detail-page">
+        <header class="article-detail-header">
+            <a href="../articles.html" class="article-back-link">&larr; Articles</a>
+            <h1>2026年新高考数学压轴题</h1>
+            <p>
+                对新高考一卷、二卷的数学压轴题进行解析和锐评
+            </p>
+            <div class="essay-meta article-detail-meta">
+                <time datetime="2026-08-14">Jun 7, 2026</time>
+            </div>
+        </header>
+
+        <div class="article-reader">
+            <aside class="article-toc-panel" aria-label="Article contents">
+                <p>Contents</p>
+                <ol id="article-toc"></ol>
+            </aside>
+
+            <article class="markdown-body" id="markdown-body" aria-live="polite"></article>
+        </div>
+
+        <section class="article-comments" aria-labelledby="comments-title">
+            <div class="article-comments-header">
+                <span>Discussion</span>
+                <h2 id="comments-title">Comments</h2>
+                <p>Questions, corrections, and reading notes are welcome here.</p>
+            </div>
+            <div class="article-comments-widget" data-comments-repo="jasonxu-cell/my_website"></div>
+            <p class="article-comments-status" hidden>Comments load on the published website.</p>
+            <noscript>Enable JavaScript to view comments.</noscript>
+        </section>
+
+        <script type="text/plain" id="article-markdown">
+
+# 新高考一卷
+
+## 题目
+
+已知函数$f(x)$的定义域为$\mathbb{R}$，且当$x<0$时，$f(x)=2^x$. 对任意$x_0\in\mathbb{R}$，定义集合$D(x_0)=\{d\in\mathbb{R}|f(x_0+d)>f(x_0)\}$
+
+(1) 若$f(x)=1-x(x\ge 0)$，求集合$D(-1)$;
+
+(2) 若$f(x)$为奇函数，且对于任意满足$x_1x_2\ne 0$的$x_1,x_2$，$f(x_1)\le f(x_2)$，证明：$D(x_1)\supseteq D(x_2)$;
+
+(3) 若$f(x)$满足以下两个条件：
+
+(a) 当$f(x_1)\le f(x_2)$时，$D(x_1)\supseteq D(x_2)$;
+
+(b) 当$0<x<1$时，$f(x)<f(0)$.
+
+证明：
+
+(i) $f(0)\ge 1$;
+
+(ii) $f(x)$在$(0,+\infty)$上严格单调递增.
+## 解答
+
+### (1)
+$$D(-1)=\{d\in\mathbb{R}|f(-1+d)>f(-1)\}$$
+容易得到，当$d\le0$时，$$f(-1+d)\le f(-1)$$
+当$0<d<1$时，$$f(-1+d)> f(-1)$$
+由于$f(-1)=2^{-1}=\frac{1}{2}$，因此当$1\le d<\frac{3}{2}$时，$$f(-1+d)> f(-1)$$
+当$d\ge\frac{3}{2}$时，$$f(-1+d)< f(-1)$$
+综上所述，$$D(-1)=(0,\frac{3}{2})$$
+### (2)
+由题可得
+$$f(x)=\left\{\begin{matrix}
+ 2^x,x<0\\
+0,x=0 \\
+-2^{-x},x>0
+\end{matrix}\right.$$
+进而得到
+$$D(x)=\left\{\begin{matrix}
+ (0,-x),x<0\\
+(-\infty,0),x=0 \\
+(-\infty,-x]\cup(0,+\infty),x>0
+\end{matrix}\right.$$
+对于$f(x_1)\le f(x_2)$，可以分成3种情况：
+
+(a) $x_1\le x_2<0$，则$D(x_1)=(0,-x_1),D(x_2)=(0,-x_2)$，因此$D(x_1)\supseteq D(x_2)$
+
+(b) $0<x_1\le x_2$, 则$D(x_1)=(-\infty,-x_1]\cup(0,+\infty),D(x_2)=(-\infty,-x_2]\cup(0,+\infty)$，因此$D(x_1)\supseteq D(x_2)$
+
+(c) $x_2<0<x_1$, 则$D(x_1)=(-\infty,-x_1]\cup(0,+\infty),D(x_2)=(0,-x_2)$，因此$D(x_1)\supseteq D(x_2)$
+
+综上所述，当$f(x_1)\le f(x_2)$，$D(x_1)\supseteq D(x_2)$
+### (3)
+
+#### (i)
+
+利用反证法，如果$f(0)<1$，那么令$f(0)=k$
+
+若$k\le 0$，那么任取$a<0$，有$f(a)>f(0)$，因此$a\in D(0)$，$D(0)\supseteq D(a)$，$(-\infty,0)\subseteq D(0)$
+
+当$0<b<1$，有$f(b)<f(0)$，因此$-b\in D(b)$，$D(b)\supseteq D(0)$，因此$(-\infty,0)\subseteq D(b)$，那么$$f(a+b)>f(b)$$
+对任意$a<0,0<b<1$成立，那么$f(x)$在$[0,1)$上严格单调递减.
+
+但是，由于$f(x)=2^x,x<0$，因此$$(0,-a)\subseteq D(a),\forall a<0$$
+由$D(b)\supseteq D(0)\supseteq D(a)$可得$$(0,-a)\subseteq D(b),\forall a<0,0<b<1$$
+取较小的正数$0<\epsilon<1-b$且令$\epsilon \in (0,-a)$, 那么$$f(b+\epsilon)>f(b)$$这与$f(x)$在$[0,1)$上严格单调递减矛盾.
+
+若$0<k<1$，那么$f(\log_2 k)=f(0)$，取$\log_2 k<a<0$，有$f(a)>f(0)$，进而$D(0)\supseteq D(b)$，且容易得到$D(a)\supseteq(0,-a)$
+任取$t \in (0,-a)\cap(0,1)$，容易得到$f(t)>f(0)$，这与题目条件矛盾
+
+综上所述，$f(0)\ge 1$
+#### (ii)
+
+假设存在$0\le a<b$，使得$f(a)>f(b)$，我们来证明$f(b)\le 0$.
+
+利用反证法，假设$f(b)> 0$，那么取$0<2^x\le f(b)$，有$f(x)\le f(b)$，进而$D(x)\supseteq D(b)$.
+
+令$d_0=a-b<0$，则$f(b+d_0)>f(b)$，因此$d_0\in D(b)$，进而$d_0\in D(x)$，因此$$f(x+d_0)>f(x)$$
+但是$x+d_0<x<0$，这与$f(x)$在$(-\infty,0)$上严格单调递增矛盾。
+
+进一步的，由于$f(x)>f(b),\forall x<0$，因此$$D(b)\supseteq \bigcup_{x<0} D(x)\supseteq\bigcup_{x<0} (0,-x)=(0,+\infty)$$
+那么我们有$$f(b+d)>f(b),\forall d>0$$
+结合上述引理和条件(b)，取$a=0$，我们有$f(y)\le 0,\forall 0<y<1$，且函数$f(x)$在$(0,1)$上严格单调递增。
+
+若$f(y)=0,0<y<1$，那么可以得到$f(x)>0,y<x<1$，矛盾，因此$$f(y)< 0,\forall 0<y<1$$
+我们希望对$y\ge 1$也证明得到这个结论。同样利用反证法，假定存在$y\ge 1$使得$f(y)> 0$，那么可以找到$x_1<0$使得$$0<f(x_1)=2^{x_1}<f(y)$$
+那么$$D(x_1)\supseteq D(y),y-x_1\in D(x_1)$$
+现在任取$z\in (0,1)$，定义$x_2=x_1-y+z<x_1<0$，容易得到$$D(x_2)\supseteq D(x_1)$$
+因此$$y-x_1\in D(x_2)$$
+那么$$f(x_2+y-x_1)>f(x_2)$$
+即$$f(z)>f(x_2)>0$$
+这与此前结论矛盾。
+
+进一步地，如果$f(y)=0,y>0$，由于$f(0)>f(y)$，利用此前结论可得$f(t)>f(y)=0,t>y$，矛盾
+
+那么，我们证明了，$$f(y)< 0,\forall y>0$$
+$\forall x<0,f(x)=2^x>0>f(b)$, 因此$$D(b)\supseteq D(x),\forall x<0$$
+因此$$D(b)\supseteq \bigcup_{x<0} D(x)\supseteq\bigcup_{x<0} (0,-x)=(0,+\infty)$$
+即对于任意 $d>0$，
+$$f(b+d)>f(b)$$
+因此$f(x)$ 在 $(0,+\infty)$ 上严格单调递增.​
+
+## 点评
+
+个人认为这道题可以选入高考数学历史上最难的几道题之一。抽象函数相关的题目本身套路较少，并且大部分高考生都缺乏相关训练，因此在考场上做出来非常困难。出这道题的老师应该是相当花心思的。但是个人认为最后一问很难有较好的区分度。
+
+# 新高考二卷
+
+## 题目
+
+已知函数$f(x)=xe^x+ax+b$，曲线$y=f(x)$在点$(0,f(0))$处点切线方程为$y=-2x+1$.
+
+(1) 求$a,b$;
+
+(2) 当$x>0$时，$f(x+m)-f(x)>m$，求$m$的取值范围;
+
+(3) 当$x>0$时，$f(x+k)+f(k-x)>2f(k)$，求$k$的最小值.
+## 解答
+
+### (1)
+$$f'(x)=e^x(x+1)+a$$
+由题$$f'(0)=a+1=-2$$
+$$f(0)=b=1$$
+因此$$a=-3,b=1$$
+### (2)
+$$f(x)=xe^x-3x+1$$
+$$\begin{align*}f(x+m)-f(x)&=(x+m)e^{x+m}-3(x+m)-xe^x+3x\\&=xe^x(e^m-1)+me^me^x-3m>m\end{align*}$$
+因此
+$$xe^x(e^m-1)+me^me^x>4m$$
+容易得到，$m\ne0$
+令$$g(x)=xe^x(e^m-1)+me^me^x$$
+$$g'(x)=e^x((e^m-1)(x+1)+me^m)$$
+若$m<0$，则$g'(x)<0$，那么$g(x)$在$\mathbb{R}^+$上严格单调递减，并且容易得到$x\to +\infty$时，$g(x)\to -\infty$，因此不成立。
+
+若$m>0$，则$g'(x)>0$，那么$g(x)$在$\mathbb{R}^+$上严格单调递增，那么$$g(x)>g(0)=me^m$$
+因此$$m\ge\ln 4=2\ln 2$$
+容易验证等号可以取得。
+### (3)
+$$f(x)=xe^x-3x+1$$
+$$\begin{align*}&f(k+x)+f(k-x)-2f(k)\\=&(k+x)e^{k+x}-3(k+x)+1+(k-x)e^{k-x}-3(k-x)+1-2(ke^k-3k+1)\\=&e^k(k(e^x+e^{-x}-2)+x(e^x-e^{-x}))>0\end{align*}$$
+因此$$k>-\frac{x(e^x-e^{-x})}{e^x+e^{-x}-2}$$
+由Taylor展开
+
+$$\lim_{x\to 0}-\frac{x(e^x-e^{-x})}{e^x+e^{-x}-2}=\lim_{x\to 0}-\frac{x((1+x+x^2/2)-(1-x+x^2/2))+O(x^3)}{(1+x+x^2/2)+(1-x+x^2/2)-2+O(x^3)}=-2$$
+令$$h(x)=-\frac{x(e^x-e^{-x})}{e^x+e^{-x}-2}$$
+$$h'(x)=-\frac{(e^x-e^{-x}+x(e^x+e^{-x}))(e^x+e^{-x}-2)-x(e^x-e^{-x})^2}{(e^x+e^{-x}-2)^2}$$
+考虑分子$$\begin{align*}&(e^x-e^{-x}+x(e^x+e^{-x}))(e^x+e^{-x}-2)-x(e^x-e^{-x})^2\\=&e^{2x}-e^{-2x}-2(e^x-e^{-x})+2x(2-e^x-e^{-x})\\=&(e^x-e^{-x})(e^x+e^{-x}-2)+2x(2-e^x-e^{-x})\\=&(e^x+e^{-x}-2)(e^x-e^{-x}-2x)\end{align*}$$
+由基本不等式$$e^x+e^{-x}>2$$
+记$$m(x)=e^x-e^{-x}-2x,m(0)=0$$
+$$m'(x)=e^{x}+e^{-x}-2>0$$
+因此$$m(x)>0,h'(x)<0$$
+进而$h(x)$严格单调递减，那么$$h(x)<-2$$对任意$x>0$成立，所以$k=−2$可以取。
+
+另一方面，若$k<−2$，由于
+$$\lim_{x\to0}​h(x)=−2>k$$
+由连续性可知，当$x>0$充分小时，$h(x)>k$，矛盾。
+综上所述$$k_{min}=-2$$
+## 点评
+
+端点效应的套路题，最后一问分离变量求个极限就秒了。对比新高考一卷真是简单到爆炸。2026年还能当压轴题，不知道出题老师在干嘛。
+
+
+</script>
+    </main>
+
+    <script src="../scripts/markdown-article.js"></script>
+    <script src="../scripts/comments.js"></script>
+</body>
+</html>
