@@ -26,6 +26,14 @@
             .trim();
     }
 
+    function stripHeadingMarkdown(value) {
+        return value
+            .replace(/!\[[^\]]*\]\([^)]+\)/g, "")
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+            .replace(/[`*_>#]/g, "")
+            .trim();
+    }
+
     function normalizeReferenceId(value) {
         return stripMarkdown(value)
             .toLowerCase()
@@ -69,11 +77,15 @@
         return `<sup class="citation" aria-label="参考文献 ${escapeHtml(label)}">[${links.join("")}]</sup>`;
     }
 
-    function slugify(value) {
-        const base = stripMarkdown(value)
+    function normalizeHeadingId(value) {
+        return stripMarkdown(value)
             .toLowerCase()
             .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, "-")
             .replace(/^-+|-+$/g, "") || "section";
+    }
+
+    function slugify(value) {
+        const base = normalizeHeadingId(value);
 
         const count = usedIds.get(base) || 0;
         usedIds.set(base, count + 1);
@@ -121,6 +133,11 @@
         });
         text = text.replace(/\\hyperref\[([^\]]+)\]\{([^}]+)\}/g, (_match, id, label) => {
             return renderLink(`#${normalizeReferenceId(id)}`, escapeHtml(label));
+        });
+        text = text.replace(/\[\[#([^|\]]+)(?:\|([^\]]+))?\]\]/g, (_match, heading, alias) => {
+            const resolvedHeading = unescapeHtmlAttribute(heading.trim());
+            const label = alias ? alias.trim() : escapeHtml(resolvedHeading);
+            return renderLink(`#${normalizeHeadingId(resolvedHeading)}`, label);
         });
         text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
         text = text.replace(/==([^=]+)==/g, "<mark>$1</mark>");
@@ -271,6 +288,8 @@
             "js": "javascript",
             "mjs": "javascript",
             "modula-2": "modula",
+            "objective-c": "objectivec",
+            "objc": "objectivec",
             "py": "python",
             "shell": "bash",
             "sh": "bash",
@@ -496,6 +515,155 @@
                 { pattern: "\\b[a-z][A-Za-z0-9_]*(?=\\s*\\()", className: "hljs-built_in" },
                 { pattern: "\\b[A-Z_][A-Za-z0-9_]*\\b", className: "hljs-type" }
             ]
+        },
+        scheme: {
+            keywords: [
+                "and", "begin", "call-with-current-continuation", "call/cc", "case", "cond", "define",
+                "define-syntax", "delay", "do", "else", "force", "if", "lambda", "let", "let*", "letrec",
+                "or", "quasiquote", "quote", "set!", "syntax-rules", "unquote", "unless", "when"
+            ],
+            types: [],
+            builtIns: [
+                "apply", "car", "cdr", "cons", "display", "for-each", "length", "list", "map", "newline",
+                "null?", "pair?", "reverse", "values"
+            ],
+            literals: [],
+            commentPatterns: ["#\\|[\\s\\S]*?\\|#", ";[^\\n]*"],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\""],
+            patterns: [
+                { pattern: "#(?:t|f)\\b", className: "hljs-literal" }
+            ]
+        },
+        objectivec: {
+            keywords: [
+                "alignas", "alignof", "asm", "auto", "break", "case", "class", "const", "continue", "default",
+                "do", "else", "enum", "extern", "for", "goto", "if", "inline", "register", "return", "sizeof",
+                "static", "struct", "switch", "typedef", "union", "volatile", "while"
+            ],
+            types: [
+                "BOOL", "Class", "NSInteger", "NSUInteger", "SEL", "id", "char", "double", "float", "int",
+                "long", "short", "signed", "unsigned", "void", "NSArray", "NSError", "NSObject", "NSString"
+            ],
+            builtIns: ["NSLog", "alloc", "autorelease", "init", "release", "retain"],
+            literals: ["nil", "Nil", "YES", "NO", "NULL"],
+            metaPatterns: ["#[^\\n]*", "@[A-Za-z_][A-Za-z0-9_]*"],
+            stringPatterns: ["@?\"(?:\\\\.|[^\"\\\\])*\"", "'(?:\\\\.|[^'\\\\])*'"]
+        },
+        perl: {
+            keywords: [
+                "continue", "do", "else", "elsif", "eval", "for", "foreach", "given", "goto", "if", "last",
+                "local", "my", "next", "our", "package", "redo", "require", "return", "state", "sub", "unless",
+                "until", "use", "when", "while"
+            ],
+            types: [],
+            builtIns: [
+                "chomp", "defined", "die", "join", "keys", "length", "open", "pop", "print", "push", "say",
+                "shift", "split", "unshift", "values", "warn"
+            ],
+            literals: ["undef"],
+            commentPatterns: ["#[^\\n]*"],
+            patterns: [
+                { pattern: "[$@%][A-Za-z_][A-Za-z0-9_]*", className: "hljs-type" },
+                { pattern: "\\b(?:m|q|qq|qr|s|tr|y)(?=[{/])", className: "hljs-keyword" }
+            ]
+        },
+        batch: {
+            caseInsensitive: true,
+            keywords: [
+                "call", "do", "else", "endlocal", "equ", "exist", "exit", "for", "geq", "goto", "gtr", "if",
+                "in", "leq", "lss", "neq", "not", "pause", "set", "setlocal", "shift", "start"
+            ],
+            types: [],
+            builtIns: ["cd", "cls", "copy", "del", "dir", "echo", "mkdir", "move", "rmdir", "type"],
+            literals: ["errorlevel"],
+            commentPatterns: ["^[ \\t]*(?:REM\\b|::)[^\\n]*"],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\""],
+            metaPatterns: ["@[A-Za-z]+", ":[A-Za-z_][A-Za-z0-9_-]*"],
+            patterns: [
+                { pattern: "%%[A-Za-z]", className: "hljs-type" },
+                { pattern: "%[^%\\n]+%", className: "hljs-type" }
+            ]
+        },
+        ada: {
+            caseInsensitive: true,
+            keywords: [
+                "abort", "abs", "abstract", "accept", "access", "aliased", "all", "and", "array", "at", "begin",
+                "body", "case", "constant", "declare", "delay", "delta", "digits", "do", "else", "elsif", "end",
+                "entry", "exception", "exit", "for", "function", "generic", "goto", "if", "in", "interface", "is",
+                "limited", "loop", "mod", "new", "not", "null", "of", "or", "others", "out", "overriding",
+                "package", "pragma", "private", "procedure", "protected", "raise", "range", "record", "rem",
+                "renames", "requeue", "return", "reverse", "select", "separate", "subtype", "synchronized", "tagged",
+                "task", "terminate", "then", "type", "until", "use", "when", "while", "with", "xor"
+            ],
+            types: ["Boolean", "Character", "Float", "Integer", "Natural", "Positive", "String"],
+            builtIns: ["Ada", "Get", "Get_Line", "New_Line", "Put", "Put_Line"],
+            literals: ["True", "False"],
+            commentPatterns: ["--[^\\n]*"],
+            stringPatterns: ["\"(?:\"\"|[^\"])*\"", "'(?:[^']|'')*'"]
+        },
+        erlang: {
+            keywords: [
+                "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor",
+                "case", "catch", "cond", "div", "else", "end", "fun", "if", "let", "maybe", "not",
+                "of", "or", "orelse", "receive", "rem", "try", "when", "xor"
+            ],
+            types: [
+                "atom", "binary", "bitstring", "boolean", "byte", "char", "float", "function", "integer",
+                "iodata", "iolist", "list", "map", "mfa", "module", "node", "non_neg_integer", "number",
+                "pid", "port", "reference", "string", "term", "timeout", "tuple"
+            ],
+            builtIns: [
+                "element", "exit", "hd", "is_atom", "is_binary", "is_boolean", "is_float", "is_function",
+                "is_integer", "is_list", "is_map", "is_number", "is_pid", "is_tuple", "length", "link",
+                "make_ref", "map_get", "monitor", "node", "nodes", "process_flag", "register", "self",
+                "setelement", "spawn", "spawn_link", "tl", "tuple_size", "whereis"
+            ],
+            literals: ["false", "infinity", "nil", "ok", "true", "undefined"],
+            commentPatterns: ["%[^\\n]*"],
+            metaPatterns: ["-[a-z][A-Za-z0-9_]*(?=\\s*\\()"],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\"", "'(?:\\\\.|[^'\\\\])*'", "\\$(?:\\\\.|[^\\s])"],
+            patterns: [
+                { pattern: "\\b[A-Z_][A-Za-z0-9_@]*\\b", className: "hljs-type" },
+                { pattern: "\\b[a-z][A-Za-z0-9_@]*(?=\\s*\\()", className: "hljs-built_in" }
+            ]
+        },
+        r: {
+            keywords: ["break", "else", "for", "function", "if", "in", "next", "repeat", "while"],
+            types: [
+                "array", "character", "complex", "data.frame", "double", "factor", "integer", "list",
+                "logical", "matrix", "numeric", "raw", "vector"
+            ],
+            builtIns: [
+                "abs", "aggregate", "append", "apply", "as.data.frame", "as.factor", "as.integer", "as.numeric",
+                "barplot", "c", "cat", "colMeans", "data.frame", "dim", "factor", "head", "hist", "is.na",
+                "lapply", "length", "library", "list", "lm", "matrix", "mean", "median", "names", "ncol",
+                "nrow", "par", "paste", "plot", "print", "rbind", "read.csv", "rep", "return", "rowMeans",
+                "sapply", "sd", "seq", "setwd", "sort", "source", "str", "summary", "table", "tail",
+                "tapply", "var", "vector"
+            ],
+            literals: [
+                "FALSE", "Inf", "NA", "NA_character_", "NA_complex_", "NA_integer_", "NA_real_", "NaN",
+                "NULL", "TRUE"
+            ],
+            commentPatterns: ["#[^\\n]*"],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\"", "'(?:\\\\.|[^'\\\\])*'", "`(?:\\\\.|[^`\\\\])*`"],
+            patterns: [
+                { pattern: "(?:<<-|<-|->>|->|\\|>|%[^%\\n]+%)", className: "hljs-keyword" },
+                { pattern: "\\$[A-Za-z.][A-Za-z0-9._]*", className: "hljs-built_in" },
+                { pattern: "\\b[A-Za-z][A-Za-z0-9.]*:::{0,1}", className: "hljs-meta" }
+            ]
+        },
+        abc: {
+            caseInsensitive: true,
+            keywords: [
+                "CHECK", "ELSE", "FOR", "HOW", "IF", "IN", "PASS", "PUT", "READ", "REMOVE", "REPORT", "RETURN",
+                "SELECT", "SHARE", "TO", "WHILE", "WRITE"
+            ],
+            types: ["LIST", "TABLE", "TEXT"],
+            builtIns: ["keys", "length", "number", "root"],
+            literals: [],
+            commentPatterns: [],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\"", "'(?:\\\\.|[^'\\\\])*'"]
         }
     };
 
@@ -866,7 +1034,7 @@
                 const level = heading[1].length;
                 const text = heading[2].trim();
                 const id = slugify(text);
-                headings.push({ id, level, text: stripMarkdown(text) });
+                headings.push({ id, level, text: stripHeadingMarkdown(text) });
                 html.push(`<h${level} id="${id}">${renderInline(text)}</h${level}>`);
                 continue;
             }

@@ -68,7 +68,7 @@ The following figure is a broad genealogy of programming languages from the 1950
 \centering
 \label{Figure 1}
 \includegraphics[width=0.6\linewidth]{images/programing language.png}
-\caption{Development of programming languages over time.}
+\caption{Development of programming languages over time}
 \end{figure}
 
 # 1950s
@@ -449,6 +449,8 @@ Their first choice was B, and Ritchie later developed an intermediate language s
 
 To solve these problems, Ritchie added a type system, including types such as `int`, `char`, and later richer type forms. He also introduced structures and improved the compiler so that the generated machine code could be close to the efficiency of assembly language. Through these changes, B gradually evolved into C.
 
+One of C's major revolutions was source-code-level portability across hardware architectures. Before C, moving a system program to a new processor often meant rewriting large parts of it in a different assembly language. With C, most of the same source code could be recompiled for another machine once a C compiler and a relatively small machine-dependent layer were available. This did not make every C program automatically portable—word sizes, byte order, memory layouts, and operating-system interfaces could still differ—but it changed portability from rewriting an entire system to isolating and adapting its hardware-dependent parts.
+
 ```C
 #include <stdio.h>
 
@@ -470,7 +472,7 @@ int main() {
 
 C also inherits and develops structured programming ideas. A C program is organized around functions, and each function can use local variables, block scope, and structured control statements such as `if`, `switch`, `while`, `for`, and `do while`. Compared with Pascal, C keeps the structure lighter and closer to hardware: it supports structured decomposition while still allowing pointer manipulation, manual memory control, and `goto` when necessary. This makes C suitable for building large system programs in a structured but low-level style.
 
-Compared to FORTRAN, C is closer to the hardware and can be used to write drivers, kernels, and other low-level system software. Compared to [[#Lisp]], C is more efficient for systems programming and does not rely on a large runtime environment.
+Compared to FORTRAN, C is closer to the hardware and can be used to write drivers, kernels, and other low-level system software. Compared to Lisp, C is more efficient for systems programming and does not rely on a large runtime environment.
 
 The advantages of C include:
 - Introducing a type system
@@ -548,7 +550,7 @@ Scenarios suitable for writing automation scripts in shell:
 
 Meta Language (ML) is a language primarily based on functional programming. It was developed by Robin Milner and his colleagues in the early 1970s.
 
-The name "Meta Language" reflects its original role as a language for describing and manipulating formal logic. ML was invented to support automatic theorem proving, especially the Logic for Computable Functions (LCF) system. At that time, other symbolic processing languages, such as [[#Lisp]], could also be used for similar tasks. However, because Lisp is usually dynamically typed, many errors are discovered only at runtime and may be difficult to understand. Therefore, one important aim of ML was to let programmers write flexible functions while still using a strong static type system.
+The name "Meta Language" reflects its original role as a language for describing and manipulating formal logic. ML was invented to support automatic theorem proving, especially the Logic for Computable Functions (LCF) system. At that time, other symbolic processing languages, such as Lisp, could also be used for similar tasks. However, because Lisp is usually dynamically typed, many errors are discovered only at runtime and may be difficult to understand. Therefore, one important aim of ML was to let programmers write flexible functions while still using a strong static type system.
 
 ML is a statically typed language. Besides, ML has a type inference mechanism that supports polymorphism, which makes ML both safe and flexible. ML is mainly a functional programming language, but it also supports the imperative programming paradigm. This makes ML a practical general-purpose programming language. Meanwhile, ML supports passing functions as arguments to other functions, which is useful for implementing complex algorithms and data structures.
 
@@ -578,7 +580,7 @@ val () = print ("Factorial (recursive) of " ^ Int.toString n ^ " is: " ^ Int.toS
 val () = print ("Factorial (iterative) of " ^ Int.toString n ^ " is: " ^ Int.toString result_2 ^ "\n");
 ```
 
-Compared with [[#Lisp]], ML has the following differences:
+Compared with Lisp, ML has the following differences:
 - Type system: ML is statically typed and relies on type inference, while Lisp is usually dynamically typed.
 - Data and syntax: ML uses algebraic data types, pattern matching, and expression-oriented syntax, while Lisp uses S-expressions and treats code as data.
 - Meta-programming: Lisp is especially strong in macro systems and language extension, while ML is especially strong in type-safe abstraction.
@@ -588,7 +590,7 @@ ML is suitable for theorem proving, compiler implementation, language research, 
 
 ## Modula
 
-Modula was invented by the Swiss computer scientist Niklaus Emil Wirth, who was also the inventor of [[#Pascal]]. He wanted to solve some problems in Pascal. At first, partly because Pascal inherited ideas from ALGOL, Pascal still had some design limitations. Therefore, Wirth wanted to improve Pascal's existing features and eliminate some design flaws. Modula was born as a result.
+Modula was invented by the Swiss computer scientist Niklaus Emil Wirth, who was also the inventor of Pascal. He wanted to solve some problems in Pascal. At first, partly because Pascal inherited ideas from ALGOL, Pascal still had some design limitations. Therefore, Wirth wanted to improve Pascal's existing features and eliminate some design flaws. Modula was born as a result.
 
 The highlight of Modula is modular programming, which mainly uses the keywords `MODULE` and `IMPORT`. As software systems became increasingly complex, modularity became an important design principle because it can greatly improve the maintainability of complex systems.
 
@@ -660,11 +662,688 @@ SQL provides a concise and intuitive interface for data queries, updates, and ma
 
 Statistical Analysis System (SAS) is one of the earliest data analysis languages. It originated from a statistical analysis project at North Carolina State University that studied agricultural data. James Goodnight, John Sall, Anthony Barr, and Jane Helwig later helped turn this research project into SAS Institute, which was founded in 1976 and marked the start of SAS's commercial operation. Due to its early market entry and strong ability to analyze data, SAS grew rapidly and became a globally renowned analytics software provider.
 
+## Scheme
 
-        </script>
+Scheme is a minimalist Lisp dialect created by Gerald Jay Sussman and Guy L. Steele Jr. at MIT in the 1970s. Compared with earlier Lisp dialects, Scheme deliberately kept its core small and elegant. Its design emphasized a few powerful ideas: lexical scope, first-class functions, closures, recursion, and a uniform expression-oriented syntax.
+
+Scheme was one of the first Lisp dialects to adopt lexical scope. Under lexical scope, the meaning of a variable is determined by the place where it is written in the program, rather than by the sequence of function calls at runtime. This makes closures easier to reason about, because a function can reliably remember the environment in which it was created.
+
+The following code shows a closure in Scheme:
+
+```Scheme
+(define (make-adder x)
+  (lambda (y)
+    (+ x y)))
+
+(define add-five (make-adder 5))
+
+(add-five 3) ; 8
+```
+
+Scheme is also an important language in the history of functional programming. Functions are first-class values, which means they can be stored in variables, passed as arguments, and returned as results. This makes higher-order programming natural. Scheme also encourages recursion and expression composition instead of relying only on mutable state and loops.
+
+Another important feature of Scheme is proper tail recursion. A tail call is a function call whose result is returned directly as the result of the current function. Scheme requires implementations to execute tail calls without growing the call stack. Therefore, recursion can be used to express iteration safely and efficiently.
+
+```Scheme
+(define (factorial n)
+  (define (iter n acc)
+    (if (= n 0)
+        acc
+        (iter (- n 1) (* acc n))))
+  (iter n 1))
+
+(factorial 5) ; 120
+```
+
+Scheme was also one of the earliest languages to provide first-class continuations. A continuation represents "the rest of the computation" at a certain point in the program. Scheme exposes this idea through `call-with-current-continuation`, usually written as `call/cc`. Continuations can be used to express advanced control flow, such as early exits, backtracking, coroutines, and user-defined control structures.
+
+Scheme also supports delayed evaluation through `delay` and `force`. Delayed evaluation means that an expression is packaged as a promise and is not computed until its value is needed. This is different from asynchronous programming. Delayed evaluation is about *when* a computation is performed, while asynchronous programming is about whether a computation can proceed independently or concurrently with other work.
+
+```Scheme
+(define delayed-value
+  (delay (+ 2 3)))
+
+(force delayed-value) ; 5
+```
+
+Scheme's influence is much larger than its size. It helped clarify important ideas in programming language theory and became widely used in education. Many later languages inherited ideas from Scheme, including lexical closures, first-class functions, hygienic macros, and tail-call-oriented functional style.
+
+# 1980s
+
+Before the age, the programming languages also seem to divide into two groups. The first one is structural programming, like Pascal, C, etc. The second one is OOP, like Simula, Smalltalk. A new divide has emerged in the programming world: should we continue down the path of functional and structured programming, or boldly embrace object-oriented thinking? The answer will be revealed in this era.
+
+## C++
+
+The creator of C++ is the Danish computer scientist Bjarne Stroustrup. He began developing "C with Classes" in 1979, and the language was renamed C++ in 1983. Stroustrup wanted the new language to keep the efficiency and performance of C while supporting high-level abstraction and object-oriented programming like Simula.
+
+C++ consists of two major parts: the language core and the standard library. The language core includes data types, operators, control statements, functions, classes, inheritance, polymorphism, templates, exceptions, and other mechanisms. The standard library includes many common data structures and algorithms, such as containers, iterators, algorithms, strings, I/O facilities, and utilities. The standard library uses generic programming to improve code reuse and generality.
+
+The following code demonstrates OOP and generic programming in C++:
+
+```cpp
+#include <iostream>
+#include <memory>
+#include <vector>
+
+// Define a base class Animal
+class Animal {
+public:
+	virtual ~Animal() = default;
+	virtual void speak() const = 0;
+};
+
+// Define a derived class Dog
+class Dog : public Animal {
+public:
+	void speak() const override {
+		std::cout << "Woof\n";
+	}
+};
+
+// Define a derived class Cat
+class Cat : public Animal {
+public:
+	void speak() const override {
+		std::cout << "Meow\n";
+	}
+};
+
+// Define a generic function
+template <typename Range>
+void printAnimals(const Range& animals) {
+	for (const auto& animal : animals) {
+		animal->speak();
+	}
+}
+
+int main() {
+	std::vector<std::unique_ptr<Animal>> animals;
+	animals.push_back(std::make_unique<Dog>());
+	animals.push_back(std::make_unique<Cat>());
+
+	printAnimals(animals);
+
+	return 0;
+}
+```
+
+Notably, C++ generic programming is mainly achieved through templates. When a template is used with concrete types, the compiler instantiates type-specific code. This compile-time mechanism makes C++ support generic programming, template meta-programming, and compile-time polymorphism.
+
+For example, when we compile the following code:
+
+```cpp
+template<typename T>
+T add(T a, T b) {
+	return a + b;
+}
+```
+
+The compiler generates corresponding code based on the actual type arguments:
+
+```cpp
+// Generate int add(int, int) function
+int result1 = add<int>(1, 2);
+
+// Generate double add(double, double) function
+double result2 = add<double>(1.5, 2.5);
+```
+
+Instead of relying on garbage collection by default, C++ uses deterministic object lifetime and destructors. A destructor is automatically executed when an object is destroyed. Its name is `~ClassName`, and a class can have only one destructor. This idea is the basis of RAII, which means that resources are acquired during object construction and released during object destruction. The following code is an example of a destructor:
+
+```cpp
+#include <iostream>
+#include <string>
+#include <utility>
+
+using namespace std;
+
+class Person {
+private:
+    string name;
+    int* scores;
+
+public:
+    explicit Person(string n) {
+        name = std::move(n);
+        scores = new int[3]{90, 85, 95};
+        cout << name << " is created." << endl;
+    }
+
+    Person(const Person&) = delete;
+    Person& operator=(const Person&) = delete;
+
+    void showScores() {
+        cout << name << "'s scores: ";
+        for (int i = 0; i < 3; i++) {
+            cout << scores[i] << " ";
+        }
+        cout << endl;
+    }
+
+    ~Person() {
+        // Release dynamically allocated memory
+        delete[] scores;
+        cout << name << " is destroyed." << endl;
+    }
+};
+
+int main() {
+    {
+        Person p("Alice");
+        p.showScores();
+    }   // The lifetime of p ends here, so the destructor runs.
+
+    cout << "End of program." << endl;
+
+    return 0;
+}
+```
+
+C++ is often considered complicated, but its breadth also makes it capable of satisfying many different demands. This is one of the distinctive features of C++.
+
+Traditional C++ uses header files, and `#include` is a textual inclusion mechanism. C++20 introduced modules to provide a real module import mechanism and improve modular programming. For example:
+
+```cpp
+export module mymath;
+
+export int add(int a, int b) {
+    return a + b;
+}
+```
+
+This code defines a module called `mymath` and exports the `add` function. Other code can import the module:
+
+```cpp
+import mymath;
+
+#include <iostream>
+
+int main() {
+    std::cout << add(3, 4) << '\n';
+}
+```
+
+Another highlight of modern C++ is `consteval` and `constexpr`. A `consteval` function must be evaluated at compile time, while a `constexpr` function can be evaluated at compile time when the context requires it and at runtime otherwise. These features make C++ more expressive and can improve both safety and runtime performance.
+
+The following code demonstrates compile-time checking with `consteval`:
+
+```cpp
+/*
+* isFibonacci is a consteval function, so it must be evaluated at compile time.
+* This simple function checks whether a string is a single-digit Fibonacci prefix.
+*/
+consteval bool isFibonacci(const char* str) {
+	int a = 0, b = 1;
+	while (*str != '\0') {
+		auto next = a + b;
+		// (*str) - '0' converts a single-digit character to a number.
+		if (b != ((*str) - '0')) {
+			return false;
+		}
+		a = b;
+		b = next;
+		++str;
+	}
+	return true;
+}
+
+int main() {
+	static_assert(isFibonacci("112358"));
+	static_assert(!isFibonacci("112356"));
+	return 0;
+}
+```
+
+Symbian is an important historical example of C++ in mobile operating systems. Before iOS and Android became dominant, Symbian OS was widely used on smartphones, especially Nokia phones, and native Symbian applications were mainly developed in C++. Because mobile devices at that time had limited memory, battery life, and processing power, Symbian formed a distinctive style called Symbian C++. It used many special idioms, such as descriptors for string handling, the cleanup stack and leaves for error handling, two-phase construction for safe object creation, active objects for asynchronous event handling, and class naming conventions such as `C`, `T`, `R`, and `M` classes.
+
+The relationship between C++ and Symbian shows both the strength and the cost of C++. On the one hand, C++ could be adapted to build efficient software for resource-constrained devices. On the other hand, Symbian C++ was quite different from standard C++, so it had a steep learning curve and made porting code to other platforms more difficult. When iOS and Android became dominant, Symbian declined, but it remains a useful example of how C++ was used in early smartphone operating systems.
+
+However, C++ does not eliminate all disadvantages inherited from C. Pointers and memory leaks are still largely under the control of the programmer. Even so, C++ remains a de facto industry standard. The Windows kernel and driver framework use C++, the Oracle database is heavily optimized using C++, the JVM is implemented in C++, and browser engines, graphics systems, and game engines are almost all based on C++. It is not the simplest language, yet it forms the foundation of modern software.
+
+## Objective-C
+
+In the early 1980s, Brad Cox and Tom Love developed Objective-C at Productivity Products International (PPI), which later became Stepstone. Their aim was to add Smalltalk-style OOP to C. NeXT later adopted Objective-C as the main language for NeXTSTEP. After Apple acquired NeXT in 1997, technologies from NeXTSTEP became the foundation of modern macOS, and Objective-C became one of the main languages in Apple's software ecosystem.
+
+Objective-C is closely tied to macOS and iOS development. On macOS, the Cocoa framework inherited many ideas and APIs from NeXTSTEP, and Objective-C became the natural language for building native Mac applications. On iOS, Apple introduced Cocoa Touch and the iPhone SDK in 2008, and Objective-C became the main language for early iPhone and iPad application development. Therefore, for many years, understanding Objective-C was almost necessary for serious Apple platform development.
+
+Objective-C is a strict superset of C and adds Smalltalk-style message syntax with square brackets. Compared to C++, the highlight of Objective-C is its dynamic runtime environment, which means that even while the program is running, behavior can still be dynamically determined based on the object, type, selector, and message.
+
+```Objective-C
+#import <Foundation/Foundation.h>
+
+// Define a base class Animal
+@interface Animal : NSObject
+// Define a method of Animal
+- (void)speak;
+@end
+
+// Implement Animal
+@implementation Animal
+- (void)speak {
+	// Empty method, implemented by subclasses
+}
+@end
+
+// Define a derived class Dog
+@interface Dog : Animal
+@end
+
+// Implement Dog
+@implementation Dog
+- (void)speak {
+	NSLog(@"Woof");
+}
+@end
+
+// Define a derived class Cat
+@interface Cat : Animal
+@end
+
+// Implement Cat
+@implementation Cat
+- (void)speak {
+	NSLog(@"Meow");
+}
+@end
+
+// Define a function that prints all animals
+void printAnimals(NSArray<Animal *> *animals) {
+	for (Animal *animal in animals) {
+		[animal speak];
+	}
+}
+
+int main(int argc, const char * argv[]) {
+	@autoreleasepool {
+		// Define an Animal array
+		NSArray<Animal *> *animals = @[[[Dog alloc] init], [[Cat alloc] init]];
+
+		// Call the print function
+		printAnimals(animals);
+	}
+	return 0;
+}
+```
+
+Besides, Objective-C allows messages to be sent to `nil` objects without throwing exceptions by default. This can reduce some null-related crashes, although it may also hide bugs. Objective-C 2.0 later introduced Automatic Reference Counting (ARC). Under ARC, the compiler automatically inserts memory-management operations such as `retain`, `release`, and `autorelease` according to ownership rules. This avoids many error-prone problems of manual memory management and improves development efficiency.
+
+Although Objective-C improves language dynamism, it sacrifices some runtime performance and adds memory overhead, especially during message dispatch. Because its compile-time type checking is relatively weak, some type misuses can only be detected at runtime. Besides, because Objective-C combines C syntax, Smalltalk-style messaging, and optional C++ interoperability, its syntax can feel relatively complicated.
+
+With Apple's full-scale promotion of [[#Swift]], Objective-C has gradually become less central in new Apple development. However, it remains important in many existing macOS and iOS codebases, and Swift still interoperates with Objective-C to support these legacy frameworks and applications.
+
+## Perl
+
+Perl is often expanded as "Practical Extraction and Report Language", although the name was originally chosen first and the expansion came later. The creator of Perl is the American programmer Larry Wall. He was working as a system administrator and needed to synchronize and process information across different systems. However, the tools available at the time were not convenient enough for the task. To solve this problem, Wall started to develop a new programming language: Perl.
+
+Perl is a general-purpose, interpreted, dynamically typed language. Similar to Unix shell, Perl integrates regular expressions and powerful string-processing capabilities. As a result, it is especially suitable for text processing, system administration, and programs that need to manipulate strings.
+
+The following example extracts URLs from a text file:
+
+```Perl
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+# Open the file
+open my $fh, '<', 'data.txt' or die "Cannot open file: $!";
+
+# Read the entire file content at once and store the file content in a local variable.
+my $content = do { local $/; <$fh> };
+
+# Match URLs: Collect all matched URLs into the array @urls.
+my @urls = $content =~ m{(https?://\S+)}g;
+
+# Output the result
+print "$_\n" for @urls;
+```
+
+Perl is also a dynamically and weakly typed language. It was strongly influenced by Unix shell, `sed`, and `awk`, but it is more flexible and expressive. Perl supports high-level features such as OOP, functional programming, closures, and modules. Its ecosystem also fostered the development of many feature-rich third-party libraries. Perl's motto is "There's more than one way to do it", and positive and negative array indexes are a simple example of this flexibility.
+
+```Perl
+my @array = (
+	"hello",
+	"world",
+	"from",
+	"perl"
+);
+
+print $array[0];  # "hello"
+print $array[-1]; # "perl"
+print $array[-5]; # returns undef and may print a warning under warnings
+```
+
+As a first-generation glue language, Perl was one of the most popular web programming languages in the Web 1.0 era. With the rise of the Internet and the widespread pre-installation of Perl on Unix systems, Perl rapidly gained a huge user base. However, under competitive pressure from emerging programming languages such as [[#Python]], the Perl community chose a controversial path: developing a largely redesigned Perl 6, which was later renamed Raku. This path separated Raku from Perl's existing ecosystem advantages, indirectly leading to a lukewarm market response and a relatively small user base.
+
+## Bash shell
+
+Bash shell was first released in 1989. Bash is a commonly used command-line interpreter in Unix-like systems, especially Linux.
+
+Bash command syntax is largely compatible with Bourne shell syntax and adds many extensions. Bash supports features such as brace expansion, command history, programmable completion, job control, basic debugging, and signal handling. As two widely used command-line environments, both CMD and Bash support pipes (`|`) and redirection (`>` and `<`), but Bash offers greater richness and flexibility for system administration and automation.
+
+Batch and Bash differ significantly. For example, their conditional statements are written differently:
+
+```batch
+@echo off
+set var=5
+if %var% EQU 5 (
+	echo "Is equal to 5."
+) else (
+	echo "Is not equal to 5."
+)
+```
+
+```bash
+#!/bin/bash
+var=5
+if [ "$var" -eq 5 ]; then
+	echo "Is equal to 5."
+else
+	echo "Is not equal to 5."
+fi
+```
+
+Their loop statements are also different:
+
+```batch
+@echo off
+for /L %%i in (1,1,5) do (
+	echo %%i
+)
+```
+
+```bash
+#!/bin/bash
+for i in {1..5}; do
+	echo $i
+done
+```
+
+Because Bash is open-source and widely ported, it is convenient to use even on Windows platforms through tools such as WSL, Git Bash, and MSYS2. Learning shell scripts can greatly reduce manual work and improve automation efficiency and accuracy.
+
+## Ada
+
+Ada was developed by a team led by the French computer scientist Jean Ichbiah at CII Honeywell Bull. The United States Department of Defense started the language project in the mid-1970s because it wanted to reduce the large number of programming languages used in defense software projects. In 1979, the new language was named Ada in honor of Ada Lovelace, who is often regarded as the world's first computer programmer because of her notes on Charles Babbage's Analytical Engine in the 1840s.
+
+The Ada compiler emphasizes strict compile-time checking. It can help detect many programming flaws early, such as type errors and some unsafe operations. Besides, Ada provides a rich type system, modular programming mechanisms, exception handling, tasking, and generic programming, which help engineers organize and manage large programs.
+
+Ada's syntax was influenced by Pascal and ALGOL-like languages. The following code is an example:
+
+```Ada
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
+
+procedure Fibonacci is
+	N : Positive;
+
+	-- Define a recursive function to calculate the n-th Fibonacci number.
+	function Fib(N : Positive) return Positive is
+	begin
+		if N = 1 or N = 2 then
+			return 1;
+		else
+			return Fib (N - 1) + Fib (N - 2);
+		end if;
+	end Fib;
+begin
+	Put("Enter a positive integer: ");
+	Get(N);
+	Put("Fibonacci(");
+	Put(N);
+	Put(") = ");
+	Put(Fib(N));
+	New_Line;
+end Fibonacci;
+```
+
+Opinions on Ada have been mixed. Supporters predicted that it would become a major general-purpose programming language. However, early Ada compilers often had performance and implementation difficulties because Ada was a large and complex language. Besides, compiler vendors spent considerable effort on passing government-mandated language conformance tests rather than improving usability and tooling, so early IDEs and debugging tools were relatively weak. By the late 1980s and early 1990s, Ada compiler performance had improved. Because Ada emphasizes safety and reliability, it became an important choice for systems that prioritize safety, robustness, and long-term maintainability.
+
+
+## MATLAB
+
+MATLAB is a long-standing numerical computing language and environment created by the mathematician and computer scientist Cleve Moler. It began as an interactive matrix calculator that allowed students to use LINPACK and EISPACK without writing FORTRAN programs. In 1984, Jack Little, Cleve Moler, and Steve Bangert founded MathWorks to commercialize MATLAB. With its ease of use, high efficiency, and strong support for matrix computation, MATLAB quickly gained widespread recognition. Today, MATLAB is one of the most important computing tools in science, technology, and engineering.
+
+## ABC
+
+ABC was developed at the Dutch research institute Centrum Wiskunde & Informatica (CWI). It was designed as an interactive programming language and environment for personal computing, with an emphasis on education, prototyping, and everyday programming.
+
+ABC aimed to be a modern replacement for BASIC and an easier alternative to Pascal. It supports data structuring and structured programming, but keeps the core language small. ABC has only five basic kinds of values: numbers, texts, compounds, lists, and tables. Its numbers are generally unbounded in length and can represent exact rational values, limited mainly by available memory.
+
+The following is an example of ABC code:
+
+```ABC
+HOW TO RETURN factorial n:
+	PUT 1 IN result
+	FOR i IN {1..n}:
+		PUT result * i IN result
+	RETURN result
+```
+
+ABC is also notable for its interactive environment. Commands can be executed directly, while user-defined commands, functions, and global values can remain available across sessions. The environment understands the structure of ABC programs and supports conveniences such as command completion, automatic indentation, matching brackets, and a generalized undo mechanism.
+
+However, ABC also had clear limitations. It was not designed for systems programming or high-performance software, and its dedicated environment made it difficult to connect smoothly with existing operating-system interfaces, C libraries, and external tools. Its limited extensibility and small ecosystem prevented it from becoming mainstream.
+
+Even so, ABC had an important indirect influence. Guido van Rossum worked in the ABC group at CWI and later drew on ABC's readability, indentation-based block structure, and high-level data types when designing [[#Python]]. Python can be seen partly as an attempt to keep ABC's beginner-friendly style while adding better extensibility and practical system-integration ability.
+
+
+## Erlang
+
+In the 1980s, the telecommunications industry placed extremely demanding requirements on software: systems had to run 24/7, handle large numbers of concurrent calls, and recover quickly when failures occurred. However, many programming languages and system architectures at the time were not specifically designed for high-concurrency, high-fault-tolerance scenarios.
+
+Erlang was developed at the Ericsson Computer Science Laboratory in Sweden by Joe Armstrong, Robert Virding, Mike Williams, and others. The project aimed to discover what kind of language features would make telecommunication systems easier to build and maintain. The name "Erlang" honors the Danish mathematician Agner Krarup Erlang, who contributed to queueing theory, although it also sounds like "Ericsson Language". Erlang's syntax was influenced by Prolog, and its early implementations were closely connected with Prolog experiments.
+
+Erlang is a functional programming language, so data is immutable by default and programs are mainly organized around functions, recursion, and pattern matching. However, Erlang's most distinctive feature is its concurrency model. Erlang programs can create many lightweight processes. These processes do not share memory; instead, they communicate by sending and receiving messages. This design reduces many problems caused by shared mutable state.
+
+The following code shows a simple Erlang process that receives a message, sends a reply, and continues running:
+
+```Erlang
+-module(counter).
+-export([start/0, loop/1]).
+
+start() ->
+    Pid = spawn(fun() -> loop(0) end),
+    Pid ! {increment, self()},
+    receive
+        {value, N} ->
+            N
+    end.
+
+loop(N) ->
+    receive
+        {increment, From} ->
+            NewN = N + 1,
+            From ! {value, NewN},
+            loop(NewN);
+        stop ->
+            ok
+    end.
+```
+
+Erlang also emphasizes fault tolerance. In Erlang/OTP systems, processes are often organized under supervisors. If a worker process crashes, its supervisor can restart it according to a predefined strategy. This approach is sometimes summarized as "let it crash": instead of trying to handle every possible error locally, the system isolates failures and recovers at a higher level.
+
+Erlang has the following advantages:
+- Lightweight process-based concurrency
+- Message passing without shared memory
+- Strong fault-tolerance mechanisms
+- Built-in support for distributed systems
+- Hot code loading for updating running systems
+- Suitability for soft real-time systems
+- Functional programming with pattern matching and immutable data
+
+Erlang was first used in telecommunications and later extended to databases, message queues, distributed platforms, and large-scale Internet services. Well-known systems and projects related to Erlang include RabbitMQ, CouchDB, Riak, and WhatsApp's messaging infrastructure. Although Erlang has never been a mainstream general-purpose language, it remains influential because it provides a clear model for building reliable concurrent and distributed systems.
+
+# 1990s
+
+In this age, C++ is a mainstream programming languages. But it appears cumbersome in the face of complexity and memory vulnerabilities. They want to develop a new programming language with safety and simplicity.
+
+## Python
+
+Python was created by Dutch programmer Guido van Rossum. In December 1989, he wanted to find a personal programming project, so he started to design a new programming language. In tribute to the British comedy group Monty Python, Guido van Rossum named the language Python.
+
+Python was strongly influenced by ABC. ABC emphasized readability, simple syntax, indentation-based block structure, and high-level data types. Similarly, A common slogan in the Chinese Python community is: "Life is short, you need Python." Python inherited some of these ideas, but Guido also wanted to make Python more extensible, more practical for system scripting, and easier to integrate with Unix and C programs. This relationship helps explain why Python combines beginner-friendly syntax with strong real-world engineering utility.
+
+Python is commonly used as an interpreted, dynamically typed, high-level language. More precisely, CPython, the reference implementation, compiles Python source code into bytecode and then executes that bytecode on a virtual machine. Python supports multiple paradigms, including procedural programming, object-oriented programming, and functional programming.
+
+The following code shows Python's support for classes and magic methods:
+
+```Python
+class Calculator:
+	def __init__(self, name="Calculator"):
+		self.name = name
+
+	def __str__(self):
+		return self.name
+
+	def factorial(self, num):
+		if num < 0:
+			raise ValueError("num must be non-negative")
+		if num == 0:
+			return 1
+		return num * self.factorial(num - 1)
+
+	def sum_factorials(self, start, end):
+		total = 0
+		for i in range(start, end + 1):
+			total += self.factorial(i)
+		return total
+
+	def __call__(self, start, end):
+		return self.sum_factorials(start, end)
+
+# Create a Calculator object
+calculator = Calculator()
+
+# Calculate the sum of factorials from 1 to 10
+result = calculator(1, 10)
+
+# Output the result
+print(f"{calculator}: {result}")
+```
+
+Instead of putting everything into its core, Python relies on an extensive module and package system. Its standard library is often described as "batteries included", and third-party packages can be installed with `pip`, the standard package installer. `pip` interacts with the Python Package Index (PyPI), a large online repository with many Python packages available for download and installation. This approach greatly simplifies the installation and management of third-party libraries, making Python a feature-rich programming language widely used in various fields.
+
+Another highlight of Python is magic methods, also called dunder methods because their names begin and end with double underscores. The previous code is an example: `calculator(1, 10)` calls `calculator.__call__(1, 10)`, and `f"{calculator}"` uses `calculator.__str__()`. This approach allows custom classes to blend naturally into Python's syntax, improving code expressiveness and readability.
+
+| Operation           | Magic Method               |
+| ------------------- | -------------------------- |
+| `A()` Create object | `__new__()`, `__init__()`   |
+| `print(a)`          | `__str__()`                |
+| `a + b`             | `a.__add__(b)`             |
+| `a - b`             | `a.__sub__(b)`             |
+| `a == b`            | `a.__eq__(b)`              |
+| `a < b`             | `a.__lt__(b)`              |
+| `len(a)`            | `a.__len__()`              |
+| `a[i]`              | `a.__getitem__(i)`         |
+| `a[i] = x`          | `a.__setitem__(i, x)`      |
+| `for x in a`        | `__iter__()`, `__next__()`  |
+| `with a:`           | `__enter__()`, `__exit__()` |
+| `a()`               | `a.__call__()`             |
+| `del a[i]`          | `a.__delitem__(i)`         |
+| Object finalization | `a.__del__()`              |
+
+Notably, although Python is dynamically typed, it is also strongly typed: names do not have fixed declared types, but objects do, and operations do not freely coerce unrelated types. Python also shows why modern type discussions often distinguish several axes, such as static versus dynamic typing, strong versus weak typing, and optional type annotations.
+
+## R
+
+R is a statistical computing and graphics language developed by Ross Ihaka and Robert Gentleman in the early 1990s. The name comes from the initials of its developers. It was strongly influenced by the S language, which was a statistical language developed at Bell Labs. Because R is open source, extensible, and convenient for statistical modeling and data visualization, it became popular worldwide.
+
+Similar to Python, R is a dynamically typed interpreted language. The main differences are its data structures and library ecosystem. Because R was designed for data analysis, visualization, and statistical modeling, its core data structures are vectors, matrices, arrays, lists, and data frames. R also treats scalar values as vectors of length one, so it does not have a separate scalar data type.
+
+The following code is an example of R:
+
+```R
+# Import data set
+sales_data <- read.csv("sales_data.csv")
+
+# Calculate the average sales and profit in every region
+avg_sales_by_region <- aggregate(Sales ~ Region, data=sales_data, FUN=mean)
+avg_profit_by_region <- aggregate(Profit ~ Region, data=sales_data, FUN=mean)
+
+# Draw a bar chart of sales and profit
+par(mfrow=c(1,2))
+barplot(avg_sales_by_region$Sales, names.arg=avg_sales_by_region$Region, main="Average Sales")
+barplot(avg_profit_by_region$Profit, names.arg=avg_profit_by_region$Region, main="Average Profit")
+```
+
+## Java
+
+Java was developed at Sun Microsystems by James Gosling and other members of the Green Project. James Gosling is often called "the father of Java". The language was originally called Oak and was designed for embedded consumer electronics, but it was later redirected toward Internet programming and renamed Java. In 1995, Sun publicly introduced Java and the HotJava browser, and Java quickly became associated with the rise of the Web.
+
+One of Java's most important ideas is the Java Virtual Machine (JVM). Java source code is compiled into bytecode, and bytecode can run on any platform with a compatible JVM. This design made "Write once, run anywhere" Java's most famous slogan. In a sense, C helped operating systems become less dependent on specific hardware, while Java tried to make application programs less dependent on specific operating systems.
+
+\begin{figure}[h]
+\centering
+\label{Figure 2}
+\includegraphics[width=0.6\linewidth]{images/Java.png}
+\caption{The execution process of Java code}
+\end{figure}
+
+Java is a statically typed, class-based, object-oriented language. It keeps a C-like syntax style but removes several dangerous low-level features from C and C++. For example, Java does not expose pointer arithmetic to programmers and provides automatic garbage collection. Garbage collection reduces problems such as dangling pointers and double free errors, although memory leaks can still happen if a program keeps unnecessary references to objects.
+
+Java's OOP model is based on classes, objects, encapsulation, inheritance, interfaces, and polymorphism. Java supports single inheritance for classes, but a class can implement multiple interfaces. This design avoids some complexity of multiple inheritance while still allowing flexible abstraction.
+
+The following code shows OOP, interfaces, generics, autoboxing, and unboxing in Java:
+
+```Java
+import java.util.ArrayList;
+import java.util.List;
+
+interface Shape {
+	double area();
+}
+
+class Circle implements Shape {
+	private final double radius;
+
+	Circle(double radius) {
+		this.radius = radius;
+	}
+
+	@Override
+	public double area() {
+		return Math.PI * radius * radius;
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		List<Shape> shapes = new ArrayList<>();
+		shapes.add(new Circle(2.0));
+
+		Integer count = shapes.size(); // autoboxing: int -> Integer
+		int n = count;                 // unboxing: Integer -> int
+
+		for (Shape shape : shapes) {
+			System.out.println("Area: " + shape.area());
+		}
+		System.out.println("Count: " + n);
+	}
+}
+```
+
+In Java, boxing means converting a primitive value into its corresponding wrapper object, such as `int` to `Integer`. Unboxing means converting the wrapper object back into the primitive value. Since Java 5, autoboxing and unboxing allow the compiler to insert many of these conversions automatically.
+
+Java's first major stage was the applet era. Java applets allowed web pages to contain interactive programs such as animations, small tools, and games, which was a striking experience in the 1990s. However, browser applets later declined because of security risks, performance problems, plugin complexity, and the rise of JavaScript-based web applications.
+
+Java's second major stage was enterprise software. In 1999, Sun released Java 2 Platform, Enterprise Edition (J2EE), which later became Java EE and then Jakarta EE. This platform provided specifications and APIs for building portable, multi-tier enterprise applications, including servlets, JavaServer Pages, Enterprise JavaBeans, messaging, transactions, and database access. Around Java, a large industry ecosystem emerged, including application servers, IDEs, build tools, frameworks, and enterprise vendors. After Oracle acquired Sun in 2010, Java continued to develop through the Java Community Process, OpenJDK, and the broader Java ecosystem.
+
+Java's third major stage was mobile development through Android. Android 1.0 appeared commercially in 2008, and Java became the main application language of early Android development. Android enabled Java-style programming to enter the smartphones of hundreds of millions of users. This not only continued Java's influence, but also allowed many developers to enter programming through Android. Years later, Google introduced [[#Kotlin]] as a preferred Android language, but Java remains deeply connected with Android's APIs, tools, and existing codebases.
+
+It is undeniable that Java sometimes paid a performance cost compared with native C++ on C / C++ systems such as Symbian or Objective-C on early iOS. However, JVM technology improved significantly through Just-In-Time (JIT) compilation, adaptive optimization, garbage-collector improvements, and mature runtime engineering. As a result, Java became one of the most important languages for server-side systems, enterprise applications, Android development, big-data infrastructure, and long-lived business software.
+
+## Command Prompt (CMD)
+
+In 1981, `COMMAND.COM` appeared as the default command interpreter of MS-DOS. It was also used in several DOS-compatible systems and early Windows environments.
+
+Batch processing refers to scripts composed of a series of CMD commands and control logic. Their file extension is typically `.bat` or `.cmd`. Similar to shell in Unix systems, CMD is a commonly used command-line interpreter in Windows systems, allowing operating system management and simple automation through batch scripts.
+
+Batch script syntax inherits some characteristics from early command-line systems and BASIC-like control flow. For example, many commands are short words such as `REN`, `DIR`, `DEL`, and `VOL`; variables are defined and assigned using the `SET` command; subroutines are called using the `CALL` command; and `REM` or `::` is often used for comments. Due to its ease of use, many Windows users and engineers have experience writing batch scripts. CMD was originally designed for compatibility with DOS-style command processing, so batch syntax has changed only slowly. Therefore, writing Windows batch scripts can feel like programming in the language of an older era.
+
+As operating systems evolved, the limitations of batch processing became increasingly apparent. To provide a more powerful and flexible command-line interpreter, Microsoft introduced [[#PowerShell]] in the 2000s. [[#PowerShell]] is a command-line shell and scripting language based on .NET, offering richer functionality and a more modern syntax. Starting with Windows 10 build 14971, released in November 2016, PowerShell replaced CMD as the default shell in the Win+X menu, although CMD remains available.
+
+</script>
     </main>
 
-    <script src="../scripts/markdown-article.js?v=20260819-highlighting-3"></script>
+    <script src="../scripts/markdown-article.js?v=20260819-r-highlight-1"></script>
     <script src="../scripts/comments.js"></script>
 </body>
 </html>
