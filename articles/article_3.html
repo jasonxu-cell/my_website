@@ -196,7 +196,8 @@ COBOL has significant value and influence, making it one of the leading programm
 
 # 1960s
 
-In the end of 1950s, the programming language have two paths: COBOL, mainly serves bank and insurance,  and ALGOL, mainly pursues mathematicalization. No one knows that what programming language we need in the operating system and the answer will be revealed in the next age.
+By the end of the 1950s, programming languages had begun to follow two influential paths. COBOL focused on business data processing, particularly in banking and insurance, while ALGOL pursued a mathematically elegant way to express algorithms. Yet neither path fully addressed the emerging needs of operating systems and other systems software. The languages of the 1960s would lay the groundwork for an answer.
+
 ## CPL/BCPL
 
 Combined Programming Language (CPL) was developed by Christopher Strachey, David Barron, and others at the University of Cambridge Mathematical Laboratory in the early 1960s. They wished to expand the application scope of ALGOL 60 from scientific computing to a wider range of fields, so the design became very complicated.
@@ -710,7 +711,7 @@ Scheme's influence is much larger than its size. It helped clarify important ide
 
 # 1980s
 
-Before the age, the programming languages also seem to divide into two groups. The first one is structural programming, like Pascal, C, etc. The second one is OOP, like Simula, Smalltalk. A new divide has emerged in the programming world: should we continue down the path of functional and structured programming, or boldly embrace object-oriented thinking? The answer will be revealed in this era.
+By the beginning of the 1980s, structured programming had become well established through languages such as Pascal and C, while Simula and Smalltalk had demonstrated a different way to organize programs around objects. Functional programming also continued to develop along its own path. As software systems grew larger and more complex, language designers faced a broader question: how could they provide better abstraction, reuse, reliability, and concurrency without giving up practical performance? The languages of the 1980s offered several influential answers, with object-oriented programming moving decisively toward the mainstream.
 
 ## C++
 
@@ -1173,7 +1174,9 @@ Erlang was first used in telecommunications and later extended to databases, mes
 
 # 1990s
 
-In this age, C++ is a mainstream programming languages. But it appears cumbersome in the face of complexity and memory vulnerabilities. They want to develop a new programming language with safety and simplicity.
+By the 1990s, C++ had become one of the dominant languages for building high-performance software. However, as programs grew in scale, its complexity and reliance on manual memory management became increasingly costly. Language designers began searching for safer, simpler, and more portable ways to build software, helping languages such as Python and Java gain prominence.
+
+The 1990s also brought the rapid expansion of the Internet and the World Wide Web. This new environment created demand for languages that could support interactive web pages, server-side applications, and rapid development. JavaScript and PHP became closely associated with the Web, while languages such as Python and Ruby helped popularize a more productive style of general-purpose programming.
 
 ## Python
 
@@ -1240,13 +1243,65 @@ Another highlight of Python is magic methods, also called dunder methods because
 | `del a[i]`          | `a.__delitem__(i)`         |
 | Object finalization | `a.__del__()`              |
 
-Notably, although Python is dynamically typed, it is also strongly typed: names do not have fixed declared types, but objects do, and operations do not freely coerce unrelated types. Python also shows why modern type discussions often distinguish several axes, such as static versus dynamic typing, strong versus weak typing, and optional type annotations.
+Notably, although Python is dynamically typed, it is generally described as strongly typed: a name can be rebound to objects of different types, but every object has a definite type, and Python does not freely coerce unrelated types merely to make an operation succeed. Modern Python also supports optional type hints. These annotations improve documentation, IDE assistance, and static analysis, but the Python runtime does not normally enforce them, so they do not make Python a statically typed language.
 
 Although Python was initially a relatively small language, its concise syntax and ease of maintenance helped it spread through scripting, web development, education, and scientific computing. Important products and companies, such as YouTube and Dropbox, also helped demonstrate that Python could be used in large real-world systems.
 
 Python's rise became even stronger in data science and AI. Libraries such as NumPy, SciPy, pandas, Matplotlib, scikit-learn, TensorFlow, and PyTorch made Python a convenient front end for numerical computation and machine learning. Google open-sourced TensorFlow in 2015, and PyTorch was announced by Facebook AI Research in early 2017. Together with Python's easy syntax, notebook ecosystem, and strong C/C++ extension mechanism, these tools helped Python become one of the central languages of the AI era.
 
-However, Python also has clear disadvantages. First, pure Python code is usually slower than code written in compiled languages such as C, C++, or Rust, so performance-critical libraries often move heavy computation into native extensions. Second, the transition from Python 2 to Python 3 caused long-term compatibility problems; Python 2 officially reached end of life on January 1, 2020. Third, traditional CPython builds have a Global Interpreter Lock (GIL), which means that only one thread executes Python bytecode at a time in a single interpreter. This limits CPU-bound multithreading, although Python can still use multiprocessing, asynchronous I/O, native extensions, and alternative runtimes to handle different kinds of concurrency. Since Python 3.13, CPython has offered free-threaded builds that can disable the GIL, and Python 3.14 made free-threaded Python officially supported. Even so, ecosystem compatibility and performance tradeoffs mean this area is still evolving.
+The transition from Python 2 to Python 3 was one of the most difficult periods in Python's history. Python 3.0, released in 2008, deliberately removed or redesigned old features instead of preserving complete backward compatibility. Improvements such as Unicode text by default, `print()` as a function, and clearer division semantics produced a cleaner language, but they also forced many applications and libraries to be ported. Python 2 and Python 3 therefore coexisted for more than a decade. Python 2 officially reached end of life on January 1, 2020; Python 2.7.18, released later that year, was its final release.
+
+The default CPython build also has a Global Interpreter Lock (GIL), which allows only one thread at a time to execute Python bytecode in a given interpreter. The main limitation is on CPU-bound pure-Python multithreading, not on every use of threads: the GIL is released around blocking I/O, and native extensions can release it while performing long-running work. Consequently, threads and `asyncio` remain useful for I/O concurrency, while multiprocessing and process pools have traditionally been used for CPU parallelism.
+
+Python 3.13 introduced an experimental free-threaded CPython build that can disable the GIL. In Python 3.14, this build entered an officially supported but still optional phase; the normal CPython build continues to use the GIL by default. Free threading enables Python threads to run simultaneously on multiple CPU cores, but it is not an automatic speedup: programs must still synchronize shared mutable state, single-threaded execution can incur overhead, and an extension module that is not ready for free threading may cause the GIL to be re-enabled. Making free-threaded Python the default remains a possible future step rather than a completed transition.
+
+Pure Python code is often slower than equivalent code in ahead-of-time compiled languages because dynamic dispatch, object handling, and interpreter execution add runtime overhead. However, the performance of a Python application is not determined by Python code alone. Libraries such as NumPy, TensorFlow, and PyTorch perform much of their heavy computation in optimized native code or on accelerators, while Python provides the high-level interface. Other options include alternative implementations with Just-In-Time compilation, such as PyPy, and tools such as Cython or Numba for optimizing selected hot paths. In practice, developers usually profile a program first and optimize only the parts that dominate its running time.
+
+Overall, Python's strength comes from a productive combination of readable syntax, rapid development, a large ecosystem, and easy integration with software written in other languages. These qualities make it especially suitable for scripting, automation, web backends, data analysis, AI research, education, and glue code. Its design taste is summarized by the Zen of Python: "Beautiful is better than ugly. Explicit is better than implicit. Simple is better than complex."
+
+## Visual Basic
+
+Visual Basic was released by Microsoft in 1991 as a rapid application development environment for Windows. Its visual design system grew out of Tripod, later code-named Ruby, a drag-and-drop shell-building tool created by Alan Cooper and his team. Microsoft combined this visual interface concept with a BASIC-derived programming language and a larger development environment. For this contribution, Cooper is often called "the father of Visual Basic", although Visual Basic itself was the work of a broader Microsoft team.
+
+The word *Visual* refers primarily to the way graphical user interfaces are constructed. A programmer can place buttons, text boxes, labels, menus, and other controls onto a form, edit their properties, and then write code that responds to events such as a mouse click or a key press. The program is still written in a textual language; the visual designer reduces the amount of code required to create and position the interface. This combination of a form designer, an event-driven language, and an integrated debugger made Windows application development much more accessible.
+
+This style became an influential example of Rapid Application Development (RAD). Instead of manually calling the complex Windows API for every window and control, developers could quickly design an interface, attach event handlers, run the application, and revise it in the same environment. Visual Basic therefore became especially popular for database front ends, internal business tools, small utilities, educational programs, and custom desktop applications.
+
+The following modern VB.NET example shows the event-driven model. The controls named `LeftTextBox`, `RightTextBox`, `AddButton`, and `ResultLabel` would normally be placed on the form with the visual designer:
+
+```vbnet
+Option Strict On
+
+Public Class CalculatorForm
+	Private Sub AddButton_Click(
+		sender As Object,
+		e As EventArgs
+	) Handles AddButton.Click
+		Dim leftValue As Integer
+		Dim rightValue As Integer
+
+		If Not Integer.TryParse(LeftTextBox.Text, leftValue) OrElse
+		   Not Integer.TryParse(RightTextBox.Text, rightValue) Then
+			MessageBox.Show("Please enter two integers.")
+			Return
+		End If
+
+		ResultLabel.Text = (leftValue + rightValue).ToString()
+	End Sub
+End Class
+```
+
+In this example, clicking `AddButton` raises an event and invokes `AddButton_Click`. The `Handles` clause connects the event to its handler, while `Option Strict On` prevents many implicit narrowing conversions and late-bound operations. This illustrates an important feature of the language: Visual Basic favors readable, English-like keywords, but it can still use explicit types and compile-time checking.
+
+Classic Visual Basic evolved from version 1.0 to Visual Basic 6.0, released in 1998. It supported structured and procedural programming, event-driven forms, class modules, and component-based development through the Component Object Model (COM) and ActiveX. However, it did not provide full implementation inheritance, so it is more precise to describe classic VB as object-based rather than fully object-oriented. Its flexible `Variant` type, implicit conversions, and optional variable declarations made small programs quick to write, but careless use of these features could move errors from compile time to runtime. `Option Explicit` was therefore commonly used to require variable declarations.
+
+Visual Basic 6 could produce either interpreted-style p-code or native machine code, and it was fast enough for many business applications. Its larger limitations came from tight dependence on Windows, COM registration and deployment problems, limited control over low-level resources, and difficulty maintaining very large codebases built without clear structure. Visual Basic 6 was the final classic release. Its IDE is no longer supported, although Microsoft continues to ship and support important VB6 runtime files so that many existing applications can run on supported versions of Windows.
+
+Visual Basic for Applications (VBA) belongs to the same language family but serves a different purpose. VBA is embedded in applications such as Microsoft Office and allows users to automate documents, spreadsheets, databases, and application object models. It is closely related to classic Visual Basic, but it is not Visual Basic 6 and it is not VB.NET. A macro stored in an Excel workbook, for example, runs inside Excel rather than as an independent VB6 executable.
+
+In 2002, Microsoft introduced Visual Basic .NET as part of the new .NET platform. Despite retaining familiar syntax, VB.NET was a substantial redesign rather than a fully backward-compatible upgrade. It compiles to Common Intermediate Language and runs on the Common Language Runtime (CLR), gaining garbage collection, structured exception handling, full class inheritance, interfaces, generics, delegates, asynchronous programming, and access to the same .NET libraries used by [[#C\#|C#]]. Migrating a large VB6 application to VB.NET can therefore require architectural changes rather than simple translation.
+
+Microsoft describes modern Visual Basic as an approachable language with a stable design. The core .NET libraries continue to support it, and improvements to the runtime can benefit Visual Basic programs automatically. However, Microsoft does not plan to extend the language to new workload categories and generally prioritizes compatibility, Visual Studio tooling, Windows Forms, libraries, and interoperability with [[#C\#|C#]]. Visual Basic is therefore no longer at the center of Microsoft's language strategy, but its influence remains important: it helped popularize event-driven GUI programming, reusable visual components, and rapid application development for a generation of Windows programmers.
 
 ## R
 
@@ -1336,6 +1391,60 @@ Java's third major stage was mobile development through Android. Android 1.0 app
 
 It is undeniable that Java sometimes paid a performance cost compared with native C++ on C / C++ systems such as Symbian or Objective-C on early iOS. However, JVM technology improved significantly through Just-In-Time (JIT) compilation, adaptive optimization, garbage-collector improvements, and mature runtime engineering. As a result, Java became one of the most important languages for server-side systems, enterprise applications, Android development, big-data infrastructure, and long-lived business software.
 
+## Ruby
+
+Ruby was created in Japan by Yukihiro "Matz" Matsumoto. He began designing it in 1993 and publicly released Ruby 0.95 in December 1995. Matz wanted a genuine object-oriented scripting language that combined the convenience of Perl, the object model of Smalltalk, and ideas from languages such as Lisp, Eiffel, and Ada. The name Ruby continued the gemstone theme suggested by Perl.
+
+Ruby's central design goal is programmer happiness. Matz believed that a programming language is not merely a set of instructions for a computer; it is also a medium through which people express ideas and communicate with one another. Ruby therefore favors natural-looking, expressive code, even when this means allowing several ways to solve the same problem. This philosophy differs from languages that place greater emphasis on explicitness, strictness, or a single preferred style.
+
+Ruby is a dynamically typed, garbage-collected, object-oriented language. Every value is an object, including numbers, strings, classes, and even `nil`. Method calls form the basis of most operations, so an expression such as `3.times` sends the method `times` to the integer object `3`. Ruby also supports procedural and functional styles through callable objects such as `Proc` and `lambda`, closures, recursion, and higher-order collection operations.
+
+One of Ruby's most distinctive features is the block: a piece of code that can be passed to a method. Blocks make iterators such as `each`, `map`, `select`, and `reduce` concise and readable. Ruby classes use single inheritance, but modules can be included as *mixins* to share behavior among otherwise unrelated classes. The standard `Enumerable` module is a classic example: a class that defines `each` can include `Enumerable` and automatically gain many collection methods.
+
+```Ruby
+class Playlist
+	include Enumerable
+
+	def initialize(songs)
+		@songs = songs
+	end
+
+	def each(&block)
+		@songs.each(&block)
+	end
+end
+
+playlist = Playlist.new([
+	{ title: "Imagine", seconds: 183 },
+	{ title: "Bohemian Rhapsody", seconds: 354 },
+	{ title: "Hotel California", seconds: 391 }
+])
+
+long_titles = playlist
+	.select { |song| song[:seconds] >= 300 }
+	.map { |song| song[:title] }
+
+long_titles.each do |title|
+	puts "Long song: #{title}"
+end
+```
+
+In this example, `Playlist` only needs to implement `each`; the `Enumerable` mixin provides `select` and `map`. The expressions between braces and between `do` and `end` are blocks, while `#{title}` performs string interpolation. Methods return the value of their final expression automatically, so Ruby programs often avoid explicit `return` statements.
+
+Ruby is also unusually flexible. Classes are open and can be extended after their original definition, many operators are implemented as methods, and reflection and metaprogramming allow programs to create methods or alter behavior at runtime. These features make it possible to build readable domain-specific languages and expressive libraries. However, the same flexibility can obscure control flow, move errors to runtime, and make a heavily metaprogrammed codebase difficult to understand.
+
+For nearly a decade, Ruby was much better known in Japan than in the rest of the world. Its international breakthrough came through Ruby on Rails, a web framework created by the Danish programmer David Heinemeier Hansson and extracted from the Basecamp project. Rails was released as open source in 2004 and offered an integrated Model-View-Controller framework with database mapping, routing, templates, testing support, and code generation.
+
+Rails is strongly associated with two principles: *Convention over Configuration* and *Don't Repeat Yourself* (DRY). Instead of requiring developers to configure every relationship manually, Rails adopts consistent naming and project conventions. Its generators and scaffolding can quickly create the basic structure of a database-backed application, allowing a small team to build and revise a product rapidly. This approach made Rails especially attractive to startups and influenced many later web frameworks. Basecamp originated Rails, while GitHub also began as a Rails application and grew into a very large Rails codebase.
+
+Rails helped popularize productive full-stack web development, RESTful routing, database migrations, automated testing, and an agile style of rapid iteration. It showed that a framework could provide an opinionated, coherent development experience rather than merely a loose collection of libraries.
+
+Ruby and Rails also developed a reputation for performance and concurrency limitations. In the reference implementation, commonly called CRuby or MRI, a Global VM Lock traditionally allows only one thread in a process to execute Ruby code at a time. Threads can still be effective for I/O-bound work, while multiple processes, background jobs, native extensions, and alternative Ruby implementations provide other forms of concurrency and parallelism. Dynamic dispatch and extensive metaprogramming can also make Ruby harder to optimize than a statically compiled language.
+
+Twitter illustrates both sides of this tradeoff. Ruby on Rails allowed a very small early team to develop the service quickly, but Twitter eventually outgrew its monolithic architecture. As its traffic and engineering organization expanded, it moved many core services to a service-oriented architecture running primarily on the JVM, with [[#Scala]] playing an important role. This transition reflected requirements for throughput, concurrency, fault tolerance, and independent service ownership; it was more complex than simply proving that "Ruby cannot scale." Large Rails systems such as GitHub demonstrate that Ruby applications can scale when supported by careful database design, caching, background processing, horizontal scaling, and disciplined engineering.
+
+Ruby is no longer at the center of every new web project, but its influence is much greater than its current level of adoption might suggest. It made programmer happiness an explicit language-design goal, demonstrated the expressive power of blocks and internal domain-specific languages, and helped Rails redefine expectations for web-framework productivity. Ruby remains a practical language for web applications, automation, command-line tools, and projects that value concise and readable code.
+
 ## Command Prompt (CMD)
 
 In 1981, `COMMAND.COM` appeared as the default command interpreter of MS-DOS. It was also used in several DOS-compatible systems and early Windows environments.
@@ -1346,10 +1455,84 @@ Batch script syntax inherits some characteristics from early command-line system
 
 As operating systems evolved, the limitations of batch processing became increasingly apparent. To provide a more powerful and flexible command-line interpreter, Microsoft introduced [[#PowerShell]] in the 2000s. [[#PowerShell]] is a command-line shell and scripting language based on .NET, offering richer functionality and a more modern syntax. Starting with Windows 10 build 14971, released in November 2016, PowerShell replaced CMD as the default shell in the Win+X menu, although CMD remains available.
 
+## Haskell
+
+By the late 1980s, researchers had created more than a dozen non-strict, purely functional languages. Although these languages shared many ideas, their differences made it difficult to exchange research or build a common ecosystem. At the Functional Programming Languages and Computer Architecture conference in 1987, a committee was formed to design an open standard that could serve research, education, and practical software development. The result was Haskell, named after the American logician Haskell B. Curry. The first Haskell report appeared in 1990, followed later by the influential Haskell 98 and Haskell 2010 standards.
+
+Haskell is a general-purpose, statically typed, purely functional programming language. In ordinary Haskell code, a function cannot secretly change global state, modify its arguments, print output, or depend on an external value that is absent from its type. A pure function therefore produces the same result from the same input, provided that the computation terminates. This property is called *referential transparency*: an expression can be replaced by its value without changing the behavior of the program.
+
+Referential transparency makes programs easier to reason about, test, refactor, and use safely in concurrent or parallel settings. Since data is immutable by default, many bugs caused by unexpected changes to shared state cannot occur. However, purity does not mean that Haskell programs cannot read files, access networks, update databases, or display user interfaces. Instead, effectful computations are represented explicitly by types and kept separate from pure calculations.
+
+Like [[#ML]], Haskell has a strong static type system with type inference. Programmers often do not need to write every type because the compiler can infer it, but explicit type signatures are commonly used as readable documentation. Haskell also provides algebraic data types and pattern matching, which make it natural to describe data as a precise set of alternatives and then handle each alternative separately.
+
+Haskell's *type classes* provide principled function overloading. A type class describes a set of operations that a type must implement, while an instance supplies those operations for a particular type. For example, the `Eq` class represents types whose values can be compared for equality, and `Show` represents types that can be converted to readable text. Despite the similar name, a Haskell type class is not an object-oriented class: it is closer to an interface that can be implemented for existing types without changing their definitions.
+
+The following example demonstrates algebraic data types, pattern matching, higher-order functions, type-class constraints, and lazy lists:
+
+```Haskell
+data Shape a
+	= Circle a
+	| Rectangle a a
+	deriving (Show)
+
+area :: Floating a => Shape a -> a
+area (Circle radius) = pi * radius ^ 2
+area (Rectangle width height) = width * height
+
+totalArea :: Floating a => [Shape a] -> a
+totalArea = sum . map area
+
+naturalNumbers :: [Integer]
+naturalNumbers = [1 ..]
+
+firstTenEvenSquares :: [Integer]
+firstTenEvenSquares = take 10
+	[n ^ 2 | n <- naturalNumbers, even n]
+
+main :: IO ()
+main = do
+	print (totalArea [Circle 2, Rectangle 3 4])
+	print firstTenEvenSquares
+```
+
+The `Shape` declaration defines two possible constructors, and `area` uses pattern matching to handle them. The constraint `Floating a =>` means that the function works with any type `a` that implements the `Floating` type class. The definition `totalArea = sum . map area` composes functions rather than updating an accumulator manually.
+
+The list `[1 ..]` is infinite, but the program does not attempt to construct it all at once. Haskell uses non-strict semantics and normally implements them through *lazy evaluation*, also called call by need. An expression is evaluated only when its value is required, and its result is then shared rather than recomputed. Because `take 10` requests only ten matching elements, the program evaluates only as much of `naturalNumbers` as it needs.
+
+Laziness makes infinite data structures, modular pipelines, and separation between data generation and consumption practical. It also allows short-circuiting computations to avoid unnecessary work. However, laziness can make time and memory behavior harder to predict. Unevaluated computations, called *thunks*, occupy memory and can retain data longer than expected, producing a space leak. Performance-sensitive Haskell programs therefore sometimes use strict data fields, strict folds, or explicit evaluation controls.
+
+The concept most famously associated with Haskell is the *monad*. A monad is an abstraction for composing computations in which each step carries some kind of context. The context might represent possible failure with `Maybe`, multiple possible results with lists, state transformation with `State`, or interaction with the outside world through `IO`. Monads are not limited to I/O, and it is misleading to describe every monad simply as a container for side effects.
+
+A monad provides an operation, commonly written `>>=`, that connects one contextual computation to the next. Haskell's `do` notation is readable syntactic sugar for such sequencing. For example, `Maybe` can stop a sequence automatically when a step returns `Nothing`:
+
+```Haskell
+safeDivide :: Double -> Double -> Maybe Double
+safeDivide _ 0 = Nothing
+safeDivide x y = Just (x / y)
+
+calculateRatio :: Double -> Double -> Double -> Maybe Double
+calculateRatio total count scale = do
+	average <- safeDivide total count
+	safeDivide average scale
+```
+
+If either division fails, the entire result is `Nothing`; otherwise it is `Just` the calculated value. The same sequencing pattern can work with other monads while giving `>>=` a meaning appropriate to each context. This ability to separate the structure of a computation from its underlying plumbing is one reason monads are useful for parsers, stateful algorithms, error handling, concurrency libraries, and domain-specific languages.
+
+The `IO` type applies this idea to observable effects. A value of type `IO a` describes an action that may interact with the outside world and eventually produce a value of type `a`. The runtime executes the action assigned to `main`; evaluating an arbitrary pure expression does not perform I/O. In the first example, `main :: IO ()` clearly marks the effectful boundary, while `area`, `totalArea`, and the list transformations remain pure.
+
+The Glasgow Haskell Compiler (GHC) became the dominant Haskell implementation. In addition to compiling the standardized language, GHC has served as a platform for research features such as generalized algebraic data types, type families, advanced type-class extensions, software transactional memory, and sophisticated runtime parallelism. Some successful experiments later influenced other languages, while others remain primarily useful to specialists.
+
+Haskell has a particularly strong reputation in programming-language research, compiler construction, formal methods, and education. It is also used in production for financial systems, developer tools, backend services, data processing, and other domains where correctness and abstraction are valuable. Nevertheless, its industrial community is much smaller than those of Java, Python, or JavaScript. Its learning curve, unfamiliar abstractions, smaller library and hiring ecosystems, and the performance subtleties of laziness can make adoption difficult for ordinary product teams.
+
+Haskell's historical influence is much greater than its market share. It helped establish purely functional programming as a practical model, introduced type classes, and demonstrated how algebraic data types, pattern matching, explicit effects, and powerful type inference can work together in a general-purpose language. Ideas developed or popularized in Haskell can now be seen across languages such as [[#Scala]], [[#Rust]], [[#Swift]], and modern functional extensions to mainstream languages. Haskell remains both a useful programming language and a laboratory for exploring what future programming languages might become.
+
+# 2000s
+
+## C\#
 </script>
     </main>
 
-    <script src="../scripts/markdown-article.js?v=20260819-r-highlight-1"></script>
+    <script src="../scripts/markdown-article.js?v=20260820-ruby-haskell-highlighting-1"></script>
     <script src="../scripts/comments.js"></script>
 </body>
 </html>

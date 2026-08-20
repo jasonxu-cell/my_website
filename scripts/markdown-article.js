@@ -30,8 +30,12 @@
         return value
             .replace(/!\[[^\]]*\]\([^)]+\)/g, "")
             .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-            .replace(/[`*_>#]/g, "")
+            .replace(/[`*_>]/g, "")
             .trim();
+    }
+
+    function unescapeMarkdown(value) {
+        return value.replace(/\\([\\`*{}\[\]()#+\-.!_>])/g, "$1");
     }
 
     function normalizeReferenceId(value) {
@@ -78,7 +82,11 @@
     }
 
     function normalizeHeadingId(value) {
-        return stripMarkdown(value)
+        const resolvedValue = unescapeMarkdown(value)
+            .replace(/\bC\+\+/gi, "Cplusplus")
+            .replace(/\bC#/gi, "Csharp");
+
+        return stripMarkdown(resolvedValue)
             .toLowerCase()
             .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, "-")
             .replace(/^-+|-+$/g, "") || "section";
@@ -285,14 +293,20 @@
             "commonlisp": "lisp",
             "f90": "fortran",
             "fortran90": "fortran",
+            "hs": "haskell",
+            "lhs": "haskell",
             "js": "javascript",
             "mjs": "javascript",
             "modula-2": "modula",
             "objective-c": "objectivec",
             "objc": "objectivec",
             "py": "python",
+            "rb": "ruby",
             "shell": "bash",
             "sh": "bash",
+            "vb": "vbnet",
+            "visual-basic": "vbnet",
+            "visualbasic": "vbnet",
             "zsh": "bash",
             "plain": "plaintext",
             "text": "plaintext"
@@ -429,6 +443,34 @@
             literals: ["true", "false"],
             commentPatterns: ["\\bREM\\b[^\\n]*", "'[^\\n]*"],
             stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\""]
+        },
+        vbnet: {
+            caseInsensitive: true,
+            keywords: [
+                "AddHandler", "AddressOf", "Alias", "And", "AndAlso", "As", "ByRef", "ByVal", "Call",
+                "Case", "Catch", "Class", "Const", "Continue", "Declare", "Default", "Delegate", "Dim",
+                "DirectCast", "Do", "Each", "Else", "ElseIf", "End", "Enum", "Erase", "Error", "Event",
+                "Exit", "Finally", "For", "Friend", "Function", "Get", "GetType", "Global", "GoSub", "GoTo",
+                "Handles", "If", "Implements", "Imports", "In", "Inherits", "Interface", "Is", "IsNot", "Let",
+                "Lib", "Like", "Loop", "Me", "Mod", "Module", "MustInherit", "MustOverride", "MyBase",
+                "MyClass", "Namespace", "Narrowing", "New", "Next", "Not", "Of", "On", "Operator", "Option",
+                "Optional", "Or", "OrElse", "Overloads", "Overridable", "Overrides", "ParamArray", "Partial",
+                "Private", "Property", "Protected", "Public", "RaiseEvent", "ReadOnly", "ReDim", "RemoveHandler",
+                "Resume", "Return", "Select", "Set", "Shadows", "Shared", "Static", "Step", "Stop", "Strict",
+                "Structure", "Sub", "SyncLock", "Then", "Throw", "To", "Try", "TryCast", "TypeOf", "Using",
+                "When", "While", "Widening", "With", "WithEvents", "WriteOnly", "Xor"
+            ],
+            types: [
+                "Boolean", "Byte", "Char", "Date", "Decimal", "Double", "EventArgs", "Exception", "Integer",
+                "Long", "Object", "SByte", "Short", "Single", "String", "UInteger", "ULong", "UShort"
+            ],
+            builtIns: [
+                "Console", "Convert", "Debug", "Interaction", "Math", "MessageBox", "Microsoft", "My"
+            ],
+            literals: ["False", "Nothing", "True"],
+            commentPatterns: ["'[^\\n]*", "\\bREM\\b[^\\n]*"],
+            stringPatterns: ["\"(?:\"\"|[^\"])*\""],
+            metaPatterns: ["^[ \\t]*#(?:Const|Else|ElseIf|End\\s+If|ExternalSource|If|Region)\\b[^\\n]*"]
         },
         simula: {
             caseInsensitive: true,
@@ -664,6 +706,60 @@
             literals: [],
             commentPatterns: [],
             stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\"", "'(?:\\\\.|[^'\\\\])*'"]
+        },
+        ruby: {
+            keywords: [
+                "BEGIN", "END", "alias", "and", "begin", "break", "case", "class", "def", "defined", "do",
+                "else", "elsif", "end", "ensure", "for", "if", "in", "module", "next", "not", "or", "redo",
+                "rescue", "retry", "return", "self", "super", "then", "undef", "unless", "until", "when",
+                "while", "yield", "__ENCODING__", "__FILE__", "__LINE__"
+            ],
+            types: [
+                "Array", "Class", "Enumerable", "Exception", "Hash", "Integer", "Module", "Object", "Proc",
+                "Range", "Regexp", "String", "Struct", "Symbol"
+            ],
+            builtIns: [
+                "attr_accessor", "attr_reader", "attr_writer", "extend", "include", "lambda", "load", "p",
+                "print", "printf", "proc", "puts", "raise", "require", "require_relative"
+            ],
+            literals: ["false", "nil", "true"],
+            commentPatterns: ["^=begin\\b[\\s\\S]*?^=end\\b[^\\n]*", "#[^\\n]*"],
+            stringPatterns: [
+                "\"(?:\\\\.|[^\"\\\\])*\"", "'(?:\\\\.|[^'\\\\])*'", "`(?:\\\\.|[^`\\\\])*`"
+            ],
+            metaPatterns: ["@@?[A-Za-z_][A-Za-z0-9_]*", "\\$[A-Za-z_][A-Za-z0-9_]*"],
+            patterns: [
+                { pattern: ":[A-Za-z_][A-Za-z0-9_]*[!?=]?", className: "hljs-literal" },
+                { pattern: "\\b[A-Za-z_][A-Za-z0-9_]*:(?!:)", className: "hljs-literal" },
+                { pattern: "\\b[A-Z][A-Za-z0-9_]*(?:::[A-Z][A-Za-z0-9_]*)*\\b", className: "hljs-type" }
+            ]
+        },
+        haskell: {
+            keywords: [
+                "as", "case", "class", "data", "default", "deriving", "do", "else", "family", "forall",
+                "foreign", "hiding", "if", "import", "in", "infix", "infixl", "infixr", "instance", "let",
+                "mdo", "module", "newtype", "of", "pattern", "qualified", "rec", "role", "safe", "stock",
+                "then", "type", "unsafe", "via", "where"
+            ],
+            types: [
+                "Applicative", "Bool", "Bounded", "Char", "Double", "Either", "Enum", "Eq", "Float",
+                "Floating", "Foldable", "Fractional", "Functor", "IO", "Int", "Integer", "Integral", "Maybe",
+                "Monad", "Num", "Ord", "Ordering", "Rational", "Read", "Real", "RealFloat", "RealFrac", "Show",
+                "String", "Traversable", "Word"
+            ],
+            builtIns: [
+                "const", "curry", "drop", "either", "even", "filter", "flip", "foldl", "foldr", "fst", "head",
+                "id", "length", "map", "maybe", "null", "odd", "pi", "print", "pure", "putStrLn", "read",
+                "return", "reverse", "show", "snd", "sum", "tail", "take", "uncurry", "zip"
+            ],
+            literals: ["False", "Nothing", "True"],
+            commentPatterns: ["--[^\\n]*", "\\{-(?!#)[\\s\\S]*?-\\}"],
+            stringPatterns: ["\"(?:\\\\.|[^\"\\\\])*\"", "'(?:\\\\.|[^'\\\\])'"],
+            metaPatterns: ["\\{-#\\s*[\\s\\S]*?#-\\}"],
+            patterns: [
+                { pattern: "(?:::|=>|->|<-|\\|)", className: "hljs-keyword" },
+                { pattern: "\\b(?!(?:False|Nothing|True)\\b)[A-Z][A-Za-z0-9_']*\\b", className: "hljs-type" }
+            ]
         }
     };
 
@@ -1032,7 +1128,7 @@
                 flushList();
                 closeReferenceList();
                 const level = heading[1].length;
-                const text = heading[2].trim();
+                const text = unescapeMarkdown(heading[2].trim());
                 const id = slugify(text);
                 headings.push({ id, level, text: stripHeadingMarkdown(text) });
                 html.push(`<h${level} id="${id}">${renderInline(text)}</h${level}>`);
