@@ -33,7 +33,7 @@ class NoteTarget:
 
 
 NOTE_TARGETS: Tuple[NoteTarget, ...] = (
-    NoteTarget("math", "Mathematics", "Mathematical Analysis", "mathematical-analysis.html", "Mathematics", "Real Analysis.md", ("Real Analysis",)),
+    NoteTarget("math", "Mathematics", "Mathematical Analysis", "mathematical-analysis.html", "Mathematics", "Mathematical Analysis.md", ("Real Analysis",)),
     NoteTarget("math", "Mathematics", "Complex Analysis", "complex-analysis.html", "Mathematics", "Complex Analysis.md"),
     NoteTarget("math", "Mathematics", "Equations of Mathematical Physics", "equations-of-mathematical-physics.html", "Mathematics", "Equations of Mathematical Physics.md"),
     NoteTarget("math", "Mathematics", "Algebra", "algebra.html", "Mathematics", "Algebra & Number Theory.md", ("Algebra & Number Theory",)),

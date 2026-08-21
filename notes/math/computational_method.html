@@ -255,20 +255,20 @@ $$f'(x)\approx L_n'(x)=\sum_{i=0}^{n}l_i'(x)f(x_i)$$
 
 # Iterative method to solve linear equation
 
-### Jacobi Iterative
+## Jacobi Iterative
 
 JOR Iterative
-### Gauss-Seidel Iterative
+## Gauss-Seidel Iterative
 
 SOR Iterative
 
 # Non-linear Equation
 
-### Bisection Method
+## Bisection Method
 
 If the function $f$ is continuous on $[a,b]$ and $f(a)f(b)<0$, we can use [Binary Search](#binary-search) to find a zero point.
 
-### Fixed-point iteration
+## Fixed-point iteration
 
 If the equation $f(x)=0$ can be transformed into $$\varphi(x)=x$$
 We can use <span style="color: red;">fixed-point iteration</span> to solve the equation, i.e.$$x_{n+1}=\varphi(x_n)$$
@@ -295,7 +295,7 @@ The following theorem gives sufficient conditions for iterative convergence:
 >We can also find that$$\left | x_{k+1}-x_k \right |\le L^k\left| x_1-x_0\right |$$
 >Moreover,$$\begin{align*}\left | x_{k+p}-x_k \right |&\le \left | x_{k+p}-x_{k+p-1} \right |+\dots+\left | x_{k+1}-x_{k} \right |\\&\le(L^{k+p-1}+\dots+L^k)\left| x_1-x_0\right |=\frac{L^k-L^{k+p}}{1-L}\left| x_1-x_0\right |\end{align*}$$
 >Let $p\to\infty$, then$$\left | x^*-x_k \right |\le\frac{L^k}{1-L}\left| x_1-x_0\right |$$
-### Newton Method
+## Newton Method
 
 ![Screenshot 2026-07-09 at 12.52.22](../attachments/Screenshot%202026-07-09%20at%2012.52.22.png)
 
@@ -303,7 +303,7 @@ $$y=f'(x_n​)(x−x_n​)+f(x_n​)$$
 $$x_{n+1​}=x_n​−\frac{f(x_n​)}{f'(x_n​)}​$$
 This iteration requires $f'(x_n)\ne0$. Near a simple root and under suitable smoothness assumptions, Newton's method usually has quadratic convergence.
 
-### Secant Method
+## Secant Method
 
 Replace the derivative with the difference quotient
 
@@ -312,7 +312,7 @@ $$x_{n+1​}=x_n​−\frac{f(x_n​)}{\frac{f(x_n)-f(x_{n-1})}{x_n-x_{n-1}}}=x_
 Geometrically,
 ![Screenshot 2026-07-09 at 12.52.57](../attachments/Screenshot%202026-07-09%20at%2012.52.57.png)
 
-### Newton's method for nonlinear equation systems
+## Newton's method for nonlinear equation systems
 
 For the equation systems
 $$\left\{\begin{matrix}
@@ -358,6 +358,11 @@ J(X)=
 &
 \dfrac{\partial f_n(X)}{\partial x_n}
 \end{pmatrix}$$
+
+# Approximation
+## Best square approximation
+
+## Best uniform approximation polynomial
         </script>
     </main>
 
