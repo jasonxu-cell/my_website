@@ -307,7 +307,9 @@
             "shell": "bash",
             "sh": "bash",
             "vb": "vbnet",
+            "vbs": "vbscript",
             "visual-basic": "vbnet",
+            "visual-basic-script": "vbscript",
             "visualbasic": "vbnet",
             "plain": "plaintext",
             "text": "plaintext"
@@ -506,6 +508,36 @@
             commentPatterns: ["'[^\\n]*", "\\bREM\\b[^\\n]*"],
             stringPatterns: ["\"(?:\"\"|[^\"])*\""],
             metaPatterns: ["^[ \\t]*#(?:Const|Else|ElseIf|End\\s+If|ExternalSource|If|Region)\\b[^\\n]*"]
+        },
+        vbscript: {
+            caseInsensitive: true,
+            keywords: [
+                "Call", "Case", "Class", "Const", "Dim", "Do", "Each", "Else", "ElseIf", "End", "Eqv",
+                "Erase", "Error", "Execute", "Exit", "Explicit", "For", "Function", "If", "Imp", "In", "Is",
+                "Let", "Loop", "Mod", "Next", "Not", "On", "Option", "Or", "Preserve", "Private", "Property",
+                "Public", "Randomize", "ReDim", "Resume", "Select", "Set", "Step", "Stop", "Sub", "Then", "To",
+                "Wend", "While", "With", "Xor"
+            ],
+            types: ["Variant"],
+            builtIns: [
+                "Array", "Asc", "AscB", "AscW", "CBool", "CByte", "CCur", "CDate", "CDbl", "Chr", "ChrB",
+                "ChrW", "CInt", "CLng", "CreateObject", "CSng", "CStr", "Date", "DateAdd", "DateDiff",
+                "DatePart", "DateSerial", "DateValue", "Day", "Err", "Eval", "Filter", "FormatCurrency",
+                "FormatDateTime", "FormatNumber", "FormatPercent", "GetLocale", "GetObject", "GetRef", "Hex",
+                "Hour", "InputBox", "InStr", "InStrB", "InStrRev", "Int", "IsArray", "IsDate", "IsEmpty",
+                "IsNull", "IsNumeric", "IsObject", "Join", "LBound", "LCase", "Left", "Len", "LoadPicture",
+                "Log", "LTrim", "Mid", "Minute", "Month", "MonthName", "MsgBox", "Now", "Oct", "Replace",
+                "RGB", "Right", "Rnd", "Round", "ScriptEngine", "Second", "SetLocale", "Space", "Split", "Sqr",
+                "StrComp", "String", "StrReverse", "Time", "Timer", "TimeSerial", "TimeValue", "Trim", "TypeName",
+                "UBound", "UCase", "VarType", "Weekday", "WeekdayName", "WScript", "Year"
+            ],
+            literals: ["Empty", "False", "Nothing", "Null", "True"],
+            commentPatterns: ["'[^\\n]*", "\\bREM\\b[^\\n]*"],
+            stringPatterns: ["\"(?:\"\"|[^\"])*\""],
+            patterns: [
+                { pattern: "#[^#\\n]+#", className: "hljs-literal" },
+                { pattern: "\\.[A-Za-z_][A-Za-z0-9_]*", className: "hljs-built_in" }
+            ]
         },
         simula: {
             caseInsensitive: true,

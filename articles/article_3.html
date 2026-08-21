@@ -1393,6 +1393,36 @@ In 2002, Microsoft introduced Visual Basic .NET as part of the new .NET platform
 
 Microsoft describes modern Visual Basic as an approachable language with a stable design. The core .NET libraries continue to support it, and improvements to the runtime can benefit Visual Basic programs automatically. However, Microsoft does not plan to extend the language to new workload categories and generally prioritizes compatibility, Visual Studio tooling, Windows Forms, libraries, and interoperability with [[#C\#|C#]]. Visual Basic is therefore no longer at the center of Microsoft's language strategy, but its influence remains important: it helped popularize event-driven GUI programming, reusable visual components, and rapid application development for a generation of Windows programmers.
 
+## VBScript
+
+VBScript, formally called Visual Basic Scripting Edition, was another member of the Visual Basic family. Microsoft introduced it in 1996 alongside Internet Explorer 3.0 and ActiveX Scripting. It was designed as a lightweight, interpreted subset of VBA that could be embedded in a host environment. Unlike classic Visual Basic, VBScript did not include a visual form designer or compile programs into independent executables; the host supplied the user interface, object model, and other external capabilities.
+
+VBScript is dynamically typed and uses `Variant` as its only data type. A `Variant` can hold a number, string, date, Boolean value, object reference, or special value such as `Empty` or `Null`, depending on context. The language supports procedures, functions, conditionals, loops, arrays, basic classes, and error handling, but it omits many of the type declarations and development tools available in VB6 or VBA. `Option Explicit` is therefore especially valuable because it catches undeclared or misspelled variable names before a script runs further.
+
+VBScript became important through three main hosts. Internet Explorer could execute it inside client-side web pages, although this tied such pages closely to Microsoft browsers and ActiveX. Classic Active Server Pages (ASP) used VBScript as its default server-side language for generating dynamic HTML and accessing COM components such as ActiveX Data Objects (ADO). Windows Script Host provided a third environment: `WScript.exe` ran scripts in a window-oriented host, while `CScript.exe` ran them from the command line. Files intended for these hosts conventionally use the `.vbs` extension.
+
+The following script uses Windows Script Host and the `Scripting.FileSystemObject` COM component to list the files in the current directory. It can be run from a command prompt with `cscript ListFiles.vbs`:
+
+```VBScript
+Option Explicit
+
+Dim fileSystem, folder, file
+Set fileSystem = CreateObject("Scripting.FileSystemObject")
+Set folder = fileSystem.GetFolder(".")
+
+WScript.Echo "Files in " & folder.Path & ":"
+
+For Each file In folder.Files
+	WScript.Echo file.Name
+Next
+```
+
+This example illustrates the role of the host. `CreateObject` creates a late-bound COM object, the file-system component supplies operations that are not built directly into the language, and `WScript.Echo` asks Windows Script Host to display output. The same mechanism allowed VBScript to automate Office applications, query WMI, modify the registry, run logon scripts, and coordinate other COM-based software. It made administrative automation accessible, but scripts also inherited the permissions of the user who ran them. Malicious email attachments and untrusted web content consequently turned this convenience into a significant security risk.
+
+VBScript gradually lost each of its major roles. JavaScript became the cross-browser standard for client-side web programming, ASP.NET replaced classic ASP in much new Microsoft web development, and [[#PowerShell]] provided a richer language and object-based pipeline for Windows administration. Microsoft deprecated VBScript in October 2023. Its retirement is staged: it is being made available as a Feature on Demand before eventual removal from Windows, and Windows Server 2025 still includes it as a preinstalled Feature on Demand. Microsoft recommends PowerShell for automation and JavaScript for browser-based code, although many organizations must continue maintaining older `.vbs` scripts and classic ASP applications during the transition.
+
+The distinctions among these related technologies are therefore important. Classic Visual Basic was a standalone Windows application-development environment; VBA is embedded inside applications such as Office; VBScript is a host-dependent scripting language for Windows and legacy web environments; and VB.NET is a substantially redesigned .NET language. Similar syntax does not make their runtimes, capabilities, or deployment models interchangeable.
+
 ## R
 
 R is a statistical computing and graphics language developed by Ross Ihaka and Robert Gentleman in the early 1990s. The name comes from the initials of its developers. It was strongly influenced by the S language, which was a statistical language developed at Bell Labs. Because R is open source, extensible, and convenient for statistical modeling and data visualization, it became popular worldwide.
@@ -1681,7 +1711,7 @@ Haskell's historical influence is much greater than its market share. It helped 
 </script>
     </main>
 
-    <script src="../scripts/markdown-article.js?v=20260821-shell-highlighting-1"></script>
+    <script src="../scripts/markdown-article.js?v=20260821-vbscript-highlighting-1"></script>
     <script src="../scripts/comments.js"></script>
 </body>
 </html>
