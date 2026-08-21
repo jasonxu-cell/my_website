@@ -289,6 +289,7 @@
         const aliases = {
             "c++": "cpp",
             "c#": "csharp",
+            "c-shell": "csh",
             "common-lisp": "lisp",
             "commonlisp": "lisp",
             "f90": "fortran",
@@ -296,6 +297,7 @@
             "hs": "haskell",
             "lhs": "haskell",
             "js": "javascript",
+            "kornshell": "ksh",
             "mjs": "javascript",
             "modula-2": "modula",
             "objective-c": "objectivec",
@@ -307,7 +309,6 @@
             "vb": "vbnet",
             "visual-basic": "vbnet",
             "visualbasic": "vbnet",
-            "zsh": "bash",
             "plain": "plaintext",
             "text": "plaintext"
         };
@@ -368,11 +369,45 @@
             commentPatterns: ["#[^\\n]*"]
         },
         bash: {
-            keywords: ["case", "do", "done", "elif", "else", "esac", "fi", "for", "function", "if", "in", "then", "while"],
+            keywords: [
+                "case", "coproc", "do", "done", "elif", "else", "esac", "fi", "for", "function", "if",
+                "in", "select", "then", "time", "until", "while"
+            ],
             types: [],
-            builtIns: ["cd", "echo", "exit", "export", "grep", "ls", "mkdir", "npm", "pwd", "rg", "sed"],
+            builtIns: [
+                "alias", "bg", "bind", "break", "builtin", "cd", "command", "continue", "declare", "dirs",
+                "disown", "echo", "enable", "eval", "exec", "exit", "export", "fc", "fg", "getopts", "hash",
+                "help", "history", "jobs", "kill", "let", "local", "logout", "mapfile", "popd", "printf",
+                "pushd", "pwd", "read", "readarray", "readonly", "return", "set", "shift", "shopt", "source",
+                "suspend", "test", "times", "trap", "type", "typeset", "ulimit", "umask", "unalias", "unset",
+                "wait", "grep", "ls", "mkdir", "npm", "rg", "sed"
+            ],
+            literals: ["false", "true"],
+            commentPatterns: ["#[^\\n]*"],
+            metaPatterns: ["\\$\\{[^}\\n]+\\}|\\$(?:[A-Za-z_][A-Za-z0-9_]*|[0-9@*#?$!-])"]
+        },
+        csh: {
+            keywords: [
+                "break", "breaksw", "case", "continue", "default", "else", "end", "endif", "endsw",
+                "foreach", "goto", "if", "onintr", "repeat", "switch", "then", "while"
+            ],
+            types: [],
+            builtIns: [
+                "alias", "bg", "bindkey", "cd", "chdir", "complete", "dirs", "echo", "eval", "exec", "exit",
+                "fg", "glob", "hashstat", "history", "jobs", "kill", "limit", "login", "logout", "nice",
+                "nohup", "notify", "popd", "printenv", "pushd", "rehash", "set", "setenv", "source", "stop",
+                "suspend", "time", "umask", "unalias", "uncomplete", "unhash", "unlimit", "unset", "unsetenv",
+                "wait", "where", "which"
+            ],
             literals: [],
-            commentPatterns: ["#[^\\n]*"]
+            commentPatterns: ["#[^\\n]*"],
+            metaPatterns: [
+                "\\$\\{?[A-Za-z_][A-Za-z0-9_]*(?::[A-Za-z]+)?\\}?", "\\$[0-9@*#?$!-]"
+            ],
+            patterns: [
+                { pattern: "@(?=\\s+[A-Za-z_])", className: "hljs-keyword" },
+                { pattern: "![^\\s]+", className: "hljs-meta" }
+            ]
         },
         fortran: {
             caseInsensitive: true,
@@ -766,8 +801,25 @@
     localHighlightGrammars.c = localHighlightGrammars.cpp;
     localHighlightGrammars.csharp = localHighlightGrammars.cpp;
     localHighlightGrammars.java = localHighlightGrammars.cpp;
+    localHighlightGrammars.ksh = {
+        ...localHighlightGrammars.bash,
+        builtIns: [...localHighlightGrammars.bash.builtIns, "print", "whence"]
+    };
+    localHighlightGrammars.tcsh = localHighlightGrammars.csh;
     localHighlightGrammars.typescript = localHighlightGrammars.javascript;
     localHighlightGrammars.shell = localHighlightGrammars.bash;
+    localHighlightGrammars.zsh = {
+        ...localHighlightGrammars.bash,
+        keywords: [...localHighlightGrammars.bash.keywords, "always", "end", "foreach", "repeat"],
+        builtIns: [
+            ...localHighlightGrammars.bash.builtIns,
+            "autoload", "bindkey", "compinit", "emulate", "print", "setopt", "unsetopt", "zcompile", "zformat",
+            "zle", "zmodload", "zparseopts", "zregexparse", "zstyle"
+        ],
+        patterns: [
+            { pattern: "%[A-Za-z%](?:\\{[^}]+\\})?", className: "hljs-meta" }
+        ]
+    };
 
     function makeWordPattern(words) {
         return words.length ? words.map(escapeRegExp).join("|") : "";
