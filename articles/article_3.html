@@ -67,7 +67,7 @@ The following figure is a broad genealogy of programming languages from the 1950
 \begin{figure}[h]
 \centering
 \label{Figure 1}
-\includegraphics[width=0.6\linewidth]{images/programing language.png}
+\includegraphics[width=0.6\linewidth]{images/programming language.png}
 \caption{Development of programming languages over time}
 \end{figure}
 
@@ -497,7 +497,7 @@ Most importantly, C helped liberate Unix from assembly language. Unix became one
 - Each program should do one thing well, making programs simpler and more reliable.
 - The pipeline mechanism allows the output of one program to be directly used as the input of another program.
 
-## Unix Shell
+## Unix Shell 1
 
 To make computers easier to use, early operating systems provided a simple command-line interpreter called a shell. A shell is a glue language that can run many predefined commands, such as running user programs, logging in and out of the system, and allocating, releasing, or manipulating devices and files.
 
@@ -507,7 +507,32 @@ In 1979, Stephen Bourne introduced the Bourne shell, usually invoked as `sh`, in
 
 The Bourne shell also helped establish the common Unix shell style. For example, variables are assigned without spaces around `=`, variables are expanded with `$name`, command substitution can insert the output of one command into another command, and exit status is used as the basis of conditional judgment. Many later shells, including Bash, KornShell, and Zsh, inherited Bourne shell syntax while adding their own extensions.
 
-Aside from reserved keywords, shell commands are used by default. Therefore, even within an `if` statement, the `test` command can be used to obtain a logical result. An example is as follows:
+A separate branch of Unix shell development emerged at the University of California, Berkeley. Bill Joy created the C shell, normally invoked as `csh`, in 1978, and it first appeared in the Second Berkeley Software Distribution (2BSD). Its name comes from control-flow expressions designed to resemble the C programming language. For example, C shell uses constructs such as `if (expression) then`, `switch`, and `foreach` rather than Bourne shell syntax.
+
+C shell was especially influential as an interactive command environment. It offered command history and `!`-based history substitution, aliases, job control through commands such as `jobs`, `fg`, and `bg`, directory stacks through `pushd` and `popd`, and interactive filename and username completion. These features made terminal work more convenient and helped establish capabilities that later became standard expectations for interactive shells.
+
+The following C shell script counts the regular files supplied as command-line arguments:
+
+```csh
+#!/bin/csh
+
+set count = 0
+
+foreach file ($argv:q)
+	if (-f "$file") then
+		echo "File: $file"
+		@ count++
+	endif
+end
+
+echo "$count regular file(s) found."
+```
+
+C shell syntax is not compatible with the Bourne shell. It uses `set` for shell variables, `setenv` for environment variables, `$argv` for command-line arguments, and `$status` for the previous command's exit status. In the example, the `:q` modifier preserves each argument as a single word when a filename contains spaces. Configuration is normally stored in `.cshrc`, while login-specific commands can be placed in `.login` and `.logout`.
+
+C shell's C-like surface made it attractive to many programmers, but its parsing, quoting, and error-handling rules can be difficult to use reliably in large scripts. Bourne-style and later POSIX shells consequently became more common for portable system scripting, while C shell remained strongly associated with interactive use. The later `tcsh` preserved C shell compatibility while adding a more capable command-line editor, programmable completion, spelling correction, and an enhanced history mechanism. Although `csh` and `tcsh` are less common today, their interactive ideas influenced later shells such as Bash and Zsh.
+
+In Bourne-style shell syntax, words that are not reserved keywords are normally treated as commands. Therefore, even within an `if` statement, the `test` command can be used to obtain a logical result. An example is as follows:
 
 ```shell
 #!/bin/sh
@@ -1015,11 +1040,74 @@ print $array[-5]; # returns undef and may print a warning under warnings
 
 As a first-generation glue language, Perl was one of the most popular web programming languages in the Web 1.0 era. With the rise of the Internet and the widespread pre-installation of Perl on Unix systems, Perl rapidly gained a huge user base. However, under competitive pressure from emerging programming languages such as [[#Python]], the Perl community chose a controversial path: developing a largely redesigned Perl 6, which was later renamed Raku. This path separated Raku from Perl's existing ecosystem advantages, indirectly leading to a lukewarm market response and a relatively small user base.
 
-## Bash shell
+## Unix Shell 2
 
-Bash shell was first released in 1989. Bash is a commonly used command-line interpreter in Unix-like systems, especially Linux.
+The shell landscape of the 1980s was shaped by two competing strengths. Bourne shell syntax was well suited to portable scripting, while C shell offered a more comfortable interactive experience. KornShell and tcsh developed these two lineages in different directions, and Bash later combined many of their practical ideas in the GNU ecosystem.
+
+KornShell, normally invoked as `ksh`, was created by David Korn at Bell Laboratories. Its first version appeared in 1983. KornShell was designed as an upward-compatible extension of the Bourne shell, so existing `sh` users and scripts could adopt it more easily. At the same time, it incorporated interactive ideas associated with C shell, including command history, aliases, and job control. It was also the first widely used shell to provide both Emacs-style and vi-style command-line editing.
+
+KornShell treated the shell as a serious programming language rather than only a command launcher. It added shell functions, indexed arrays, built-in integer arithmetic, improved parameter expansion, coprocesses, and more expressive conditionals. The influential ksh88 version was adopted by UNIX System V Release 4 and helped shape the POSIX shell standard. The later ksh93 rewrite added features such as floating-point arithmetic, associative arrays, compound variables, name references, and dynamically loadable built-ins.
+
+The following ksh example uses a function, integer variables, arithmetic evaluation, and a default parameter to calculate a factorial:
+
+```ksh
+#!/bin/ksh
+
+function factorial {
+	typeset -i n=$1
+	typeset -i result=1
+
+	while (( n > 1 )); do
+		(( result *= n ))
+		(( n-- ))
+	done
+
+	print -r -- "$result"
+}
+
+value=${1:-5}
+
+if (( value < 0 )); then
+	print -u2 -- "The value must be non-negative."
+	exit 1
+fi
+
+print -n -- "$value! = "
+factorial "$value"
+```
+
+The `typeset -i` declarations give the local variables integer semantics, while `(( ... ))` evaluates arithmetic without external commands such as `expr`. Most of the surrounding control syntax remains familiar to Bourne shell users. However, scripts that depend on ksh-specific features should use a ksh shebang rather than claiming compatibility with a generic `/bin/sh`.
+
+The Tenex C shell, or `tcsh`, developed the other major lineage. It is an enhanced, highly compatible version of Berkeley `csh`. Its early completion work was inspired by the command interface of the TENEX and TOPS-20 operating systems; this history accounts for the `t` in its name. Ken Greer contributed filename completion in the early 1980s, and later contributors, including Mike Ellis and Paul Placeway, expanded command completion, line editing, prompts, history, portability, and performance.
+
+Unlike ksh, tcsh did not adopt Bourne-compatible scripting syntax. Its main strength was interactive use. It added an Emacs- or vi-style command-line editor, programmable word completion, spelling correction for commands and filenames, improved history search, richer prompts, and enhanced directory-stack handling. It reads `.tcshrc` for interactive configuration and can fall back to `.cshrc`, preserving compatibility with existing C shell environments.
+
+The following `.tcshrc` fragment enables several common interactive features:
+
+```tcsh
+set history = 1000
+set savehist = (1000 merge)
+set autolist
+set correct = cmd
+set prompt = "%n@%m:%~%# "
+
+bindkey -e
+alias ll 'ls -al'
+```
+
+Here, `history` controls the in-memory history length, `savehist` preserves and merges history between sessions, `autolist` displays completion choices, and `correct` enables command-name correction. `bindkey -e` selects Emacs-style editing, while the prompt escapes display the user name, host name, and current directory. These features make tcsh comfortable as a login shell, but its inherited C shell syntax and quoting behavior make it a less common choice for new portable scripts.
+
+Bash, whose name stands for *Bourne Again SHell*, was developed for the GNU Project and first released in 1989. The name is both a reference to the Bourne shell and a pun on being "born again." Bash is a commonly used command-line interpreter in Unix-like systems, especially Linux.
 
 Bash command syntax is largely compatible with Bourne shell syntax and adds many extensions. Bash supports features such as brace expansion, command history, programmable completion, job control, basic debugging, and signal handling. As two widely used command-line environments, both CMD and Bash support pipes (`|`) and redirection (`>` and `<`), but Bash offers greater richness and flexibility for system administration and automation.
+
+Bash predates Linux: Bash appeared in 1989, while the Linux kernel began in 1991. When the Linux kernel emerged, the GNU project had already produced a compiler, shell, libraries, and many Unix-like command-line tools. Combining the Linux kernel with this GNU user space made it possible to assemble a largely free Unix-like operating system. Bash consequently became closely associated with Linux and was adopted as the default interactive shell in many distributions.
+
+However, Bash is not part of the Linux kernel. It is an ordinary user-space program, usually installed as `/bin/bash`, and the kernel does not require it to schedule processes, manage memory, provide filesystems, or perform networking. A Linux system can use another login shell, and minimal containers or embedded systems often omit Bash in favor of smaller implementations such as BusyBox `ash`. Other distributions and users may choose Dash, ksh, Zsh, or another shell for particular roles.
+
+The distinction between `/bin/bash` and `/bin/sh` is especially important on Linux. `/bin/bash` explicitly requests Bash, whereas `/bin/sh` requests the system's Bourne/POSIX-style shell. On some distributions `/bin/sh` links to Bash, which enters a more POSIX-oriented mode when invoked as `sh`; on others, including Debian-derived systems, it commonly links to Dash for faster startup and lower overhead. A script that uses non-POSIX features available in Bash, such as arrays, `[[ ... ]]`, `source`, brace expansion, or process substitution, should therefore use an explicit Bash shebang. A genuinely portable script should use `#!/bin/sh` and restrict itself to the syntax guaranteed by its target POSIX-style shell.
+
+This relationship explains why Bash is highly visible in Linux administration without being synonymous with Linux itself. Bash scripts are widely used for installation, build systems, package maintenance, development environments, continuous integration, and operational automation. Nevertheless, these scripts run as user-space programs and coordinate other commands; they do not become part of the kernel merely because they are used to manage a Linux machine.
 
 Batch and Bash differ significantly. For example, their conditional statements are written differently:
 
@@ -1038,7 +1126,7 @@ if %var% EQU 5 (
 var=5
 if [ "$var" -eq 5 ]; then
 	echo "Is equal to 5."
-else
+else 
 	echo "Is not equal to 5."
 fi
 ```
@@ -1060,6 +1148,8 @@ done
 ```
 
 Because Bash is open-source and widely ported, it is convenient to use even on Windows platforms through tools such as WSL, Git Bash, and MSYS2. Learning shell scripts can greatly reduce manual work and improve automation efficiency and accuracy.
+
+These shells therefore belong to two different compatibility families. KornShell and Bash primarily extend Bourne shell syntax and are closely connected with POSIX-style scripting, whereas tcsh extends C shell syntax and is primarily valued for interactive use. Their commands may look similar at a terminal, but variable assignment, conditionals, loops, quoting, startup files, and script portability differ significantly.
 
 ## Ada
 
@@ -1454,6 +1544,65 @@ Batch processing refers to scripts composed of a series of CMD commands and cont
 Batch script syntax inherits some characteristics from early command-line systems and BASIC-like control flow. For example, many commands are short words such as `REN`, `DIR`, `DEL`, and `VOL`; variables are defined and assigned using the `SET` command; subroutines are called using the `CALL` command; and `REM` or `::` is often used for comments. Due to its ease of use, many Windows users and engineers have experience writing batch scripts. CMD was originally designed for compatibility with DOS-style command processing, so batch syntax has changed only slowly. Therefore, writing Windows batch scripts can feel like programming in the language of an older era.
 
 As operating systems evolved, the limitations of batch processing became increasingly apparent. To provide a more powerful and flexible command-line interpreter, Microsoft introduced [[#PowerShell]] in the 2000s. [[#PowerShell]] is a command-line shell and scripting language based on .NET, offering richer functionality and a more modern syntax. Starting with Windows 10 build 14971, released in November 2016, PowerShell replaced CMD as the default shell in the Win+X menu, although CMD remains available.
+
+## Z shell (Zsh) 
+
+Z shell, normally invoked as `zsh`, was originally written by Paul Falstad while he was a student at Princeton University. Its first version appeared in 1990. Zsh was created after the major Unix shell families had already developed distinct strengths: Bourne-style shells provided a practical scripting language, KornShell added more powerful programming and editing facilities, and tcsh emphasized a rich interactive experience. Zsh brought many of these ideas together while adding its own expansion, completion, and customization systems.
+
+Among the traditional shells, Zsh most closely resembles KornShell. It supports Bourne-style pipelines, redirection, functions, parameter expansion, arithmetic, conditionals, and loops, while also providing arrays, associative arrays, floating-point arithmetic, autoloaded functions, coprocesses, and many advanced expansion operators. It can emulate `sh` or `ksh` through invocation modes or the `emulate` command, but its normal operating mode is neither completely POSIX-compatible nor identical to Bash or ksh.
+
+This distinction matters when writing scripts. A script that uses Zsh-specific syntax should begin with a Zsh shebang rather than `#!/bin/sh`. Conversely, a script intended to be portable should be tested by the shell named in its shebang instead of assuming that Zsh will behave exactly like another shell. For example, Zsh arrays are indexed from one by default, unquoted scalar expansion does not normally perform the implicit word splitting familiar from traditional `sh`, and an unmatched glob pattern normally produces an error instead of remaining unchanged.
+
+Zsh is especially well known for interactive use. Its Zsh Line Editor (ZLE) supports Emacs- and vi-style keymaps, user-defined editing widgets, multiline editing, history search, and configurable key bindings. The shell also provides spelling correction, directory stacks, named directories, sophisticated prompts, command timing, and extensive option controls. Many of these facilities are built into Zsh itself rather than requiring an external terminal emulator.
+
+Its programmable completion system is one of its most distinctive features. Completion can understand command options, subcommands, file types, process identifiers, host names, users, variables, archive contents, version-control references, and other command-specific contexts. The `compinit` function initializes this system, while `zstyle` rules control details such as grouping, descriptions, matching, colors, menus, and sorting. Completion definitions are written as shell functions, so users and software packages can extend the system without modifying the shell executable.
+
+Zsh also provides unusually powerful filename generation, commonly called globbing. Recursive patterns such as `**/*.md` can search an entire directory tree, while *glob qualifiers* can restrict matches by file type, permissions, ownership, size, modification time, or other metadata. The following script recursively finds regular Markdown files and separates each path into its directory and filename components:
+
+```zsh
+#!/bin/zsh
+
+setopt null_glob
+
+markdown_files=(**/*.md(.))
+
+for file in "${markdown_files[@]}"; do
+	print -r -- "Directory: ${file:h}"
+	print -r -- "File:      ${file:t}"
+done
+
+print -r -- "${#markdown_files} Markdown file(s) found."
+```
+
+In the pattern `**/*.md(.)`, `**` performs recursive matching and the `.` qualifier keeps only regular files. The array assignment stores all matches without requiring an external `find` command. The modifiers `:h` and `:t` return the head and tail of a path, while `${#markdown_files}` returns the number of array elements. `null_glob` makes a pattern with no matches disappear instead of raising Zsh's normal unmatched-pattern error.
+
+Zsh uses several startup files with different responsibilities. `.zshenv` is read for every Zsh invocation and should contain only environment settings that truly apply everywhere. `.zprofile` and `.zlogin` are associated with login shells, `.zshrc` configures interactive shells, and `.zlogout` runs when a login shell exits. Interactive aliases, completion setup, prompts, and key bindings normally belong in `.zshrc` rather than `.zshenv`, because non-interactive scripts should not pay for or be affected by interactive configuration.
+
+The following is a small `.zshrc` example:
+
+```zsh
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+
+setopt hist_ignore_dups
+setopt share_history
+setopt auto_cd
+
+autoload -Uz compinit
+compinit
+
+bindkey -e
+PROMPT='%F{cyan}%n@%m%f:%F{blue}%~%f %# '
+```
+
+This configuration saves command history, avoids immediately repeated entries, shares history among concurrent sessions, permits a directory name to be entered without explicitly typing `cd`, initializes programmable completion, selects Emacs-style key bindings, and defines a colored prompt. Zsh's option system makes such behavior explicit, although a large number of interacting options can also make two users' Zsh environments behave quite differently.
+
+Zsh acquired a large ecosystem of themes, plugins, prompt engines, and configuration frameworks. These tools can make Git status, language environments, command suggestions, syntax highlighting, and other information available directly at the prompt. They also introduce tradeoffs: loading many plugins can slow shell startup, configuration frameworks may hide how the underlying shell works, and third-party plugins execute with the user's permissions and must therefore be treated as code rather than harmless decoration.
+
+Modern macOS uses Zsh as its default interactive shell, which significantly increased its visibility beyond its traditional Unix user base. Zsh is also available on Linux and other Unix-like systems, although Bash remains more common as a default shell on many of them. Because a login shell and a system script interpreter serve different roles, selecting Zsh for interactive use does not require rewriting portable `/bin/sh` scripts in Zsh.
+
+Zsh's main strength is the combination of a powerful interactive environment with a capable scripting language. Its completion engine, line editor, globbing language, parameter transformations, and prompt system reward users who spend substantial time in a terminal. The cost is a large feature set, complex documentation, and subtle incompatibilities with other shells. Historically, Zsh represents an attempt to unify the best ideas of the Bourne, Korn, Bash, and C-shell traditions without limiting itself to exact compatibility with any one of them.
 
 ## Haskell
 
