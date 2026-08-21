@@ -2646,6 +2646,7 @@ E[Yn​]=E[n1​i=0∑n−1​2max{hi​,hn−1−i​}+1]=n2​i=0∑n​E[2max
 
 ## 平衡二叉树 (Adelson-Velsky and Landis Tree, AVL树)
 
+
 对相同的两个序列，我们可以有多个二叉排序树，如图所示。容易得到，这两个二叉排序树的查找效率是不同的，因为b树的查找已经退化为了顺序查找。
 
 注意到二叉排序树的查找效率与树高有关。树越高，效率越低。因此，我们希望二叉树尽可能低，这就要求二叉树更“平衡”，即尽可能充分利用每层的空间。
@@ -2661,7 +2662,6 @@ E[Yn​]=E[n1​i=0∑n−1​2max{hi​,hn−1−i​}+1]=n2​i=0∑n​E[2max
 1. LL型：失衡结点的平衡因子为2，失衡结点的左孩子平衡因子为1，此时应当对A右旋
 
 
-
 2. RR型：失衡结点的平衡因子为-2，失衡结点的右孩子平衡因子为-1，此时应当对A左旋
 
 
@@ -2669,9 +2669,7 @@ E[Yn​]=E[n1​i=0∑n−1​2max{hi​,hn−1−i​}+1]=n2​i=0∑n​E[2max
 3. LR型：失衡结点的平衡因子为2，失衡结点的左孩子平衡因子为-1，此时应当对B左旋，对A右旋
 
 
-
 4. RL型：失衡结点的平衡因子为-2，失衡结点的左孩子平衡因子为1，此时应当对B右旋，对A左旋
-
 
 
 值得注意的是，如果添加一个结点导致两个结点同时失衡，我们只需要调整距离插入结点最近的结点即可。
@@ -2722,8 +2720,6 @@ m阶**B-树**，或为空树，或为满足下列特性的m叉树：
 5. 所有的非终端结点最多有m−1个关键字
 
 在具体实现时，为记录其双亲结点，B-树结点的存储结构通常增加一个parent指针，指向其双亲结点，如图所示。其中K为关键字，P为指向子树根结点的指针。
-
-
 
 ```cpp
 #define m 3                   //B-树的阶  
@@ -3365,340 +3361,7 @@ We define the approximation ratio $$\alpha=\frac{M^*}{M}$$where $M^*$ is the res
 >Therefore, when each machine has at most 2 tasks, the greedy algorithm gives the optimal solution, i.e., $\alpha=1$, contradicting the assumption.
 >
 >Hence, in general, $\alpha\le\frac{4}{3}$.
-# Interpolation
 
-## Lagrange Interpolation
-
-We want to construct a polynomial of degree at most $n$, which exactly passes through $n+1$ distinct points. The polynomial satisfying this condition is unique.
-
-We want to construct the following form
-$$L_n(x)=\sum_{i=0}^{n}l_i(x)f(x_i),l_i(x_j)=\delta_{ij}$$
-Observation: the following function satisfies it
-$$l_i(x) = \frac{(x-x_0) \cdots (x-x_{i-1})(x-x_{i+1}) \cdots (x-x_n)}{(x_i-x_0) \cdots (x_i-x_{i-1})(x_i-x_{i+1}) \cdots (x_i-x_n)} = \prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}} \frac{x-x_j}{x_i-x_j}$$
-
-If $f(x)\in C^{n+1}[a,b]$, the interpolation error is$$R_n(x)=f(x)-L_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-x_0)(x-x_1)\cdots(x-x_n),\xi\in[a,b]$$
->[!PROOF]
->We can find that $R_n(x)$ has zero point $\{x_0,x_1,\dots,x_n\}$, so let $$R_n(x)=k(x)(x-x_0)(x-x_1)\cdots(x-x_n)$$
->Let$$\varphi(t)=f(t)-L_n(t)-k(x)(t-x_0)(t-x_1)\cdots(t-x_n)$$
->We can find that $$\varphi(x)=0,\varphi(x_i)=0,i=0,1,\dots,n$$
->So $\varphi(t)$ has at least $n+2$ zero points. By Rolle's Theorem, $\varphi'(t)$ has at least $n+1$ zero points. And so on, $\varphi^{(n+1)}(t)$ has at least one zero point $\xi$
->
->We can also find that$$\varphi^{(n+1)}(t)=f^{(n+1)}(t)-(n+1)!k(x)$$
->
->As a result,$$\varphi^{(n+1)}(\xi)=f^{(n+1)}(\xi)-(n+1)!k(x)=0$$ $$k(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}$$
-
-Time Complexity: $O(n^2)$
-
-## Newton Interpolation
-
-The problem of Lagrange interpolation is: if we want to insert a point, we still need time $O(n^2)$ to update the equation. We introduce Newton interpolation to solve this problem.
-
-Define:
-- <span style="color: red;">First-order divided difference</span> $$f[x_0,x_1]=\frac{f(x_1)-f(x_0)}{x_1-x_0}$$
-- <span style="color: red;">Second-order divided difference</span> $$f[x_0,x_1,x_2]=\frac{f[x_1,x_2]-f[x_0,x_1]}{x_2-x_0}$$
-- <span style="color: red;">k-th-order divided difference</span> $$f[x_0,x_1,\dots,x_k]=\frac{f[x_1,\dots,x_k]-f[x_0,\dots,x_{k-1}]}{x_k-x_0}$$
-We can use induction to prove that $$f[x_0,x_1,\dots,x_k]=\sum_{i=0}^k \frac{1}{(x_i-x_0)\dots(x_i-x_{i-1})(x_i-x_{i+1})\dots(x_i-x_k)}f(x_i)$$
-We can also find that if $\{i_0,i_1,\dots,i_k\}$ is a permutation of $\{0,1,\dots,k\}$, then$$f[x_{i_0},x_{i_1},\dots,x_{i_k}]=f[x_0,x_1,\dots,x_k]$$
-Obviously,$$f(x)=f[x_0,x](x-x_0)+f(x_0)$$
-We can use divided difference to recurse this process
-$$f(x)=f[x_0,x](x-x_0)+f(x_0)=f[x_0,x_1,x](x-x_0)(x-x_1)+f[x_0,x_1](x-x_0)+f(x_0)$$
-
-As a result, we have
-$$f(x)=N_n(x)+R_n(x)$$where$$N_n(x)=f(x_0)+(x-x_0)f[x_0,x_1]+\dots+(x-x_0)(x-x_1)\dots(x-x_{n-1})f[x_0,x_1,\dots,x_n]$$
-$$R_n(x)=(x-x_0)(x-x_1)\dots(x-x_n)f[x,x_0,x_1,\dots,x_n]$$
-Combined with Lagrange interpolation, we have
-$$f[x,x_0,x_1,\dots,x_n]=\frac{f^{(n+1)}(\xi)}{(n+1)!},\xi\in[a,b]$$
-
-Observation:
-$$N_{n+1}(x)=N_{n}(x)+(x-x_0)(x-x_1)\dots(x-x_{n})f[x_0,x_1,\dots,x_n,x_{n+1}]$$
-Given that$$N_{n+1}(x_{n+1})=f(x_{n+1})$$
-We have$$f[x_0,x_1,\dots,x_n,x_{n+1}]=\frac{f(x_{n+1})-N_n(x_{n+1})}{\prod_{i=0}^n(x_{n+1}-x_i)}$$
-Therefore, we only need time $O(n)$ to update the coefficient.
-
-## Hermite Interpolation
-
-Given derivative values of the function, we want to construct an interpolation polynomial. This interpolation is called <span style="color: red;">Hermite Interpolation</span>.
-
-### Lagrange Method
-
-Easy to get:
-$$H(x)=\sum_{i=0}^{n}\sum_{j=0}^{m}l_{ij}(x)f^{(j)}(x_i),\quad l_{ij}^{(k)}(x_r)=\delta_{ir}\delta_{jk}$$
-where $0\le r\le n$ and $0\le k\le m$.
-The problem is to determine the polynomial $l_{ij}(x)$
-
-Define base function
-$$L_i(x) = \frac{(x-x_0) \cdots (x-x_{i-1})(x-x_{i+1}) \cdots (x-x_n)}{(x_i-x_0) \cdots (x_i-x_{i-1})(x_i-x_{i+1}) \cdots (x_i-x_n)} = \prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}} \frac{x-x_j}{x_i-x_j}$$
-For all $r\ne i$, $x_r$ must be a zero of multiplicity $m+1$. So let
-$$l_{ij}(x)=L_i^{m+1}(x)q_{ij}(x)$$
-We want that
-$$l_{ij}^{(k)}(x_i)=\delta_{jk}$$
-As a result,
-$$L_i^{m+1}(x)q_{ij}(x)=\frac{(x-x_i)^j}{j!}+O((x-x_i)^{m+1})$$
-Let
-$$q_{ij}(x)=\frac{(x-x_i)^j}{j!}P_{ij}(x)$$
-Hence,$$l_{ij}(x)=\frac{(x-x_i)^j}{j!}L_i^{m+1}(x)P_{ij}(x)$$
-$$P_{ij}(x)=\frac{1+O((x-x_i)^{m+1-j})}{L_i^{m+1}(x)}$$
-Use Taylor expansion,
-$$\frac{1}{L_i^{m+1}​(x)}=\sum_{s=0}^\infty\frac{1}{s!}
-\left.
-\frac{\mathrm{d}^s}{\mathrm{d}x^s}
-\left(\frac{1}{L_i^{\,m+1}(x)}\right)
-\right|_{x=x_i}
-(x-x_i)^s$$
-Only retain up to $m-j$ times, i.e.
-$$
-l_{ij}(x)
-=
-\frac{(x-x_i)^j}{j!}
-L_i^{\,m+1}(x)
-\sum_{s=0}^{m-j}
-\frac{1}{s!}
-\left.
-\frac{\mathrm{d}^s}{\mathrm{d}x^s}
-\left(\frac{1}{L_i^{\,m+1}(x)}\right)
-\right|_{x=x_i}
-(x-x_i)^s
-$$
-We can verify that it satisfies the required interpolation conditions.
-
-### Newton Method
-
-Newton's method for Hermite interpolation uses repeated nodes. We only need to define$$f[\underbrace{x,x,\dots,x}_{r+1}] = \frac{1}{r!}f^{(r)}(x),\quad r\ge0$$
-
-## Cubic Spline Interpolation
-
-The previous interpolation has a problem. If we fit a large number of points with one high-degree polynomial, the interpolation polynomial may oscillate violently within the interpolation interval. This phenomenon is called <span style="color: red;">Runge phenomenon</span>.
-
-To solve this problem, we can use <span style="color: red;">Cubic Spline Interpolation</span>. The method uses piecewise interpolation. On each interval $[x_i,x_{i+1}]$, we use a third-degree polynomial to interpolate.
-
-Obviously, each third-degree polynomial needs $4$ parameters. So we need $4n$ equations to determine the parameters.
-1. Pass through the data points, which needs $2n$ equations
-2. First derivative continuity, which needs $n-1$ equations
-3. Second derivative continuity, which needs $n-1$ equations
-4. Boundary conditions, which needs the last $2$ equations
-	- Natural spline $$S''(x_0)=S''(x_n)=0$$
-	- Clamped spline: if we know the first derivative of the endpoints, then $$S'(x_0)=k_0,S'(x_n)=k_n$$
-	- Periodic boundary conditions: if the endpoint values are compatible, then $$S'(x_0)=S'(x_n),S''(x_0)=S''(x_n)$$
-
-# Numerical integration and numerical differentiation
-
-## Interpolation-type numerical integration
-
-$$\begin{align*}\int_a^b f(x)\mathrm{d}x\approx \int_a^b L_n(x)\mathrm{d}x=\sum_{i=0}^{n}f(x_i)\int_a^bl_i(x)\mathrm{d}x\\=\sum_{i=0}^{n}f(x_i) \frac{1}{\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x_i-x_j)}\int_a^b\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x-x_j)\mathrm{d}x\end{align*}$$
-
-If we let $$h=\frac{b-a}{n},x_i=a+hi,i=0,1,\dots,n$$
-This method is called <span style="color: red;">Newton–Cotes Formula</span>.
-
-Let
-$$\begin{align*}A_i&=\frac{1}{\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x_i-x_j)}\int_a^b\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x-x_j)\mathrm{d}x\\&=h\frac{(-1)^{n-i}}{i!(n-i)!}\int_0^n t(t-1)\dots(t-i+1)(t-i-1)\dots(t-n)\mathrm{d}t\end{align*}$$
-
-Define Newton-Cotes integral coefficient $c_i^{(n)}$
-
-$$c_i^{(n)}=\frac{A_i}{b-a}=\frac{(-1)^{n-i}}{n\,i!(n-i)!}\int_0^n t(t-1)\dots(t-i+1)(t-i-1)\dots(t-n)\mathrm{d}t$$
-
-Then the closed Newton-Cotes formula is
-$$\int_a^b f(x)\mathrm{d}x\approx (b-a)\sum_{i=0}^n c_i^{(n)}f(x_i).$$
-
-We will have:
-
-| $n$ | $c_0^{(n)}$      | $c_1^{(n)}$     | $c_2^{(n)}$      | $c_3^{(n)}$      | $c_4^{(n)}$     | $c_5^{(n)}$      |
-| --- | ---------------- | --------------- | ---------------- | ---------------- | --------------- | ---------------- |
-| $1$ | $\frac{1}{2}$    | $\frac{1}{2}$   |                  |                  |                 |                  |
-| $2$ | $\frac{1}{6}$    | $\frac{4}{6}$   | $\frac{1}{6}$    |                  |                 |                  |
-| $3$ | $\frac{1}{8}$    | $\frac{3}{8}$   | $\frac{3}{8}$    | $\frac{1}{8}$    |                 |                  |
-| $4$ | $\frac{7}{90}$   | $\frac{16}{45}$ | $\frac{2}{15}$   | $\frac{16}{45}$  | $\frac{7}{90}$  |                  |
-| $5$ | $\frac{19}{288}$ | $\frac{25}{96}$ | $\frac{25}{144}$ | $\frac{25}{144}$ | $\frac{25}{96}$ | $\frac{19}{288}$ |
-
-Commonly, we have
-- Trapezoid formula ($n=1$): $$\int_a^b f(x)\mathrm{d}x\approx\frac{h}{2}(f(x_0)+f(x_1))$$
-- Simpson formula ($n=2$): $$\int_a^b f(x)\mathrm{d}x\approx\frac{h}{3}(f(x_0)+4f(x_1)+f(x_2))$$
-- Simpson $3/8$ formula ($n=3$): $$\int_a^b f(x)\mathrm{d}x\approx\frac{3h}{8}(f(x_0)+3f(x_1)+3f(x_2)+f(x_3))$$
-
-The error of it:$$E_n(f)=\int_a^b R_n(x)\mathrm{d}x=\frac{f^{(n+1)}(\eta)}{(n+1)!}\int_a^b  \prod_{i=0}^n(x-x_i)\mathrm{d}x$$
-If $n$ is even, we can find that $$\int_a^b  \prod_{i=0}^n(x-x_i)\mathrm{d}x=0$$
-So we need to consider about the $(n+2)$-th order polynomial $p(x)$.
-Let $$p(x)-L_n(x)=(\alpha x+\beta)\prod_{i=0}^n(x-x_i)$$
-Then$$\int_a^b  p(x)-L_n(x)\mathrm{d}x=\alpha\int_a^b  x\prod_{i=0}^n(x-x_i)\mathrm{d}x$$
-Therefore, the error will become
-$$E_n(f)=\int_a^b R_n(x)\mathrm{d}x=\frac{f^{(n+2)}(\eta)}{(n+2)!}\int_a^b  x\prod_{i=0}^n(x-x_i)\mathrm{d}x$$
-## Romberg Algorithm
-
-We can also use the composite integral formula divides the entire integration interval $[a, b]$ into many smaller intervals, applies the same simple numerical integral formula to each smaller interval, and finally adds the results together.
-
-If we use trapezoid formula, then $$T(h)=h[\frac{1}{2}f(a)+\sum_{i=1}^{n-1}f(a+ih)+\frac{1}{2}f(b)]$$
-$$T(h)=I+c_1h^2+c_2h^4+\dots$$
-Observation:
-$$T(h/2)=I+c_1h^2/4+c_2h^4/16+\dots$$
-$$(4T(h/2)-T(h))/3=I-\frac{c_2}{4}h^4+\dots$$
-
-We can find that the error transformed from $O(h^2)$ to $O(h^4)$. We can also use this method to limit error to $O(h^6),O(h^8),\dots$ The algorithm is called <span style="color: red;">Romberg Algorithm</span>.
-
-Specifically, Define$$R_{k,0}=T_k=T(\frac{b-a}{2^k})$$
-Then $$R_{k,j}=R_{k,j-1}+\frac{R_{k,j-1}-R_{k-1,j-1}}{4^j-1}$$where$$k=1,2,\dots,j=1,2,\dots,k$$
-We will have$$R_{k,j}=I+O((\frac{b-a}{2^k})^{2j+2})$$
-## Numerical Differentiation
-
-We can use divided difference to estimate the differentiation.
-- Forward difference $$f'(x_0)\approx\frac{f(x_0+h)-f(x_0)}{h}$$
-- Backward difference $$f'(x_0)\approx\frac{f(x_0)-f(x_0-h)}{h}$$
-- Central Difference $$f'(x_0)\approx\frac{f(x_0+h)-f(x_0-h)}{2h}$$
-
-We can use Taylor expansion to get the error.
-- Forward difference
-$$f(x_0+h)=f(x_0)+hf'(x_0)+\frac{h^2}{2!}f''(\xi),\xi\in[x_0,x_0+h]$$
-$$R(x_0)=-\frac{h}{2}f''(\xi)=O(h),\xi\in[x_0,x_0+h]$$
-- Backward difference
-$$f(x_0-h)=f(x_0)-hf'(x_0)+\frac{h^2}{2!}f''(\xi),\xi\in[x_0-h,x_0]$$
-$$R(x_0)=\frac{h}{2}f''(\xi)=O(h),\xi\in[x_0-h,x_0]$$
-
-- Central Difference
-$$f(x_0+h)=f(x_0)+hf'(x_0)+\frac{h^2}{2!}f''(x_0)+\frac{h^3}{3!}f'''(\xi_1),\xi_1\in[x_0,x_0+h]$$
-$$f(x_0-h)=f(x_0)-hf'(x_0)+\frac{h^2}{2!}f''(x_0)-\frac{h^3}{3!}f'''(\xi_2),\xi_2\in[x_0-h,x_0]$$
-$$R(x_0)=-\frac{h^2}{12}(f'''(\xi_1)+f'''(\xi_2))=O(h^2),\xi_1\in[x_0,x_0+h],\xi_2\in[x_0-h,x_0]$$
-
-Another way is to use interpolation to estimate differentiation.
-$$f'(x)\approx L_n'(x)=\sum_{i=0}^{n}l_i'(x)f(x_i)$$
-
-# Ordinary Differential Equations (ODE)
-
-In this section, we will talk about how to numerically solve the equation:
-$$\left\{\begin{matrix}
- \frac{\mathrm{d}y}{\mathrm{d}x}=f(x,y)\\
-y(a)=y_0
-\end{matrix}\right.$$
-## Euler Formula
-
-We want to solve it in interval $[a,b]$.
-
-Let$$x_n=a+nh;h=\frac{b-a}{m};n=1,2,\dots,m$$
-If we use forward difference, then$$f(x_n,y(x_n))=y'(x_n)\approx\frac{y(x_{n+1})-y(x_n)}{h}$$
-We can use $y_n$ to approximate $y(x_n)$. As a result, $$y_{n+1}=y_n+hf(x_n,y_n)$$
-It is called <span style="color: red;">forward Euler formula</span>.
-
-To analyze the error of it, we use the error of numerical difference.
-$$y(x_{n+1})=y(x_n)+hf(x_n,y(x_n))+
-\frac{h^2}{2!}y''(\xi_n),x_n\le\xi_n\le x_{n+1}$$
-Therefore, if $y_n=y(x_n)$, the error of it is$$T_{n+1}=y(x_{n+1})-y_{n+1}=\frac{h^2}{2!}y''(\xi_n)=O(h^2),x_n\le\xi_n\le x_{n+1}$$
-We can also use backward difference
-$$f(x_{n+1},y(x_{n+1}))=y'(x_{n+1})\approx\frac{y(x_{n+1})-y(x_{n})}{h}$$
-As a result, $$y_{n+1}=y_{n}+hf(x_{n+1},y_{n+1})$$
-It is called <span style="color: red;">backward Euler formula</span>. In this formula, we need to use iterative algorithm.
-## Runge-Kutta Formula
-
-We can also calculate the average of them and get the trapezoid formula:
-$$y_{n+1}=y_n+\frac{h}{2}(f(x_n,y_n)+f(x_{n+1},y_{n+1}))$$
-
-Trapezoid formula needs to use implicit format to solve the equation, so we use the following way to transform it into a display format:
-$$\left\{\begin{matrix}
- K_1=y_n+hf(x_n,y_n)\\
-f_2(x_1,x_2,\dots,x_n)=0\\ 
-\end{matrix}\right.$$
-
-# Iterative method to solve linear equation
-
-### Jacobi Iterative
-
-JOR Iterative
-### Gauss-Seidel Iterative
-
-SOR Iterative
-
-# Non-linear Equation
-
-### Bisection Method
-
-If the function $f$ is continuous on $[a,b]$ and $f(a)f(b)<0$, we can use [Binary Search](#binary-search) to find a zero point.
-
-### Fixed-point iteration
-
-If the equation $f(x)=0$ can be transformed into $$\varphi(x)=x$$
-We can use <span style="color: red;">fixed-point iteration</span> to solve the equation, i.e.$$x_{n+1}=\varphi(x_n)$$
-The following theorem gives sufficient conditions for iterative convergence:
-
->[!THEOREM]
->If $\varphi(x)$ is defined on $[a, b]$ and satisfies
->1. When $x\in[a,b]$, then $\varphi(x)\in[a,b]$
->2. $\varphi(x)$ is differentiable on $[a, b]$, and there exists a positive number $L<1$ s.t. for all $x\in[a,b]$, $\left | \varphi'(x) \right | \le L$
->Then there exists exactly one $x^*$ s.t. $x^*=\varphi(x^*)$. We call $x^*$ a <span style="color: red;">fixed point</span>. Moreover, $x_{n+1}=\varphi(x_n)$ converges to $x^*$ for every $x_0\in[a,b]$, and we have$$\left | x^*-x_k \right |  \le\frac{L^k}{1-L}\left |  x_1-x_0\right |$$
-
->[!PROOF]
->Let$$\phi(x)=\varphi(x)-x$$
->Then $\phi(a)=\varphi(a)-a\ge0$,$\phi(b)=\varphi(b)-b\le0$
->So we have a fixed point $x^*$, s.t.$$\varphi(x^*)=x^*$$
->If we have another fixed point $x^{**}\ne x^*$, then
->$$\left | x^{**}-x^* \right |=\left | \varphi(x^{**})-\varphi(x^*) \right |=\left | \varphi'(\xi)(x^{**}-x^*)\right |\le L\left| x^{**}-x^*\right |<\left| x^{**}-x^*\right |$$where $\xi\in[a,b]$
->
->As a result, $x^*$ is unique.
->
->$$\left | x^*-x_k \right |=\left | \varphi(x^*)-\varphi(x_{k-1}) \right |=\left | \varphi'(\xi)(x^{*}-x_{k-1})\right |\le L\left| x^*-x_{k-1}\right |$$where $\xi\in[a,b]$
->We can find that$$\left | x^*-x_k \right |\le L^k\left| x^*-x_0\right |$$
->So $x_k$ will converge to $x^*$.
->We can also find that$$\left | x_{k+1}-x_k \right |\le L^k\left| x_1-x_0\right |$$
->Moreover,$$\begin{align*}\left | x_{k+p}-x_k \right |&\le \left | x_{k+p}-x_{k+p-1} \right |+\dots+\left | x_{k+1}-x_{k} \right |\\&\le(L^{k+p-1}+\dots+L^k)\left| x_1-x_0\right |=\frac{L^k-L^{k+p}}{1-L}\left| x_1-x_0\right |\end{align*}$$
->Let $p\to\infty$, then$$\left | x^*-x_k \right |\le\frac{L^k}{1-L}\left| x_1-x_0\right |$$
-### Newton Method
-
-![Screenshot 2026-07-09 at 12.52.22](../attachments/Screenshot%202026-07-09%20at%2012.52.22.png)
-
-$$y=f'(x_n​)(x−x_n​)+f(x_n​)$$
-$$x_{n+1​}=x_n​−\frac{f(x_n​)}{f'(x_n​)}​$$
-This iteration requires $f'(x_n)\ne0$. Near a simple root and under suitable smoothness assumptions, Newton's method usually has quadratic convergence.
-
-### Secant Method
-
-Replace the derivative with the difference quotient
-
-$$x_{n+1​}=x_n​−\frac{f(x_n​)}{\frac{f(x_n)-f(x_{n-1})}{x_n-x_{n-1}}}=x_n-\frac{f(x_n)}{f(x_n)-f(x_{n-1})}(x_n-x_{n-1})​$$
-
-Geometrically,
-![Screenshot 2026-07-09 at 12.52.57](../attachments/Screenshot%202026-07-09%20at%2012.52.57.png)
-
-### Newton's method for nonlinear equation systems
-
-For the equation systems
-$$\left\{\begin{matrix}
- f_1(x_1,x_2,\dots,x_n)=0\\
-f_2(x_1,x_2,\dots,x_n)=0 \\
- \dots\\
-f_n(x_1,x_2,\dots,x_n)=0
-\end{matrix}\right.$$
-According to Taylor expansion around the current approximation $X^{(k)}=(x_1^{(k)},x_2^{(k)},\dots,x_n^{(k)})$,$$0=f_\ell(X^{(k+1)})\approx f_\ell(X^{(k)})+\sum_{i=1}^n\left(x_i^{(k+1)}-x_i^{(k)}\right)\frac{\partial f_{\ell}}{\partial x_i}(X^{(k)})$$
-As a result, we have the iterative form
-$$
-J\left(X^{(k)}\right)
-\left(X^{(k+1)}-X^{(k)}\right)
-=
--F\left(X^{(k)}\right)
-$$
-where$$
-J(X)=
-\begin{pmatrix}
-\dfrac{\partial f_1(X)}{\partial x_1}
-&
-\dfrac{\partial f_1(X)}{\partial x_2}
-&
-\cdots
-&
-\dfrac{\partial f_1(X)}{\partial x_n}
-\\[8pt]
-\dfrac{\partial f_2(X)}{\partial x_1}
-&
-\dfrac{\partial f_2(X)}{\partial x_2}
-&
-\cdots
-&
-\dfrac{\partial f_2(X)}{\partial x_n}
-\\[8pt]
-\vdots & \vdots & \ddots & \vdots
-\\[8pt]
-\dfrac{\partial f_n(X)}{\partial x_1}
-&
-\dfrac{\partial f_n(X)}{\partial x_2}
-&
-\cdots
-&
-\dfrac{\partial f_n(X)}{\partial x_n}
-\end{pmatrix}$$
 # Primality Test
 ## Prime Number Sieve
 

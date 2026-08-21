@@ -559,19 +559,19 @@ $$u(r,\theta,\varphi) = \sum_{n=0}^{\infty}\sum_{m=0}^{n}P_n^m(\cos\theta)\left[
 ## Heat Equation 
 
 Consider heat equation $$u_t=a^2\Delta_3 u$$
-Do the Fourier transform (you can see it in [Signal & System](../physics/electronic_technology.html))
+Do the Fourier transform (you can see it in [Signals & Systems](../electronic_engineering/signals_and_systems.html))
 $$U_t=-a^2(\lambda^2+\mu^2+\nu^2)U$$
 As a result, $$U=\exp(-a^2(\lambda^2+\mu^2+\nu^2)t)$$
 $$u=\frac{1}{a^3(4\pi t)^{\frac{3}{2}}}\exp(-\frac{x^2+y^2+z^2}{4a^2t})$$
 We can find that $U\big|_{t=0} = 1$, so $$\lim_{t\rightarrow0^+}u=\delta(x)\delta(y)\delta(z)$$
 And the function $u$ is called the **Fundamental Solution** or **Heat Kernel** of the equation.
 
-Similar to LTI system in [Signal & System](../physics/electronic_technology.html), if $u\big|_{t=0}=f(x,y,z)$ is given, then the solution of the equation can be determined uniquely.$$u=\frac{1}{a^3(4\pi t)^{\frac{3}{2}}}\exp(-\frac{x^2+y^2+z^2}{4a^2t})*f(x,y,z)$$
+Similar to LTI system in [Signals & Systems](../electronic_engineering/signals_and_systems.html), if $u\big|_{t=0}=f(x,y,z)$ is given, then the solution of the equation can be determined uniquely.$$u=\frac{1}{a^3(4\pi t)^{\frac{3}{2}}}\exp(-\frac{x^2+y^2+z^2}{4a^2t})*f(x,y,z)$$
 This is a three-dimension operation.
 
 ## Fundamental Solutions
 
-Similar to LTI system in [Signal & System](../physics/electronic_technology.html), If we want to solve the equation $Lu=f$ and know the solution to equation $Lu=\delta$ as $U$, we can get $$u=f*U$$
+Similar to LTI system in [Signals & Systems](../electronic_engineering/signals_and_systems.html), If we want to solve the equation $Lu=f$ and know the solution to equation $Lu=\delta$ as $U$, we can get $$u=f*U$$
 We call $U$ as the fundamental solution.
 ### Poisson Equation
 

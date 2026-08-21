@@ -42,19 +42,22 @@ NOTE_TARGETS: Tuple[NoteTarget, ...] = (
     NoteTarget("math", "Mathematics", "Mathematical Logic and Set Theory", "mathematical-logic-and-set-theory.html", "Mathematics", "Mathematical Logic & Set Theory.md", ("Mathematical Logic & Set Theory",)),
     NoteTarget("math", "Mathematics", "Probability and Statistics", "probability-and-statistics.html", "Mathematics", "Probability & Statistics.md", ("Probability & Statistics",)),
     NoteTarget("math", "Mathematics", "Topology", "topology.html", "Mathematics", "Topology.md"),
+    NoteTarget("math", "Mathematics", "Computational Method", "computational_method.html", "Mathematics", "Computational Method.md"),
+    NoteTarget("math", "Mathematics", "Numerical Solution for Differential Equations", "numerical_solution_for_differential_equations.html", "Mathematics", "Numerical solution for Differential Equations.md"),
     NoteTarget("physics", "Physics", "Mechanism", "mechanism.html", "Physics", "Mechanics.md", ("Mechanics",)),
     NoteTarget("physics", "Physics", "Electromagnetism", "electromagnetism.html", "Physics", "Electromagnetism.md"),
     NoteTarget("physics", "Physics", "Thermodynamics and Statistical Physics", "thermodynamics-and-statistical-physics.html", "Physics", "Thermodynamics and Statistical Physics.md"),
     NoteTarget("physics", "Physics", "Optics", "optics.html", "Physics", "Optics.md"),
     NoteTarget("physics", "Physics", "Quantum Physics", "quantum-physics.html", "Physics", "Quantum Mechanics.md", ("Quantum Mechanics",)),
-    NoteTarget("electronic-technology", "Electronic Technology", "Signals and Systems", "signals-and-systems.html", None, "Signals & Systems.md", ("Signal & System", "Signals & Systems")),
-    NoteTarget("electronic-technology", "Electronic Technology", "Digital Signal Processing", "digital-signal-processing.html", None, "Digital Signal Processing.md", ("DSP",)),
-    NoteTarget("electronic-technology", "Electronic Technology", "Electronic Technology", "electronic-technology.html", None, "Electronic Technology.md"),
+    NoteTarget("electronic_engineering", "Electronic Technology", "Signals and Systems", "signals_and_systems.html", "Electronic Engineering", "Signals & Systems.md", ("Signal & System", "Signals & Systems")),
+    NoteTarget("electronic_engineering", "Electronic Technology", "Digital Signal Processing", "digital_signal_processing.html", "Electronic Engineering", "Digital Signal Processing.md", ("DSP",)),
+    NoteTarget("electronic_engineering", "Electronic Technology", "Electronic Technology", "electronic_technology.html", "Electronic Engineering", "Electronic Technology.md"),
     NoteTarget("cs", "Computer Science", "Data Structure and Algorithm", "data_structure_and_algorithm.html", "Computer Science", "Data Structure & Algorithm.md", ("Data Structure & Algorithm",)),
     NoteTarget("cs", "Computer Science", "Computer Organization and Design", "computer_organization_and_design.html", "Computer Science", "Computer Organization & Design.md", ("Computer Organization & Design",)),
     NoteTarget("cs", "Computer Science", "Operating System", "operating_system.html", "Computer Science", "Operating System.md"),
     NoteTarget("cs", "Computer Science", "Computer Network", "computer_network.html", "Computer Science", "Computer Network.md"),
     NoteTarget("cs", "Computer Science", "Artificial Intelligence", "artificial_intelligence.html", "Computer Science", "Artificial Intelligence.md"),
+    NoteTarget("cs", "Computer Science", "Parallel Computing", "Parallel_Computing.html", "Computer Science", "Parallel Computing.md"),
     NoteTarget("geoscience", "Geoscience", "Astronomy", "astronomy.html", "Geophysics", "Astronomy.md"),
     NoteTarget("geoscience", "Geoscience", "Geology", "geology.html", "Geophysics", "Geology.md"),
     NoteTarget("geoscience", "Geoscience", "Geomagnetism and Geoelectricity", "geomagnetism_and_geoelectricity.html", "Geophysics", "Geomagnetism & Geoelectricity.md", ("Geomagnetism & Geoelectricity",)),
@@ -65,7 +68,7 @@ NOTE_TARGETS: Tuple[NoteTarget, ...] = (
 SUBJECT_LABELS = {
     "math": "Mathematics",
     "physics": "Physics",
-    "electronic-technology": "Electronic Technology",
+    "electronic_engineering": "Electronic Technology",
     "cs": "Computer Science",
     "geoscience": "Geoscience",
 }
@@ -73,7 +76,7 @@ SUBJECT_LABELS = {
 SUBJECT_PAGES = {
     "math": Path("notes/math.html"),
     "physics": Path("notes/physics.html"),
-    "electronic-technology": Path("notes/electronic-technology.html"),
+    "electronic_engineering": Path("notes/electronic_engineering.html"),
     "cs": Path("notes/cs.html"),
     "geoscience": Path("notes/geoscience.html"),
 }
@@ -142,18 +145,13 @@ def extract_cards(subject_page: Path) -> Dict[str, Dict[str, object]]:
         if not title_match:
             continue
         title = html.unescape(re.sub(r"\s+", " ", title_match.group(1)).strip())
-        excerpt_match = re.search(r'<p class="article-excerpt">([\s\S]*?)</p>', block)
-        excerpt = ""
-        if excerpt_match:
-            excerpt = re.sub(r"<[^>]+>", "", excerpt_match.group(1))
-            excerpt = html.unescape(re.sub(r"\s+", " ", excerpt).strip())
         tags = [
             html.unescape(re.sub(r"\s+", " ", tag).strip())
             for tag in re.findall(r"<span>([\s\S]*?)</span>", block)
         ]
         time_match = re.search(r"<time(?: [^>]*)?>([\s\S]*?)</time>", block)
         time_text = html.unescape(re.sub(r"\s+", " ", time_match.group(1)).strip()) if time_match else "Aug 14, 2026"
-        cards[title] = {"excerpt": excerpt, "tags": tags, "time": time_text}
+        cards[title] = {"tags": tags, "time": time_text}
     return cards
 
 
@@ -163,6 +161,22 @@ def extract_all_cards(root: Path) -> Dict[str, Dict[str, Dict[str, object]]]:
         page = root / rel_path
         result[subject] = extract_cards(page) if page.exists() else {}
     return result
+
+
+def extract_detail_intro(page: Path) -> Optional[str]:
+    if not page.exists():
+        return None
+
+    text = read_text(page)
+    header_match = re.search(r'<header class="article-detail-header">([\s\S]*?)</header>', text)
+    if not header_match:
+        return None
+
+    intro_match = re.search(r"<p(?:\s[^>]*)?>[\s\S]*?</p>", header_match.group(1))
+    if not intro_match:
+        return None
+
+    return intro_match.group(0)
 
 
 def strip_frontmatter(text: str) -> str:
@@ -284,8 +298,16 @@ def datetime_attr(time_text: str) -> str:
         return ""
 
 
-def html_page(target: NoteTarget, markdown: str, meta: Dict[str, object]) -> str:
-    excerpt = str(meta.get("excerpt") or f"Notes from the Obsidian vault on {target.title}.")
+def html_page(
+    target: NoteTarget,
+    markdown: str,
+    meta: Dict[str, object],
+    detail_intro: Optional[str],
+) -> str:
+    intro_html = detail_intro
+    legacy_intro = f"<p>{html.escape(f'Notes from the Obsidian vault on {target.title}.')}</p>"
+    if intro_html is None or intro_html == legacy_intro:
+        intro_html = f"<p>{html.escape(f'Note about {target.title}.')}</p>"
     tags = list(meta.get("tags") or [target.subject_title])
     time_text = str(meta.get("time") or "Aug 14, 2026")
     datetime_value = datetime_attr(time_text)
@@ -320,7 +342,7 @@ def html_page(target: NoteTarget, markdown: str, meta: Dict[str, object]) -> str
         <header class="article-detail-header">
             <a href="../{target.subject}.html" class="article-back-link">&larr; {html.escape(SUBJECT_LABELS[target.subject])}</a>
             <h1>{html.escape(target.title)}</h1>
-            <p>{html.escape(excerpt)}</p>
+            {intro_html}
             <div class="essay-meta article-detail-meta">
                 <div class="essay-tags">
 {tags_html}
@@ -467,7 +489,8 @@ def sync_once(
         markdown = prepare_markdown(target, vault_paths[target], picture_index, link_map, used_images, missing_images)
         meta = cards[target.subject].get(target.title, {})
         out_path = root / "notes" / target.subject / target.filename
-        if write_text(out_path, html_page(target, markdown, meta), dry_run=dry_run):
+        detail_intro = extract_detail_intro(out_path)
+        if write_text(out_path, html_page(target, markdown, meta, detail_intro), dry_run=dry_run):
             written_pages += 1
 
     changed_subject_pages = update_subject_links(root, targets, dry_run=dry_run)
