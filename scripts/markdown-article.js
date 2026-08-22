@@ -1065,8 +1065,62 @@
         return count % 2 === 1;
     }
 
-    function renderMarkdown(markdown) {
+    function collapseMultilineDisplayMath(markdown) {
         const lines = markdown.split("\n");
+        const collapsedLines = [];
+        let inCode = false;
+        let mathLines = null;
+        let originalMathLines = null;
+        let quotedMath = false;
+
+        lines.forEach((line) => {
+            const fence = line.trim().match(/^```\s*([^`]*)$/);
+
+            if (!mathLines && fence) {
+                inCode = !inCode;
+                collapsedLines.push(line);
+                return;
+            }
+
+            if (inCode) {
+                collapsedLines.push(line);
+                return;
+            }
+
+            if (mathLines) {
+                originalMathLines.push(line);
+                const continuation = quotedMath ? line.replace(/^\s*>\s?/, "") : line;
+                mathLines.push(continuation.trim());
+
+                if (hasOddDisplayMathDelimiterCount(line)) {
+                    collapsedLines.push(mathLines.join(" "));
+                    mathLines = null;
+                    originalMathLines = null;
+                    quotedMath = false;
+                }
+
+                return;
+            }
+
+            if (hasOddDisplayMathDelimiterCount(line)) {
+                mathLines = [line];
+                originalMathLines = [line];
+                quotedMath = /^\s*>/.test(line);
+                return;
+            }
+
+            collapsedLines.push(line);
+        });
+
+        if (originalMathLines) {
+            collapsedLines.push(...originalMathLines);
+        }
+
+        return collapsedLines.join("\n");
+    }
+
+    function renderMarkdown(markdown) {
+        const lines = collapseMultilineDisplayMath(markdown).split("\n");
         const html = [];
         const headings = [];
         let paragraph = [];
@@ -1077,7 +1131,6 @@
         let codeLanguage = "";
         let codeBlockIndex = 0;
         let referenceListOpen = false;
-        let paragraphDisplayMathOpen = false;
 
         function openReferenceList() {
             if (!referenceListOpen) {
@@ -1150,16 +1203,6 @@
 
             if (inCode) {
                 codeLines.push(line);
-                continue;
-            }
-
-            if (paragraphDisplayMathOpen) {
-                paragraph.push(trimmed);
-
-                if (hasOddDisplayMathDelimiterCount(line)) {
-                    paragraphDisplayMathOpen = false;
-                }
-
                 continue;
             }
 
@@ -1286,10 +1329,6 @@
 
             flushList();
             paragraph.push(trimmed);
-
-            if (hasOddDisplayMathDelimiterCount(line)) {
-                paragraphDisplayMathOpen = true;
-            }
         }
 
         if (inCode) {
