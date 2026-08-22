@@ -119,7 +119,7 @@ For an algorithm with lots of process, we can use amortized analysis to evaluate
 - Aggregate Method: Directly compute the total cost $T(n)$, then amortize it $T(n)/n$.
 - Accounting Method: Pay extra for fast operations (deposit credit), and use the deposited money to offset slow operations when they occur.
 - Potential Method: Define a potential function $\Phi$ and the amortized cost $\hat{c}$ as:$$\hat{c_i}=c_i+\Phi_i-\Phi_{i-1}$$If the potential function is non-negative and $\Phi_0=0$, then$$\sum_{i=1}^k \hat{c_i}=\sum_{i=1}^kc_i+\Phi_k-\Phi_0\ge\sum_{i=1}^kc_i$$
-It will be used in [Linear List & Generalized List](#linear-list-generalized-list), [Cartesian Tree](#cartesian-tree), and [Kruskal Algorithm and Disjoint Sets](#kruskal-algorithm-and-disjoint-sets).
+It will be used in [Linear List & Generalized List](#linear-list-generalized-list), [Cartesian Tree](#cartesian-tree), and [Kruskal Algorithm & Disjoint Sets](#kruskal-algorithm-disjoint-sets).
 ## Turing Machine (TM)
 
 Does every problem have an efficient algorithm? No. Some decidable problems are too expensive, and some problems are not decidable by any algorithm at all.
@@ -136,8 +136,9 @@ If $\delta(q, a) = (r, b, D)$, then we switch the machine's internal state to $r
 
 We define some states as accept state $q_{accept}$ and reject state $q_{reject}$. Regulate: $q_{reject} \neq q_{accept}$. If the state is $q_{accept}$ or $q_{reject}$, the TM will halt.
 
->[!THESIS] Church-Turing Thesis
->Any physical computation can be simulated by a Turing machine. (The stronger version with poly-time overhead is the **Extended Church-Turing Thesis**, which is challenged by quantum computing.)
+>[!THESIS] Turing Thesis
+>Any physical computation can be simulated by a Turing machine.
+>
 >Note: This is a thesis (an unprovable physical assumption), not a theorem.
 
 Turing machine is simple enough to argue the limitation of modern computers
@@ -3501,7 +3502,7 @@ The first proof of PRIMES is P is proposed by AKS algorithm. For more details, y
         </script>
     </main>
 
-    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/markdown-article.js?v=20260822-multiline-math-1"></script>
     <script src="../../scripts/comments.js"></script>
 </body>
 </html>

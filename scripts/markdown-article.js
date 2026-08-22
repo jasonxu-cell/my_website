@@ -1052,6 +1052,19 @@
         return /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
     }
 
+    function hasOddDisplayMathDelimiterCount(value) {
+        let count = 0;
+
+        for (let index = 0; index < value.length - 1; index += 1) {
+            if (value[index] === "$" && value[index + 1] === "$" && (index === 0 || value[index - 1] !== "\\")) {
+                count += 1;
+                index += 1;
+            }
+        }
+
+        return count % 2 === 1;
+    }
+
     function renderMarkdown(markdown) {
         const lines = markdown.split("\n");
         const html = [];
@@ -1064,6 +1077,7 @@
         let codeLanguage = "";
         let codeBlockIndex = 0;
         let referenceListOpen = false;
+        let paragraphDisplayMathOpen = false;
 
         function openReferenceList() {
             if (!referenceListOpen) {
@@ -1136,6 +1150,16 @@
 
             if (inCode) {
                 codeLines.push(line);
+                continue;
+            }
+
+            if (paragraphDisplayMathOpen) {
+                paragraph.push(trimmed);
+
+                if (hasOddDisplayMathDelimiterCount(line)) {
+                    paragraphDisplayMathOpen = false;
+                }
+
                 continue;
             }
 
@@ -1262,6 +1286,10 @@
 
             flushList();
             paragraph.push(trimmed);
+
+            if (hasOddDisplayMathDelimiterCount(line)) {
+                paragraphDisplayMathOpen = true;
+            }
         }
 
         if (inCode) {

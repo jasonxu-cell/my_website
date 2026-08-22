@@ -376,7 +376,7 @@ def html_page(
         </script>
     </main>
 
-    <script src="../../scripts/markdown-article.js"></script>
+    <script src="../../scripts/markdown-article.js?v=20260822-multiline-math-1"></script>
     <script src="../../scripts/comments.js"></script>
 </body>
 </html>
@@ -477,10 +477,10 @@ def sync_once(
 ) -> Dict[str, object]:
     picture_dir = vault / "Picture"
     attachments_dir = root / "notes" / "attachments"
-    targets, vault_paths, cards, skipped = active_targets(root, vault)
-    targets, vault_paths = select_targets(targets, vault_paths, only)
+    all_targets, all_vault_paths, cards, skipped = active_targets(root, vault)
+    targets, vault_paths = select_targets(all_targets, all_vault_paths, only)
     picture_index = build_picture_index(picture_dir)
-    link_map = build_link_map(targets, vault_paths)
+    link_map = build_link_map(all_targets, all_vault_paths)
     used_images: Set[Path] = set()
     missing_images: Set[str] = set()
     written_pages = 0
