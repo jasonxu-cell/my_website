@@ -59,7 +59,1658 @@
         </section>
 
         <script type="text/plain" id="article-markdown">
+# Complex Functions and Differentiability
 
+Let
+
+$$
+z=x+iy, \qquad \overline z=x-iy, \qquad |z|=\sqrt{x^2+y^2}.
+$$
+
+Then
+
+$$
+z\overline z=|z|^2,
+$$
+
+and the real and imaginary parts satisfy the useful estimate
+
+$$
+\max\{|\operatorname{Re}z|,|\operatorname{Im}z|\}
+\le |z|
+\le |\operatorname{Re}z|+|\operatorname{Im}z|.
+$$
+
+## Continuity
+
+A function $f$ is continuous at $z_0$ if
+
+$$
+\lim_{z\to z_0}f(z)=f(z_0).
+$$
+
+## Complex derivative
+
+The complex derivative of $f$ at $z$ is
+
+$$
+f'(z)=\lim_{\Delta z\to 0}
+\frac{f(z+\Delta z)-f(z)}{\Delta z},
+$$
+
+provided that the limit exists and has the same value for every direction in which $\Delta z$ approaches $0$.
+
+A function is <span style="color: red;">holomorphic</span> (or <span style="color: red;">analytic</span>) on a domain $D$ if it is complex differentiable at every point of $D$. A point at which $f$ fails to be holomorphic is a singular point.
+
+Write
+
+$$
+f(z)=u(x,y)+iv(x,y).
+$$
+
+If $f'(z)=a+ib$, then for a small increment $\Delta z=\Delta x+i\Delta y$,
+
+$$
+\Delta f=\Delta u+i\Delta v=(a+ib)(\Delta x+i\Delta y)
+$$
+
+Equating real and imaginary parts gives the <span style="color: red;">Cauchy-Riemann equations</span>:
+
+$$
+\boxed{
+u_x=v_y,\qquad u_y=-v_x
+}
+$$
+
+and
+
+$$
+f'(z)=u_x+iv_x=v_y-iu_y.
+$$
+
+If $u$ and $v$ have continuous first partial derivatives near a point and satisfy the Cauchy-Riemann equations there, then $f=u+iv$ is complex differentiable at that point.
+
+## Harmonic functions and harmonic conjugates
+
+Differentiating the Cauchy-Riemann equations shows that the real and imaginary parts of a holomorphic function are harmonic:
+
+$$
+\Delta u=u_{xx}+u_{yy}=0,
+\qquad
+\Delta v=v_{xx}+v_{yy}=0.
+$$
+
+The functions $u$ and $v$ are harmonic conjugates. Their gradients are orthogonal:
+
+$$
+\nabla u\cdot \nabla v=0.
+$$
+
+Consequently, if $f'(z)\ne 0$, the level curves
+
+$$
+u(x,y)=c_1,\qquad v(x,y)=c_2
+$$
+
+meet orthogonally.
+
+Given $u$, a harmonic conjugate can be recovered locally from
+
+$$
+v(x,y)=\int_{(x_0,y_0)}^{(x,y)}(-u_y\,dx+u_x\,dy)+C.
+$$
+
+Similarly,
+
+$$
+u(x,y)=\int_{(x_0,y_0)}^{(x,y)}(v_y\,dx-v_x\,dy)+C.
+$$
+
+The path independence of these integrals follows from the harmonicity assumptions on a simply connected domain.
+
+# Elementary Complex Functions
+
+## Exponential, trigonometric, and hyperbolic functions
+
+>[!THEOREM] Euler's formula
+> $$e^{i\theta}=\cos\theta+i\sin\theta$$
+
+>[!PROOF]
+>We can use Taylor expansion:
+>$$e^{i\theta}=1+i\theta-\frac{\theta^2}{2!}-i\frac{\theta^3}{3!}+...$$
+>$$\sin\theta=\theta-\frac{\theta^3}{3!}+...$$
+>$$\cos\theta=1-\frac{\theta^2}{2!}+...$$
+>Substituting the equations, we get the original expression to hold.
+
+Hence
+
+$$
+\sin z=\frac{e^{iz}-e^{-iz}}{2i},
+\qquad
+\cos z=\frac{e^{iz}+e^{-iz}}{2}.
+$$
+
+The real period of $\sin z$ and $\cos z$ is $2\pi$. The hyperbolic functions satisfy
+
+$$
+\sinh z=-i\sin(iz),
+\qquad
+\cosh z=\cos(iz),
+$$
+
+and have imaginary period $2\pi i$.
+
+## The complex logarithm
+
+To solve $e^w=z$, write $w=u+iv$. Since
+
+$$
+e^w=e^u e^{iv}=z,
+$$
+
+we obtain
+
+$$
+u=\ln|z|,
+\qquad
+v=\arg z+2k\pi,quad k\in\mathbb Z.
+$$
+
+Thus the multivalued logarithm is
+
+$$
+\operatorname{Ln}z
+=\ln|z|+i(\arg z+2k\pi),
+\qquad k\in\mathbb Z.
+$$
+
+A single-valued branch is obtained by restricting the argument to an interval of length $2\pi$. The principal branch is usually
+
+$$
+\operatorname{Log}z=\ln|z|+i\operatorname{Arg}z,
+\qquad -\pi<\operatorname{Arg}z\le \pi.
+$$
+
+## Complex powers
+
+For $\alpha\in\mathbb C$,
+
+$$
+z^\alpha=\exp(\alpha\operatorname{Ln}z).
+$$
+
+Because $\operatorname{Ln}z$ is multivalued, $z^\alpha$ is generally multivalued. If $\alpha=p/q$ is rational in lowest terms, there are at most $q$ distinct values; for irrational or nonreal $\alpha$, there are infinitely many values.
+
+## Roots and branch points
+
+If $z=re^{i\phi}$, its $n$-th roots are
+
+$$
+w_k=r^{1/n}\exp\left(i\frac{\phi+2k\pi}{n}\right),
+\qquad k=0,1,\ldots,n-1.
+$$
+
+The functions $z^{1/n}$ and $\log z$ have branch points at $0$ and $\infty$. A branch cut, often a ray from $0$ to $\infty$, is introduced to prevent a closed loop from changing the value of a chosen branch.
+
+If $w_k$ is a local single-valued branch of $z^{1/n}$, then
+
+$$
+\frac{dw_k}{dz}
+=\frac{1}{n w_k^{n-1}}
+=\frac{w_k}{nz}.
+$$
+
+## Inverse trigonometric functions
+
+Solving the exponential definitions gives the standard multivalued formulas
+
+$$
+\arcsin z=-i\operatorname{Ln}\left(iz+\sqrt{1-z^2}\right),
+$$
+
+$$
+\arccos z=-i\operatorname{Ln}\left(z+\sqrt{z^2-1}\right),
+$$
+
+and
+
+$$
+\arctan z=\frac{1}{2i}
+\operatorname{Ln}\left(\frac{1+iz}{1-iz}\right).
+$$
+
+Particular single-valued inverses require compatible choices of logarithm and square-root branches.
+
+# Complex Line Integrals
+
+Let $C$ be an oriented curve from $z_0$ to $Z$, and let
+
+$$
+z_k=x_k+iy_k,\qquad k=0,1,\ldots,n,\qquad z_n=Z,
+$$
+
+be a partition of $C$. Choose a sample point $\zeta_k$ on each subarc. If the limit exists independently of the partition and sample points, define
+
+$$
+\int_C f(z)\,dz
+=\lim_{\max|\Delta z_k|\to0}
+\sum_{k=1}^n f(\zeta_k)\Delta z_k,
+\qquad \Delta z_k=z_k-z_{k-1}.
+$$
+
+If $f=u+iv$, then
+
+$$
+\int_C f(z)\,dz
+=\int_C(u\,dx-v\,dy)
++i\int_C(v\,dx+u\,dy).
+$$
+
+For a parametrization $z=z(t)=x(t)+iy(t)$, $a\le t\le b$,
+
+$$
+\boxed{
+\int_C f(z)\,dz
+=\int_a^b f(z(t))z'(t)\,dt
+}
+$$
+
+## The estimation lemma
+
+If $|f(z)|\le M$ on a curve $C$ of length $L$, then
+
+$$
+\boxed{
+\left|\int_C f(z)\,dz\right|
+\le \int_C|f(z)|\,|dz|
+\le ML
+}
+$$
+
+# Cauchy's Theorem and Integral Formula
+
+## Cauchy's integral theorem
+
+Let $C$ be a positively oriented simple closed contour bounding a domain $D$. If $f$ is holomorphic on an open set containing $D\cup C$, then
+
+$$
+\boxed{\int_C f(z)\,dz=0.}
+$$
+
+For $f=u+iv$, Green's theorem gives
+
+$$
+\begin{aligned}
+\int_C f(z)\,dz
+&=\int_C(u\,dx-v\,dy)
++i\int_C(v\,dx+u\,dy)\\
+&=-\iint_D(v_x+u_y)\,dx\,dy
++i\iint_D(u_x-v_y)\,dx\,dy\\
+&=0
+\end{aligned}
+$$
+
+by the Cauchy-Riemann equations.
+
+One consequence is path independence: in a simply connected domain,
+
+$$
+\int_{z_0}^{z}f(\zeta)\,d\zeta
+$$
+
+depends only on the endpoints. Therefore
+
+$$
+F(z)=\int_{z_0}^{z}f(\zeta)\,d\zeta
+$$
+
+is a primitive of $f$ and satisfies $F'(z)=f(z)$.
+
+## Cauchy's integral formula
+
+If $f$ is holomorphic on and inside a positively oriented closed contour $C$, and $z$ lies inside $C$, then
+
+$$
+\boxed{
+f(z)=\frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta-z}\,d\zeta
+}
+$$
+
+To prove this, choose a small circle $\Gamma:|\zeta-z|=\rho$ inside $C$. By contour deformation,
+
+$$
+\int_C\frac{f(\zeta)}{\zeta-z}\,d\zeta
+=\int_\Gamma\frac{f(\zeta)}{\zeta-z}\,d\zeta.
+$$
+
+Split the latter integral as
+
+$$
+f(z)\int_\Gamma\frac{d\zeta}{\zeta-z}
++\int_\Gamma\frac{f(\zeta)-f(z)}{\zeta-z}\,d\zeta.
+$$
+
+The first term equals $2\pi i f(z)$. Continuity of $f$ and the estimation lemma show that the second tends to $0$ as $\rho\to0$.
+
+## Higher derivatives
+
+Holomorphic functions are infinitely differentiable. Differentiating under the integral gives
+
+$$
+\boxed{
+f^{(n)}(z)=\frac{n!}{2\pi i}
+\int_C\frac{f(\zeta)}{(\zeta-z)^{n+1}}\,d\zeta
+}
+$$
+
+## Morera's theorem
+
+If $f$ is continuous on a domain $D$ and
+
+$$
+\int_C f(z)\,dz=0
+$$
+
+for every closed contour $C$ in $D$, then $f$ is holomorphic on $D$. Indeed, the integral from a fixed point to $z$ is path independent and defines a holomorphic primitive $F$ with $F'=f$.
+
+Thus, on a simply connected domain,
+
+$$
+f\text{ holomorphic}
+\quad\Longleftrightarrow\quad
+f\text{ continuous and }\int_C f(z)\,dz=0
+\text{ for every closed }C.
+$$
+
+# Power Series and Fundamental Consequences
+
+For a power series
+
+$$
+\sum_{n=0}^{\infty}a_n(z-a)^n,
+$$
+
+there is a radius of convergence $R\in[0,\infty]$ such that the series converges absolutely for $|z-a|<R$ and diverges for $|z-a|>R$. It converges uniformly on every closed disk $|z-a|\le r<R$.
+
+The Cauchy-Hadamard formula is
+
+$$
+\boxed{
+\frac1R=\limsup_{n\to\infty}|a_n|^{1/n}
+}
+$$
+
+and, when the ratio limit exists,
+
+$$
+R=\lim_{n\to\infty}\left|\frac{a_n}{a_{n+1}}\right|.
+$$
+
+Inside the disk of convergence, a power series can be differentiated and integrated term by term.
+
+The disk structure follows directly from comparison with a geometric series. If the series converges at $z_0\ne a$, then the terms $a_n(z_0-a)^n$ are bounded, say by $M$. For $|z-a|\le r<|z_0-a|$,
+
+$$
+|a_n(z-a)^n|
+\le M\left(\frac{r}{|z_0-a|}\right)^n.
+$$
+
+The Weierstrass test gives absolute and uniform convergence on $|z-a|\le r$. Conversely, if the series diverges at $z_1$, it cannot converge at any point farther from $a$; otherwise the preceding argument would force convergence at $z_1$.
+
+More generally, a locally uniformly convergent series of holomorphic functions has a holomorphic sum. Under locally uniform convergence of the derivative series, differentiation can be performed term by term.
+
+## Mean-value formula
+
+If $f$ is holomorphic on $|z-a|\le R$, then with $\zeta=a+Re^{i\theta}$,
+
+$$
+\boxed{
+f(a)=\frac1{2\pi}\int_0^{2\pi}f(a+Re^{i\theta})\,d\theta
+}
+$$
+
+and therefore
+
+$$
+|f(a)|\le \frac1{2\pi}\int_0^{2\pi}|f(a+Re^{i\theta})|\,d\theta.
+$$
+
+## Maximum modulus principle
+
+If $f$ is nonconstant and holomorphic on a bounded domain $D$, continuous on $\overline D$, then $|f|$ cannot attain its maximum at an interior point. Hence
+
+$$
+\max_{z\in\overline D}|f(z)|
+=\max_{z\in\partial D}|f(z)|.
+$$
+
+If an interior point $z_0$ attained the maximum $M$, the mean-value formula on every sufficiently small circle centered at $z_0$ would force $|f|=M$ on each circle. Overlapping circles then propagate this equality throughout the connected domain, so $f$ would be constant.
+
+## Cauchy estimates
+
+If $f$ is holomorphic on $|\zeta-z|\le R$ and
+
+$$
+M(R)=\max_{|\zeta-z|=R}|f(\zeta)|,
+$$
+
+then
+
+$$
+\boxed{
+|f^{(n)}(z)|\le \frac{n!M(R)}{R^n}
+}
+$$
+
+## Liouville's theorem
+
+Every bounded entire function is constant. If $|f(z)|\le M$ on $\mathbb C$, the Cauchy estimate gives
+
+$$
+|f'(z)|\le \frac{M}{R}.
+$$
+
+Letting $R\to\infty$ yields $f'(z)=0$.
+
+## Fundamental theorem of algebra
+
+Every nonconstant complex polynomial has a zero. Otherwise, for a polynomial $P$, the function $1/P$ would be entire. It tends to $0$ as $|z|\to\infty$ and is bounded on each compact disk, hence bounded on the whole plane. Liouville's theorem would make $1/P$ constant, a contradiction.
+
+# Harmonic Functions and the Poisson Formula
+
+If $u$ is harmonic on the disk $|z-z_0|<R$, then for $z=z_0+re^{i\phi}$ with $r<R$,
+
+$$
+\boxed{
+u(r,\phi)=\frac1{2\pi}\int_0^{2\pi}
+u(R,\theta)
+\frac{R^2-r^2}{R^2-2Rr\cos(\theta-\phi)+r^2}
+\,d\theta
+}
+$$
+
+The factor
+
+$$
+P_R(r,\theta-\phi)
+=\frac{R^2-r^2}{R^2-2Rr\cos(\theta-\phi)+r^2}
+$$
+
+is the Poisson kernel. The formula follows by applying Cauchy's formula both at $z$ and at the reflected point with respect to the circle, then taking real parts.
+
+# Taylor and Laurent Series
+
+## Taylor's theorem
+
+If $f$ is holomorphic in a disk centered at $a$, then
+
+$$
+\boxed{
+f(z)=\sum_{n=0}^{\infty}a_n(z-a)^n,
+\qquad
+a_n=\frac{f^{(n)}(a)}{n!}
+}
+$$
+
+throughout every smaller disk contained in the domain of holomorphy.
+
+Choose a circle $C$ centered at $a$ such that $z$ lies inside it. From Cauchy's formula,
+
+$$
+f(z)=\frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta-z}\,d\zeta.
+$$
+
+Since
+
+$$
+\frac1{\zeta-z}
+=\frac1{\zeta-a}
+\frac1{1-\frac{z-a}{\zeta-a}}
+=\sum_{n=0}^{\infty}
+\frac{(z-a)^n}{(\zeta-a)^{n+1}},
+$$
+
+the uniformly convergent geometric series can be integrated term by term:
+
+$$
+f(z)=\sum_{n=0}^{\infty}
+\left[
+\frac1{2\pi i}\int_C
+\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta
+\right](z-a)^n.
+$$
+
+Cauchy's derivative formula identifies the coefficient as $f^{(n)}(a)/n!$. The usual geometric-series bound also shows that the remainder tends to zero uniformly on compact subdisks.
+
+## Laurent's theorem
+
+If $f$ is holomorphic in an annulus
+
+$$
+r<|z-a|<R,
+$$
+
+then it has a Laurent expansion
+
+$$
+\boxed{
+f(z)=\sum_{n=-\infty}^{\infty}a_n(z-a)^n
+}
+$$
+
+with coefficients
+
+$$
+\boxed{
+a_n=\frac1{2\pi i}\int_C
+\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta,
+\qquad n\in\mathbb Z
+}
+$$
+
+where $C$ is any positively oriented circle in the annulus centered at $a$.
+
+To derive the expansion, place $z$ between two such circles $C'$ and $C''$. The multiply connected version of Cauchy's formula gives
+
+$$
+f(z)=\frac1{2\pi i}\int_{C''}\frac{f(\zeta)}{\zeta-z}\,d\zeta
+-\frac1{2\pi i}\int_{C'}\frac{f(\zeta)}{\zeta-z}\,d\zeta.
+$$
+
+On the outer circle,
+
+$$
+\frac1{\zeta-z}
+=\sum_{n=0}^{\infty}
+\frac{(z-a)^n}{(\zeta-a)^{n+1}}.
+$$
+
+On the inner circle,
+
+$$
+\frac1{\zeta-z}
+=-\frac1{z-a}
+\frac1{1-\frac{\zeta-a}{z-a}}
+=-\sum_{m=0}^{\infty}
+\frac{(\zeta-a)^m}{(z-a)^{m+1}}.
+$$
+
+Together these produce the nonnegative and negative powers in the Laurent series. By contour deformation, the coefficient integral is independent of the particular centered circle chosen in the annulus.
+
+## Uniqueness
+
+The Laurent expansion is unique. If
+
+$$
+\sum_{n=-\infty}^{\infty}a_n(z-a)^n
+=\sum_{n=-\infty}^{\infty}b_n(z-a)^n,
+$$
+
+multiply by $(z-a)^{-k-1}$ and integrate around a circle centered at $a$. Since
+
+$$
+\int_C(z-a)^m\,dz=
+\begin{cases}
+2\pi i,&m=-1,\\
+0,&m\ne-1,
+\end{cases}
+$$
+
+it follows that $a_k=b_k$ for every integer $k$.
+
+# Isolated Singularities
+
+Suppose $f$ is holomorphic in a punctured disk
+
+$$
+0<|z-a|<\rho.
+$$
+
+Its Laurent series about $a$ is
+
+$$
+f(z)=\sum_{n=-\infty}^{\infty}a_n(z-a)^n.
+$$
+
+The terms with $n<0$ form the principal part and classify the isolated singularity.
+
+## Removable singularity
+
+The following are equivalent:
+
+1. $a_n=0$ for every $n<0$.
+2. $\lim_{z\to a}f(z)$ exists and is finite.
+3. $f$ is bounded in some punctured neighborhood of $a$.
+
+In this case, defining $f(a)=a_0$ makes $f$ holomorphic at $a$.
+
+For the boundedness criterion, if $|f(z)|\le M$ on $0<|z-a|<\rho$, then on $|\zeta-a|=\rho_0<\rho$,
+
+$$
+|a_n|
+=\left|\frac1{2\pi i}\int_C
+\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta\right|
+\le \frac{M}{\rho_0^n}.
+$$
+
+For $n<0$, letting $\rho_0\to0$ gives $a_n=0$.
+
+## Pole
+
+The point $a$ is a pole of order $m$ if
+
+$$
+f(z)=\frac{a_{-m}}{(z-a)^m}+\cdots+
+\frac{a_{-1}}{z-a}+\sum_{n=0}^{\infty}a_n(z-a)^n,
+\qquad a_{-m}\ne0.
+$$
+
+Equivalently,
+
+$$
+f(z)=\frac{\phi(z)}{(z-a)^m},
+\qquad \phi(a)\ne0,
+$$
+
+where $\phi$ is holomorphic near $a$. In the extended complex plane, $f(z)\to\infty$ as $z\to a$.
+
+## Essential singularity
+
+If infinitely many negative-power coefficients are nonzero, $a$ is an essential singularity. In this case $\lim_{z\to a}f(z)$ does not exist, even as a point of the Riemann sphere.
+
+# Residues
+
+For an isolated singularity $a$, the residue of $f$ at $a$ is
+
+$$
+\boxed{
+\operatorname{Res}(f,a)
+=\frac1{2\pi i}\int_C f(z)\,dz
+=a_{-1}
+}
+$$
+
+where $C$ is a small positively oriented contour around $a$ containing no other singularity.
+
+## Residue theorem
+
+If $f$ is holomorphic on and inside a positively oriented contour $C$ except for isolated singularities $a_1,\ldots,a_n$ inside $C$, then
+
+$$
+\boxed{
+\int_C f(z)\,dz
+=2\pi i\sum_{k=1}^n\operatorname{Res}(f,a_k)
+}
+$$
+
+## Residue at a pole of order $m$
+
+If $a$ is a pole of order $m$, then
+
+$$
+\boxed{
+\operatorname{Res}(f,a)
+=\frac1{(m-1)!}
+\lim_{z\to a}
+\frac{d^{m-1}}{dz^{m-1}}
+\left[(z-a)^m f(z)\right]
+}
+$$
+
+For a simple pole,
+
+$$
+\operatorname{Res}(f,a)=\lim_{z\to a}(z-a)f(z).
+$$
+
+If
+
+$$
+f(z)=\frac{P(z)}{Q(z)},
+$$
+
+$P$ and $Q$ are holomorphic near $a$, and
+
+$$
+P(a)\ne0,\qquad Q(a)=0,\qquad Q'(a)\ne0,
+$$
+
+then $a$ is a simple pole and
+
+$$
+\boxed{
+\operatorname{Res}\left(\frac{P}{Q},a\right)
+=\frac{P(a)}{Q'(a)}
+}
+$$
+
+## The logarithmic derivative
+
+If $a$ is a zero of $f$ of order $m$, then locally
+
+$$
+f(z)=(z-a)^m\phi(z),
+\qquad \phi(a)\ne0,
+$$
+
+so
+
+$$
+\frac{f'(z)}{f(z)}
+=\frac{m}{z-a}+\frac{\phi'(z)}{\phi(z)}.
+$$
+
+Therefore $f'/f$ has a simple pole at $a$ with
+
+$$
+\operatorname{Res}\left(\frac{f'}f,a\right)=m.
+$$
+
+If $b$ is a pole of $f$ of order $n$, then
+
+$$
+\operatorname{Res}\left(\frac{f'}f,b\right)=-n.
+$$
+
+# Argument Principle and Rouche's Theorem
+
+## Argument principle
+
+Suppose $f$ is meromorphic inside and on $C$ and has no zeros or poles on $C$. Let $N$ and $P$ denote, with multiplicity, the numbers of zeros and poles inside $C$. Then
+
+$$
+\boxed{
+\frac1{2\pi i}\int_C\frac{f'(z)}{f(z)}\,dz=N-P
+}
+$$
+
+If the image contour is $w=f(z)=\rho e^{i\theta}$, then
+
+$$
+\frac1{2\pi i}\int_C\frac{f'(z)}{f(z)}\,dz
+=\frac1{2\pi i}\int_{f(C)}\frac{dw}{w}
+=\frac1{2\pi}\Delta_C\arg f(z).
+$$
+
+Thus the change of argument of $f$ around $C$ is
+
+$$
+\Delta_C\arg f=2\pi(N-P).
+$$
+
+## Rouche's theorem
+
+Let $f$ and $g$ be holomorphic on and inside a simple closed contour $C$. If
+
+$$
+|g(z)|<|f(z)|
+\qquad (z\in C),
+$$
+
+then $f$ and $f+g$ have the same number of zeros inside $C$, counted with multiplicity.
+
+Indeed,
+
+$$
+f+g=f\left(1+\frac gf\right).
+$$
+
+Because $|g/f|<1$ on $C$, the image of $1+g/f$ lies in the disk $|w-1|<1$, which does not contain the origin. Hence
+
+$$
+\Delta_C\arg\left(1+\frac gf\right)=0,
+$$
+
+and $f+g$ and $f$ have the same change of argument.
+
+## Counting polynomial zeros from a change of argument
+
+Let
+
+$$
+P(z)=z^n+a_1z^{n-1}+\cdots+a_n
+$$
+
+have no zeros on the imaginary axis. Suppose that, as $z=iy$ moves from $-i\infty$ to $+i\infty$, the curve $P(iy)$ winds $k$ times about the origin, so that
+
+$$
+\Delta_{y:-\infty\to\infty}\arg P(iy)=2k\pi.
+$$
+
+Close the contour by a large semicircle in the left half-plane. On that semicircle,
+
+$$
+P(z)=z^n[1+o(1)],
+$$
+
+and the change of argument approaches $n\pi$. If $m$ is the number of zeros in the left half-plane, the argument principle gives
+
+$$
+2m\pi=2k\pi+n\pi,
+$$
+
+so
+
+$$
+\boxed{m=\frac{n+2k}{2}.}
+$$
+
+# Integral Estimates on Circular Arcs
+
+## Large-arc lemma
+
+Let
+
+$$
+C_R:\ z=Re^{i\theta},\qquad \alpha\le\theta\le\beta,
+$$
+
+and suppose $f$ is continuous on $C_R$ for all sufficiently large $R$. If
+
+$$
+\max_{z\in C_R}|zf(z)|\longrightarrow0
+\qquad (R\to\infty),
+$$
+
+then
+
+$$
+\boxed{
+\int_{C_R}f(z)\,dz\longrightarrow0.
+}
+$$
+
+Indeed,
+
+$$
+\left|\int_{C_R}f(z)\,dz\right|
+\le \frac{\max_{C_R}|zf(z)|}{R}\,R(\beta-\alpha)
+\longrightarrow0.
+$$
+
+In particular, if $f=P/Q$ is rational and
+
+$$
+\deg Q\ge\deg P+2,
+$$
+
+then the integral over a fixed-angle arc tends to zero as $R\to\infty$.
+
+## Small-arc lemma
+
+Let
+
+$$
+C_\rho:\ z=a+\rho e^{i\theta},
+\qquad \alpha\le\theta\le\beta,
+$$
+
+and assume
+
+$$
+\lim_{z\to a}(z-a)f(z)=k.
+$$
+
+Then
+
+$$
+\boxed{
+\lim_{\rho\to0}\int_{C_\rho}f(z)\,dz
+=i(\beta-\alpha)k.
+}
+$$
+
+This follows by comparing $f(z)$ with $k/(z-a)$ and using
+
+$$
+\int_{C_\rho}\frac{dz}{z-a}=i(\beta-\alpha).
+$$
+
+For a positively oriented semicircle around a simple pole, the limiting contribution is $i\pi\operatorname{Res}(f,a)$. Reversing the orientation reverses the sign.
+
+## Jordan's lemma
+
+Let $g$ be continuous on large upper semicircles $C_R$ and suppose
+
+$$
+M(R)=\max_{z\in C_R}|g(z)|\longrightarrow0.
+$$
+
+For every $\lambda>0$,
+
+$$
+\boxed{
+\int_{C_R}g(z)e^{i\lambda z}\,dz\longrightarrow0
+\qquad (R\to\infty).
+}
+$$
+
+On $z=Re^{i\theta}$,
+
+$$
+|e^{i\lambda z}|=e^{-\lambda R\sin\theta}.
+$$
+
+Using symmetry and $\sin\theta\ge 2\theta/\pi$ for $0\le\theta\le\pi/2$,
+
+$$
+\begin{aligned}
+\left|\int_{C_R}g(z)e^{i\lambda z}\,dz\right|
+&\le 2M(R)R\int_0^{\pi/2}e^{-\lambda R\sin\theta}\,d\theta\\
+&\le \frac{\pi M(R)}{\lambda}(1-e^{-\lambda R})\longrightarrow0.
+\end{aligned}
+$$
+
+For $e^{-i\lambda z}$ with $\lambda>0$, the analogous contour is closed in the lower half-plane.
+
+# Evaluating Integrals by Residues
+
+## Trigonometric integrals
+
+For an integral of the form
+
+$$
+\int_0^{2\pi}R(\cos\theta,\sin\theta)\,d\theta,
+$$
+
+set $z=e^{i\theta}$. Then
+
+$$
+\cos\theta=\frac12\left(z+\frac1z\right),
+\qquad
+\sin\theta=\frac1{2i}\left(z-\frac1z\right),
+\qquad
+d\theta=\frac{dz}{iz}.
+$$
+
+Therefore
+
+$$
+\int_0^{2\pi}R(\cos\theta,\sin\theta)\,d\theta
+=\int_{|z|=1}
+R\left(
+\frac12\left(z+\frac1z\right),
+\frac1{2i}\left(z-\frac1z\right)
+\right)\frac{dz}{iz},
+$$
+
+which is evaluated by summing the residues inside the unit circle.
+
+## Rational integrals over the real axis
+
+Let
+
+$$
+R(x)=\frac{P(x)}{Q(x)}
+$$
+
+have no real poles and satisfy $\deg Q\ge\deg P+2$. Close the real segment $[-R,R]$ by a large upper semicircle. The large-arc lemma gives
+
+$$
+\boxed{
+\int_{-\infty}^{\infty}R(x)\,dx
+=2\pi i\sum_{\operatorname{Im}a_k>0}
+\operatorname{Res}(R,a_k).
+}
+$$
+
+## Fourier-type integrals
+
+For $m>0$, define
+
+$$
+I=\int_{-\infty}^{\infty}R(x)e^{imx}\,dx
+=I_1+iI_2,
+$$
+
+where
+
+$$
+I_1=\int_{-\infty}^{\infty}R(x)\cos(mx)\,dx,
+\qquad
+I_2=\int_{-\infty}^{\infty}R(x)\sin(mx)\,dx.
+$$
+
+Jordan's lemma permits closing in the upper half-plane. If there are no poles on the real axis,
+
+$$
+\boxed{
+I=2\pi i\sum_{\operatorname{Im}a_k>0}
+\operatorname{Res}\left(R(z)e^{imz},a_k\right).
+}
+$$
+
+If simple poles $x_1,\ldots,x_\ell$ lie on the real axis and the contour makes clockwise semicircular indentations above them, then the Cauchy principal value satisfies
+
+$$
+\boxed{
+\operatorname{PV}\int_{-\infty}^{\infty}R(x)e^{imx}\,dx
+=2\pi i\sum_{\operatorname{Im}a_k>0}
+\operatorname{Res}\left(R(z)e^{imz},a_k\right)
++i\pi\sum_{j=1}^{\ell}
+\operatorname{Res}\left(R(z)e^{imz},x_j\right).
+}
+$$
+
+## Keyhole contours
+
+Let $0<p<1$ and let $R(z)$ be rational with no poles on the positive real axis. Suppose
+
+$$
+z^{p+1}R(z)\to0
+$$
+
+both as $z\to0$ and as $z\to\infty$ in the slit plane. Choose
+
+$$
+f(z)=z^pR(z),
+\qquad 0<\arg z<2\pi.
+$$
+
+On the upper bank of the positive axis, $z^p=x^p$. On the lower bank, $z^p=e^{2\pi ip}x^p$. The small and large circular contributions vanish, so the keyhole contour gives
+
+$$
+(1-e^{2\pi ip})
+\int_0^{\infty}x^pR(x)\,dx
+=2\pi i\sum\operatorname{Res}\left(z^pR(z),a_k\right).
+$$
+
+Thus
+
+$$
+\boxed{
+\int_0^{\infty}x^pR(x)\,dx
+=\frac{2\pi i}{1-e^{2\pi ip}}
+\sum\operatorname{Res}\left(z^pR(z),a_k\right).
+}
+$$
+
+The sum is over the poles inside the slit-plane contour.
+
+# Identity Theorem and Analytic Continuation
+
+## Identity theorem
+
+Let $f$ and $g$ be holomorphic on a domain $D$. If they agree on a sequence of distinct points
+
+$$
+\alpha_1,\alpha_2,\ldots
+$$
+
+with a limit point $a\in D$, then
+
+$$
+\boxed{f(z)=g(z)\quad\text{for all }z\in D.}
+$$
+
+Set $F=f-g$. Then $F(\alpha_k)=0$ and continuity gives $F(a)=0$. If $F$ were not identically zero, its zero at $a$ would have finite order, and zeros would be isolated in some punctured neighborhood of $a$. This contradicts $\alpha_k\to a$.
+
+## Analytic continuation
+
+Let $f$ be defined on a set $E$, and let $D\supset E$ be a larger domain. A holomorphic function $F$ on $D$ satisfying
+
+$$
+F(z)=f(z),\qquad z\in E,
+$$
+
+is an analytic continuation of $f$ to $D$. The identity theorem guarantees uniqueness whenever two continuations overlap on a set having an interior accumulation point.
+
+# Parameter-Dependent Holomorphic Integrals
+
+## Finite intervals
+
+Assume:
+
+1. $f(t,z)$ is continuous in $(t,z)$ for $a\le t\le b$ and $z\in D$.
+2. For each fixed $t$, the function $z\mapsto f(t,z)$ is holomorphic on $D$.
+
+Then
+
+$$
+F(z)=\int_a^b f(t,z)\,dt
+$$
+
+is holomorphic on $D$, and differentiation under the integral sign is valid:
+
+$$
+\boxed{
+F'(z)=\int_a^b\frac{\partial f(t,z)}{\partial z}\,dt.
+}
+$$
+
+For a contour $C$ surrounding $z$ inside $D$, Cauchy's formula gives
+
+$$
+f(t,z)=\frac1{2\pi i}\int_C\frac{f(t,\zeta)}{\zeta-z}\,d\zeta.
+$$
+
+Integrating with respect to $t$, interchanging the finite integrals, and applying Cauchy's derivative formula proves the result.
+
+## Improper integrals and uniform convergence
+
+For
+
+$$
+F(z)=\int_a^{\infty}f(t,z)\,dt,
+$$
+
+uniform convergence on $D$ means that for every $\varepsilon>0$ there is $T(\varepsilon)$ such that
+
+$$
+\left|\int_{T_1}^{T_2}f(t,z)\,dt\right|<\varepsilon
+$$
+
+for all $z\in D$ whenever $T_2>T_1>T(\varepsilon)$.
+
+The Weierstrass test gives a convenient sufficient condition: if
+
+$$
+|f(t,z)|\le\phi(t)
+$$
+
+for every $z\in D$, and
+
+$$
+\int_a^{\infty}\phi(t)\,dt<\infty,
+$$
+
+then the integral converges absolutely and uniformly on $D$.
+
+If $f(t,\cdot)$ is holomorphic for every $t$ and the improper integral converges locally uniformly, then
+
+$$
+F(z)=\int_a^{\infty}f(t,z)\,dt
+$$
+
+is holomorphic. Under the corresponding locally uniform hypotheses for the derivative,
+
+$$
+\boxed{
+F'(z)=\int_a^{\infty}\frac{\partial f(t,z)}{\partial z}\,dt.
+}
+$$
+
+One proof chooses
+
+$$
+a=a_0<a_1<a_2<\cdots,
+\qquad a_n\to\infty,
+$$
+
+and writes
+
+$$
+F(z)=\sum_{n=1}^{\infty}u_n(z),
+\qquad
+u_n(z)=\int_{a_{n-1}}^{a_n}f(t,z)\,dt.
+$$
+
+The locally uniform convergence theorem for series of holomorphic functions then permits termwise differentiation.
+
+# Gamma and Beta Functions
+
+## Gamma function
+
+For $\operatorname{Re}z>0$,
+
+$$
+\boxed{
+\Gamma(z)=\int_0^{\infty}e^{-t}t^{z-1}\,dt.
+}
+$$
+
+This integral is holomorphic in the right half-plane. Integration by parts gives
+
+$$
+\Gamma(z+1)=z\Gamma(z).
+$$
+
+Therefore
+
+$$
+\Gamma(z)=\frac{\Gamma(z+1)}{z}
+$$
+
+continues $\Gamma$ meromorphically to $\operatorname{Re}z>-1$, and repeated use of the recurrence continues it to the whole plane.
+
+The only singularities are simple poles at
+
+$$
+z=0,-1,-2,\ldots.
+$$
+
+Their residues are
+
+$$
+\boxed{
+\operatorname{Res}(\Gamma,-n)=\frac{(-1)^n}{n!},
+\qquad n=0,1,2,\ldots.
+}
+$$
+
+The reciprocal $1/\Gamma(z)$ is entire, with simple zeros at the nonpositive integers. Thus $\Gamma$, $\tan z$, and $\cot z$ are examples of meromorphic functions.
+
+## Beta function
+
+For $\operatorname{Re}p>0$ and $\operatorname{Re}q>0$,
+
+$$
+B(p,q)=\int_0^{\infty}
+\frac{t^{p-1}}{(1+t)^{p+q}}\,dt
+=\frac{\Gamma(p)\Gamma(q)}{\Gamma(p+q)}.
+$$
+
+## Euler reflection formula
+
+Euler's reflection formula is
+
+$$
+\boxed{
+\Gamma(z)\Gamma(1-z)=\frac{\pi}{\sin(\pi z)}.
+}
+$$
+
+For $0<\operatorname{Re}z<1$, the beta integral gives
+
+$$
+\Gamma(z)\Gamma(1-z)
+=\int_0^{\infty}\frac{t^{z-1}}{1+t}\,dt.
+$$
+
+A keyhole-contour evaluation of this integral yields $\pi/\sin(\pi z)$; analytic continuation then proves the identity wherever both sides are defined.
+
+# Conformal Mappings
+
+## Geometric meaning of the derivative
+
+Let $w=f(z)$ map the $z$-plane to the $w$-plane. If a smooth curve is parametrized by
+
+$$
+z=z(t),\qquad z(t_0)=z_0,
+$$
+
+then its image is
+
+$$
+w(t)=f(z(t)),
+$$
+
+and
+
+$$
+w'(t_0)=f'(z_0)z'(t_0).
+$$
+
+Therefore
+
+$$
+\arg f'(z_0)=\arg w'(t_0)-\arg z'(t_0).
+$$
+
+If $f'(z_0)\ne0$, multiplication by $f'(z_0)$ rotates every tangent direction by $\arg f'(z_0)$ and scales every infinitesimal length by $|f'(z_0)|$. Thus $f$ preserves oriented angles at $z_0$.
+
+More precisely,
+
+$$
+f(z_0+\Delta z)-f(z_0)
+=f'(z_0)\Delta z+o(|\Delta z|),
+$$
+
+so
+
+$$
+|\Delta w|\sim |f'(z_0)|\,|\Delta z|.
+$$
+
+The factor $|f'(z_0)|$ is the local magnification.
+
+## A univalent holomorphic map has nonzero derivative
+
+If $f$ is one-to-one and holomorphic on a domain $D$, then
+
+$$
+f'(z)\ne0\qquad(z\in D).
+$$
+
+Suppose instead that $f'(z_0)=0$. Since $f$ is nonconstant, there is an integer $m\ge2$ such that
+
+$$
+f(z)-f(z_0)=(z-z_0)^m\phi(z),
+\qquad \phi(z_0)\ne0.
+$$
+
+For sufficiently small $a\ne0$, Rouche's theorem shows that
+
+$$
+f(z)-f(z_0)-a
+$$
+
+has $m$ zeros near $z_0$. Hence $f$ takes the value $f(z_0)+a$ at more than one nearby point, contradicting injectivity.
+
+A one-to-one holomorphic map is therefore conformal everywhere on its domain. Conversely, a holomorphic function is locally conformal precisely where its derivative is nonzero.
+
+## The Riemann mapping theorem
+
+If $D$ is a nonempty simply connected proper subdomain of $\mathbb C$, then there exists a one-to-one holomorphic map from $D$ onto the unit disk.
+
+With a normalization
+
+$$
+f(z_0)=w_0,
+\qquad
+\arg f'(z_0)=\alpha_0,
+$$
+
+the conformal map is unique.
+
+The hypotheses matter:
+
+- A disconnected set cannot be mapped one-to-one onto the connected disk.
+- The entire plane is excluded; otherwise a bounded entire map would be constant by Liouville's theorem.
+- A punctured plane is not simply connected and cannot be conformally equivalent to a disk.
+
+# Linear Fractional Transformations
+
+A linear fractional, or Mobius, transformation is
+
+$$
+\boxed{
+w=M(z)=\frac{az+b}{cz+d},
+\qquad ad-bc\ne0.
+}
+$$
+
+Its inverse is
+
+$$
+\boxed{
+z=M^{-1}(w)=\frac{dw-b}{-cw+a},
+}
+$$
+
+and
+
+$$
+M'(z)=\frac{ad-bc}{(cz+d)^2}\ne0
+$$
+
+wherever $M$ is finite.
+
+The extended plane $\widehat{\mathbb C}=\mathbb C\cup\{\infty\}$ makes the exceptional values natural:
+
+$$
+M\left(-\frac dc\right)=\infty,
+\qquad
+M(\infty)=\frac ac
+$$
+
+when $c\ne0$.
+
+Every Mobius transformation is a composition of the elementary maps
+
+$$
+\begin{array}{ll}
+\text{translation:} & w=z+b,\\[2mm]
+\text{rotation:} & w=e^{i\theta}z,\\[2mm]
+\text{dilation:} & w=rz,\quad r>0,\\[2mm]
+\text{inversion:} & w=1/z.
+\end{array}
+$$
+
+For $c\ne0$,
+
+$$
+\frac{az+b}{cz+d}
+=\frac ac+
+\frac{bc-ad}{c^2\left(z+d/c\right)},
+$$
+
+which displays this decomposition directly.
+
+## Generalized circles
+
+A generalized circle means either a circle or a straight line in $\widehat{\mathbb C}$. Its equation can be written
+
+$$
+A z\overline z+Bz+\overline B\,\overline z+C=0,
+$$
+
+where $A,C\in\mathbb R$. Substitution of $z=M^{-1}(w)$ yields another equation of the same form. Hence Mobius transformations map generalized circles to generalized circles.
+
+## Symmetric points with respect to a circle
+
+For the circle
+
+$$
+C:\ |z-a|=R,
+$$
+
+two points $z_1$ and $z_2$ are symmetric with respect to $C$ if they lie on the same ray from $a$ and
+
+$$
+|z_1-a|\,|z_2-a|=R^2.
+$$
+
+Equivalently,
+
+$$
+\boxed{
+z_1=a+\frac{R^2}{\overline{z_2-a}}.
+}
+$$
+
+Another geometric characterization is that every generalized circle through $z_1$ and $z_2$ meets $C$ orthogonally. Mobius transformations preserve this relation: if $z_1,z_2$ are symmetric with respect to $C$, then $M(z_1),M(z_2)$ are symmetric with respect to $M(C)$.
+
+## Mapping three points
+
+Three distinct points $z_1,z_2,z_3$ can be mapped to three distinct points $w_1,w_2,w_3$ by a unique Mobius transformation. It is determined by preservation of the cross-ratio:
+
+$$
+\boxed{
+\frac{w-w_1}{w-w_2}
+\frac{w_3-w_2}{w_3-w_1}
+=
+\frac{z-z_1}{z-z_2}
+\frac{z_3-z_2}{z_3-z_1}.
+}
+$$
+
+For uniqueness, if two Mobius maps $M_1$ and $M_2$ agree at three distinct points, then $M_2^{-1}\circ M_1$ fixes those three points. A nonidentity Mobius transformation has at most two fixed points, so $M_1=M_2$.
+
+# Standard Mapping Functions
+
+## Powers and roots
+
+The map
+
+$$
+w=z^n
+$$
+
+multiplies arguments by $n$. Thus the sector
+
+$$
+\alpha<\arg z<\beta
+$$
+
+is mapped to
+
+$$
+n\alpha<\arg w<n\beta.
+$$
+
+Conversely, if $z=re^{i\phi}$, the branches of $w=z^{1/n}$ are
+
+$$
+w_k=r^{1/n}\exp\left(i\frac{\phi+2k\pi}{n}\right),
+\qquad k=0,1,\ldots,n-1.
+$$
+
+On a sector $\alpha<\arg z<\beta$, the $k$th branch maps into
+
+$$
+\frac{\alpha+2k\pi}{n}
+<\arg w<
+\frac{\beta+2k\pi}{n}.
+$$
+
+## Exponential and logarithm
+
+The exponential map
+
+$$
+w=e^z
+$$
+
+maps a horizontal strip
+
+$$
+a<\operatorname{Im}z<b,
+\qquad b-a\le2\pi,
+$$
+
+onto the sector
+
+$$
+a<\arg w<b.
+$$
+
+The logarithm has values
+
+$$
+w_n=\ln|z|+i(\arg z+2n\pi),
+\qquad n\in\mathbb Z.
+$$
+
+Therefore a sector $a<\arg z<b$ is mapped by the $n$th logarithm branch to the horizontal strip
+
+$$
+2n\pi+a<\operatorname{Im}w<2n\pi+b.
+$$
+
+## Half-plane and disk
+
+If $z_0$ lies in the upper half-plane, then
+
+$$
+\boxed{
+w=e^{i\theta}\frac{z-z_0}{z-\overline{z_0}}
+}
+$$
+
+maps the upper half-plane conformally onto the unit disk, sends $z_0$ to $0$, and allows an arbitrary final rotation $e^{i\theta}$.
+
+A standard Cayley transform is
+
+$$
+w=\frac{z-i}{z+i},
+$$
+
+which maps the upper half-plane to the unit disk. Its inverse is
+
+$$
+z=i\frac{1+w}{1-w}.
+$$
+
+Compositions with powers, rotations, translations, and inversions give maps between half-planes, disks, sectors, and slit domains.
+
+## Joukowski transformation
+
+The Joukowski map is
+
+$$
+\boxed{
+w=\frac12\left(z+\frac1z\right).
+}
+$$
+
+Its inverse relation is
+
+$$
+z=w\pm\sqrt{w^2-1}.
+$$
+
+The points $z$ and $1/z$ have the same image. Writing
+
+$$
+z=re^{i\phi},
+\qquad w=u+iv,
+$$
+
+gives
+
+$$
+u=\frac12\left(r+\frac1r\right)\cos\phi,
+\qquad
+v=\frac12\left(r-\frac1r\right)\sin\phi.
+$$
+
+For fixed $r\ne1$, the circle $|z|=r$ maps to the ellipse
+
+$$
+\boxed{
+\frac{u^2}{\frac14(r+r^{-1})^2}
++
+\frac{v^2}{\frac14(r-r^{-1})^2}=1
+}
+$$
+
+with foci at $w=\pm1$. For fixed $\phi$, a ray maps to a confocal hyperbola:
+
+$$
+\boxed{
+\frac{u^2}{\cos^2\phi}
+-\frac{v^2}{\sin^2\phi}=1.
+}
+$$
+
+The unit circle maps to the line segment $[-1,1]$.
+
+# Schwarz-Christoffel Transformation
+
+Let the real points
+
+$$
+a_1<a_2<\cdots<a_n
+$$
+
+on the boundary of the upper half-plane be mapped to the vertices
+
+$$
+A_1,A_2,\ldots,A_n
+$$
+
+of a polygon. Suppose the interior angle at $A_k$ is $\alpha_k\pi$. Then
+
+$$
+\sum_{k=1}^{n}\alpha_k=n-2.
+$$
+
+Near a prevertex $a_k$, the change of direction of the image boundary implies
+
+$$
+\frac{dw}{dz}\sim C_k(z-a_k)^{\alpha_k-1}.
+$$
+
+Combining all prevertices yields
+
+$$
+\boxed{
+\frac{dw}{dz}
+=C\prod_{k=1}^{n}(z-a_k)^{\alpha_k-1}.
+}
+$$
+
+After integration, the Schwarz-Christoffel map is
+
+$$
+\boxed{
+w=A+C\int^z
+\prod_{k=1}^{n}(\zeta-a_k)^{\alpha_k-1}\,d\zeta.
+}
+$$
+
+The constants $A$ and $C$, together with the prevertices $a_k$, are chosen to place and scale the polygon. Three real degrees of freedom in the prevertices can be fixed by a preliminary Mobius automorphism of the upper half-plane.
         </script>
     </main>
 
