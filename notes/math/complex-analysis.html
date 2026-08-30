@@ -157,13 +157,13 @@ meet orthogonally.
 Given $u$, a harmonic conjugate can be recovered locally from
 
 $$
-v(x,y)=\int_{(x_0,y_0)}^{(x,y)}(-u_y\,dx+u_x\,dy)+C.
+v(x,y)=\int_{(x_0,y_0)}^{(x,y)}(-u_y\,\mathrm{d}x+u_x\,\mathrm{d}y)+C.
 $$
 
 Similarly,
 
 $$
-u(x,y)=\int_{(x_0,y_0)}^{(x,y)}(v_y\,dx-v_x\,dy)+C.
+u(x,y)=\int_{(x_0,y_0)}^{(x,y)}(v_y\,\mathrm{d}x-v_x\,\mathrm{d}y)+C.
 $$
 
 The path independence of these integrals follows from the harmonicity assumptions on a simply connected domain.
@@ -255,7 +255,7 @@ The functions $z^{1/n}$ and $\log z$ have branch points at $0$ and $\infty$. A b
 If $w_k$ is a local single-valued branch of $z^{1/n}$, then
 
 $$
-\frac{dw_k}{dz}
+\frac{\mathrm{d}w_k}{\mathrm{d}z}
 =\frac{1}{n w_k^{n-1}}
 =\frac{w_k}{nz}.
 $$
@@ -281,7 +281,8 @@ $$
 
 Particular single-valued inverses require compatible choices of logarithm and square-root branches.
 
-# Complex Line Integrals
+
+# Cauchy's Theorem and Integral Formula
 
 Let $C$ be an oriented curve from $z_0$ to $Z$, and let
 
@@ -292,7 +293,7 @@ $$
 be a partition of $C$. Choose a sample point $\zeta_k$ on each subarc. If the limit exists independently of the partition and sample points, define
 
 $$
-\int_C f(z)\,dz
+\int_C f(z)\,\mathrm{d}z
 =\lim_{\max|\Delta z_k|\to0}
 \sum_{k=1}^n f(\zeta_k)\Delta z_k,
 \qquad \Delta z_k=z_k-z_{k-1}.
@@ -301,124 +302,90 @@ $$
 If $f=u+iv$, then
 
 $$
-\int_C f(z)\,dz
-=\int_C(u\,dx-v\,dy)
-+i\int_C(v\,dx+u\,dy).
+\int_C f(z)\,\mathrm{d}z
+=\int_C(u\,\mathrm{d}x-v\,\mathrm{d}y)
++i\int_C(v\,\mathrm{d}x+u\,\mathrm{d}y).
 $$
 
 For a parametrization $z=z(t)=x(t)+iy(t)$, $a\le t\le b$,
 
 $$
 \boxed{
-\int_C f(z)\,dz
-=\int_a^b f(z(t))z'(t)\,dt
+\int_C f(z)\,\mathrm{d}z
+=\int_a^b f(z(t))z'(t)\,\mathrm{d}t
 }
 $$
 
-## The estimation lemma
-
-If $|f(z)|\le M$ on a curve $C$ of length $L$, then
-
-$$
+>[!LEMMA] The estimation lemma
+> If $|f(z)|\le M$ on a curve $C$ of length $L$, then
+> $$
 \boxed{
-\left|\int_C f(z)\,dz\right|
-\le \int_C|f(z)|\,|dz|
+\left|\int_C f(z)\,\mathrm{d}z\right|
+\le \int_C|f(z)|\,|\mathrm{d}z|
 \le ML
-}
-$$
+}$$
 
-# Cauchy's Theorem and Integral Formula
+The following theorem is a really important theorem:
 
-## Cauchy's integral theorem
+> [!THEOREM] Cauchy's integral theorem
+> Let $C$ be a positively oriented simple closed contour bounding a domain $D$. If $f$ is holomorphic on an open set containing $D\cup C$, then$$\int_C f(z)\,\mathrm{d}z=0.$$
 
-Let $C$ be a positively oriented simple closed contour bounding a domain $D$. If $f$ is holomorphic on an open set containing $D\cup C$, then
-
-$$
-\boxed{\int_C f(z)\,dz=0.}
-$$
-
-For $f=u+iv$, Green's theorem gives
-
-$$
+>[!PROOF]
+>For $f=u+iv$, Green's theorem gives
+>$$
 \begin{aligned}
-\int_C f(z)\,dz
-&=\int_C(u\,dx-v\,dy)
-+i\int_C(v\,dx+u\,dy)\\
-&=-\iint_D(v_x+u_y)\,dx\,dy
-+i\iint_D(u_x-v_y)\,dx\,dy\\
+\int_C f(z)\,\mathrm{d}z
+&=\int_C(u\,\mathrm{d}x-v\,\mathrm{d}y)
++i\int_C(v\,\mathrm{d}x+u\,\mathrm{d}y)\\
+&=-\iint_D(v_x+u_y)\,\mathrm{d}x\,\mathrm{d}y
++i\iint_D(u_x-v_y)\,\mathrm{d}x\,\mathrm{d}y\\
 &=0
-\end{aligned}
-$$
-
-by the Cauchy-Riemann equations.
+\end{aligned}$$
+>by the Cauchy-Riemann equations.
 
 One consequence is path independence: in a simply connected domain,
 
 $$
-\int_{z_0}^{z}f(\zeta)\,d\zeta
+\int_{z_0}^{z}f(\zeta)\,\mathrm{d}\zeta
 $$
 
 depends only on the endpoints. Therefore
 
 $$
-F(z)=\int_{z_0}^{z}f(\zeta)\,d\zeta
+F(z)=\int_{z_0}^{z}f(\zeta)\,\mathrm{d}\zeta
 $$
 
 is a primitive of $f$ and satisfies $F'(z)=f(z)$.
 
-## Cauchy's integral formula
+> [!THEOREM] Cauchy's integral formula
+> If $f$ is holomorphic on and inside a positively oriented closed contour $C$, and $z$ lies inside $C$, then
+> $$f(z)=\frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta-z}\,\mathrm{d}\zeta$$
 
-If $f$ is holomorphic on and inside a positively oriented closed contour $C$, and $z$ lies inside $C$, then
-
-$$
-\boxed{
-f(z)=\frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta-z}\,d\zeta
-}
-$$
-
-To prove this, choose a small circle $\Gamma:|\zeta-z|=\rho$ inside $C$. By contour deformation,
-
-$$
-\int_C\frac{f(\zeta)}{\zeta-z}\,d\zeta
-=\int_\Gamma\frac{f(\zeta)}{\zeta-z}\,d\zeta.
-$$
-
-Split the latter integral as
-
-$$
-f(z)\int_\Gamma\frac{d\zeta}{\zeta-z}
-+\int_\Gamma\frac{f(\zeta)-f(z)}{\zeta-z}\,d\zeta.
-$$
-
-The first term equals $2\pi i f(z)$. Continuity of $f$ and the estimation lemma show that the second tends to $0$ as $\rho\to0$.
-
-## Higher derivatives
+>[!PROOF]
+>To prove this, choose a small circle $\Gamma:|\zeta-z|=\rho$ inside $C$. By contour deformation,$$\int_C\frac{f(\zeta)}{\zeta-z}\,\mathrm{d}\zeta=\int_\Gamma\frac{f(\zeta)}{\zeta-z}\,\mathrm{d}\zeta.$$
+>Split the latter integral as$$f(z)\int_\Gamma\frac{\mathrm{d}\zeta}{\zeta-z}+\int_\Gamma\frac{f(\zeta)-f(z)}{\zeta-z}\,\mathrm{d}\zeta.$$
+>The first term equals $2\pi i f(z)$. Continuity of $f$ and the estimation lemma show that the second tends to $0$ as $\rho\to0$.
 
 Holomorphic functions are infinitely differentiable. Differentiating under the integral gives
 
 $$
 \boxed{
 f^{(n)}(z)=\frac{n!}{2\pi i}
-\int_C\frac{f(\zeta)}{(\zeta-z)^{n+1}}\,d\zeta
+\int_C\frac{f(\zeta)}{(\zeta-z)^{n+1}}\,\mathrm{d}\zeta
 }
 $$
 
-## Morera's theorem
-
-If $f$ is continuous on a domain $D$ and
-
-$$
-\int_C f(z)\,dz=0
-$$
-
-for every closed contour $C$ in $D$, then $f$ is holomorphic on $D$. Indeed, the integral from a fixed point to $z$ is path independent and defines a holomorphic primitive $F$ with $F'=f$.
+> [!THEOREM]  Morera's theorem
+> If $f$ is continuous on a domain $D$ and
+> $$\int_C f(z)\,\mathrm{d}z=0$$
+> for every closed contour $C$ in $D$, then $f$ is holomorphic on $D$. Indeed, the integral from a fixed point to $z$ is path independent and defines a holomorphic primitive $F$ with $F'=f$.
 
 Thus, on a simply connected domain,
 
 $$
 f\text{ holomorphic}
 \quad\Longleftrightarrow\quad
-f\text{ continuous and }\int_C f(z)\,dz=0
+f\text{ continuous and }\int_C f(z)\,\mathrm{d}z=0
 \text{ for every closed }C.
 $$
 
@@ -465,14 +432,14 @@ If $f$ is holomorphic on $|z-a|\le R$, then with $\zeta=a+Re^{i\theta}$,
 
 $$
 \boxed{
-f(a)=\frac1{2\pi}\int_0^{2\pi}f(a+Re^{i\theta})\,d\theta
+f(a)=\frac1{2\pi}\int_0^{2\pi}f(a+Re^{i\theta})\,\mathrm{d}\theta
 }
 $$
 
 and therefore
 
 $$
-|f(a)|\le \frac1{2\pi}\int_0^{2\pi}|f(a+Re^{i\theta})|\,d\theta.
+|f(a)|\le \frac1{2\pi}\int_0^{2\pi}|f(a+Re^{i\theta})|\,\mathrm{d}\theta.
 $$
 
 ## Maximum modulus principle
@@ -525,7 +492,7 @@ $$
 u(r,\phi)=\frac1{2\pi}\int_0^{2\pi}
 u(R,\theta)
 \frac{R^2-r^2}{R^2-2Rr\cos(\theta-\phi)+r^2}
-\,d\theta
+\,\mathrm{d}\theta
 }
 $$
 
@@ -557,7 +524,7 @@ throughout every smaller disk contained in the domain of holomorphy.
 Choose a circle $C$ centered at $a$ such that $z$ lies inside it. From Cauchy's formula,
 
 $$
-f(z)=\frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta-z}\,d\zeta.
+f(z)=\frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta-z}\,\mathrm{d}\zeta.
 $$
 
 Since
@@ -576,7 +543,7 @@ $$
 f(z)=\sum_{n=0}^{\infty}
 \left[
 \frac1{2\pi i}\int_C
-\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta
+\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,\mathrm{d}\zeta
 \right](z-a)^n.
 $$
 
@@ -603,7 +570,7 @@ with coefficients
 $$
 \boxed{
 a_n=\frac1{2\pi i}\int_C
-\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta,
+\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,\mathrm{d}\zeta,
 \qquad n\in\mathbb Z
 }
 $$
@@ -613,8 +580,8 @@ where $C$ is any positively oriented circle in the annulus centered at $a$.
 To derive the expansion, place $z$ between two such circles $C'$ and $C''$. The multiply connected version of Cauchy's formula gives
 
 $$
-f(z)=\frac1{2\pi i}\int_{C''}\frac{f(\zeta)}{\zeta-z}\,d\zeta
--\frac1{2\pi i}\int_{C'}\frac{f(\zeta)}{\zeta-z}\,d\zeta.
+f(z)=\frac1{2\pi i}\int_{C''}\frac{f(\zeta)}{\zeta-z}\,\mathrm{d}\zeta
+-\frac1{2\pi i}\int_{C'}\frac{f(\zeta)}{\zeta-z}\,\mathrm{d}\zeta.
 $$
 
 On the outer circle,
@@ -649,7 +616,7 @@ $$
 multiply by $(z-a)^{-k-1}$ and integrate around a circle centered at $a$. Since
 
 $$
-\int_C(z-a)^m\,dz=
+\int_C(z-a)^m\,\mathrm{d}z=
 \begin{cases}
 2\pi i,&m=-1,\\
 0,&m\ne-1,
@@ -689,7 +656,7 @@ For the boundedness criterion, if $|f(z)|\le M$ on $0<|z-a|<\rho$, then on $|\ze
 $$
 |a_n|
 =\left|\frac1{2\pi i}\int_C
-\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta\right|
+\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,\mathrm{d}\zeta\right|
 \le \frac{M}{\rho_0^n}.
 $$
 
@@ -725,7 +692,7 @@ For an isolated singularity $a$, the residue of $f$ at $a$ is
 $$
 \boxed{
 \operatorname{Res}(f,a)
-=\frac1{2\pi i}\int_C f(z)\,dz
+=\frac1{2\pi i}\int_C f(z)\,\mathrm{d}z
 =a_{-1}
 }
 $$
@@ -738,7 +705,7 @@ If $f$ is holomorphic on and inside a positively oriented contour $C$ except for
 
 $$
 \boxed{
-\int_C f(z)\,dz
+\int_C f(z)\,\mathrm{d}z
 =2\pi i\sum_{k=1}^n\operatorname{Res}(f,a_k)
 }
 $$
@@ -752,7 +719,7 @@ $$
 \operatorname{Res}(f,a)
 =\frac1{(m-1)!}
 \lim_{z\to a}
-\frac{d^{m-1}}{dz^{m-1}}
+\frac{\mathrm{d}^{m-1}}{\mathrm{d}z^{m-1}}
 \left[(z-a)^m f(z)\right]
 }
 $$
@@ -820,15 +787,15 @@ Suppose $f$ is meromorphic inside and on $C$ and has no zeros or poles on $C$. L
 
 $$
 \boxed{
-\frac1{2\pi i}\int_C\frac{f'(z)}{f(z)}\,dz=N-P
+\frac1{2\pi i}\int_C\frac{f'(z)}{f(z)}\,\mathrm{d}z=N-P
 }
 $$
 
 If the image contour is $w=f(z)=\rho e^{i\theta}$, then
 
 $$
-\frac1{2\pi i}\int_C\frac{f'(z)}{f(z)}\,dz
-=\frac1{2\pi i}\int_{f(C)}\frac{dw}{w}
+\frac1{2\pi i}\int_C\frac{f'(z)}{f(z)}\,\mathrm{d}z
+=\frac1{2\pi i}\int_{f(C)}\frac{\mathrm{d}w}{w}
 =\frac1{2\pi}\Delta_C\arg f(z).
 $$
 
@@ -916,14 +883,14 @@ then
 
 $$
 \boxed{
-\int_{C_R}f(z)\,dz\longrightarrow0.
+\int_{C_R}f(z)\,\mathrm{d}z\longrightarrow0.
 }
 $$
 
 Indeed,
 
 $$
-\left|\int_{C_R}f(z)\,dz\right|
+\left|\int_{C_R}f(z)\,\mathrm{d}z\right|
 \le \frac{\max_{C_R}|zf(z)|}{R}\,R(\beta-\alpha)
 \longrightarrow0.
 $$
@@ -955,7 +922,7 @@ Then
 
 $$
 \boxed{
-\lim_{\rho\to0}\int_{C_\rho}f(z)\,dz
+\lim_{\rho\to0}\int_{C_\rho}f(z)\,\mathrm{d}z
 =i(\beta-\alpha)k.
 }
 $$
@@ -963,7 +930,7 @@ $$
 This follows by comparing $f(z)$ with $k/(z-a)$ and using
 
 $$
-\int_{C_\rho}\frac{dz}{z-a}=i(\beta-\alpha).
+\int_{C_\rho}\frac{\mathrm{d}z}{z-a}=i(\beta-\alpha).
 $$
 
 For a positively oriented semicircle around a simple pole, the limiting contribution is $i\pi\operatorname{Res}(f,a)$. Reversing the orientation reverses the sign.
@@ -980,7 +947,7 @@ For every $\lambda>0$,
 
 $$
 \boxed{
-\int_{C_R}g(z)e^{i\lambda z}\,dz\longrightarrow0
+\int_{C_R}g(z)e^{i\lambda z}\,\mathrm{d}z\longrightarrow0
 \qquad (R\to\infty).
 }
 $$
@@ -995,8 +962,8 @@ Using symmetry and $\sin\theta\ge 2\theta/\pi$ for $0\le\theta\le\pi/2$,
 
 $$
 \begin{aligned}
-\left|\int_{C_R}g(z)e^{i\lambda z}\,dz\right|
-&\le 2M(R)R\int_0^{\pi/2}e^{-\lambda R\sin\theta}\,d\theta\\
+\left|\int_{C_R}g(z)e^{i\lambda z}\,\mathrm{d}z\right|
+&\le 2M(R)R\int_0^{\pi/2}e^{-\lambda R\sin\theta}\,\mathrm{d}\theta\\
 &\le \frac{\pi M(R)}{\lambda}(1-e^{-\lambda R})\longrightarrow0.
 \end{aligned}
 $$
@@ -1010,7 +977,7 @@ For $e^{-i\lambda z}$ with $\lambda>0$, the analogous contour is closed in the l
 For an integral of the form
 
 $$
-\int_0^{2\pi}R(\cos\theta,\sin\theta)\,d\theta,
+\int_0^{2\pi}R(\cos\theta,\sin\theta)\,\mathrm{d}\theta,
 $$
 
 set $z=e^{i\theta}$. Then
@@ -1020,18 +987,18 @@ $$
 \qquad
 \sin\theta=\frac1{2i}\left(z-\frac1z\right),
 \qquad
-d\theta=\frac{dz}{iz}.
+\mathrm{d}\theta=\frac{\mathrm{d}z}{iz}.
 $$
 
 Therefore
 
 $$
-\int_0^{2\pi}R(\cos\theta,\sin\theta)\,d\theta
+\int_0^{2\pi}R(\cos\theta,\sin\theta)\,\mathrm{d}\theta
 =\int_{|z|=1}
 R\left(
 \frac12\left(z+\frac1z\right),
 \frac1{2i}\left(z-\frac1z\right)
-\right)\frac{dz}{iz},
+\right)\frac{\mathrm{d}z}{iz},
 $$
 
 which is evaluated by summing the residues inside the unit circle.
@@ -1048,7 +1015,7 @@ have no real poles and satisfy $\deg Q\ge\deg P+2$. Close the real segment $[-R,
 
 $$
 \boxed{
-\int_{-\infty}^{\infty}R(x)\,dx
+\int_{-\infty}^{\infty}R(x)\,\mathrm{d}x
 =2\pi i\sum_{\operatorname{Im}a_k>0}
 \operatorname{Res}(R,a_k).
 }
@@ -1059,16 +1026,16 @@ $$
 For $m>0$, define
 
 $$
-I=\int_{-\infty}^{\infty}R(x)e^{imx}\,dx
+I=\int_{-\infty}^{\infty}R(x)e^{imx}\,\mathrm{d}x
 =I_1+iI_2,
 $$
 
 where
 
 $$
-I_1=\int_{-\infty}^{\infty}R(x)\cos(mx)\,dx,
+I_1=\int_{-\infty}^{\infty}R(x)\cos(mx)\,\mathrm{d}x,
 \qquad
-I_2=\int_{-\infty}^{\infty}R(x)\sin(mx)\,dx.
+I_2=\int_{-\infty}^{\infty}R(x)\sin(mx)\,\mathrm{d}x.
 $$
 
 Jordan's lemma permits closing in the upper half-plane. If there are no poles on the real axis,
@@ -1084,7 +1051,7 @@ If simple poles $x_1,\ldots,x_\ell$ lie on the real axis and the contour makes c
 
 $$
 \boxed{
-\operatorname{PV}\int_{-\infty}^{\infty}R(x)e^{imx}\,dx
+\operatorname{PV}\int_{-\infty}^{\infty}R(x)e^{imx}\,\mathrm{d}x
 =2\pi i\sum_{\operatorname{Im}a_k>0}
 \operatorname{Res}\left(R(z)e^{imz},a_k\right)
 +i\pi\sum_{j=1}^{\ell}
@@ -1111,7 +1078,7 @@ On the upper bank of the positive axis, $z^p=x^p$. On the lower bank, $z^p=e^{2\
 
 $$
 (1-e^{2\pi ip})
-\int_0^{\infty}x^pR(x)\,dx
+\int_0^{\infty}x^pR(x)\,\mathrm{d}x
 =2\pi i\sum\operatorname{Res}\left(z^pR(z),a_k\right).
 $$
 
@@ -1119,7 +1086,7 @@ Thus
 
 $$
 \boxed{
-\int_0^{\infty}x^pR(x)\,dx
+\int_0^{\infty}x^pR(x)\,\mathrm{d}x
 =\frac{2\pi i}{1-e^{2\pi ip}}
 \sum\operatorname{Res}\left(z^pR(z),a_k\right).
 }
@@ -1167,21 +1134,21 @@ Assume:
 Then
 
 $$
-F(z)=\int_a^b f(t,z)\,dt
+F(z)=\int_a^b f(t,z)\,\mathrm{d}t
 $$
 
 is holomorphic on $D$, and differentiation under the integral sign is valid:
 
 $$
 \boxed{
-F'(z)=\int_a^b\frac{\partial f(t,z)}{\partial z}\,dt.
+F'(z)=\int_a^b\frac{\partial f(t,z)}{\partial z}\,\mathrm{d}t.
 }
 $$
 
 For a contour $C$ surrounding $z$ inside $D$, Cauchy's formula gives
 
 $$
-f(t,z)=\frac1{2\pi i}\int_C\frac{f(t,\zeta)}{\zeta-z}\,d\zeta.
+f(t,z)=\frac1{2\pi i}\int_C\frac{f(t,\zeta)}{\zeta-z}\,\mathrm{d}\zeta.
 $$
 
 Integrating with respect to $t$, interchanging the finite integrals, and applying Cauchy's derivative formula proves the result.
@@ -1191,13 +1158,13 @@ Integrating with respect to $t$, interchanging the finite integrals, and applyin
 For
 
 $$
-F(z)=\int_a^{\infty}f(t,z)\,dt,
+F(z)=\int_a^{\infty}f(t,z)\,\mathrm{d}t,
 $$
 
 uniform convergence on $D$ means that for every $\varepsilon>0$ there is $T(\varepsilon)$ such that
 
 $$
-\left|\int_{T_1}^{T_2}f(t,z)\,dt\right|<\varepsilon
+\left|\int_{T_1}^{T_2}f(t,z)\,\mathrm{d}t\right|<\varepsilon
 $$
 
 for all $z\in D$ whenever $T_2>T_1>T(\varepsilon)$.
@@ -1211,7 +1178,7 @@ $$
 for every $z\in D$, and
 
 $$
-\int_a^{\infty}\phi(t)\,dt<\infty,
+\int_a^{\infty}\phi(t)\,\mathrm{d}t<\infty,
 $$
 
 then the integral converges absolutely and uniformly on $D$.
@@ -1219,14 +1186,14 @@ then the integral converges absolutely and uniformly on $D$.
 If $f(t,\cdot)$ is holomorphic for every $t$ and the improper integral converges locally uniformly, then
 
 $$
-F(z)=\int_a^{\infty}f(t,z)\,dt
+F(z)=\int_a^{\infty}f(t,z)\,\mathrm{d}t
 $$
 
 is holomorphic. Under the corresponding locally uniform hypotheses for the derivative,
 
 $$
 \boxed{
-F'(z)=\int_a^{\infty}\frac{\partial f(t,z)}{\partial z}\,dt.
+F'(z)=\int_a^{\infty}\frac{\partial f(t,z)}{\partial z}\,\mathrm{d}t.
 }
 $$
 
@@ -1242,7 +1209,7 @@ and writes
 $$
 F(z)=\sum_{n=1}^{\infty}u_n(z),
 \qquad
-u_n(z)=\int_{a_{n-1}}^{a_n}f(t,z)\,dt.
+u_n(z)=\int_{a_{n-1}}^{a_n}f(t,z)\,\mathrm{d}t.
 $$
 
 The locally uniform convergence theorem for series of holomorphic functions then permits termwise differentiation.
@@ -1255,7 +1222,7 @@ For $\operatorname{Re}z>0$,
 
 $$
 \boxed{
-\Gamma(z)=\int_0^{\infty}e^{-t}t^{z-1}\,dt.
+\Gamma(z)=\int_0^{\infty}e^{-t}t^{z-1}\,\mathrm{d}t.
 }
 $$
 
@@ -1296,7 +1263,7 @@ For $\operatorname{Re}p>0$ and $\operatorname{Re}q>0$,
 
 $$
 B(p,q)=\int_0^{\infty}
-\frac{t^{p-1}}{(1+t)^{p+q}}\,dt
+\frac{t^{p-1}}{(1+t)^{p+q}}\,\mathrm{d}t
 =\frac{\Gamma(p)\Gamma(q)}{\Gamma(p+q)}.
 $$
 
@@ -1314,7 +1281,7 @@ For $0<\operatorname{Re}z<1$, the beta integral gives
 
 $$
 \Gamma(z)\Gamma(1-z)
-=\int_0^{\infty}\frac{t^{z-1}}{1+t}\,dt.
+=\int_0^{\infty}\frac{t^{z-1}}{1+t}\,\mathrm{d}t.
 $$
 
 A keyhole-contour evaluation of this integral yields $\pi/\sin(\pi z)$; analytic continuation then proves the identity wherever both sides are defined.
@@ -1689,14 +1656,14 @@ $$
 Near a prevertex $a_k$, the change of direction of the image boundary implies
 
 $$
-\frac{dw}{dz}\sim C_k(z-a_k)^{\alpha_k-1}.
+\frac{\mathrm{d}w}{\mathrm{d}z}\sim C_k(z-a_k)^{\alpha_k-1}.
 $$
 
 Combining all prevertices yields
 
 $$
 \boxed{
-\frac{dw}{dz}
+\frac{\mathrm{d}w}{\mathrm{d}z}
 =C\prod_{k=1}^{n}(z-a_k)^{\alpha_k-1}.
 }
 $$
@@ -1706,7 +1673,7 @@ After integration, the Schwarz-Christoffel map is
 $$
 \boxed{
 w=A+C\int^z
-\prod_{k=1}^{n}(\zeta-a_k)^{\alpha_k-1}\,d\zeta.
+\prod_{k=1}^{n}(\zeta-a_k)^{\alpha_k-1}\,\mathrm{d}\zeta.
 }
 $$
 

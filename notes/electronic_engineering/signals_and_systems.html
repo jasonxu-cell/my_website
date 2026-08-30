@@ -81,7 +81,7 @@
 | Multiplication               | $y(t) = x_1(t)\,x_2(t)$                                               | $y[n] = x_1[n]\,x_2[n]$                            |
 | Differentiation / Difference | $y(t) = x'(t) = \dfrac{\mathrm{d}}{\mathrm{d}t}x(t)$                  | backward: $y[n] = \nabla x[n] = x[n]-x[n-1]$       |
 | Forward difference           | —                                                                     | $y[n] = \Delta x[n] = x[n+1]-x[n]$                 |
-| Integration / Accumulation   | $y(t) = x_{(-1)}(t) = \displaystyle\int_{-\infty}^{t} x(\tau)\,d\tau$ | $y[n] = \displaystyle\sum_{k=-\infty}^{n} x[k]$    |
+| Integration / Accumulation   | $y(t) = x_{(-1)}(t) = \displaystyle\int_{-\infty}^{t} x(\tau)\,\mathrm{d}\tau$ | $y[n] = \displaystyle\sum_{k=-\infty}^{n} x[k]$    |
 | Magnitude                    | $y(t) = \lvert x(t)\rvert = \sqrt{x(t)\,x^{*}(t)}$                    | $y[n] = \lvert x[n]\rvert = \sqrt{x[n]\,x^{*}[n]}$ |
 | Time reversal                | $y(t) = x(-t)$                                                        | $y[n] = x[-n]$                                     |
 | Time shift                   | $y(t) = x(t-t_0)$                                                     | $y[n] = x[n-n_0]$                                  |
@@ -105,9 +105,9 @@ The Dirac delta $\delta(t)$, and discrete impulse
 $$\delta[n] = \begin{cases} 1, & n=0 \\ 0, & n\neq 0 \end{cases}$$
 
 One easily obtains
-$$\int_{-\infty}^{\infty}\delta(t)\,dt = 1, \qquad \sum_{n=-\infty}^{\infty}\delta[n] = 1.$$
+$$\int_{-\infty}^{\infty}\delta(t)\,\mathrm{d}t = 1, \qquad \sum_{n=-\infty}^{\infty}\delta[n] = 1.$$
 
-$$u(t) = \int_{-\infty}^{t}\delta(\tau)\,d\tau = \int_{0}^{\infty}\delta(t-\tau)\,d\tau, \qquad \delta(t) = \frac{\mathrm{d}}{\mathrm{d}t}u(t).$$
+$$u(t) = \int_{-\infty}^{t}\delta(\tau)\,\mathrm{d}\tau = \int_{0}^{\infty}\delta(t-\tau)\,\mathrm{d}\tau, \qquad \delta(t) = \frac{\mathrm{d}}{\mathrm{d}t}u(t).$$
 
 $$u[n] = \sum_{k=-\infty}^{n}\delta[k] = \sum_{k=0}^{\infty}\delta[n-k], \qquad \delta[n] = \nabla u[n] = u[n]-u[n-1].$$
 
@@ -119,8 +119,8 @@ $$x(t)\,\delta(t-t_0) = x(t_0)\,\delta(t-t_0), \qquad \int_{-\infty}^{\infty}x(t
 $$x[n]\,\delta[n-n_0] = x[n_0]\,\delta[n-n_0], \qquad \sum_{n=-\infty}^{\infty}x[n]\,\delta[n-n_0] = x[n_0].$$
 
 **Scaling**
-$$\int_{-\infty}^{\infty}\delta(kx)g(x)\,dx = \frac{1}{|k|}\int_{-\infty}^{\infty}\delta(x)g\!\left(\frac{x}{k}\right)dx = \frac{1}{|k|}g(0).$$
-Since $$\int_{-\infty}^{\infty}\delta(x)g(x)\,dx = g(0),$$
+$$\int_{-\infty}^{\infty}\delta(kx)g(x)\,\mathrm{d}x = \frac{1}{|k|}\int_{-\infty}^{\infty}\delta(x)g\!\left(\frac{x}{k}\right)\mathrm{d}x = \frac{1}{|k|}g(0).$$
+Since $$\int_{-\infty}^{\infty}\delta(x)g(x)\,\mathrm{d}x = g(0),$$
 we get $$\delta(kx) = \frac{\delta(x)}{|k|}.$$
 
 **Derivative relations.** $$x\delta(x) = 0.$$
@@ -139,10 +139,10 @@ $$\delta(\sin x) = \sum_{k=-\infty}^{\infty}\delta(x - k\pi),\qquad \delta(\cos 
 
 > [!PROOF]
 > For a smooth test function $f$,
-> $$\begin{align*}\lim_{\varepsilon\to0^+}\int_{-\infty}^{\infty}\frac{f(x)}{x\pm i\varepsilon}\,dx
-> &=\lim_{\varepsilon\to0^+}\int_{-\infty}^{\infty}\frac{x\,f(x)}{x^2+\varepsilon^2}\,dx
-> \mp i\lim_{\varepsilon\to0^+}\int_{-\infty}^{\infty}\frac{\varepsilon f(x)}{x^2+\varepsilon^2}\,dx\\
-> &=\mathcal{P}\int_{-\infty}^{\infty}\frac{f(x)}{x}\,dx \mp i\pi f(0).
+> $$\begin{align*}\lim_{\varepsilon\to0^+}\int_{-\infty}^{\infty}\frac{f(x)}{x\pm i\varepsilon}\,\mathrm{d}x
+> &=\lim_{\varepsilon\to0^+}\int_{-\infty}^{\infty}\frac{x\,f(x)}{x^2+\varepsilon^2}\,\mathrm{d}x
+> \mp i\lim_{\varepsilon\to0^+}\int_{-\infty}^{\infty}\frac{\varepsilon f(x)}{x^2+\varepsilon^2}\,\mathrm{d}x\\
+> &=\mathcal{P}\int_{-\infty}^{\infty}\frac{f(x)}{x}\,\mathrm{d}x \mp i\pi f(0).
 > \end{align*}$$
 ## Periodicity
 
@@ -161,9 +161,9 @@ Angular Frequency$$\qquad \omega = 2\pi f, \quad \Omega = 2\pi F.$$
 ## Even / odd signals
 
 - **Even signal:** $x(-t) = x(t)$ and $x[-n] = x[n]$;
-$$\int_{-\infty}^{\infty}x(t)\,dt = 2\int_{0}^{\infty}x(t)\,dt, \qquad \sum_{n=-\infty}^{\infty}x[n] = 2\sum_{n=0}^{\infty}x[n] - x[0].$$
+$$\int_{-\infty}^{\infty}x(t)\,\mathrm{d}t = 2\int_{0}^{\infty}x(t)\,\mathrm{d}t, \qquad \sum_{n=-\infty}^{\infty}x[n] = 2\sum_{n=0}^{\infty}x[n] - x[0].$$
 - **Odd signal:** $x(-t) = -x(t)$ and $x[-n] = -x[n]$;
-$$\int_{-\infty}^{\infty}x(t)\,dt = 0, \qquad \sum_{n=-\infty}^{\infty}x[n] = 0.$$
+$$\int_{-\infty}^{\infty}x(t)\,\mathrm{d}t = 0, \qquad \sum_{n=-\infty}^{\infty}x[n] = 0.$$
 
 Any signal can be split into an even part and an odd part:
 $$x_e(t) = \mathrm{Ev}\{x(t)\} = \frac{x(t)+x(-t)}{2}, \qquad x_e[n] = \mathrm{Ev}\{x[n]\} = \frac{x[n]+x[-n]}{2},$$
@@ -181,24 +181,24 @@ $$x_i(t) = \mathrm{Im}\{x(t)\} = \frac{x(t)-x^{*}(t)}{2j}, \qquad x_i[n] = \math
 
 ## Norms, energy and power signals
 
-If $\displaystyle\int_{-\infty}^{\infty}\lvert x(t)\rvert\,dt < \infty$ and $\displaystyle\sum_{n=-\infty}^{\infty}\lvert x[n]\rvert < \infty$, then $x(t)$ and $x[n]$ are **absolutely integrable** / **absolutely summable** (for real signals these are simply called absolutely integrable / summable). Define their **first-order norm**:
-$$\lVert x(t)\rVert_1 = \int_{-\infty}^{\infty}\lvert x(t)\rvert\,dt, \qquad \lVert x[n]\rVert_1 = \sum_{n=-\infty}^{\infty}\lvert x[n]\rvert.$$
+If $\displaystyle\int_{-\infty}^{\infty}\lvert x(t)\rvert\,\mathrm{d}t < \infty$ and $\displaystyle\sum_{n=-\infty}^{\infty}\lvert x[n]\rvert < \infty$, then $x(t)$ and $x[n]$ are **absolutely integrable** / **absolutely summable** (for real signals these are simply called absolutely integrable / summable). Define their **first-order norm**:
+$$\lVert x(t)\rVert_1 = \int_{-\infty}^{\infty}\lvert x(t)\rvert\,\mathrm{d}t, \qquad \lVert x[n]\rVert_1 = \sum_{n=-\infty}^{\infty}\lvert x[n]\rvert.$$
 
 If $x(t)$, $x[n]$ are bounded but not absolutely integrable/summable, define the first-order norm as
-$$\lVert x(t)\rVert_1 = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}\lvert x(t)\rvert\,dt, \qquad \lVert x[n]\rVert_1 = \lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}\lvert x[n]\rvert.$$
+$$\lVert x(t)\rVert_1 = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}\lvert x(t)\rvert\,\mathrm{d}t, \qquad \lVert x[n]\rVert_1 = \lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}\lvert x[n]\rvert.$$
 
-If $\displaystyle\int_{-\infty}^{\infty}\lvert x(t)\rvert^2\,dt < \infty$ and $\displaystyle\sum_{n=-\infty}^{\infty}\lvert x[n]\rvert^2 < \infty$, then $x(t)$, $x[n]$ are **square integrable** / **square summable**. Define their **second-order norm**:
-$$\lVert x(t)\rVert_2 = \sqrt{\int_{-\infty}^{\infty}\lvert x(t)\rvert^2\,dt}, \qquad \lVert x[n]\rVert_2 = \sqrt{\sum_{n=-\infty}^{\infty}\lvert x[n]\rvert^2}.$$
+If $\displaystyle\int_{-\infty}^{\infty}\lvert x(t)\rvert^2\,\mathrm{d}t < \infty$ and $\displaystyle\sum_{n=-\infty}^{\infty}\lvert x[n]\rvert^2 < \infty$, then $x(t)$, $x[n]$ are **square integrable** / **square summable**. Define their **second-order norm**:
+$$\lVert x(t)\rVert_2 = \sqrt{\int_{-\infty}^{\infty}\lvert x(t)\rvert^2\,\mathrm{d}t}, \qquad \lVert x[n]\rVert_2 = \sqrt{\sum_{n=-\infty}^{\infty}\lvert x[n]\rvert^2}.$$
 The signal **energy** is defined as the square of the second-order norm; such a signal is called an **energy (finite-energy) signal**.
 
 If $x(t)$, $x[n]$ are bounded but not square integrable/summable, define
-$$\lVert x(t)\rVert_2 = \sqrt{\lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}\lvert x(t)\rvert^2\,dt}, \qquad \lVert x[n]\rVert_2 = \sqrt{\lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}\lvert x[n]\rvert^2}.$$
+$$\lVert x(t)\rVert_2 = \sqrt{\lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}\lvert x(t)\rvert^2\,\mathrm{d}t}, \qquad \lVert x[n]\rVert_2 = \sqrt{\lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}\lvert x[n]\rvert^2}.$$
 The signal **power** is the square of this second-order norm; such a signal is called a **power (finite-power) signal**.
 
 # Inner Product and Correlation
 
 For signals defined on $[t_1,t_2]$ and $[n_1,n_2]$, namely $x_1(t),x_2(t)$ and $x_1[n],x_2[n]$, define the **inner product** $\langle *,*\rangle$:
-$$\langle x_1(t),x_2(t)\rangle = \int_{t_1}^{t_2}x_1(t)\,x_2^{*}(t)\,dt, \qquad \langle x_1,x_2\rangle = \sum_{n=n_1}^{n_2}x_1[n]\,x_2^{*}[n].$$
+$$\langle x_1(t),x_2(t)\rangle = \int_{t_1}^{t_2}x_1(t)\,x_2^{*}(t)\,\mathrm{d}t, \qquad \langle x_1,x_2\rangle = \sum_{n=n_1}^{n_2}x_1[n]\,x_2^{*}[n].$$
 In particular,
 $$\lVert x(t)\rVert_2^2 = \langle x(t),x(t)\rangle, \qquad \lVert x[n]\rVert_2^2 = \langle x[n],x[n]\rangle.$$
 
@@ -224,12 +224,12 @@ One easily shows $\lvert\rho_{12}\rvert \le 1$.
 ## Cross-correlation and autocorrelation
 
 For energy signals, the **cross-correlation function / sequence** $R_{xv}$:
-$$R_{xv}(\tau) = \int_{-\infty}^{\infty}x(t+\tau)\,v^{*}(t)\,dt = \int_{-\infty}^{\infty}x(t)\,v^{*}(t-\tau)\,dt,$$
+$$R_{xv}(\tau) = \int_{-\infty}^{\infty}x(t+\tau)\,v^{*}(t)\,\mathrm{d}t = \int_{-\infty}^{\infty}x(t)\,v^{*}(t-\tau)\,\mathrm{d}t,$$
 $$R_{xv}[m] = \sum_{n=-\infty}^{\infty}x[n+m]\,v^{*}[n] = \sum_{n=-\infty}^{\infty}x[n]\,v^{*}[n-m].$$
 If $v=x$, then $R_{xx}$ is the **autocorrelation function / sequence**.
 
 Similarly, for power signals:
-$$R_{xv}(\tau) = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}x(t+\tau)\,v^{*}(t)\,dt = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}x(t)\,v^{*}(t-\tau)\,dt,$$
+$$R_{xv}(\tau) = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}x(t+\tau)\,v^{*}(t)\,\mathrm{d}t = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}x(t)\,v^{*}(t-\tau)\,\mathrm{d}t,$$
 $$R_{xv}[m] = \lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}x[n+m]\,v^{*}[n] = \lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}x[n]\,v^{*}[n-m].$$
 
 One easily obtains $R_{xv}(\tau)=R_{vx}^{*}(-\tau)$ and $R_{xv}[m]=R_{vx}^{*}[-m]$.
@@ -264,10 +264,10 @@ and $c\,x_1(t)\to c\,y_1(t)$, $c\,x_1[n]\to c\,y_1[n]$.
 # LTI (Linear Time-Invariant) Systems
 
 Using the representations
-$$x[n] = \sum_{k=-\infty}^{\infty}x[k]\,\delta[n-k], \qquad x(t) = \int_{-\infty}^{\infty}x(\tau)\,\delta(t-\tau)\,d\tau,$$
+$$x[n] = \sum_{k=-\infty}^{\infty}x[k]\,\delta[n-k], \qquad x(t) = \int_{-\infty}^{\infty}x(\tau)\,\delta(t-\tau)\,\mathrm{d}\tau,$$
 we only need the response to $\delta[n]$ and $\delta(t)$, denoted $h[n]$ and $h(t)$, the **unit impulse response**. Then
 $$x[n]\to y[n] = \sum_{k=-\infty}^{\infty}x[k]\,h[n-k] = x[n]*h[n],$$
-$$x(t)\to y(t) = \int_{-\infty}^{\infty}x(\tau)\,h(t-\tau)\,d\tau = x(t)*h(t).$$
+$$x(t)\to y(t) = \int_{-\infty}^{\infty}x(\tau)\,h(t-\tau)\,\mathrm{d}\tau = x(t)*h(t).$$
 
 **Matched filter:**
 $$R_{xg}(t) = x(t)*g^{*}(-t), \qquad R_{xg}[n] = x[n]*g^{*}[-n].$$
@@ -287,9 +287,9 @@ $$\sum_{k=-\infty}^{n}\big(x[k]*h[k]\big) = x[n]*\Big(\sum_{k=-\infty}^{n}h[k]\B
 
 ## Periodic convolution $\circledast$
 
-$$\tilde{y}(t) = \tilde{x}_1(t)\circledast\tilde{x}_2(t) = \int_{\langle T\rangle}\tilde{x}_1(\tau)\,\tilde{x}_2(t-\tau)\,d\tau,$$
+$$\tilde{y}(t) = \tilde{x}_1(t)\circledast\tilde{x}_2(t) = \int_{\langle T\rangle}\tilde{x}_1(\tau)\,\tilde{x}_2(t-\tau)\,\mathrm{d}\tau,$$
 $$\tilde{y}[n] = \tilde{x}_1[n]\circledast\tilde{x}_2[n] = \sum_{k\in\langle N\rangle}\tilde{x}_1[k]\,\tilde{x}_2[n-k].$$
-Note: the integration/accumulation properties of periodic convolution hold only when $\displaystyle\int_{\langle T\rangle}\tilde{x}_1(t)\,dt = 0$ and $\displaystyle\int_{\langle T\rangle}\tilde{x}_2(t)\,dt = 0$ (or $\displaystyle\sum_{n\in\langle N\rangle}\tilde{x}_1[n] = 0$ and $\displaystyle\sum_{n\in\langle N\rangle}\tilde{x}_2[n] = 0$).
+Note: the integration/accumulation properties of periodic convolution hold only when $\displaystyle\int_{\langle T\rangle}\tilde{x}_1(t)\,\mathrm{d}t = 0$ and $\displaystyle\int_{\langle T\rangle}\tilde{x}_2(t)\,\mathrm{d}t = 0$ (or $\displaystyle\sum_{n\in\langle N\rangle}\tilde{x}_1[n] = 0$ and $\displaystyle\sum_{n\in\langle N\rangle}\tilde{x}_2[n] = 0$).
 
 ## Properties of LTI systems via the impulse response
 
@@ -373,17 +373,17 @@ For the difference equation $\displaystyle\sum_{k=0}^{N}a_k\,y[n-k] = \sum_{k=0}
 For an LTI system the order of the two operations can be exchanged, giving **Direct Form II**, which needs only $\max\{M,N\}$ delay elements.
 ![Screenshot 2026-06-16 at 19.04.03](../attachments/Screenshot%202026-06-16%20at%2019.04.03.png)
 For the differential equation $\displaystyle\sum_{k=0}^{N}a_k\,y^{(k)}(t) = \sum_{k=0}^{M}b_k\,x^{(k)}(t)$: since differentiators have poor noise immunity, integrators (better noise immunity) are used. The equation is converted to
-$$\sum_{k=0}^{N}a_k\underbrace{\int\!\cdots\!\int}y(t)\,dt = \sum_{k=0}^{M}b_k\underbrace{\int\!\cdots\!\int}x(t)\,dt,$$
+$$\sum_{k=0}^{N}a_k\underbrace{\int\!\cdots\!\int}y(t)\,\mathrm{d}t = \sum_{k=0}^{M}b_k\underbrace{\int\!\cdots\!\int}x(t)\,\mathrm{d}t,$$
 and the corresponding Direct Form I and Direct Form II systems can likewise be drawn.
 
 # Eigenfunctions of LTI Systems
 
 If $x(t) = e^{st}$, $s\in\mathbb{C}$:
-$$y(t) = \int_{-\infty}^{\infty}h(\tau)\,x(t-\tau)\,d\tau = \int_{-\infty}^{\infty}h(\tau)\,e^{s(t-\tau)}\,d\tau = e^{st}\int_{-\infty}^{\infty}h(\tau)\,e^{-s\tau}\,d\tau.$$
-Writing $H(s) = \displaystyle\int_{-\infty}^{\infty}h(\tau)\,e^{-s\tau}\,d\tau$, $s\in\mathbb{C}$, gives $y(t) = H(s)\,e^{st}$.
+$$y(t) = \int_{-\infty}^{\infty}h(\tau)\,x(t-\tau)\,\mathrm{d}\tau = \int_{-\infty}^{\infty}h(\tau)\,e^{s(t-\tau)}\,\mathrm{d}\tau = e^{st}\int_{-\infty}^{\infty}h(\tau)\,e^{-s\tau}\,\mathrm{d}\tau.$$
+Writing $H(s) = \displaystyle\int_{-\infty}^{\infty}h(\tau)\,e^{-s\tau}\,\mathrm{d}\tau$, $s\in\mathbb{C}$, gives $y(t) = H(s)\,e^{st}$.
 
 $H(s)$ is the **eigenvalue** of the LTI system and $e^{st}$ the corresponding **eigensignal**. If $s=j\omega$, then
-$$e^{j\omega t}\to H(j\omega)\,e^{j\omega t} = e^{j\omega t}\int_{-\infty}^{\infty}h(\tau)\,e^{-j\omega\tau}\,d\tau, \quad \omega\in\mathbb{R}.$$
+$$e^{j\omega t}\to H(j\omega)\,e^{j\omega t} = e^{j\omega t}\int_{-\infty}^{\infty}h(\tau)\,e^{-j\omega\tau}\,\mathrm{d}\tau, \quad \omega\in\mathbb{R}.$$
 $H(j\omega)$ is the **frequency response** of the LTI system.
 
 For discrete signals, if $x[n] = z^{n}$:
@@ -402,11 +402,11 @@ $$x(t) = \sum_k a_k\,e^{j\omega_k t}\to y(t) = \sum_k a_k\,H(j\omega_k)\,e^{j\om
 
 ## CFS — Continuous Fourier Series
 
-$$\tilde{x}(t) = \sum_{k=-\infty}^{\infty}\tilde{F}_k\,e^{jk\frac{2\pi}{T}t} \quad\text{(synthesis)}, \qquad \tilde{F}_k = \frac{1}{T}\int_{\langle T\rangle}\tilde{x}(t)\,e^{-jk\frac{2\pi}{T}t}\,dt \quad\text{(analysis)}.$$
+$$\tilde{x}(t) = \sum_{k=-\infty}^{\infty}\tilde{F}_k\,e^{jk\frac{2\pi}{T}t} \quad\text{(synthesis)}, \qquad \tilde{F}_k = \frac{1}{T}\int_{\langle T\rangle}\tilde{x}(t)\,e^{-jk\frac{2\pi}{T}t}\,\mathrm{d}t \quad\text{(analysis)}.$$
 
 **Dirichlet convergence conditions:**
 
-1. $\displaystyle\int_{\langle T\rangle}\lvert\tilde{x}(t)\rvert\,dt < \infty$.
+1. $\displaystyle\int_{\langle T\rangle}\lvert\tilde{x}(t)\rvert\,\mathrm{d}t < \infty$.
 2. In any one period there are only finitely many maxima and minima.
 3. In any one period of $\tilde{x}(t)$ only finitely many step (jump) discontinuities are allowed, and at these discontinuities only finite jumps occur.
 
@@ -427,8 +427,8 @@ We can calculate it by FFT algorithm, which is introduced in [Data Structure & A
 
 ## CFT — Continuous Fourier Transform
 
-$$\mathcal{F}\{x(t)\} = X(\omega) = \int_{-\infty}^{\infty}x(t)\,e^{-j\omega t}\,dt \qquad x(t)\xrightarrow{\ \mathcal{F}\ }X(\omega),$$
-$$\mathcal{F}^{-1}\{X(\omega)\} = x(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty}X(\omega)\,e^{j\omega t}\,d\omega \qquad X(t)\xrightarrow{\ \mathcal{F}\ }2\pi\,x(-\omega).$$
+$$\mathcal{F}\{x(t)\} = X(\omega) = \int_{-\infty}^{\infty}x(t)\,e^{-j\omega t}\,\mathrm{d}t \qquad x(t)\xrightarrow{\ \mathcal{F}\ }X(\omega),$$
+$$\mathcal{F}^{-1}\{X(\omega)\} = x(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty}X(\omega)\,e^{j\omega t}\,\mathrm{d}\omega \qquad X(t)\xrightarrow{\ \mathcal{F}\ }2\pi\,x(-\omega).$$
 Clearly, $$\delta(t)\xrightarrow{\ \mathcal{F}\ }1.$$
 Also, $$1\xrightarrow{\ \mathcal{F}\ }2\pi\delta(\omega).$$
 Consider the CFS:
@@ -437,10 +437,10 @@ $$\mathcal{F}\{\tilde{x}(t)\} = \sum_{k=-\infty}^{\infty}\tilde{F}_k\,\mathcal{F
 ## DTFT — Discrete-Time Fourier Transform
 
 $$\mathcal{F}\{x[n]\} = \tilde{X}(\Omega) = \sum_{n=-\infty}^{\infty}x[n]\,e^{-j\Omega n} \qquad x[n]\xrightarrow{\ \mathcal{F}\ }\tilde{X}(\Omega)\ \ (T=2\pi),$$
-$$\mathcal{F}^{-1}\{X(\Omega)\} = x[n] = \frac{1}{2\pi}\int_{\langle 2\pi\rangle}\tilde{X}(\Omega)\,e^{j\Omega n}\,d\Omega \qquad \tilde{X}\!\Big(\tfrac{2\pi t}{T}\Big)\xrightarrow{\ \mathcal{F}\ }x[-k]\ \ (T).$$
+$$\mathcal{F}^{-1}\{X(\Omega)\} = x[n] = \frac{1}{2\pi}\int_{\langle 2\pi\rangle}\tilde{X}(\Omega)\,e^{j\Omega n}\,\mathrm{d}\Omega \qquad \tilde{X}\!\Big(\tfrac{2\pi t}{T}\Big)\xrightarrow{\ \mathcal{F}\ }x[-k]\ \ (T).$$
 
 Also
-$$\mathcal{F}^{-1}\Big\{\sum_{\ell=-\infty}^{\infty}\delta(\Omega-2\pi\ell)\Big\} = \frac{1}{2\pi}\sum_{\ell=-\infty}^{\infty}\int_{\langle 2\pi\rangle}\delta(\Omega-2\pi\ell)\,e^{j\Omega n}\,d\Omega = \frac{1}{2\pi},$$
+$$\mathcal{F}^{-1}\Big\{\sum_{\ell=-\infty}^{\infty}\delta(\Omega-2\pi\ell)\Big\} = \frac{1}{2\pi}\sum_{\ell=-\infty}^{\infty}\int_{\langle 2\pi\rangle}\delta(\Omega-2\pi\ell)\,e^{j\Omega n}\,\mathrm{d}\Omega = \frac{1}{2\pi},$$
 hence
 $$1\xrightarrow{\ \mathcal{F}\ }2\pi\sum_{\ell=-\infty}^{\infty}\delta(\Omega-2\pi\ell).$$
 
@@ -499,7 +499,7 @@ $$\delta[n]-\delta[n-1]\xrightarrow{\ \mathcal{F}\ }1-e^{-j\Omega} = 2j\sin\tfra
 ![Screenshot 2026-06-15 at 23.27.27](../attachments/Screenshot%202026-06-15%20at%2023.27.27.png)
 
 **Low-pass filter.**
-$$e^{-a\lvert t\rvert}\operatorname{sgn}(t) = e^{-at}u(t) - e^{at}u(-t)\xrightarrow{\ \mathcal{F}\ }\int_{0}^{\infty}e^{-at}e^{-j\omega t}\,dt - \int_{-\infty}^{0}e^{at}e^{-j\omega t}\,dt = \frac{-2j\omega}{a^2+\omega^2}$$
+$$e^{-a\lvert t\rvert}\operatorname{sgn}(t) = e^{-at}u(t) - e^{at}u(-t)\xrightarrow{\ \mathcal{F}\ }\int_{0}^{\infty}e^{-at}e^{-j\omega t}\,\mathrm{d}t - \int_{-\infty}^{0}e^{at}e^{-j\omega t}\,\mathrm{d}t = \frac{-2j\omega}{a^2+\omega^2}$$
 Taking $a\to 0$:
 $$\operatorname{sgn}(t)\xrightarrow{\ \mathcal{F}\ }\frac{2}{j\omega}, \qquad u(t) = \tfrac{1}{2} + \tfrac{1}{2}\operatorname{sgn}(t)\xrightarrow{\ \mathcal{F}\ }\pi\,\delta(\omega) + \frac{1}{j\omega}$$
 
@@ -522,7 +522,7 @@ $$u(t+t_0) - u(t-t_0)\xrightarrow{\ \text{CFT}\ }\frac{2\sin\omega t_0}{\omega}.
 # Sampling Theorem
 
 Sampling function:$$\tilde{p}(t)=\sum_{n=-\infty}^\infty \delta(t-nT_s)$$
-$$\tilde{F}_k = \frac{1}{T_s}\int_{-\frac{T_s}{2}}^{\frac{T_s}{2}}\tilde{p}(t)\,e^{-jk\frac{2\pi}{T_s}t}\,dt=\frac{1}{T_s}$$
+$$\tilde{F}_k = \frac{1}{T_s}\int_{-\frac{T_s}{2}}^{\frac{T_s}{2}}\tilde{p}(t)\,e^{-jk\frac{2\pi}{T_s}t}\,\mathrm{d}t=\frac{1}{T_s}$$
 
 $$P(\omega) =\frac{2\pi}{T_s}\sum_{k=-\infty}^{\infty}\delta(\omega-\frac{2\pi k}{T_s})=\frac{2\pi}{T_s}\sum_{k=-\infty}^{\infty}\delta(\omega-k\omega_s)$$
 We can see that the CFT of the sampling function is also a sampling function.
@@ -538,7 +538,7 @@ $$\boxed{\ \omega_s \ge 2\omega_M\ }$$
 
 # Laplace Transform and Z-Transform
 
-$$F(s) = \mathcal{L}\{f(t)\} = \int_{-\infty}^{\infty}f(t)\,e^{-st}\,dt, \quad s\in R_F.$$
+$$F(s) = \mathcal{L}\{f(t)\} = \int_{-\infty}^{\infty}f(t)\,e^{-st}\,\mathrm{d}t, \quad s\in R_F.$$
 $\mathcal{L}\{h(t)\}$ is the eigenvalue of the LTI system for the input $e^{st}$. Its region of convergence (ROC) is a single connected strip parallel to the imaginary axis.
 
 $$F(z) = \mathcal{Z}\{f[n]\} = \sum_{n=-\infty}^{\infty}f[n]\,z^{-n}, \quad z\in R_F $$
@@ -562,22 +562,22 @@ $$\mathcal{L}[f_1 \cdot f_2] =\frac{1}{2\pi j} \mathcal{L}[f_1]* \mathcal{L}[f_2
 ## Relationship to the Fourier transform (and inverse transforms)
 
 **Continuous time — Laplace generalizes the CFT.** With $s=\sigma+j\omega$,
-$$X(s)=\int_{-\infty}^{\infty}f(t)e^{-st}\,dt=\int_{-\infty}^{\infty}\big(f(t)e^{-\sigma t}\big)e^{-j\omega t}\,dt=\mathcal{F}\{f(t)e^{-\sigma t}\},$$
+$$X(s)=\int_{-\infty}^{\infty}f(t)e^{-st}\,\mathrm{d}t=\int_{-\infty}^{\infty}\big(f(t)e^{-\sigma t}\big)e^{-j\omega t}\,\mathrm{d}t=\mathcal{F}\{f(t)e^{-\sigma t}\},$$
 i.e. the Laplace transform is the CFT of $f$ weighted by $e^{-\sigma t}$. When the ROC contains the imaginary axis ($\sigma=0$ is allowed),
 $$X(\omega)=X(s)\big|_{s=j\omega}.$$
 
 Inverse Laplace transform (Bromwich integral):
-$$f(t)=\frac{1}{2\pi j}\int_{\sigma-j\infty}^{\sigma+j\infty}X(s)e^{st}\,ds,$$
-taken along any vertical line $\mathrm{Re}(s)=\sigma$ inside the ROC. Setting $s=j\omega$ ($\sigma=0$, $ds=j\,d\omega$) recovers the inverse CFT $f(t)=\dfrac{1}{2\pi}\displaystyle\int_{-\infty}^{\infty}X(\omega)e^{j\omega t}\,d\omega$.
+$$f(t)=\frac{1}{2\pi j}\int_{\sigma-j\infty}^{\sigma+j\infty}X(s)e^{st}\,\mathrm{d}s,$$
+taken along any vertical line $\mathrm{Re}(s)=\sigma$ inside the ROC. Setting $s=j\omega$ ($\sigma=0$, $\mathrm{d}s=j\,\mathrm{d}\omega$) recovers the inverse CFT $f(t)=\dfrac{1}{2\pi}\displaystyle\int_{-\infty}^{\infty}X(\omega)e^{j\omega t}\,\mathrm{d}\omega$.
 
 **Discrete time — Z generalizes the DTFT.** With $z=re^{j\Omega}$,
 $$X(z)=\sum_{n=-\infty}^{\infty}x[n]z^{-n}=\sum_{n=-\infty}^{\infty}\big(x[n]r^{-n}\big)e^{-j\Omega n}=\mathcal{F}\{x[n]r^{-n}\}.$$
 When the ROC contains the unit circle ($r=1$ is allowed),
 $$\tilde X(\Omega)=X(z)\big|_{z=e^{j\Omega}}.$$
 Inverse Z-transform (contour integral):
-$$x[n]=\frac{1}{2\pi j}\oint_{C}X(z)\,z^{\,n-1}\,dz,$$
-where $C$ is any counter-clockwise closed contour lying in the ROC and encircling the origin. Taking $C$ to be the unit circle ($z=e^{j\Omega}$, $dz=je^{j\Omega}\,d\Omega$) gives the inverse DTFT
-$$x[n]=\frac{1}{2\pi}\int_{\langle2\pi\rangle}\tilde X(\Omega)e^{j\Omega n}\,d\Omega.$$
+$$x[n]=\frac{1}{2\pi j}\oint_{C}X(z)\,z^{\,n-1}\,\mathrm{d}z,$$
+where $C$ is any counter-clockwise closed contour lying in the ROC and encircling the origin. Taking $C$ to be the unit circle ($z=e^{j\Omega}$, $\mathrm{d}z=je^{j\Omega}\,\mathrm{d}\Omega$) gives the inverse DTFT
+$$x[n]=\frac{1}{2\pi}\int_{\langle2\pi\rangle}\tilde X(\Omega)e^{j\Omega n}\,\mathrm{d}\Omega.$$
 
 ## Inverse systems
 
@@ -593,16 +593,16 @@ Write $s=\sigma+j\omega$, so $\lvert h(t)e^{-st}\rvert = \lvert h(t)\rvert e^{-\
 - **Causal system** $\Rightarrow$ ROC is a right half-plane $\mathrm{Re}(s) > \sigma_{\max}$, where $\sigma_{\max}$ is the largest real part among the poles.
 
 >[!PROOF]
->For a causal $h(t)$ ($h(t)=0,\ t<0$), $H(s)=\int_{0}^{\infty}h(t)e^{-\sigma t}e^{-j\omega t}\,dt$, so
->$$\lvert H(s)\rvert\le\int_{0}^{\infty}\lvert h(t)\rvert e^{-\sigma t}\,dt.$$
+>For a causal $h(t)$ ($h(t)=0,\ t<0$), $H(s)=\int_{0}^{\infty}h(t)e^{-\sigma t}e^{-j\omega t}\,\mathrm{d}t$, so
+>$$\lvert H(s)\rvert\le\int_{0}^{\infty}\lvert h(t)\rvert e^{-\sigma t}\,\mathrm{d}t.$$
 >If this converges at some $\sigma_0$, then for any $\sigma>\sigma_0$ and $t>0$ we have $e^{-\sigma t}<e^{-\sigma_0 t}$, so it still converges. Hence the ROC extends to the right — a right half-plane. Its left boundary cannot cross a pole (the integral diverges there), so the boundary is the rightmost pole: $\mathrm{Re}(s)>\sigma_{\max}$.
 
 - **Stable system** $\iff$ the ROC contains the imaginary axis $\mathrm{Re}(s)=0$.
 
 >[!PROOF]
->BIBO stability $\iff h(t)$ absolutely integrable, $\int_{-\infty}^{\infty}\lvert h(t)\rvert\,dt<\infty$. On the imaginary axis $\sigma=0$,
->$$\lvert H(j\omega)\rvert\le\int_{-\infty}^{\infty}\lvert h(t)\rvert\,dt<\infty,$$
->so $s=j\omega$ lies in the ROC. Conversely, if the ROC contains $\sigma=0$ then $\int\lvert h(t)\rvert\,dt<\infty$, i.e. the system is stable.
+>BIBO stability $\iff h(t)$ absolutely integrable, $\int_{-\infty}^{\infty}\lvert h(t)\rvert\,\mathrm{d}t<\infty$. On the imaginary axis $\sigma=0$,
+>$$\lvert H(j\omega)\rvert\le\int_{-\infty}^{\infty}\lvert h(t)\rvert\,\mathrm{d}t<\infty,$$
+>so $s=j\omega$ lies in the ROC. Conversely, if the ROC contains $\sigma=0$ then $\int\lvert h(t)\rvert\,\mathrm{d}t<\infty$, i.e. the system is stable.
 
 Combining the two: a **causal and stable** system has a right-half-plane ROC that contains the imaginary axis, which forces $\sigma_{\max}<0$ — i.e. **all poles lie in the left half-plane $\mathrm{Re}(s)<0$** (this is the meaning of the "stable" condition above).
 
@@ -615,7 +615,7 @@ $$\displaystyle\lim_{s\to\infty} s F(s) = f(0^+)$$
 
 >[!PROOF]
 >From the differentiation property (unilateral, lower limit $0^-$),
->$$sF(s)-f(0^-) = \int_{0^-}^{\infty}f'(t)e^{-st}\,dt = \int_{0^-}^{0^+}f'(t)e^{-st}\,dt + \int_{0^+}^{\infty}f'(t)e^{-st}\,dt.$$
+>$$sF(s)-f(0^-) = \int_{0^-}^{\infty}f'(t)e^{-st}\,\mathrm{d}t = \int_{0^-}^{0^+}f'(t)e^{-st}\,\mathrm{d}t + \int_{0^+}^{\infty}f'(t)e^{-st}\,\mathrm{d}t.$$
 >As $s\to\infty$: the second integral $\to 0$ (Riemann–Lebesgue, since $e^{-st}\to0$ for $t>0$), while the first $\to f(0^+)-f(0^-)$. Hence $\lim_{s\to\infty}sF(s)-f(0^-)=f(0^+)-f(0^-)$, i.e. $\lim_{s\to\infty}sF(s)=f(0^+)$.
 
 Z-Transform
@@ -627,8 +627,8 @@ Unilateral Laplace Transform
 $$\displaystyle\lim_{s\to 0} s F(s) = f(\infty)$$
 
 >[!PROOF]
->Again from $sF(s)-f(0^-)=\int_{0^-}^{\infty}f'(t)e^{-st}\,dt$, let $s\to0$:
->$$\lim_{s\to0}\big(sF(s)-f(0^-)\big)=\int_{0^-}^{\infty}f'(t)\,dt=\lim_{t\to\infty}f(t)-f(0^-)=f(\infty)-f(0^-),$$
+>Again from $sF(s)-f(0^-)=\int_{0^-}^{\infty}f'(t)e^{-st}\,\mathrm{d}t$, let $s\to0$:
+>$$\lim_{s\to0}\big(sF(s)-f(0^-)\big)=\int_{0^-}^{\infty}f'(t)\,\mathrm{d}t=\lim_{t\to\infty}f(t)-f(0^-)=f(\infty)-f(0^-),$$
 >so $\lim_{s\to0}sF(s)=f(\infty)$. This requires $f(\infty)$ to exist, i.e. all poles of $sF(s)$ in the open left half-plane (system stable) — see the note below.
 
 Z-Transform
@@ -644,11 +644,11 @@ If the final-value theorem conditions fail, $f(\infty)$ and $\lim_{n\to\infty}x[
 # Parseval's relation
 
 **Energy signals:**
-$$\int_{-\infty}^{\infty}\lvert x(t)\rvert^2\,\mathrm{d}t = \frac{1}{2\pi}\int_{-\infty}^{\infty}\lvert X(\omega)\rvert^2\,\mathrm{d}\omega, \qquad \sum_{n=-\infty}^{\infty}\lvert x[n]\rvert^2 = \frac{1}{2\pi}\int_{\langle 2\pi\rangle}\lvert\tilde{X}(\Omega)\rvert^2\,d\Omega.$$
+$$\int_{-\infty}^{\infty}\lvert x(t)\rvert^2\,\mathrm{d}t = \frac{1}{2\pi}\int_{-\infty}^{\infty}\lvert X(\omega)\rvert^2\,\mathrm{d}\omega, \qquad \sum_{n=-\infty}^{\infty}\lvert x[n]\rvert^2 = \frac{1}{2\pi}\int_{\langle 2\pi\rangle}\lvert\tilde{X}(\Omega)\rvert^2\,\mathrm{d}\Omega.$$
 
 **Power signals:**
-$$\lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}\lvert x(t)\rvert^2\,dt = \frac{1}{2\pi}\int_{-\infty}^{\infty}\lim_{T\to\infty}\frac{\lvert X_{2T}(\omega)\rvert^2}{2T}\,d\omega,$$
-$$\lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}\lvert x[n]\rvert^2 = \frac{1}{2\pi}\int_{\langle 2\pi\rangle}\lim_{N\to\infty}\frac{\lvert X_{2N+1}(\Omega)\rvert^2}{2N+1}\,d\Omega.$$
+$$\lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}\lvert x(t)\rvert^2\,\mathrm{d}t = \frac{1}{2\pi}\int_{-\infty}^{\infty}\lim_{T\to\infty}\frac{\lvert X_{2T}(\omega)\rvert^2}{2T}\,\mathrm{d}\omega,$$
+$$\lim_{N\to\infty}\frac{1}{2N+1}\sum_{n=-N}^{N}\lvert x[n]\rvert^2 = \frac{1}{2\pi}\int_{\langle 2\pi\rangle}\lim_{N\to\infty}\frac{\lvert X_{2N+1}(\Omega)\rvert^2}{2N+1}\,\mathrm{d}\Omega.$$
 
 # Hilbert Transform
 
@@ -656,18 +656,18 @@ For a causal signal, $$f(t) = f(t)\,u(t)\xrightarrow{\ \mathcal{F}\ }F(\omega) =
 Since $U(\omega) = \pi\,\delta(\omega) + \dfrac{1}{j\omega}$,
 $$F(\omega) = \frac{1}{2\pi}\operatorname{PV}\!\int_{-\infty}^{\infty}F(\theta)\Big(\pi\,\delta(\omega-\theta) + \frac{1}{j(\omega-\theta)}\Big)\,\mathrm{d}\theta = \frac{F(\omega)}{2} + \frac{1}{2\pi}\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F(\theta)}{j(\omega-\theta)}\,\mathrm{d}\theta,$$
 hence
-$$\pi F(\omega) = \operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F(\theta)}{j(\omega-\theta)}\,d\theta.$$
+$$\pi F(\omega) = \operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F(\theta)}{j(\omega-\theta)}\,\mathrm{d}\theta.$$
 Writing $F(\omega) = F_R(\omega) + jF_I(\omega)$,
-$$\pi F_R(\omega) + j\pi F_I(\omega) = \operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_I(\theta)}{\omega-\theta}\,d\theta - j\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_R(\theta)}{\omega-\theta}\,d\theta,$$
+$$\pi F_R(\omega) + j\pi F_I(\omega) = \operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_I(\theta)}{\omega-\theta}\,\mathrm{d}\theta - j\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_R(\theta)}{\omega-\theta}\,\mathrm{d}\theta,$$
 so
-$$F_R(\omega) = \frac{1}{\pi}\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_I(\theta)}{\omega-\theta}\,d\theta, \qquad F_I(\omega) = -\frac{1}{\pi}\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_R(\theta)}{\omega-\theta}\,d\theta.$$
+$$F_R(\omega) = \frac{1}{\pi}\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_I(\theta)}{\omega-\theta}\,\mathrm{d}\theta, \qquad F_I(\omega) = -\frac{1}{\pi}\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{F_R(\theta)}{\omega-\theta}\,\mathrm{d}\theta.$$
 
 # Complex frequency domain analysis of systems described by differential/difference equations
 
 In this section, we use Laplace transform and Z-transform to analyze differential and difference equations. 
 
 To solve the equations, we need the **unilateral Laplace transform**:
-$$\mathcal{L}_u\{f(t)\}=F(s) = \int_{0^{-}}^{\infty} f(t) e^{-st} dt.$$
+$$\mathcal{L}_u\{f(t)\}=F(s) = \int_{0^{-}}^{\infty} f(t) e^{-st} \mathrm{d}t.$$
 We can find that
 $$\mathcal{L}_u[f'(t)] = sF(s) - f(0^-).$$
 More generally,

@@ -570,10 +570,10 @@ In the **Eisenstein integers** $\mathbb{Z}[\omega] = \{a + b\omega + c\omega^2 \
 
 # The Riemann Zeta Function and the Prime Number Theorem
 
-**Euler product.** $\displaystyle \zeta(s) = \sum_{n=1}^{\infty}\frac{1}{n^s} = \prod_p \frac{1}{1 - p^{-s}}$ for $\operatorname{Re}(s) > 1$. Taking logarithms and using $-\ln(1 - p^{-s}) = \sum_n \frac{1}{n}p^{-ns}$ and $\frac{1}{n}p^{-ns} = \int_{p^n}^{\infty}\frac{1}{n}s\, x^{-s-1}dx$,
-$$\frac{1}{s}\ln\zeta(s) = \int_0^{\infty} J(x)\, x^{-s-1}\,dx, \qquad J(x) = \sum_{p^n \le x}\frac{1}{n}$$
-By Mellin inversion, $J(x) = \frac{1}{2\pi i}\int_{a - i\infty}^{a + i\infty}\frac{\ln\zeta(z)}{z}x^z\,dz$. The completed function $\xi(s) = \Gamma\!\left(\frac{s}{2} + 1\right)(s-1)\pi^{-s/2}\zeta(s)$ is symmetric about $s = \tfrac12$ and has a Hadamard product over the nontrivial zeros. Möbius inversion of $J(x) = \sum_n \frac{1}{n}\pi(x^{1/n})$ gives
-$$\pi(x) = \sum_n \frac{\mu(n)}{n}J(x^{1/n}), \qquad J(x) = \operatorname{Li}(x) - \sum_\rho \operatorname{Li}(x^\rho) - \ln 2 + \int_x^{\infty}\frac{dt}{t(t^2 - 1)\ln t}$$
+**Euler product.** $\displaystyle \zeta(s) = \sum_{n=1}^{\infty}\frac{1}{n^s} = \prod_p \frac{1}{1 - p^{-s}}$ for $\operatorname{Re}(s) > 1$. Taking logarithms and using $-\ln(1 - p^{-s}) = \sum_n \frac{1}{n}p^{-ns}$ and $\frac{1}{n}p^{-ns} = \int_{p^n}^{\infty}\frac{1}{n}s\, x^{-s-1}\mathrm{d}x$,
+$$\frac{1}{s}\ln\zeta(s) = \int_0^{\infty} J(x)\, x^{-s-1}\,\mathrm{d}x, \qquad J(x) = \sum_{p^n \le x}\frac{1}{n}$$
+By Mellin inversion, $J(x) = \frac{1}{2\pi i}\int_{a - i\infty}^{a + i\infty}\frac{\ln\zeta(z)}{z}x^z\,\mathrm{d}z$. The completed function $\xi(s) = \Gamma\!\left(\frac{s}{2} + 1\right)(s-1)\pi^{-s/2}\zeta(s)$ is symmetric about $s = \tfrac12$ and has a Hadamard product over the nontrivial zeros. Möbius inversion of $J(x) = \sum_n \frac{1}{n}\pi(x^{1/n})$ gives
+$$\pi(x) = \sum_n \frac{\mu(n)}{n}J(x^{1/n}), \qquad J(x) = \operatorname{Li}(x) - \sum_\rho \operatorname{Li}(x^\rho) - \ln 2 + \int_x^{\infty}\frac{\mathrm{d}t}{t(t^2 - 1)\ln t}$$
 Showing $\zeta$ has no zeros on $\operatorname{Re}(s) = 1$ yields the **Prime Number Theorem** (Hadamard, de la Vallée Poussin).
 
 # The Hierarchy of Rings
