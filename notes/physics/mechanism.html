@@ -80,6 +80,70 @@ $$
 - Friction: $f=\mu F_N$
 - Gravitation: $\displaystyle \vec{F}=G\frac{m_1 m_2}{r^3}\,\vec{r}$
 
+# Elasticity
+
+## Introduction to Stress
+
+- Body force: Forces that can act on every infinitesimal element of an object's volume without direct contact, e.g. gravity
+- Surface force: Force generated through direct contact between the surfaces of objects, e.g. friction
+
+For a point, consider it as a cube.
+![images](../attachments/images.webp)
+
+We can describe the stress as a tensor$$\sigma=(\sigma_{ij})=\begin{pmatrix}
+ \sigma_{11} & \sigma_{12} & \sigma_{13}\\
+ \sigma_{21} & \sigma_{22} & \sigma_{23}\\
+ \sigma_{31} & \sigma_{32} & \sigma_{33}
+\end{pmatrix}$$
+The signs (positive and negative) of stress components are defined as follows: for normal stress, tensile stress is positive and compressive stress is negative; for shear stress, if the outward normal direction of the cross section is consistent with the positive direction of the coordinate axis, then the shear stress along the positive direction of the coordinate axis is positive, and vice versa.
+
+For rotation direction 12,
+$$(\sigma_{12}\cdot\mathrm{d}x_2\mathrm{d}x_3)\mathrm{d}x_1-(\sigma_{21}\cdot\mathrm{d}x_1\mathrm{d}x_3)\mathrm{d}x_2-(f_1\cdot\mathrm{d}x_1\mathrm{d}x_2\mathrm{d}x_3)\frac{\mathrm{d}x_2}{2}+(f_2\cdot\mathrm{d}x_1\mathrm{d}x_2\mathrm{d}x_3)\frac{\mathrm{d}x_1}{2}=0$$
+As a result, we have
+$$\sigma_{12}=\sigma_{21}$$
+Similarly,
+$$\sigma_{13}=\sigma_{31}$$
+$$\sigma_{23}=\sigma_{32}$$
+As a result, we have <span style="color: red;">shear stress reciprocity theorem</span>: The corresponding shear stress components on two mutually perpendicular cross sections are equal.
+
+So a stress tensor only has six independent quantities.
+
+Then we consider about A plane with normal vector $\mathbf{n}$
+![Screenshot 2026-09-04 at 20.16.22](../attachments/Screenshot%202026-09-04%20at%2020.16.22.png)
+Let $\mathbf{f}$ be the volume force per unit volume.
+$$\mathbf{T}^{(n)}\mathrm{d}S-\mathbf{T}^{(i)}\mathrm{d}S_i+\mathbf{f}\mathrm{d}V=\rho\mathbf{a}\mathrm{d}V$$
+$$\mathbf{T}^{(n)}\mathrm{d}S-\mathbf{T}^{(i)}\mathrm{d}S_i+(\mathbf{f}-\rho\mathbf{a})\frac{1}{3}h\mathrm{d}S=0$$
+Let $h\to 0$, we have
+$$\mathbf{T}^{(n)}=\mathbf{T}^{(i)}\frac{\mathrm{d}S_i}{\mathrm{d}S}=\mathbf{T}^{(i)}\alpha_{ni}=\sigma\mathbf{n}$$
+
+It is called as <span style="color: red;">Cauchy's stress formula / Traction vector on an inclined plane</span>.
+
+Decompose $\mathbf{T}^{(n)}$ into vertical component $\sigma_n\mathbf{n}$ and parallel component $\mathbf{\tau}$. We can find that $$\sigma_n=\mathbf{T}^{(n)}\cdot \mathbf{n}$$
+Use Cauchy's stress formula, we have
+$$\sigma_n=\mathbf{n}^\top\sigma \mathbf{n}$$
+
+If $\mathbf{\tau}=0$, then$$\sigma\mathbf{n}=\sigma_n\mathbf{n}$$
+And it is an eigenvalues problem. In [Eigenvalues and Eigenvectors](../math/algebra.html#eigenvalues-and-eigenvectors), we know that for a real symmetric matrix, so it can always be orthogonalized:
+
+$$\boxed{ \mathbf Q^\top\sigma\mathbf Q = \begin{pmatrix} \sigma_1&0&0\\ 0&\sigma_2&0\\ 0&0&\sigma_3 \end{pmatrix} }$$
+The direction of eigenvectors is <span style="color: red;">principal stress direction</span> and the eigenvalues is <span style="color: red;">principal stress</span>.
+
+$$I_1$$
+$$I_2$$
+$$I_3$$
+
+
+Consider about a location vector$$\mathbf{x}=\begin{pmatrix} x_1\\x_2\\x_3 \end{pmatrix}$$
+and a quadric surface$$\mathbf{x}^\top\mathbf{\sigma} \mathbf{x}=1$$
+It unfolds as follows
+$$\boxed{ \sigma_{11}x_1^2+ \sigma_{22}x_2^2+ \sigma_{33}x_3^2 + 2\sigma_{12}x_1x_2 + 2\sigma_{13}x_1x_3 + 2\sigma_{23}x_2x_3 =1 }$$
+The surface is called as <span style="color: red;">Cauchy stress quadric</span>.
+
+If $\mathbf{x}=R\mathbf{n}$, where $\mathbf{n}$ is the unit vector, then we have
+$$\mathbf{n}^\top\mathbf{\sigma} \mathbf{n}=\frac{1}{R^2}=\sigma_n$$
+As a result, we can use $R$ to analyze the stress.
+
+Under the principle stress, we have $$\sigma_{11}x_1^2+ \sigma_{22}x_2^2+ \sigma_{33}x_3^2=1$$
 #  Lagrangian Mechanics
 
 ## D'Alembert's principle and the Euler–Lagrange equations
@@ -1500,8 +1564,6 @@ $$
 $$
 
 i.e. the four-velocity of a free particle is constant in spacetime (a geodesic of flat space).
-
-# General Relativity (TODO)
         </script>
     </main>
 

@@ -60,6 +60,91 @@
         </section>
 
         <script type="text/plain" id="article-markdown">
+# Internet
+
+## Composition
+
+![Pasted image 20260831081755](../attachments/Pasted%20image%2020260831081755.png){width=399}
+
+- Component terminal: run the application
+- Communication Link: the main indicator is transmission rate, also known as <span style="color: red;">bandwidth</span>.
+- Switching equipment: Packet forwarding, Routers and switches
+- Internet Service Provider (ISP): An ISP is a network consisting of switching equipment and communication links that provides internet access services to terminals. Each ISP is autonomous.
+
+<span style="color: red;">Protocol</span> regulates rules that must be followed for communication between devices.
+
+Protocol of Internet:
+- Managed uniformly by the IETF and published as RFC xxx documents, 
+- The two most fundamental protocols in the Internet are TCP and IP. Internet protocols are collectively referred to as the TCP/IP protocol suite.
+
+Definition of Internet:
+1. A network of networks organized in a loosely hierarchical structure by a group of ISPs that follow the TCP/IP protocol. (network of networks)
+2. The Internet is an infrastructure that provides communication services for distributed applications. 
+
+Some features:
+- Network of networks
+- The Internet has no unified management organization.
+- Application Programming Interface (API) for sending and receiving data over the Internet
+
+## Access Network
+
+### Residential access
+
+#### Digital Subscriber Line (DSL)
+![Screenshot 2026-08-31 at 08.44.20](../attachments/Screenshot%202026-08-31%20at%2008.44.20.png)
+Provided by the telephone company, using existing digital telephone lines (one line per household):
+- DSL modem: Converts analog and digital signals
+- Splitter: Combines/splits voice and data (user side)
+- DSLAM: Aggregates/splits multiple DSL lines (ISP side)
+
+Upstream speed < 2.5 Mbps (typically < 1 Mbps)
+Downstream speed < 24 Mbps (typically < 10 Mbps)
+#### Cable network
+![Screenshot 2026-08-31 at 08.45.12](../attachments/Screenshot%202026-08-31%20at%2008.45.12.png)
+Provided by the cable television company, using existing cable television infrastructure. Data and television signals are transmitted in the same cable.
+
+#### Hybrid fiber coax (HFC)
+
+![Screenshot 2026-08-31 at 08.47.32](../attachments/Screenshot%202026-08-31%20at%2008.47.32.png)
+
+Cable television networks consist of a fiber optic network and a cable network (the fiber optic network is not shown).
+
+The access network comprises a cable modem, splitter, cable, fiber optic cable, and Cable Media Terminal System (CMTS).
+
+Downlink speeds are up to 30 Mbps, and uplink speeds are up to 2 Mbps. Hundreds to thousands of households share a single cable.
+
+### Enterprise access network (Ethernet)
+
+![Screenshot 2026-08-31 at 08.48.11](../attachments/Screenshot%202026-08-31%20at%2008.48.11.png)
+
+For use in companies, schools, and homes with numerous devices: 
+- Ethernet switches and links form the access network.
+- Transmission rates: 10 Mbps, 100 Mbps, 1 Gbps, 10 Gbps
+### Wireless Access Network (Wifi)
+
+A company or individual provides a base station (access point) to connect mobile terminals to a wired network:
+- The terminal is within tens of meters of the base station. 
+- The base station is typically located on a wired network.
+- Wireless transmission rates: 11 Mbps, 54 Mbps, 450 Mbps. 
+- The wireless LAN is shared.
+
+## The core of Network
+
+The most important question is: How do we transmit the data efficiently.
+
+Two basic methods for moving data in communication networks: 
+- Circuit switching (dedicated channel): used in telephone networks
+- Packet switching (multiplexed channel): used in computer networks.
+
+Pushing a single packet onto a link takes $L/R$ seconds.
+Sending a packet from source to destination takes a total of $2L/R$ (ignoring signal propagation time).
+Sending three packets from source to destination takes a total of ?
+
+Two important functions:
+- Routing
+- Forwarding
+
+
 # 应用层
 
 ## 网络应用原理

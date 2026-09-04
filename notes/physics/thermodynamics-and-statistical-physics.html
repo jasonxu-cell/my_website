@@ -61,7 +61,45 @@
         </section>
 
         <script type="text/plain" id="article-markdown">
+# Black Body
 
+Considering about a cube with E&M standing wave:
+
+We have
+$$E_1=\epsilon_1\cos k_1x_1\sin k_2x_2\sin k_3x_3$$
+$$E_2=\epsilon_2\sin k_1x_1\cos k_2x_2\sin k_3x_3$$
+$$E_3=\epsilon_3\sin k_1x_1\sin k_2x_2\cos k_3x_3$$
+where$$k_i=\frac{n_i\pi}{a},n_i\in\mathbb{Z} $$
+Use Maxwell relation
+
+$$\nabla \cdot\mathbf{E}=0\Rightarrow k_1\epsilon_1+k_2\epsilon_2+k_3\epsilon_3=0$$
+
+$$(\nabla^2 - \frac{1}{c^2}\frac{\partial^2}{\partial t^2})\mathbf{E}=0\Rightarrow n_1^2+n_2^2+n_3^2=\frac{\omega^2}{c^2}\frac{a^2}{\pi^2}$$
+
+So we have
+$$\# \text{modes in sphere}=N\approx \frac{4}{3}\pi\frac{\omega^3}{c^3}\frac{a^3}{\pi^3}\times2(\text{polarization})\times\frac{1}{8}(\text{only positive}) $$
+
+Considering $(\omega,\omega+\mathrm{d}\omega)$, then
+$$\mathrm{d} N\approx \frac{\omega^2}{c^3}\frac{V}{\pi^2} \mathrm{d}\omega$$
+To transform it into energy, we use equipartition, which consider every one has the same energy $k_B T$
+$$\rho(\omega,T)=\frac{\mathrm{d}E}{V\mathrm{d}\omega}=k_B T\frac{\omega^2}{\pi^2 c^3}$$
+Rayleigh-Jeans Formula:
+$$J(\omega,T)=\frac{k_BT}{8\pi^3c^2}\omega^2$$
+UV disaster
+
+Planck
+$$\epsilon=\hbar\omega$$
+
+Partition function$$Z=\sum_{n=0}^{+\infty}e^{-\frac{E_n}{k_BT}}$$
+$$E=-\frac{\mathrm{d}}{\mathrm{d}\beta}\log Z=\frac{\hbar\omega}{e^{\hbar\omega/k_BT}-1}$$
+
+When$$k_BT \gg\hbar\omega$$
+we have$$E\to k_BT$$
+$$\rho=\frac{\mathrm{d}E}{V\mathrm{d}\omega}=\frac{\mathrm{d}N}{V\mathrm{d}\omega}\frac{\hbar\omega}{e^{\hbar\omega/k_BT}-1}$$
+$$J(\omega,T)=\frac{1}{8\pi^3c^2}\frac{\hbar\omega^3}{e^{\hbar\omega/k_BT}-1}$$
+
+$$\hbar=1.05\times10^{-34}J\cdot s$$
+$$h=2\pi\hbar$$
         </script>
     </main>
 
