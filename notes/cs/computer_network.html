@@ -93,9 +93,9 @@ Some features:
 #### Digital Subscriber Line (DSL)
 ![Screenshot 2026-08-31 at 08.44.20](../attachments/Screenshot%202026-08-31%20at%2008.44.20.png)
 Provided by the telephone company, using existing digital telephone lines (one line per household):
-- DSL modem: Converts analog and digital signals
-- Splitter: Combines/splits voice and data (user side)
-- DSLAM: Aggregates/splits multiple DSL lines (ISP side)
+- <span style="color: red;">DSL modem</span>: Converts analog and digital signals
+- <span style="color: red;">Splitter</span>: Combines/splits voice and data (user side)
+- <span style="color: red;">DSLAM</span>: Aggregates/splits multiple DSL lines (ISP side)
 
 Upstream speed < 2.5 Mbps (typically < 1 Mbps)
 Downstream speed < 24 Mbps (typically < 10 Mbps)
@@ -130,22 +130,57 @@ A company or individual provides a base station (access point) to connect mobile
 
 ## The core of Network
 
+Two important functions (comparing to the navigation system):
+- <span style="color: red;">Routing</span>: The switching equipment determines the forwarding ports for different destinations and generates a forwarding table.
+- <span style="color: red;">Forwarding</span>: The switching equipment moves packets to the appropriate output link according to the forwarding table.
+![Screenshot 2026-09-05 at 11.22.24](../attachments/Screenshot%202026-09-05%20at%2011.22.24.png)
+
 The most important question is: How do we transmit the data efficiently.
 
 Two basic methods for moving data in communication networks: 
-- Circuit switching (dedicated channel): used in telephone networks
-- Packet switching (multiplexed channel): used in computer networks.
+- <span style="color: red;">Circuit switching</span> (dedicated channel): used in telephone networks
+- <span style="color: red;">Packet switching</span> (multiplexed channel): used in computer networks.
 
+Packet switching divide the information into several packets and the switching device receives packets from one link and sends them to another link along the transmission path. Switching devices can only begin forwarding after receiving a complete packet. It is similar to pipeline
+
+Define every packet has $L$ bits, and the speed of transformation is $R$ bps.
 Pushing a single packet onto a link takes $L/R$ seconds.
 Sending a packet from source to destination takes a total of $2L/R$ (ignoring signal propagation time).
-Sending three packets from source to destination takes a total of ?
+Sending $P$ packets onto $N$ link takes $(P+N-1)L/R$ seconds.
 
-Two important functions:
-- Routing
-- Forwarding
+<span style="color: red;">Queuing delay</span>: Packets queue in the output link's buffer, introducing delay.
+<span style="color: red;">Packet loss</span>: If the output link's buffer is full, overflowing packets are dropped.
+When a large number of packets arrive at once, queuing delay and packet loss are more severe.
 
+To evaluate the intensity of the queuing, we introduce the following parameters:
+$R$: link bandwidth (bps)
+$L$: packet length (bits)
+$a$: average packet arrival rate
 
-# 应用层
+Then traffic intensity = $La/R$
+
+The length of the queue is an important parameter:
+- Too short queues: Increased packet loss rate.
+- Too long queues: Increased queuing latency (which can also cause indirect packet loss!).
+
+End-to-end throughput: It is dependent on the minimum of the link. For the following figure, the throughput is $\min\{R_s,R_c,R/N\}$
+![Screenshot 2026-09-07 at 08.16.47](../attachments/Screenshot%202026-09-07%20at%2008.16.47.png)
+
+## Protocol
+
+Network protocols:
+- Specific messages sent
+- Specific actions taken when messages received, or other events
+
+## Network Security
+
+- Denial-of-Service (DoS) Attack: Attackers deplete host or network bandwidth resources, preventing legitimate users from obtaining the services they need.
+- Sniffing: Listening to data packets transmitted over a network to obtain information carried in the packets, such as passwords.
+- IP spoofing: Sending data packets with fake addresses
+- Replay attack: Sniffing out sensitive information (such as a user's password) and then re-injecting it into the network (to impersonate that user).
+
+# Transport Layer
+
 
 ## 网络应用原理
 
@@ -359,7 +394,7 @@ time:服务器从它的文 件系统中检索到该对象,将该对象插入响�
 
 
 
-# 运输层
+# Application Layer
 
 运输层主要协议: TCP, UDP
 

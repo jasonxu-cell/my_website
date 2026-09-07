@@ -61,6 +61,168 @@
         </section>
 
         <script type="text/plain" id="article-markdown">
+# Geomagnetic Field
+
+## Formation of the Geomagnetic Field
+
+The first self-consistent model to explain the formation of the geomagnetic field:
+
+![Screenshot 2026-05-12 at 13.39.43](../attachments/Screenshot%202026-05-12%20at%2013.39.43.png)
+
+The geodynamo is mainly caused by the convection of the liquid outer core.
+
+The electromagnetic torque that the outer core exerts on the inner core drives the differential rotation of the inner core.
+
+- The differential rotation of the Earth's core nearly stopped in 2009 and began to slowly reverse.
+- The reversal cycle is approximately 60-70 years.
+- The cycle of changes in geomagnetic field strength and Earth's day length is also approximately 60-70 years.
+
+## Property
+![Screenshot 2026-05-18 at 16.28.15](../attachments/Screenshot%202026-05-18%20at%2016.28.15.png)
+
+Geomagnetic elements
+- Magnetic declination $D$
+- Magnetic inclination $I$
+- Total geomagnetic field $F$
+- Vertical magnetic field strength $Z$
+- Horizontal magnetic field strength $H$
+- Horizontal X component (northward) $X$
+- Horizontal Y component (eastward) $Y$
+
+![Screenshot 2026-05-18 at 19.04.27](../attachments/Screenshot%202026-05-18%20at%2019.04.27.png)
+
+
+![Pasted image 20260518163913](../attachments/Pasted%20image%2020260518163913.png)
+![Pasted image 20260518163921](../attachments/Pasted%20image%2020260518163921.png)
+![Pasted image 20260518164109](../attachments/Pasted%20image%2020260518164109.png)
+
+- The horizontal intensity $H$ contour lines are roughly a cluster of curves arranged along the latitude lines, with the maximum value near the magnetic equator and the $H$ value gradually decreasing towards the poles and approaching zero.
+- The vertical intensity $Z$ is almost parallel to the latitude line. At the magnetic equator, $Z=0$. From there, the absolute value gradually increases towards the poles. North of the magnetic equator, $Z>0$, indicating that the vertical component is downward. South of the magnetic equator, $Z<0$, indicating that the vertical component is upward.
+- The intensity is generally stronger in high latitudes than near the equator.
+- The intensity is especially low over the South Atlantic, where it is about 20 $\mu T$ weaker than expected. Orbiting satellites note increased impacts of extra-terrestrial particles over this region.
+
+isotropic lines
+![Screenshot 2026-09-07 at 10.36.56](../attachments/Screenshot%202026-09-07%20at%2010.36.56.png)
+
+isoclin
+![Screenshot 2026-09-07 at 10.37.20](../attachments/Screenshot%202026-09-07%20at%2010.37.20.png)
+
+The geomagnetic field consists of three parts:
+1. fundamental magnetic field: It consists of the central dipole magnetic field and the continental magnetic field, originating from the Earth's interior, and constitutes the main part (over 98%) of the Earth's magnetic field.
+![Screenshot 2026-05-18 at 16.47.57](../attachments/Screenshot%202026-05-18%20at%2016.47.57.png)
+2. changing magnetic field: This mainly refers to short-term changing magnetic fields, originating from outside the Earth, and accounting for less than 1% of the Earth's magnetic field.
+3. magnetic anomalies: This mainly refers to the local magnetic field caused by magnetic rocks or ores in the shallow part of the Earth's crust. It is superimposed on the basic magnetic field and is actually a secondary magnetic field formed in the surrounding space after underground rocks, minerals, or geological structures are magnetized by the Earth's magnetic field. It belongs to the endogenous magnetic field and accounts for a very small part of it.
+
+Three positive non-dipole magnetic field centers:
+1. South Atlantic Magnetic Anomaly (SAT), central intensity 22000 nT
+2. Eurasian Magnetic Anomaly (EA), central intensity 20000 nT
+3. North American Magnetic Anomaly (NAM), central intensity 6000 nT
+
+Two negative non-dipole magnetic field centers:
+1. North African Magnetic Anomaly (AF), with a central intensity of -18000 nT
+2. Oceania Magnetic Anomaly (AUS), with a central intensity of -12000 nT
+
+Non-dipole magnetic field in 1965
+![Pasted image 20260907104332](../attachments/Pasted%20image%2020260907104332.png)
+
+![Pasted image 20260518165104](../attachments/Pasted%20image%2020260518165104.png)
+
+Influenced by external factors such as the solar wind, the Earth's magnetic field exhibits short-term variations:
+1. Calm variations: periodic variations, gradual and regular;
+2. Disturbance variations: occasional, brief, and complex, with amplitudes ranging from very strong to very small, such as geomagnetic storms.
+
+![Pasted image 20260518165414](../attachments/Pasted%20image%2020260518165414.png)
+Geomagnetic diurnal variation:
+1. Average variation ranges from a few $nT$ to tens of $nT$.
+2. A cycle of 24 hours.
+3. Greater variation during the day, smaller variation at night.
+4. Largest variation in summer, smallest variation in winter, with spring and autumn showing intermediate variations.
+
+Magnetization of the rock:
+- Induced magnetization: The magnetization of a geological body located in the lithosphere due to magnetization by the modern Earth's magnetic field.
+- Remanent magnetization: The magnetization retained by rocks and minerals formed under specific conditions, magnetized by the Earth's magnetic field at that time, and after a long geological period.
+
+Thermoremanent Magnetization
+- An important property of many magnetizable materials is that, as they cool below the Curie point (≈580 °C for magnetite, ≈680 °C for hematite), they become magnetized in the direction of the surrounding magnetic field. This happens because groups of atoms of the material align themselves in the direction of the magnetic field when the material is hot. When the material has cooled, these atoms are locked in place.
+![Screenshot 2026-05-18 at 17.14.19](../attachments/Screenshot%202026-05-18%20at%2017.14.19.png){width=630}
+
+Seafloor magnetic band
+![Pasted image 20260518171456](../attachments/Pasted%20image%2020260518171456.png)
+
+paleomagnetic stratigraphy
+![Pasted image 20260518171527](../attachments/Pasted%20image%2020260518171527.png)
+
+## Gauss-Schmidt Theory
+
+In [Equations of Mathematical Physics](../math/equations-of-mathematical-physics.html), we have the common solution of the magnetic field:
+$$w(r,\theta,\lambda)=\frac{R}{\mu_0}\sum_{n=1}^\infty\sum_{m=0}^n[(\frac{R}{r})^{n+1}(g_n^m\cos m\lambda+h_n^m\sin m\lambda)+(\frac{r}{R})^n(j_n^m\cos m\lambda+k_n^m\sin m\lambda)]P_n^m(\cos \theta)$$
+It can be divided into two parts: internal magnetic field ($r^{-(n+1)}$) and external magnetic field ($r^n$).
+
+In the formula, we have four coefficients: $g_n^m,h_n^m,j_n^m,k_n^m$. They are called as <span style="color: red;">Gauss coefficients</span>, where $g_n^m,h_n^m$ are called as <span style="color: red;">Gauss coefficients of the intrinsic field</span>, and $j_n^m,k_n^m$ are called <span style="color: red;">Gauss coefficients of the extrinsic field</span>.
+
+In the surface, we have $$w(r,\theta,\lambda)=\frac{R}{\mu_0}\sum_{n=1}^\infty\sum_{m=0}^n(p_n^m\cos m\lambda+q_n^m\sin m\lambda)P_n^m(\cos \theta)$$
+where$$\left\{\begin{matrix}
+ p_n^m= g_n^m+ j_n^m\\
+ q_n^m= h_n^m+ k_n^m
+\end{matrix}\right.$$
+We can find that $$Z=\mu_0\frac{\partial w}{\partial r}|_{r=R}=-\sum_{n=1}^\infty\sum_{m=0}^n \{[(n+1)g_n^m-nj_n^m]\cos m\lambda+[(n+1)h_n^m-nk_n^m]\sin m\lambda\}P_n^m(\cos\theta)$$
+So introduce two new coefficients:$$\left\{\begin{matrix}
+ p_n^{'m}= (n+1)g_n^m-nj_n^m\\
+ q_n^{'m}= (n+1)h_n^m-nk_n^m
+\end{matrix}\right.$$
+They can solved by the parameters vertical magnetic field strength which we can measure:$$\left\{\begin{matrix}
+ p_n^{'m}= -\frac{2n+1}{4\pi} \int_{0}^{\pi} \int_{0}^{2\pi} Z(R,\theta,\lambda)P_n^m(\cos\theta)\cos m\lambda \sin \theta \mathrm{d}\theta\mathrm{d}\lambda\\
+ q_n^{'m}= -\frac{2n+1}{4\pi} \int_{0}^{\pi} \int_{0}^{2\pi} Z(R,\theta,\lambda)P_n^m(\cos\theta)\sin m\lambda \sin \theta \mathrm{d}\theta\mathrm{d}\lambda
+\end{matrix}\right.$$
+We can apply the method into the horizontal magnetic field strength:
+$$X=\frac{\mu_0}{r}\frac{\partial w}{\partial \theta}|_{r=R}=\sum_{n=1}^\infty\sum_{m=0}^n (p_n^m\cos m\lambda+q_n^m\sin m\lambda)\frac{\mathrm{d}P_n^m(\cos\theta)}{\mathrm{d}\theta} $$
+$$Y=-\frac{\mu_0}{r\sin\theta}\frac{\partial w}{\partial \lambda}|_{r=R}=\sum_{n=1}^\infty\sum_{m=0}^n (p_n^m\sin m\lambda-q_n^m\cos m\lambda)\frac{m}{\sin\theta}P_n^m(\cos\theta) $$
+Therefore,$$\left\{\begin{matrix}
+ p_n^{m}= \frac{2n+1}{4\pi m} \int_{0}^{\pi} \int_{0}^{2\pi} Y(R,\theta,\lambda)P_n^m(\cos\theta)\sin m\lambda \sin^2 \theta \mathrm{d}\theta\mathrm{d}\lambda\\
+ q_n^{m}= -\frac{2n+1}{4\pi m} \int_{0}^{\pi} \int_{0}^{2\pi} Y(R,\theta,\lambda)P_n^m(\cos\theta)\cos m\lambda \sin^2 \theta \mathrm{d}\theta\mathrm{d}\lambda
+\end{matrix}\right.$$
+The results of Gaussian spherical harmonic analysis of the geomagnetic field show that:
+$$|g_n^m|\gg|j_n^m|,|h_n^m|\gg|k_n^m|$$
+We can find the Gauss coefficients in [this website]([https://www.tiobe.com/tiobe-index/](https://wdc.kugi.kyoto-u.ac.jp/igrf/)).
+
+### Dipole Field ($n=1$)
+
+$n=1$ is the dipole field and accounts for the 80-85% of the whole magnetic field.
+$$w_1=\frac{R}{\mu_0}(\frac{R}{r})^2[g_1^0\cos\theta+g_1^1\sin\theta\cos\lambda+h_1^1\sin\theta\sin\lambda]$$
+
+As a result,
+$$\left\{\begin{matrix}
+ X= -g_1^0\sin\theta+(g_1^1\cos\lambda+h_1^1\sin\lambda)\cos\theta\\
+ Y= g_1^1\sin\lambda-h_1^1\cos\lambda\\
+ Z=-2g_1^0\cos\theta-2(g_1^1\cos\lambda+h_1^1\sin\lambda)\sin\theta
+\end{matrix}\right.$$
+If geomagnetic axis coincides with geographic axis, then $$Y=0,Z|_{\theta=\frac{\pi}{2}}=0$$
+Therefore,$$g_1^1=0,h_1^1=0$$
+So we have
+$$\left\{\begin{matrix}
+ X=H= -g_1^0\sin\theta=\frac{\mu_0M}{4\pi R^3}\sin\theta\\
+ Y= 0\\
+ Z=-2g_1^0\cos\theta=\frac{\mu_0M}{2\pi R^3}\cos\theta
+\end{matrix}\right.$$
+
+In the data set, we can find that $$g_1^0\gg g_1^1,h_1^1$$
+### Eccentric Dipole Model
+
+The model consider that the centre of the magnetic field is not earth's core.
+
+Under this circumstance, we have$$\begin{align*}w'&=\frac{1}{\mu_0}(\frac{R}{r'})^3(g_1^0z'+g_1^1x'+h_1^1y')\\&=\frac{1}{\mu_0}(\frac{R}{r'})^3[(g_1^0z+g_1^1x+h_1^1y)-(g_1^0z_0+g_1^1x_0+h_1^1y_0)]\\&=\frac{1}{\mu_0}(\frac{R}{r})^3[(g_1^0z+g_1^1x+h_1^1y)-(g_1^0z_0+g_1^1x_0+h_1^1y_0)](\frac{r}{(r_0^2+r^2-2r_0r\cos\varphi)^{1/2}})^3\\&=w_1+w_2'+Q(n\ge4)\end{align*}$$
+where$$w_2'=\frac{1}{\mu_0}(\frac{R}{r})^3[(-g_1^0z_0-g_1^1x_0-h_1^1y_0)+3r_0\cos\varphi(g_1^0\cos\theta+g_1^1\sin\theta\cos\lambda+h_1^1\sin\theta\sin\lambda))]$$
+Combining with law of cosines:$$r_0\cos\varphi=z_0\cos\theta+x_0\sin\theta\cos\lambda+y_0\sin\theta\sin\lambda$$
+We have
+$$\begin{align*}w_2'&=\frac{R}{\mu_0}(\frac{R}{r})^3[g_2^{'0}P_2^0(\cos\theta)+g_2^{'1}\cos\lambda P_2^1(\cos\theta)\\&+h_2^{'1}\sin\lambda P_2^1(\cos\theta)+g_2^{'2}\cos2\lambda P_2^2(\cos\theta)+h_2^{'2}\sin2\lambda P_2^0(\cos\theta)]\end{align*}$$
+where$$\left\{\begin{matrix}
+ g_2^{'0}=\frac{2}{R}g_1^0z_0−\frac{1}{R}g_1^1x_0−\frac{1}{R}h_1^1y_0\\
+ g_2^{'1}=\frac{\sqrt{3}}{R}(g_1^0x_0+g_1^1z_0)\\
+ g_2^{'2}=\frac{\sqrt{3}}{R}(g_1^1x_0+h_1^1y_0)\\
+ h_2^{'1}=\frac{\sqrt{3}}{R}(g_1^0y_0+h_1^1z_0)\\
+ h_2^{'2}=\frac{\sqrt{3}}{R}(g_1^1y_0+h_1^1x_0)\\
+\end{matrix}\right.$$
+
 # Resistivity & Permittivity
 
 Given that the rock anisotropy, we define:
@@ -90,6 +252,7 @@ Based on the different resistivity of various rocks, we can use electrical explo
 | Sulfide   | 8-17         | Sandstone        | 5-11         |
 | Petroleum | 10-30        | Sand             | 3-25         |
 | Water     | 80           | Mudstone         | 4-30         |
+
 # Method to Measuring Resistivity
 
 ## Direct Current (DC) Resistivity Method
@@ -169,78 +332,6 @@ key advantages:
 
 It also can be used to determine the radius of influence of groundwater pumping
 ![Screenshot 2026-05-15 at 20.23.47](../attachments/Screenshot%202026-05-15%20at%2020.23.47.png){width=456}
-
-# Geomagnetic Field
-
-## Formation of the Geomagnetic Field
-
-The first self-consistent model to explain the formation of the geomagnetic field:
-
-![Screenshot 2026-05-12 at 13.39.43](../attachments/Screenshot%202026-05-12%20at%2013.39.43.png)
-
-The geodynamo is mainly caused by the convection of the liquid outer core.
-
-The electromagnetic torque that the outer core exerts on the inner core drives the differential rotation of the inner core.
-
-- The differential rotation of the Earth's core nearly stopped in 2009 and began to slowly reverse.
-- The reversal cycle is approximately 60-70 years.
-- The cycle of changes in geomagnetic field strength and Earth's day length is also approximately 60-70 years.
-
-## Property
-![Screenshot 2026-05-18 at 16.28.15](../attachments/Screenshot%202026-05-18%20at%2016.28.15.png)
-
-Geomagnetic elements
-- Magnetic declination $D$
-- Magnetic inclination $I$
-- Total geomagnetic field $F$
-- Vertical magnetic field strength $Z$
-- Horizontal magnetic field strength $H$
-- Horizontal X component (northward) $X$
-- Horizontal Y component (eastward) $Y$
-
-![Screenshot 2026-05-18 at 19.04.27](../attachments/Screenshot%202026-05-18%20at%2019.04.27.png)
-
-
-![Pasted image 20260518163913](../attachments/Pasted%20image%2020260518163913.png)
-![Pasted image 20260518163921](../attachments/Pasted%20image%2020260518163921.png)
-![Pasted image 20260518164109](../attachments/Pasted%20image%2020260518164109.png)
-
-- The horizontal intensity $H$ contour lines are roughly a cluster of curves arranged along the latitude lines, with the maximum value near the magnetic equator and the $H$ value gradually decreasing towards the poles and approaching zero.
-- The vertical intensity $Z$ is almost parallel to the latitude line. At the magnetic equator, $Z=0$. From there, the absolute value gradually increases towards the poles. North of the magnetic equator, $Z>0$, indicating that the vertical component is downward. South of the magnetic equator, $Z<0$, indicating that the vertical component is upward.
-- The intensity is generally stronger in high latitudes than near the equator.
-- The intensity is especially low over the South Atlantic, where it is about 20 $\mu T$ weaker than expected. Orbiting satellites note increased impacts of extra-terrestrial particles over this region.
-
-The geomagnetic field consists of three parts:
-1. fundamental magnetic field: It consists of the central dipole magnetic field and the continental magnetic field, originating from the Earth's interior, and constitutes the main part (over 98%) of the Earth's magnetic field.
-![Screenshot 2026-05-18 at 16.47.57](../attachments/Screenshot%202026-05-18%20at%2016.47.57.png)
-2. changing magnetic field: This mainly refers to short-term changing magnetic fields, originating from outside the Earth, and accounting for less than 1% of the Earth's magnetic field.
-3. magnetic anomalies: This mainly refers to the local magnetic field caused by magnetic rocks or ores in the shallow part of the Earth's crust. It is superimposed on the basic magnetic field and is actually a secondary magnetic field formed in the surrounding space after underground rocks, minerals, or geological structures are magnetized by the Earth's magnetic field. It belongs to the endogenous magnetic field and accounts for a very small part of it.
-
-![Pasted image 20260518165104](../attachments/Pasted%20image%2020260518165104.png)
-Influenced by external factors such as the solar wind, the Earth's magnetic field exhibits short-term variations:
-1. Calm variations: periodic variations, gradual and regular;
-2. Disturbance variations: occasional, brief, and complex, with amplitudes ranging from very strong to very small, such as geomagnetic storms.
-
-![Pasted image 20260518165414](../attachments/Pasted%20image%2020260518165414.png)
-Geomagnetic diurnal variation:
-1. Average variation ranges from a few $nT$ to tens of $nT$.
-2. A cycle of 24 hours.
-3. Greater variation during the day, smaller variation at night.
-4. Largest variation in summer, smallest variation in winter, with spring and autumn showing intermediate variations.
-
-Magnetization of the rock:
-- Induced magnetization: The magnetization of a geological body located in the lithosphere due to magnetization by the modern Earth's magnetic field.
-- Remanent magnetization: The magnetization retained by rocks and minerals formed under specific conditions, magnetized by the Earth's magnetic field at that time, and after a long geological period.
-
-Thermoremanent Magnetization
-- An important property of many magnetizable materials is that, as they cool below the Curie point (≈580 °C for magnetite, ≈680 °C for hematite), they become magnetized in the direction of the surrounding magnetic field. This happens because groups of atoms of the material align themselves in the direction of the magnetic field when the material is hot. When the material has cooled, these atoms are locked in place.
-![Screenshot 2026-05-18 at 17.14.19](../attachments/Screenshot%202026-05-18%20at%2017.14.19.png){width=630}
-
-Seafloor magnetic band
-![Pasted image 20260518171456](../attachments/Pasted%20image%2020260518171456.png)
-
-paleomagnetic stratigraphy
-![Pasted image 20260518171527](../attachments/Pasted%20image%2020260518171527.png)
         </script>
     </main>
 
