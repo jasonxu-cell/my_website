@@ -76,7 +76,6 @@ $$
 
 **Common forces**
 
-- Hooke's law: $\vec{F}=k\vec{x}$
 - Friction: $f=\mu F_N$
 - Gravitation: $\displaystyle \vec{F}=G\frac{m_1 m_2}{r^3}\,\vec{r}$
 
@@ -128,10 +127,21 @@ And it is an eigenvalues problem. In [Eigenvalues and Eigenvectors](../math/alge
 $$\boxed{ \mathbf Q^\top\sigma\mathbf Q = \begin{pmatrix} \sigma_1&0&0\\ 0&\sigma_2&0\\ 0&0&\sigma_3 \end{pmatrix} }$$
 The direction of eigenvectors is <span style="color: red;">principal stress direction</span> and the eigenvalues is <span style="color: red;">principal stress</span>.
 
-$$I_1$$
-$$I_2$$
-$$I_3$$
+Meanwhile, we have three invariants (In [Algebra & Number Theory](../math/algebra.html), we call them as Characteristic polynomial):
+$$I_1=\operatorname{tr}(A)=\sigma_1+\sigma_2+\sigma_3$$
+$$I_2=\frac12\left[(\operatorname{tr}A)^2-\operatorname{tr}(A^2)\right] =\sigma_1\sigma_2+\sigma_2\sigma_3+\sigma_3\sigma_1$$
+$$I_3=\det(A)=\sigma_1\sigma_2\sigma_3$$
 
+Define $$\sigma_0=\frac{I_1}{3}$$
+<span style="color: red;">Spherical Tensor</span>:$$\sigma_{sph}=\begin{pmatrix} \sigma_0&0&0\\ 0&\sigma_0&0\\ 0&0&\sigma_0 \end{pmatrix}$$
+<span style="color: red;">Partial Tensor</span>:$$s=\begin{pmatrix} \sigma_{11}-\sigma_0 & \sigma_{12} & \sigma_{13}\\ \sigma_{21} & \sigma_{22}-\sigma_0 & \sigma_{23}\\ \sigma_{31}& \sigma_{32} &\sigma_{33}-\sigma_0 \end{pmatrix}$$
+We can find that$$\sigma=\sigma_{sph}+s$$
+Spherical stress primarily controls volume changes, while partial stress primarily controls shape changes.
+
+Similarly, partial tensor has three invariants
+$$J_1=0$$
+$$J_2=\frac{1}{2}(\sigma_{ii}-\sigma_0)^2=\sigma_{ii}^2-2\sigma_0\sigma_{ii}+3\sigma_0^2=\sigma_{ii}^2-3\sigma_0^2=J_2= \frac16 \left[ (\sigma_1-\sigma_2)^2 + (\sigma_2-\sigma_3)^2 + (\sigma_3-\sigma_1)^2 \right]$$
+$$J_3=\frac{1}{27}(2\sigma_1-\sigma_2-\sigma_3)(2\sigma_2-\sigma_3-\sigma_1)(2\sigma_3-\sigma_1-\sigma_2)$$
 
 Consider about a location vector$$\mathbf{x}=\begin{pmatrix} x_1\\x_2\\x_3 \end{pmatrix}$$
 and a quadric surface$$\mathbf{x}^\top\mathbf{\sigma} \mathbf{x}=1$$
@@ -144,6 +154,42 @@ $$\mathbf{n}^\top\mathbf{\sigma} \mathbf{n}=\frac{1}{R^2}=\sigma_n$$
 As a result, we can use $R$ to analyze the stress.
 
 Under the principle stress, we have $$\sigma_{11}x_1^2+ \sigma_{22}x_2^2+ \sigma_{33}x_3^2=1$$
+### Maximum shear stress
+
+$$\mathbf{\sigma}_i^{(n)}=\mathbf{T}^{(n)} \mathbf{n}=\begin{pmatrix} n_1\sigma_1\\n_2\sigma_2\\n_3\sigma_3 \end{pmatrix}$$
+Normal stress
+$$\mathbf{\sigma}_n=(\mathbf{\sigma}_i^{(n)}\cdot\mathbf{n})\mathbf{n}=(\sigma_1n_1^2+\sigma_2n_2^2+\sigma_3n_3^2)\mathbf{n}$$
+Shear stress$$\begin{align*}\mathbf{\tau}_t^2&=[(\sigma_1n_1)^2+(\sigma_2n_2)^2+(\sigma_3n_3)^2]-(\sigma_1n_1^2+\sigma_2n_2^2+\sigma_3n_3^2)^2\\&=[(\sigma_1^2-\sigma_3^2)n_1^2+(\sigma_2^2-\sigma_3^2)n_2^2+\sigma_3^2]-[(\sigma_1-\sigma_3)n_1^2+(\sigma_2-\sigma_3)n_2^2+\sigma_3]^2\end{align*}$$
+Extreme value conditions:
+$$\left\{\begin{matrix}
+ \frac{\partial\tau_t^2}{\partial n_1}=n_1(\sigma_1-\sigma_3)[(\sigma_1-\sigma_3)n_1^2+(\sigma_2-\sigma_3)n_2^2-\frac{1}{2}(\sigma_1-\sigma_3)]=0\\
+ \frac{\partial\tau_t^2}{\partial n_2}=n_2(\sigma_2-\sigma_3)[(\sigma_1-\sigma_3)n_1^2+(\sigma_2-\sigma_3)n_2^2-\frac{1}{2}(\sigma_2-\sigma_3)]=0
+\end{matrix}\right.$$
+It has six solutions:
+
+|                           | 1       | 2       | 3       | 4                                    | 5                                    | 6                                    |
+| ------------------------- | ------- | ------- | ------- | ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| $n_1$                     | $\pm 1$ | 0       | 0       | 0                                    | $\pm \frac{1}{\sqrt{2}}$             | $\pm \frac{1}{\sqrt{2}}$             |
+| $n_2$                     | 0       | $\pm 1$ | 0       | $\pm \frac{1}{\sqrt{2}}$             | 0                                    | $\pm \frac{1}{\sqrt{2}}$             |
+| $n_3$                     | 0       | 0       | $\pm 1$ | $\pm \frac{1}{\sqrt{2}}$             | $\pm \frac{1}{\sqrt{2}}$             | 0                                    |
+| $\tau_{\max},\tau_{\min}$ | 0       | 0       | 0       | $\pm \frac{1}{2}(\sigma_2-\sigma_3)$ | $\pm \frac{1}{2}(\sigma_3-\sigma_1)$ | $\pm \frac{1}{2}(\sigma_1-\sigma_2)$ |
+It can be seen that the normal direction of the surface element corresponding to the maximum shear stress is in the same plane as the maximum principal stress and the minimum principal stress, and forms a 45° angle with the direction of the principal stress.
+
+### Mohr Circle
+
+Consider about a two-dimensional tensor$$\sigma=\begin{pmatrix} \sigma_{11}&\sigma_{12}\\ \sigma_{12}&\sigma_{22} \end{pmatrix}$$
+Then $$\begin{align*}\sigma_n&=\mathbf{n}^\top\sigma\mathbf{n}=\begin{pmatrix} \cos \theta &\sin \theta\end{pmatrix}\begin{pmatrix} \sigma_{11}&\sigma_{12}\\ \sigma_{12}&\sigma_{22} \end{pmatrix}\begin{pmatrix} \cos \theta \\\sin \theta \end{pmatrix}\\&=\sigma_{11}\cos^2\theta + 2\sigma_{12}\sin\theta\cos\theta + \sigma_{22}\sin^2\theta\\&= \sigma_{11}\frac{1+\cos2\theta}{2} + \sigma_{22}\frac{1-\cos2\theta}{2} + \sigma_{12}\sin2\theta\\&=\frac{\sigma_{11}+\sigma_{22}}{2} + \frac{\sigma_{11}-\sigma_{22}}{2}\cos2\theta + \sigma_{12}\sin2\theta \end{align*}$$
+ $$\begin{align*}\tau_n&=\mathbf{m}^\top\sigma\mathbf{n}=\begin{pmatrix}  -\sin \theta & \cos \theta\end{pmatrix}\begin{pmatrix} \sigma_{11}&\sigma_{12}\\ \sigma_{12}&\sigma_{22} \end{pmatrix}\begin{pmatrix} \cos \theta \\\sin \theta \end{pmatrix}\\&=-\sigma_{11}\sin\theta\cos\theta - \sigma_{12}\sin^2\theta +\sigma_{12}\cos^2\theta + \sigma_{22}\sin\theta\cos \theta\\&=-\frac{\sigma_{11}-\sigma_{22}}{2}\sin2\theta+\sigma_{12}\cos2\theta \end{align*}$$
+The we can find
+$$(\sigma_n-\frac{\sigma_{11}+\sigma_{22}}{2})^2+\tau_n^2=(\frac{\sigma_{11}-\sigma_{22}}{2})^2+\sigma_{12}^2$$
+We call it as <span style="color: red;">Mohr Circle</span>. It can be used to solve the stress geometrically.
+
+### Navier Equation
+
+## Introduction to Strain
+
+## Hoke Theorem
+
 #  Lagrangian Mechanics
 
 ## D'Alembert's principle and the Euler–Lagrange equations
