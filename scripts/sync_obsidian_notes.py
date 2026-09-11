@@ -39,7 +39,6 @@ NOTE_TARGETS: Tuple[NoteTarget, ...] = (
     NoteTarget("math", "Mathematics", "Algebra", "algebra.html", "Mathematics", "Algebra & Number Theory.md", ("Algebra & Number Theory",)),
     NoteTarget("math", "Mathematics", "Functional Analysis", "functional-analysis.html", "Mathematics", "Functional Analysis.md"),
     NoteTarget("math", "Mathematics", "Geometry", "geometry.html", "Mathematics", "Geometry.md"),
-    NoteTarget("math", "Mathematics", "Mathematical Logic and Set Theory", "mathematical-logic-and-set-theory.html", "Mathematics", "Mathematical Logic & Set Theory.md", ("Mathematical Logic & Set Theory",)),
     NoteTarget("math", "Mathematics", "Probability and Statistics", "probability-and-statistics.html", "Mathematics", "Probability & Statistics.md", ("Probability & Statistics",)),
     NoteTarget("math", "Mathematics", "Topology", "topology.html", "Mathematics", "Topology.md"),
     NoteTarget("math", "Mathematics", "Numerical Analysis", "numerical_analysis.html", "Mathematics", "Numerical Analysis.md", ("Computational Method",)),

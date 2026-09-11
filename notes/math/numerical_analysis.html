@@ -359,6 +359,78 @@ J(X)=
 \dfrac{\partial f_n(X)}{\partial x_n}
 \end{pmatrix}$$
 
+# Fitting
+
+Given $n$ data points $(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)$, we want to use a function to fit these points.
+
+A common circumstance is use a linear function $\hat{y}=kx+b$, let $$X=\begin{pmatrix}
+ x_1\\
+ x_2\\
+ \dots\\
+x_n
+\end{pmatrix},Y=\begin{pmatrix}
+ y_1\\
+ y_2\\
+ \dots\\
+y_n
+\end{pmatrix}$$
+Then we consider about $$\text{argmin}_X\left \| kX+bI-Y \right \|$$
+A simple way to solve it is use Euclidean norm
+$$\left \| kX+bI-Y \right \|_2^2=\sum_{i=1}^n (kx_i+b-y_i)^2$$
+
+$$\frac{\partial}{\partial k}\left \| kX+bI-Y \right \|_2^2=2\sum_{i=1}^n (kx_i+b-y_i)x_i=0$$
+
+$$\frac{\partial}{\partial b}\left \| kX+bI-Y \right \|_2^2=2\sum_{i=1}^n (kx_i+b-y_i)=0$$
+As a result,
+$$ k=\frac{n\sum_{i=1}^nx_iy_i-\sum_{i=1}^nx_i\sum_{i=1}^ny_i}{n\sum_{i=1}^nx_i^2-(\sum_{i=1}^nx_i)^2}$$
+$$ b=\frac{\sum_{i=1}^nx_i^2\sum_{i=1}^ny_i-\sum_{i=1}^nx_i\sum_{i=1}^nx_iy_i}{n\sum_{i=1}^nx_i^2-(\sum_{i=1}^nx_i)^2}$$
+Obviously, the mean point $(\bar{x},\bar{y})$ is on the fitting equations.
+
+Considering general cases, if the fitting equation $$f(x)=a_1r_1(x)+a_2r_2(x)+\dots+a_mr_m(x)$$where $r_1(x),r_2(x),\dots,r_m(x)$ are a series of linearly independent functions.
+
+Let
+$$R=\begin{pmatrix}
+ r_1(x_1) & r_1(x_2) & \dots &  r_1(x_n)\\
+ r_2(x_1) & r_2(x_2) & \dots &  r_2(x_n)\\
+ & \dots \\
+r_m(x_1) & r_m(x_2) & \dots &  r_m(x_n)
+\end{pmatrix},A=\begin{pmatrix}
+ a_1\\
+ a_2\\
+ \dots\\
+a_m
+\end{pmatrix}$$
+We call the following equation as <span style="color: red;">contradictory equations</span>: $$RA=Y$$
+This is because in many times, $m$ is smaller than $n$, so the equations usually have no solution.
+
+Similarly, we consider the min of Euclidean norm: $$\text{argmin}_A\left \| f(X)-Y \right \|_2$$
+$$\frac{\partial}{\partial a_j}\left \| f(X)-Y \right \|_2^2=2\sum_{i=1}^n r_j(x_i)\big[\sum_{k=1}^m a_k r_k(x_i)-y_i\big]=0$$
+
+These equations can also be expressed as matrix form:
+$$R^{\top}RA=R^{\top}Y$$
+Given that $r_1(x),r_2(x),\dots,r_m(x)$ are linearly independent, $R$ is full rank and $R^{\top}R$ is invertible.
+
+As a result, the equations has a unique solution 
+$$A=(R^{\top}R)^{-1}R^{\top}Y$$
+# Optimization without Constraint
+
+## One-dimensional Search
+## Gradient Methods
+
+## Conjugate direction method
+
+## Heuristic Algorithm
+
+# Optimization with Constraint
+
+For the linear version, we introduced it in [Linear Programming](../cs/data_structure_and_algorithm.html#linear-programming). In this section, we will introduce non-linear version.
+## Langrage Theorem
+
+## Karush-Kuhn-Tucker Condition
+
+## Convex Optimization
+
+## Multi-objective optimization
 # Approximation
 ## Best square approximation
 

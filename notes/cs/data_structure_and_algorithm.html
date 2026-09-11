@@ -156,7 +156,7 @@ The following problems can not be solved by computer. We call them undecidable p
 >Suppose HALT is decidable, i.e., there exists a TM $H(M, x)$ that decides whether TM $M$ halts on input $x$. Construct a TM $D$: on input $\langle M \rangle$ (the encoding of a TM $M$), $D$ runs $H(M, \langle M \rangle)$; if $H$ says "$M$ halts on $\langle M \rangle$", then $D$ loops forever; otherwise $D$ halts.
 >Now run $D$ on its own encoding $\langle D \rangle$: if $D$ halts on $\langle D \rangle$, then by construction $D$ loops on $\langle D \rangle$; if $D$ loops on $\langle D \rangle$, then by construction $D$ halts on $\langle D \rangle$. Either way we get a contradiction, so $H$ cannot exist.
 
-An interesting thing is, the undecidability of HALT implies Gödel's incompleteness theorem. For the details of the theorem, see [Mathematical Logic & Set Theory](../math/mathematical-logic-and-set-theory.html).
+An interesting thing is, the undecidability of HALT implies Gödel's incompleteness theorem. For the details of the theorem, see Mathematical Logic & Set Theory.
 
 >[!PROOF]
 >Suppose there were a complete and consistent axiomatic system in which every true statement about TMs is provable. Then we could decide HALT as follows: given $(M, x)$, enumerate all proofs in parallel, searching for either a proof of "$M$ halts on $x$" or a proof of "$M$ does not halt on $x$". By completeness one of them will be found, so this procedure always terminates and decides HALT. This contradicts the undecidability of HALT, so no such complete system exists.
@@ -855,6 +855,44 @@ Also, we can use recursion-tree to prove the following theorem.
 >$$\begin{align*}T(n)​&=\Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}​a^jf(\frac{n}{b^j}​)\\&< \Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}​(1-\epsilon)^jf(n)\\&<\Theta(n^{\log_b a})+\frac{1}{\epsilon} f(n)​\end{align*}$$
 >Because $f(n)=\Omega(n^{\log_b ​a+\Omega(1)})$, we can find that
 >$$T(n)=\Theta(f(n))$$
+
+## Tail Recursion Optimization
+
+Consider the following code (assuming $n\ge 0$ and the result fits in an `int`):
+
+```cpp
+int factorial(int n) {
+    if (n == 0) return 1;
+    return n * factorial(n - 1);
+}
+```
+
+After `factorial(n - 1)` returns, the caller must still multiply its result by `n`. Therefore, every pending call must retain a stack frame. The function takes $O(n)$ time and $O(n)$ auxiliary stack space.
+
+A call is in tail position when its return value is immediately returned by the current function, with no work left to perform. We can put the partial result in an accumulator so that the recursive call is in tail position:
+
+```cpp
+int factorial_tail(int n, int accumulator) {
+    if (n == 0) return accumulator;
+    return factorial_tail(n - 1, n * accumulator);
+}
+```
+
+For example, `factorial_tail(4, 1)` immediately returns `factorial_tail(3, 4)`. A compiler that performs <span style="color: red;">tail-call optimization</span> can reuse the current stack frame, giving $O(n)$ time and $O(1)$ auxiliary stack space.
+
+However, the C++ standard does not require compilers to perform this optimization. Without tail-call elimination, `factorial_tail` still uses $O(n)$ stack space. If $O(1)$ auxiliary space must be guaranteed in C++, use an explicit loop:
+
+```cpp
+int factorial_iterative(int n) {
+    int result = 1;
+    while (n > 0) {
+        result *= n;
+        --n;
+    }
+    return result;
+}
+```
+
 ## Binary Search
 
 ```cpp
@@ -1091,6 +1129,33 @@ long long solve(point a[],int start,int end){//calculate the squared distance
 # Sort
 
 If $a[i]=a[j]$ and $i<j$ in the original array, and after sorting the element originally at index $i$ still appears before the element originally at index $j$, the sorting algorithm is called <span style="color: red;">stable</span>. Otherwise, it is called <span style="color: red;">unstable</span>.
+
+## Branchless Swap
+
+A conditional swap can be written as follows:
+
+```cpp
+if (a > b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+```
+
+For unsigned integers, the same operation can be expressed without a source-level branch:
+
+```cpp
+void compare_swap(unsigned& a, unsigned& b) {
+    unsigned mask = 0u - static_cast<unsigned>(a > b);
+    unsigned difference = (a ^ b) & mask;
+    a ^= difference;
+    b ^= difference;
+}
+```
+
+If `a <= b`, `mask` is zero and neither value changes. If `a > b`, unsigned modular arithmetic makes `mask` all one-bits, so `difference == (a ^ b)` and the two XOR assignments swap the values. This bit trick is specific to integral types; using unsigned arithmetic makes the mask construction well-defined and portable.
+
+"Branchless" source code does not guarantee branchless machine code: an optimizing compiler may turn the ordinary `if` into a conditional move, or it may compile the bit trick differently. A branchless implementation can avoid costly branch mispredictions when comparisons are unpredictable, but it also introduces extra instructions and a dependency chain. With predictable comparisons, the ordinary version may be faster. Prefer the clear `if`/`std::swap` version unless profiling on the target compiler and CPU shows that the branchless form helps. Branchless code is also not automatically constant-time.
 
 ## Bubble Sort
 
@@ -3363,7 +3428,7 @@ We define the approximation ratio $$\alpha=\frac{M^*}{M}$$where $M^*$ is the res
 >
 >Hence, in general, $\alpha\le\frac{4}{3}$.
 
-# Primality Test
+# Algorithm Related to Number theory
 ## Prime Number Sieve
 
 ### Sieve of Eratosthenes
