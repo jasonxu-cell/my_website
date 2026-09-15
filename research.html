@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research | Yang </title>
+    <meta name="description" content="Research projects by Yang in seismology and planetary science.">
+    <title>Research | Yang</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="research.css">
     <link rel="icon" type="image/png" href="assets/photo.jpg">
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-    >
 </head>
 <body>
     <nav>
@@ -17,95 +15,53 @@
             <a href="index.html">Home</a>
             <a href="notes.html">Notes</a>
             <a href="articles.html">Articles</a>
-            <a href="research.html">Research</a>
+            <a href="research.html" aria-current="page">Research</a>
             <a href="publications.html">Publications</a>
         </div>
     </nav>
 
-    <main>
-        <section class="hero">
+    <main class="research-index-page">
+        <header class="research-index-header">
+            <h1>Research</h1>
+        </header>
 
-    <!-- 左侧个人信息 -->
-    <div class="profile">
-
-        <img
-            src="assets/photo.jpg"
-            alt="Yang"
-            class="profile-photo"
-        >
-
-        <h1>Yang</h1>
-
-        <div class="contact-icons">
-
-            <a
-                href="mailto:xu_ustc@mail.ustc.edu.cn"
-                class="contact-icon"
-                title="Email"
-            >
-                <i class="bi bi-envelope-fill"></i>
+        <section class="research-topic-grid" aria-label="Current research projects">
+            <a class="research-topic-card" href="research/gofar-transform-fault.html">
+                <div class="research-topic-number">01</div>
+                <div class="research-topic-content">
+                    <p class="research-topic-field">Seismology · Earthquake mechanics</p>
+                    <h2>Gofar Transform Fault</h2>
+                    <p>
+                        Investigating how fault-zone structure controls earthquake behavior
+                        along an oceanic transform fault.
+                    </p>
+                    <div class="research-topic-tags">
+                        <span>Focal mechanisms</span>
+                        <span>Kagan angles</span>
+                        <span>Spatial analysis</span>
+                    </div>
+                </div>
+                <span class="explore research-topic-link">Explore →</span>
             </a>
 
-            <a
-                href="https://github.com/xyang-ship-it"
-                target="_blank"
-                class="contact-icon"
-                title="GitHub"
-            >
-                <i class="bi bi-github"></i>
+            <a class="research-topic-card" href="research/lunar-water-content.html">
+                <div class="research-topic-number">02</div>
+                <div class="research-topic-content">
+                    <p class="research-topic-field">Planetary science · Interdisciplinary study</p>
+                    <h2>Lunar Water Content</h2>
+                    <p>
+                        Connecting multiple remote-sensing observations to understand the
+                        abundance and distribution of water on the Moon.
+                    </p>
+                    <div class="research-topic-tags">
+                        <span>Remote sensing</span>
+                        <span>Multi-source data</span>
+                        <span>Inference</span>
+                    </div>
+                </div>
+                <span class="explore research-topic-link">Explore →</span>
             </a>
-
-            <a
-                href="https://steamcommunity.com/profiles/76561199724275684/"
-                target="_blank"
-                class="contact-icon"
-                title="Steam"
-            >
-                <i class="bi bi-steam"></i>
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- 右侧简历 -->
-    <div class="resume">
-
-        <h2>About Me</h2>
-
-        <p class="resume-intro">
-            I am a junior at the University of
-            Science and Technology of China.
-        </p>
-
-        <div class="resume-section">
-            <h3>Education</h3>
-
-            <p>
-                USTC · B.S. in Geophysics
-            </p>
-        </div>
-
-        <div class="resume-section">
-            <h3>Skills</h3>
-
-            <p>
-                Python · C · C++
-            </p>
-        </div>
-
-        <div class="resume-section">
-            <h3>Languages</h3>
-
-            <p>
-                Chinese (Native) · English (B2)
-            </p>
-        </div>
-
-    </div>
-
-</section>
+        </section>
     </main>
 </body>
 </html>

@@ -66,24 +66,24 @@
 
 ![Pasted image 20260831081755](../attachments/Pasted%20image%2020260831081755.png){width=399}
 
-- **End systems (hosts)** run network applications, such as computers, phones, and servers.
-- **Communication links** carry bits. Their key metric is the transmission rate $R$, measured in bits per second (bps).
-- **Packet switches**, including routers and link-layer switches, forward packets.
-- **Internet Service Providers (ISPs)** operate networks of links and switching equipment that provide Internet access. Independently operated ISPs interconnect to form a “network of networks.”
+- <span style="color: red;">End systems (hosts)</span> run network applications, such as computers, phones, and servers.
+- <span style="color: red;">Communication links</span> carry bits. Their key metric is the transmission rate $R$, measured in bits per second (bps).
+- <span style="color: red;">Packet switches</span>, including routers and link-layer switches, forward packets.
+- <span style="color: red;">Internet Service Providers (ISPs)</span> operate networks of links and switching equipment that provide Internet access. Independently operated ISPs interconnect to form a “network of networks.”
 
-A **protocol** defines:
+A <span style="color: red;">protocol</span> defines:
 
 1. The types of messages exchanged;
 2. The syntax and meaning of message fields;
 3. When messages are sent;
 4. The actions taken when a message is received or another event occurs.
 
-Internet protocols are primarily standardized by the **IETF** and published as **RFCs**. TCP and IP are two of the best-known protocols, so the collection of Internet protocols is commonly called the **TCP/IP protocol suite**.
+Internet protocols are primarily standardized by the Internet Engineering Task Force (IETF) and published as Request For Comments (RFCs). Transmission Control Protocol (TCP) and Internet Protocol (IP) are two of the best-known protocols, so the collection of Internet protocols is commonly called the <span style="color: red;">TCP/IP protocol suite</span>.
 
 ## Two Views of the Internet
 
-- **Structural view:** The Internet is a network of networks that communicate using the TCP/IP protocol suite.
-- **Service view:** The Internet is an infrastructure that provides communication services to distributed applications. Applications normally access these services through the socket API.
+- <span style="color: red;">Structural view</span>: The Internet is a network of networks that communicate using the TCP/IP protocol suite.
+- <span style="color: red;">Service view</span>: The Internet is an infrastructure that provides communication services to distributed applications. Applications normally access these services through the socket API.
 
 The Internet has no single central management authority. Instead, standards organizations, regional Internet registries, ISPs, and other parties coordinate its operation.
 
@@ -93,15 +93,15 @@ An access network connects an end system to its edge router.
 
 ### Residential Access
 
-#### DSL (Digital Subscriber Line)
+#### Digital Subscriber Line (DSL)
 
 ![Screenshot 2026-08-31 at 08.44.20](../attachments/Screenshot%202026-08-31%20at%2008.44.20.png)
 
 DSL is commonly provided by telephone companies over existing copper telephone lines:
 
-- A **DSL modem** modulates and demodulates data signals.
-- A **splitter** separates voice and data signals at the customer premises.
-- A **DSLAM** aggregates multiple DSL lines at the provider side.
+- A <span style="color: red;">DSL modem</span> modulates and demodulates data signals.
+- A <span style="color: red;">splitter</span> separates voice and data signals at the customer premises.
+- A <span style="color: red;">DSLAM</span> aggregates multiple DSL lines at the provider side.
 
 DSL is typically asymmetric: downstream rates are higher than upstream rates. Actual performance depends on the DSL technology, line length, and line quality.
 
@@ -111,11 +111,11 @@ DSL is typically asymmetric: downstream rates are higher than upstream rates. Ac
 
 ![Screenshot 2026-08-31 at 08.47.32](../attachments/Screenshot%202026-08-31%20at%2008.47.32.png)
 
-**HFC (Hybrid Fiber Coax)** combines a fiber backbone with coaxial cable at the network edge. Its main components include cable modems, splitters, and a Cable Modem Termination System (CMTS).
+<span style="color: red;">HFC (Hybrid Fiber Coax)</span> combines a fiber backbone with coaxial cable at the network edge. Its main components include cable modems, splitters, and a Cable Modem Termination System (CMTS).
 
 Households on the same access segment share bandwidth, so actual performance depends on the number of active users and their traffic.
 
-#### FTTH (Fiber to the Home)
+#### Fiber to the Home (FTTH)
 
 Fiber runs directly to the residence, providing high capacity and low signal attenuation. A Passive Optical Network (PON) commonly shares provider-side fiber infrastructure among several customers.
 
@@ -129,8 +129,8 @@ Fiber runs directly to the residence, providing high capacity and low signal att
 
 ### Wireless Access
 
-- **Wi-Fi (wireless LAN):** End systems connect to a wired network through an access point (AP). Its range is usually tens of meters, and multiple devices share the wireless channel.
-- **Cellular network:** End systems connect through an operator's base stations. Cellular networks cover larger areas and support mobility management.
+- <span style="color: red;">Wi-Fi (wireless LAN)</span>: End systems connect to a wired network through an access point (AP). Its range is usually tens of meters, and multiple devices share the wireless channel.
+- <span style="color: red;">Cellular network</span>: End systems connect through an operator's base stations. Cellular networks cover larger areas and support mobility management.
 
 > [!note]
 > A link's advertised rate is not the same as application throughput. Protocol overhead, signal quality, contention, congestion, and server performance all affect the observed rate.
@@ -141,32 +141,34 @@ Fiber runs directly to the residence, providing high capacity and low signal att
 
 ![Screenshot 2026-09-05 at 11.22.24](../attachments/Screenshot%202026-09-05%20at%2011.22.24.png)
 
-- **Forwarding** is a data-plane function. A router uses its forwarding table to move a packet from an input port to the appropriate output port.
-- **Routing** is a control-plane function. Routing algorithms and protocols compute paths and use them to build and update forwarding tables.
+- <span style="color: red;">Forwarding</span> is a data-plane function. A router uses its forwarding table to move a packet from an input port to the appropriate output port.
+- <span style="color: red;">Routing</span> is a control-plane function. Routing algorithms and protocols compute paths and use them to build and update forwarding tables.
 
 Routing is like planning a route; forwarding is like choosing the correct exit at each intersection.
 
 ### Circuit Switching and Packet Switching
 
-| Property | Circuit switching | Packet switching |
-|---|---|---|
-| Resources | Reserved end to end | Shared on demand |
-| Typical use | Traditional telephone networks | The Internet |
-| Advantage | Predictable performance | High utilization; efficient for bursty traffic |
-| Cost | Reserved resources are wasted when idle | Queuing, loss, and jitter may occur |
+| Property    | Circuit switching                       | Packet switching                               |
+| ----------- | --------------------------------------- | ---------------------------------------------- |
+| Resources   | Reserved end to end                     | Shared on demand                               |
+| Typical use | Traditional telephone networks          | The Internet                                   |
+| Advantage   | Predictable performance                 | High utilization; efficient for bursty traffic |
+| Cost        | Reserved resources are wasted when idle | Queuing, loss, and jitter may occur            |
+![Screenshot 2026-09-14 at 10.53.20](../attachments/Screenshot%202026-09-14%20at%2010.53.20.png){width=461}
+Circuit switching transmit the message through reserving the circuit. The following figure shows four links interconnect four circuit switches. If two hosts want to communicate, they need to build a dedicated <span style="color: red;">end-to-end connection</span>. So If the hosts want to communicate, the network need to reserve the cable in each link. Besides, because each link has 4 circuits, the velocity of transmission can only be 1/4 of total transmission capacity of the link.
 
-Packet switching divides an application message into packets. Routers usually use **store-and-forward** transmission: a router receives a complete packet before sending it over the next link.
+Packet switching divides an application message into packets. Routers usually use store-and-forward transmission: a router receives a complete packet before sending it over the next link.
 
 Let each packet contain $L$ bits and let the link transmission rate be $R$ bit/s:
 
-- The **transmission delay** of one packet is $\frac{L}{R}$.
+- The transmission delay of one packet is $\frac{L}{R}$.
 - If a path contains $N$ links, all with rate $R$, one packet takes $\frac{NL}{R}$ end to end when propagation, processing, and queuing delays are ignored.
 - Sending $P$ equal-sized packets over the path with pipelining takes:
 
 $$
 \frac{(N+P-1)L}{R}
 $$
-
+### Network of Networks
 ### Delay, Packet Loss, and Throughput
 
 The total delay at one network node is:
@@ -175,14 +177,14 @@ $$
 d_{nodal}=d_{proc}+d_{queue}+d_{trans}+d_{prop}
 $$
 
-- **Processing delay $d_{proc}$:** Time to inspect the header, check for errors, and determine the output port.
-- **Queuing delay $d_{queue}$:** Time spent waiting in the output buffer; it varies with traffic load.
-- **Transmission delay $d_{trans}=L/R$:** Time required to push all packet bits onto the link.
-- **Propagation delay $d_{prop}=d/s$:** Link distance $d$ divided by propagation speed $s$.
+- <span style="color: red;">Processing delay</span> $d_{proc}$: Time to inspect the header, check for errors, and determine the output port.
+- <span style="color: red;">Queuing delay</span> $d_{queue}$: Time spent waiting in the output buffer; it varies with traffic load.
+- <span style="color: red;">Transmission delay</span> $d_{trans}=L/R$: Time required to push all packet bits onto the link.
+- <span style="color: red;">Propagation delay</span> $d_{prop}=d/s$: Link distance $d$ divided by propagation speed $s$.
 
-If a buffer is full, newly arriving packets are discarded, causing **packet loss**.
+If a buffer is full, newly arriving packets are discarded, causing <span style="color: red;">packet loss</span>.
 
-If the average arrival rate is $a$ packets/s, the **traffic intensity** is:
+If the average arrival rate is $a$ packets/s, the <span style="color: red;">traffic intensity</span> is:
 
 $$
 \rho=\frac{La}{R}
@@ -192,7 +194,7 @@ $$
 - As $\rho$ approaches 1, average queuing delay grows rapidly.
 - If $\rho>1$ for a sustained period, traffic arrives faster than the link can serve it, so the queue is unstable.
 
-End-to-end throughput is limited by the **bottleneck link**. In the scenario below, the throughput per connection is:
+End-to-end throughput is limited by the <span style="color: red;">bottleneck link</span>. In the scenario below, the throughput per connection is:
 
 $$
 \min\left\{R_s,R_c,\frac{R}{N}\right\}
@@ -211,8 +213,6 @@ $$
 | Physical | Transmission of bits over a medium | Fiber, copper, radio | Bit |
 
 At the sender, each layer adds its own header in a process called **encapsulation**. The receiver removes the headers layer by layer in a process called **decapsulation**.
-
----
 
 # Application Layer
 
