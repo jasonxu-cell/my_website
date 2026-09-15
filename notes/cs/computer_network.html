@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Computer Network | Yang</title>
+    <meta name="description" content="Study notes by Yang Xu on Computer Network, with explanations, derivations, and examples.">
+    <meta property="og:title" content="Computer Network | Yang Xu">
+    <meta property="og:description" content="Study notes by Yang Xu on Computer Network, with explanations, derivations, and examples.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Yang Xu">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Computer Network | Yang Xu">
+    <meta name="twitter:description" content="Study notes by Yang Xu on Computer Network, with explanations, derivations, and examples.">
+    <title>Computer Network | Yang Xu</title>
     <link rel="stylesheet" href="../../style.css">
     <link rel="icon" type="image/png" href="../../assets/photo.jpg">
     <link
@@ -12,17 +21,18 @@
     >
 </head>
 <body>
-    <nav>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <nav aria-label="Primary navigation">
         <div class="nav-links">
             <a href="../../index.html">Home</a>
-            <a href="../../notes.html">Notes</a>
+            <a href="../../notes.html" aria-current="page">Notes</a>
             <a href="../../articles.html">Articles</a>
             <a href="../../research.html">Research</a>
-            <a href="../../publications.html">Publications</a>
+            <a href="../../cv.html">CV</a>
         </div>
     </nav>
 
-    <main class="article-detail-page">
+    <main id="main-content" class="article-detail-page">
         <header class="article-detail-header">
             <a href="../cs.html" class="article-back-link">&larr; Computer Science</a>
             <h1>Computer Network</h1>
@@ -64,7 +74,7 @@
 
 ## Components
 
-![Pasted image 20260831081755](../attachments/Pasted%20image%2020260831081755.png){width=399}
+![Pasted image 20260831081755](../attachments/Pasted%20image%2020260831081755-optimized.webp){width=399}
 
 - <span style="color: red;">End systems (hosts)</span> run network applications, such as computers, phones, and servers.
 - <span style="color: red;">Communication links</span> carry bits. Their key metric is the transmission rate $R$, measured in bits per second (bps).
@@ -95,7 +105,7 @@ An access network connects an end system to its edge router.
 
 #### Digital Subscriber Line (DSL)
 
-![Screenshot 2026-08-31 at 08.44.20](../attachments/Screenshot%202026-08-31%20at%2008.44.20.png)
+![Screenshot 2026-08-31 at 08.44.20](../attachments/Screenshot%202026-08-31%20at%2008.44.20-optimized.webp)
 
 DSL is commonly provided by telephone companies over existing copper telephone lines:
 
@@ -107,9 +117,9 @@ DSL is typically asymmetric: downstream rates are higher than upstream rates. Ac
 
 #### Cable Networks and HFC
 
-![Screenshot 2026-08-31 at 08.45.12](../attachments/Screenshot%202026-08-31%20at%2008.45.12.png)
+![Screenshot 2026-08-31 at 08.45.12](../attachments/Screenshot%202026-08-31%20at%2008.45.12-optimized.webp)
 
-![Screenshot 2026-08-31 at 08.47.32](../attachments/Screenshot%202026-08-31%20at%2008.47.32.png)
+![Screenshot 2026-08-31 at 08.47.32](../attachments/Screenshot%202026-08-31%20at%2008.47.32-optimized.webp)
 
 <span style="color: red;">HFC (Hybrid Fiber Coax)</span> combines a fiber backbone with coaxial cable at the network edge. Its main components include cable modems, splitters, and a Cable Modem Termination System (CMTS).
 
@@ -121,7 +131,7 @@ Fiber runs directly to the residence, providing high capacity and low signal att
 
 ### Enterprise and Campus Access: Ethernet
 
-![Screenshot 2026-08-31 at 08.48.11](../attachments/Screenshot%202026-08-31%20at%2008.48.11.png)
+![Screenshot 2026-08-31 at 08.48.11](../attachments/Screenshot%202026-08-31%20at%2008.48.11-optimized.webp)
 
 - Ethernet switches and links form the local area network.
 - Common link rates range from 100 Mbps and 1 Gbps to 10 Gbps and beyond.
@@ -139,7 +149,7 @@ Fiber runs directly to the residence, providing high capacity and low signal att
 
 ### Forwarding and Routing
 
-![Screenshot 2026-09-05 at 11.22.24](../attachments/Screenshot%202026-09-05%20at%2011.22.24.png)
+![Screenshot 2026-09-05 at 11.22.24](../attachments/Screenshot%202026-09-05%20at%2011.22.24-optimized.webp)
 
 - <span style="color: red;">Forwarding</span> is a data-plane function. A router uses its forwarding table to move a packet from an input port to the appropriate output port.
 - <span style="color: red;">Routing</span> is a control-plane function. Routing algorithms and protocols compute paths and use them to build and update forwarding tables.
@@ -154,7 +164,7 @@ Routing is like planning a route; forwarding is like choosing the correct exit a
 | Typical use | Traditional telephone networks          | The Internet                                   |
 | Advantage   | Predictable performance                 | High utilization; efficient for bursty traffic |
 | Cost        | Reserved resources are wasted when idle | Queuing, loss, and jitter may occur            |
-![Screenshot 2026-09-14 at 10.53.20](../attachments/Screenshot%202026-09-14%20at%2010.53.20.png){width=461}
+![Screenshot 2026-09-14 at 10.53.20](../attachments/Screenshot%202026-09-14%20at%2010.53.20-optimized.webp){width=461}
 Circuit switching transmit the message through reserving the circuit. The following figure shows four links interconnect four circuit switches. If two hosts want to communicate, they need to build a dedicated <span style="color: red;">end-to-end connection</span>. So If the hosts want to communicate, the network need to reserve the cable in each link. Besides, because each link has 4 circuits, the velocity of transmission can only be 1/4 of total transmission capacity of the link.
 
 Packet switching divides an application message into packets. Routers usually use store-and-forward transmission: a router receives a complete packet before sending it over the next link.
@@ -200,7 +210,7 @@ $$
 \min\left\{R_s,R_c,\frac{R}{N}\right\}
 $$
 
-![Screenshot 2026-09-07 at 08.16.47](../attachments/Screenshot%202026-09-07%20at%2008.16.47.png)
+![Screenshot 2026-09-07 at 08.16.47](../attachments/Screenshot%202026-09-07%20at%2008.16.47-optimized.webp)
 
 ### Protocol Layers and Encapsulation
 
@@ -722,6 +732,15 @@ Common defenses include:
 10. Which security problems are addressed by encryption, authentication, and integrity protection?
         </script>
     </main>
+
+    <footer class="site-footer">
+        <p>© 2026 Yang Xu</p>
+        <nav class="footer-links" aria-label="Footer navigation">
+            <a href="mailto:xu_ustc@mail.ustc.edu.cn">Email</a>
+            <a href="https://github.com/jasonxu-cell" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="../../cv.html">CV</a>
+        </nav>
+    </footer>
 
     <script src="../../scripts/markdown-article.js?v=20260822-multiline-math-2"></script>
     <script src="../../scripts/comments.js"></script>

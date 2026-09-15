@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes | Yang</title>
+    <meta name="description" content="Study notes by Yang Xu on mathematics, physics, computer science, geoscience, and electronic engineering.">
+    <meta property="og:title" content="Notes | Yang Xu">
+    <meta property="og:description" content="Study notes by Yang Xu on mathematics, physics, computer science, geoscience, and electronic engineering.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Yang Xu">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Notes | Yang Xu">
+    <meta name="twitter:description" content="Study notes by Yang Xu on mathematics, physics, computer science, geoscience, and electronic engineering.">
+    <title>Notes | Yang Xu</title>
     <link rel="stylesheet" href="style.css?v=20260819-notes-layout-3">
     <link rel="icon" type="image/png" href="assets/photo.jpg">
     <link
@@ -12,17 +21,18 @@
     >
 </head>
 <body>
-    <nav>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <nav aria-label="Primary navigation">
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="notes.html">Notes</a>
+            <a href="notes.html" aria-current="page">Notes</a>
             <a href="articles.html">Articles</a>
             <a href="research.html">Research</a>
-            <a href="publications.html">Publications</a>
+            <a href="cv.html">CV</a>
         </div>
     </nav>
 
-    <main class="note-page">
+    <main id="main-content" class="note-page">
         <div class="note-header">
             <h1>Notes</h1>
         </div>
@@ -30,7 +40,7 @@
         <div class="note-grid">
             <a href="notes/math.html" class="note-card">
                 <div class="note-image">
-                    <img src="assets/math.jpg" alt="Mathematics">
+                    <img src="assets/math-optimized.webp" alt="Mathematics" loading="lazy" decoding="async">
                 </div>
 
                 <div class="note-content">
@@ -49,7 +59,7 @@
 
             <a href="notes/physics.html" class="note-card">
                 <div class="note-image">
-                    <img src="assets/physics.jpg" alt="Physics">
+                    <img src="assets/physics.jpg" alt="Physics" loading="lazy" decoding="async">
                 </div>
 
                 <div class="note-content">
@@ -68,7 +78,7 @@
 
             <a href="notes/cs.html" class="note-card">
                 <div class="note-image">
-                    <img src="assets/cs.png" alt="Computer Science">
+                    <img src="assets/cs.png" alt="Computer Science" loading="lazy" decoding="async">
                 </div>
 
                 <div class="note-content">
@@ -86,7 +96,7 @@
 
             <a href="notes/geoscience.html" class="note-card">
                 <div class="note-image">
-                    <img src="assets/geoscience.jpg" alt="Geoscience">
+                    <img src="assets/geoscience.jpg" alt="Geoscience" loading="lazy" decoding="async">
                 </div>
 
                 <div class="note-content">
@@ -107,8 +117,7 @@
                 <div class="note-image">
                     <img
                         src="notes/electronic_engineering_photos/electronic_engineering.jpg"
-                        alt="Electronic Engineering"
-                    >
+                        alt="Electronic Engineering" loading="lazy" decoding="async">
                 </div>
 
                 <div class="note-content">
@@ -126,5 +135,14 @@
             </a>
         </div>
     </main>
+
+    <footer class="site-footer">
+        <p>© 2026 Yang Xu</p>
+        <nav class="footer-links" aria-label="Footer navigation">
+            <a href="mailto:xu_ustc@mail.ustc.edu.cn">Email</a>
+            <a href="https://github.com/jasonxu-cell" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="cv.html">CV</a>
+        </nav>
+    </footer>
 </body>
 </html>

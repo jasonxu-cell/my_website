@@ -151,8 +151,8 @@
         text = text.replace(/==([^=]+)==/g, "<mark>$1</mark>");
         text = text.replace(/&lt;span style=&quot;color:\s*red;?&quot;&gt;([\s\S]*?)&lt;\/span&gt;/gi, "<span class=\"obsidian-red\">$1</span>");
         text = text.replace(/!\[([^\]]*)\]\(([^)\s]+)\)(?:\{width=(\d+)\})?/g, (_match, alt, src, width) => {
-            const style = width ? ` style="max-width: ${escapeHtml(width)}px;"` : "";
-            return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}"${style}>`;
+            const style = width ? ` style="width: min(100%, ${escapeHtml(width)}px);"` : "";
+            return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"${style}>`;
         });
         text = text.replace(/&lt;(https?:\/\/[^&\s]+(?:&amp;[^&\s]+)*)&gt;/g, (_match, href) => {
             return renderLink(href, href);
@@ -248,7 +248,7 @@
         const alt = caption || src.split("/").pop() || "article figure";
         const media = [
             `<a class="figure-media-link" href="${escapeHtml(src)}" aria-label="查看${escapeHtml(formatFloatLabel(label, "figure"))}原图">`,
-            `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}"${widthStyle}>`,
+            `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"${widthStyle}>`,
             "</a>"
         ].join("");
 
@@ -1268,7 +1268,7 @@
                 flushList();
                 closeReferenceList();
                 const table = parseTable(lines, index);
-                html.push(table.html);
+                html.push(`<div class="table-scroll" role="region" aria-label="Scrollable table" tabindex="0">${table.html}</div>`);
                 index = table.nextIndex - 1;
                 continue;
             }
@@ -1279,10 +1279,11 @@
                 flushList();
                 closeReferenceList();
                 const level = heading[1].length;
+                const elementLevel = Math.min(level + 1, 6);
                 const text = unescapeMarkdown(heading[2].trim());
                 const id = slugify(text);
                 headings.push({ id, level, text: stripHeadingMarkdown(text) });
-                html.push(`<h${level} id="${id}">${renderInline(text)}</h${level}>`);
+                html.push(`<h${elementLevel} id="${id}">${renderInline(text)}</h${elementLevel}>`);
                 continue;
             }
 

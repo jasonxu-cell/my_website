@@ -1,11 +1,11 @@
 .research-index-page,
 .research-detail-page {
-    width: 1120px;
+    width: min(100%, 1120px);
     margin: 72px auto 100px;
 }
 
 .research-index-header {
-    margin-bottom: 42px;
+    margin-bottom: clamp(36px, 4vw, 48px);
     text-align: center;
 }
 
@@ -23,13 +23,13 @@
 
 .research-index-header h1 {
     margin: 0;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--serif);
     font-size: 54px;
     font-weight: 400;
 }
 
 .research-index-intro {
-    width: 620px;
+    width: min(100%, 620px);
     margin: 18px auto 0;
     color: rgba(0, 0, 0, 0.66);
     font-size: 18px;
@@ -50,18 +50,20 @@
     color: #111111;
     text-decoration: none;
     flex-direction: column;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    min-width: 0;
+    background: var(--surface);
+    backdrop-filter: blur(16px) saturate(115%);
+    -webkit-backdrop-filter: blur(16px) saturate(115%);
+    border: 1px solid var(--surface-border);
     border-radius: 24px;
+    box-shadow: var(--shadow);
     transition: background-color 0.25s ease;
 }
 
 .research-topic-card:hover {
     color: #111111;
     text-decoration: none;
-    background: rgba(255, 255, 255, 0.62);
+    background: var(--surface-hover);
 }
 
 .research-topic-number {
@@ -70,7 +72,7 @@
     width: fit-content;
     padding-bottom: 9px;
     color: #355f62;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--serif);
     font-size: 18px;
     border-bottom: 2px solid #6f999b;
 }
@@ -88,7 +90,7 @@
 
 .research-topic-content h2 {
     margin: 0 0 18px;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--serif);
     font-size: 38px;
     font-weight: 400;
     line-height: 1.12;
@@ -129,7 +131,7 @@
 }
 
 .research-detail-page {
-    width: 1080px;
+    width: min(100%, 1080px);
 }
 
 .research-detail-back {
@@ -149,11 +151,12 @@
 .research-detail-hero,
 .research-detail-section {
     padding: 36px 45px;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: var(--surface);
+    backdrop-filter: blur(16px) saturate(115%);
+    -webkit-backdrop-filter: blur(16px) saturate(115%);
+    border: 1px solid var(--surface-border);
     border-radius: 24px;
+    box-shadow: var(--shadow);
 }
 
 .research-detail-hero {
@@ -166,10 +169,15 @@
     overflow: hidden;
 }
 
+.research-detail-hero > div:first-child,
+.research-detail-content {
+    min-width: 0;
+}
+
 .research-detail-hero h1 {
     max-width: 740px;
     margin: 0;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--serif);
     font-size: 52px;
     font-weight: 400;
     line-height: 1.08;
@@ -191,7 +199,7 @@
     height: 185px;
     place-items: center;
     color: #ffffff;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--serif);
     font-size: 64px;
     font-style: italic;
     background: rgba(30, 77, 80, 0.85);
@@ -206,7 +214,7 @@
 
 .research-detail-grid {
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 300px minmax(0, 1fr);
     gap: 28px;
     margin-top: 28px;
     align-items: start;
@@ -225,7 +233,7 @@
 
 .research-detail-section h2 {
     margin: 0 0 19px;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--serif);
     font-size: 29px;
     font-weight: 400;
 }
@@ -335,4 +343,127 @@
 
 .research-related-link:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 1000px) {
+    .research-workflow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .research-workflow div:nth-child(odd) {
+        border-left: 0;
+    }
+
+    .research-workflow div:nth-child(n + 3) {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+}
+
+@media (max-width: 900px) {
+    .research-index-page,
+    .research-detail-page {
+        margin-top: 48px;
+    }
+
+    .research-topic-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .research-topic-card {
+        min-height: 360px;
+    }
+
+    .research-detail-hero {
+        grid-template-columns: minmax(0, 1fr) 150px;
+        gap: 28px;
+    }
+
+    .research-detail-mark {
+        width: 140px;
+        height: 140px;
+        font-size: 50px;
+    }
+
+    .research-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .research-detail-aside {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .research-workflow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .research-workflow div:nth-child(odd) {
+        border-left: 0;
+    }
+
+    .research-workflow div:nth-child(n + 3) {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+}
+
+@media (max-width: 680px) {
+    .research-index-page,
+    .research-detail-page {
+        margin-top: 34px;
+        margin-bottom: 64px;
+    }
+
+    .research-index-header h1 {
+        font-size: 42px;
+    }
+
+    .research-topic-card,
+    .research-detail-hero,
+    .research-detail-section {
+        padding: 28px 22px;
+    }
+
+    .research-topic-card {
+        min-height: 330px;
+    }
+
+    .research-topic-content {
+        margin-top: 42px;
+    }
+
+    .research-topic-content h2 {
+        font-size: 31px;
+        overflow-wrap: anywhere;
+    }
+
+    .research-detail-hero {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    .research-detail-hero h1 {
+        font-size: 38px;
+        overflow-wrap: anywhere;
+    }
+
+    .research-detail-mark {
+        display: none;
+    }
+
+    .research-detail-aside {
+        display: flex;
+    }
+
+}
+
+@media (max-width: 420px) {
+    .research-workflow {
+        grid-template-columns: 1fr;
+    }
+
+    .research-workflow div + div,
+    .research-workflow div:nth-child(n + 3) {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-left: 0;
+    }
 }

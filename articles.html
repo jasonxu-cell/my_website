@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Articles | Yang</title>
+    <meta name="description" content="Essays by Yang Xu on space technology, mathematics, computing, and the history of science and technology.">
+    <meta property="og:title" content="Articles | Yang Xu">
+    <meta property="og:description" content="Essays by Yang Xu on space technology, mathematics, computing, and the history of science and technology.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Yang Xu">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Articles | Yang Xu">
+    <meta name="twitter:description" content="Essays by Yang Xu on space technology, mathematics, computing, and the history of science and technology.">
+    <title>Articles | Yang Xu</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="assets/photo.jpg">
     <link
@@ -12,26 +21,27 @@
     >
 </head>
 <body>
-    <nav>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <nav aria-label="Primary navigation">
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="notes.html">Notes</a>
-            <a href="articles.html">Articles</a>
+            <a href="articles.html" aria-current="page">Articles</a>
             <a href="research.html">Research</a>
-            <a href="publications.html">Publications</a>
+            <a href="cv.html">CV</a>
         </div>
     </nav>
 
-    <main class="articles-page">
-        <section class="articles-frame">
-            <header class="articles-header">
-                <h1>Articles</h1>
-            </header>
+    <main id="main-content" class="articles-page">
+        <header class="articles-header">
+            <h1>Articles</h1>
+        </header>
 
-            <a href="articles/article_1.html" class="essay-row essay-row-reverse">
+        <section class="articles-frame">
+            <a href="articles/article_1.html" class="essay-row essay-row-reverse" lang="zh-CN">
                 <div class="essay-visual">
                     <div class="essay-image">
-                        <img src="articles/article_1.jpg" alt="article_1">
+                        <img src="articles/article_1.jpg" alt="article_1" loading="lazy" decoding="async">
                     </div>
                 </div>
 
@@ -59,10 +69,10 @@
                 </div>
             </a>
 
-            <a href="articles/article_2.html" class="essay-row essay-row-normal">
+            <a href="articles/article_2.html" class="essay-row essay-row-normal" lang="zh-CN">
                 <div class="essay-visual">
                     <div class="essay-image">
-                        <img src="articles/article_2.png" alt="article_2">
+                        <img src="articles/article_2-optimized.webp" alt="article_2" loading="lazy" decoding="async">
                     </div>
                 </div>
 
@@ -81,7 +91,7 @@
             <a href="articles/article_3.html" class="essay-row essay-row-reverse">
                 <div class="essay-visual">
                     <div class="essay-image">
-                        <img src="articles/article_3.jpg" alt="article_3">
+                        <img src="articles/article_3.jpg" alt="article_3" loading="lazy" decoding="async">
                     </div>
                 </div>
 
@@ -106,5 +116,14 @@
 
         </section>
     </main>
+
+    <footer class="site-footer">
+        <p>© 2026 Yang Xu</p>
+        <nav class="footer-links" aria-label="Footer navigation">
+            <a href="mailto:xu_ustc@mail.ustc.edu.cn">Email</a>
+            <a href="https://github.com/jasonxu-cell" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="cv.html">CV</a>
+        </nav>
+    </footer>
 </body>
 </html>

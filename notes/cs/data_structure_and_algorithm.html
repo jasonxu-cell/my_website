@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Structure and Algorithm | Yang</title>
+    <meta name="description" content="Study notes by Yang Xu on Data Structure and Algorithm, with explanations, derivations, and examples.">
+    <meta property="og:title" content="Data Structure and Algorithm | Yang Xu">
+    <meta property="og:description" content="Study notes by Yang Xu on Data Structure and Algorithm, with explanations, derivations, and examples.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Yang Xu">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Data Structure and Algorithm | Yang Xu">
+    <meta name="twitter:description" content="Study notes by Yang Xu on Data Structure and Algorithm, with explanations, derivations, and examples.">
+    <title>Data Structure and Algorithm | Yang Xu</title>
     <link rel="stylesheet" href="../../style.css">
     <link rel="icon" type="image/png" href="../../assets/photo.jpg">
     <link
@@ -12,17 +21,18 @@
     >
 </head>
 <body>
-    <nav>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <nav aria-label="Primary navigation">
         <div class="nav-links">
             <a href="../../index.html">Home</a>
-            <a href="../../notes.html">Notes</a>
+            <a href="../../notes.html" aria-current="page">Notes</a>
             <a href="../../articles.html">Articles</a>
             <a href="../../research.html">Research</a>
-            <a href="../../publications.html">Publications</a>
+            <a href="../../cv.html">CV</a>
         </div>
     </nav>
 
-    <main class="article-detail-page">
+    <main id="main-content" class="article-detail-page">
         <header class="article-detail-header">
             <a href="../cs.html" class="article-back-link">&larr; Computer Science</a>
             <h1>Data Structure and Algorithm</h1>
@@ -209,7 +219,7 @@ A problem $L$ is <span style="color: red;">NP-Complete</span> iff
 A problem $L$ is <span style="color: red;">NP-Hard</span> iff  $\forall Q \in NP$, $Q \le_p L$
 
 Summary:
-![Screenshot 2026-06-10 at 13.31.28](../attachments/Screenshot%202026-06-10%20at%2013.31.28.png)
+![Screenshot 2026-06-10 at 13.31.28](../attachments/Screenshot%202026-06-10%20at%2013.31.28-optimized.webp)
 
 
 >[!THEOREM] Cook-Levin Theorem
@@ -519,11 +529,11 @@ bool isEmpty=q.empty();
 ## Circular queue (sequential order)
 
 If sequential storage is performed in the usual way, it is easy to cause "false overflow", as shown in the figure below.
-![Screenshot 2026-05-28 at 14.53.20](../attachments/Screenshot%202026-05-28%20at%2014.53.20.png)
+![Screenshot 2026-05-28 at 14.53.20](../attachments/Screenshot%202026-05-28%20at%2014.53.20-optimized.webp)
 
 To solve this problem, the sequential queue can be visualized as a circular structure, called a **circular queue**.
 
-![Screenshot 2026-05-28 at 14.53.39](../attachments/Screenshot%202026-05-28%20at%2014.53.39.png)
+![Screenshot 2026-05-28 at 14.53.39](../attachments/Screenshot%202026-05-28%20at%2014.53.39-optimized.webp)
 
 ```cpp
 //Storage structure of a circular queue
@@ -619,7 +629,7 @@ $$'t_{i-d+1}t_{i-d+2}\dots t_{i-1}'='p_{1}p_{2}\dots p_{d-1}'$$
 Therefore, the following equation can be obtained.
 $$'p_{j-d+1}p_{j-d+2}\dots p_{j-1}'='p_{1}p_{2}\dots p_{d-1}'$$
 Obviously, we want to get the maximum $d$. We can find that $d$ is related to $j$, so we first need to determine the value of $d$ for all $j$, and store them in the array $next$.
-![Screenshot 2026-05-29 at 14.06.58](../attachments/Screenshot%202026-05-29%20at%2014.06.58.png){width=215}
+![Screenshot 2026-05-29 at 14.06.58](../attachments/Screenshot%202026-05-29%20at%2014.06.58-optimized.webp){width=215}
 The following question is how to solve the array $next$. If $next[j]=d$, if we want to solve $next[j+1]$, there are two circumstances:
 1. $p_d​=p_j​$, obviously $next[j+1]=next[j]+1$
 2. $p_d​\ne p_j​$, let $next[j+1]=k$, then
@@ -828,7 +838,7 @@ We can use recursion-tree to get the time complexity of the problem.
 
 >[!EXAMPLE]
 >$$T(n)=3T(\frac{n}{4}​)+O(n^2)$$
->![Screenshot 2026-06-27 at 22.16.20](../attachments/Screenshot%202026-06-27%20at%2022.16.20.png)
+>![Screenshot 2026-06-27 at 22.16.20](../attachments/Screenshot%202026-06-27%20at%2022.16.20-optimized.webp)
 
 Also, we can use recursion-tree to prove the following theorem.
 
@@ -839,7 +849,7 @@ Also, we can use recursion-tree to prove the following theorem.
 >3. If $f(n)=\Omega(n^{\log_b ​a+\Omega(1)})$, and for sufficiently large $n$, $$\exists \epsilon>0,af(\frac{n}{b}​)\le(1−\epsilon)f(n)$$then $$T(n)=\Theta(f(n))$$
 
 >[!PROOF]
->![Screenshot 2026-06-27 at 22.20.16](../attachments/Screenshot%202026-06-27%20at%2022.20.16.png)
+>![Screenshot 2026-06-27 at 22.20.16](../attachments/Screenshot%202026-06-27%20at%2022.20.16-optimized.webp)
 >We can find that
 >$$T(n)=\Theta(n^{\log_b​a})+\sum_{j=0}^{\lfloor \log_b​n \rfloor}​a^jf(\frac{n}{b^j}​)$$
 >For circumstance 1,
@@ -1006,7 +1016,7 @@ The inverse DFT has the same divide-and-conquer structure: use $\omega_N^{-1}$ i
 In implementation, a recursive FFT repeatedly creates two new lists for the even and odd coefficients. The iterative version avoids that extra allocation by first applying a bit-reversal permutation, which places elements in the same order as the leaves of the recursion tree. After that, blocks of length $2,4,8,\dots,N$ are merged from bottom to top.
 
 The following figure shows FFT algorithm whose $N=8$.
-![v2-d726388f6b1afffbdcc4f4c246ab2037_1440w](../attachments/v2-d726388f6b1afffbdcc4f4c246ab2037_1440w.jpg)
+![v2-d726388f6b1afffbdcc4f4c246ab2037_1440w](../attachments/v2-d726388f6b1afffbdcc4f4c246ab2037_1440w-optimized.webp)
 
 The merge step is called a **butterfly operation**. For a block of length `len`, let `half = len / 2` and let $w$ be the current twiddle factor. Each paired state
 $$u=a[i+j],\quad v=w\cdot a[i+j+\text{half}]$$
@@ -1440,7 +1450,7 @@ A sorting algorithm is called a **comparison sort** if its output is determined 
 >
 >Any deterministic comparison sort can be represented by a decision tree, as shown below.
 >
->![Screenshot 2026-06-28 at 23.23.09](../attachments/Screenshot%202026-06-28%20at%2023.23.09.png)
+>![Screenshot 2026-06-28 at 23.23.09](../attachments/Screenshot%202026-06-28%20at%2023.23.09-optimized.webp)
 >
 >Each sorting process follows one path from the root to a leaf, and the number of comparisons equals the path depth.
 >
@@ -1712,7 +1722,7 @@ typedef struct BiTNode{
 
 Use an array to record the parent of every node.
 
-![Screenshot 2026-06-30 at 20.25.22](../attachments/Screenshot%202026-06-30%20at%2020.25.22.png)
+![Screenshot 2026-06-30 at 20.25.22](../attachments/Screenshot%202026-06-30%20at%2020.25.22-optimized.webp)
 
 ```cpp
 //Parent representation
@@ -1733,7 +1743,7 @@ Arrange the children of each node as a linear list, and store that list with a s
 
 The child representation can also be combined with the parent representation, as shown below.
 
-![Screenshot 2026-06-30 at 20.25.41](../attachments/Screenshot%202026-06-30%20at%2020.25.41.png)
+![Screenshot 2026-06-30 at 20.25.41](../attachments/Screenshot%202026-06-30%20at%2020.25.41-optimized.webp)
 
 
 ```cpp
@@ -1756,7 +1766,7 @@ typedef struct{
 ### First-Child Next-Sibling Representation
 
 Store a tree using a binary linked structure: each node points to its first child and its next sibling.
-![Screenshot 2026-06-30 at 20.25.56](../attachments/Screenshot%202026-06-30%20at%2020.25.56.png)
+![Screenshot 2026-06-30 at 20.25.56](../attachments/Screenshot%202026-06-30%20at%2020.25.56-optimized.webp)
 ```cpp
 //First-child next-sibling representation
 typedef struct CSNode{
@@ -1769,13 +1779,13 @@ typedef struct CSNode{
 
 Convert every tree in the forest into a binary tree using the first-child next-sibling representation. Then regard the roots of these binary trees as siblings and connect them to build one corresponding binary tree.
 
-![Screenshot 2026-06-30 at 20.26.43](../attachments/Screenshot%202026-06-30%20at%2020.26.43.png)
+![Screenshot 2026-06-30 at 20.26.43](../attachments/Screenshot%202026-06-30%20at%2020.26.43-optimized.webp)
 
 ## Traversal of Trees and Forests
 
 There are two common tree traversals: **pre-root traversal** and **post-root traversal**. Pre-root traversal visits the root before its children; post-root traversal visits the children before the root. Under the first-child next-sibling transformation, they correspond to preorder traversal and inorder traversal of the corresponding binary tree, respectively.
 
-![Screenshot 2026-06-30 at 20.29.53](../attachments/Screenshot%202026-06-30%20at%2020.29.53.png)
+![Screenshot 2026-06-30 at 20.29.53](../attachments/Screenshot%202026-06-30%20at%2020.29.53-optimized.webp)
 
 As shown in the figure:
 
@@ -1784,7 +1794,7 @@ As shown in the figure:
 
 Similarly, a forest has two common traversals: **preorder traversal** and **postorder traversal**. Forest preorder traversal performs pre-root traversal on every tree in order; forest postorder traversal performs post-root traversal on every tree in order. Under the forest-to-binary-tree transformation, they correspond to preorder traversal and inorder traversal of the corresponding binary tree, respectively.
 
-![Screenshot 2026-06-30 at 20.31.46](../attachments/Screenshot%202026-06-30%20at%2020.31.46.png)
+![Screenshot 2026-06-30 at 20.31.46](../attachments/Screenshot%202026-06-30%20at%2020.31.46-optimized.webp)
 
 As shown in the figure:
 
@@ -2559,7 +2569,7 @@ However, when we discuss 3-colorable, we have the following theorem.
 >
 >We use the three colors B, T, and F to color the graph. If vertex $B$ is colored with color B, then $v_{ij}$ can only be colored with color T or F, representing the corresponding variable as true or false, respectively. To represent OR, we create virtual nodes $a_i, i = 1-6$. We connect $(a_1, x_1), (a_2, x_2), (a_1, a_2), (a_1, a_3), (a_2, a_3),$ $(a_3, a_4), (x_3, a_5), (a_4, a_5), (a_4, a_6), (a_5, a_6)$. We then connect $a_6$ to the datum F, where the color of F is always F. As shown in the diagram: (To ensure that the colors of B and F are inconsistent, we connect them.)
 >
->![Screenshot 2026-06-11 at 00.16.30](../attachments/Screenshot%202026-06-11%20at%2000.16.30.png)
+>![Screenshot 2026-06-11 at 00.16.30](../attachments/Screenshot%202026-06-11%20at%2000.16.30-optimized.webp)
 >
 >If $x_1, x_2, x_3$ are all false, then $a_1, a_2$ are not false, therefore $a_3$ must be false. Similarly, $a_6$ must be false, which contradicts the fact that $a_6$ is connected to F.
 >
@@ -2584,7 +2594,7 @@ Euler Circuit is P.
 >4. Finally, we add two extra vertices s and t connect s by adding $(s, v_{1,1})$,$(s, v_{1,2m+1})$ and connect t by adding $(v_{n,1}, t)$ and $(v_{n,2m+1}, t)$. Call the graph generated Gφ. 
 >
 >See Figure for what the resulting graph looks like.
->![Screenshot 2026-06-21 at 22.19.31](../attachments/Screenshot%202026-06-21%20at%2022.19.31.png)
+>![Screenshot 2026-06-21 at 22.19.31](../attachments/Screenshot%202026-06-21%20at%2022.19.31-optimized.webp)
 >
 
 We can also prove that undirected Hamilton path is NP-Complete. 
@@ -3566,6 +3576,15 @@ The first proof of PRIMES is P is proposed by AKS algorithm. For more details, y
 ## Shor Algorithm (TODO)
         </script>
     </main>
+
+    <footer class="site-footer">
+        <p>© 2026 Yang Xu</p>
+        <nav class="footer-links" aria-label="Footer navigation">
+            <a href="mailto:xu_ustc@mail.ustc.edu.cn">Email</a>
+            <a href="https://github.com/jasonxu-cell" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="../../cv.html">CV</a>
+        </nav>
+    </footer>
 
     <script src="../../scripts/markdown-article.js?v=20260822-multiline-math-2"></script>
     <script src="../../scripts/comments.js"></script>

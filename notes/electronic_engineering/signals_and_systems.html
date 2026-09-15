@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signals and Systems | Yang</title>
+    <meta name="description" content="Study notes by Yang Xu on Signals and Systems, with explanations, derivations, and examples.">
+    <meta property="og:title" content="Signals and Systems | Yang Xu">
+    <meta property="og:description" content="Study notes by Yang Xu on Signals and Systems, with explanations, derivations, and examples.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Yang Xu">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Signals and Systems | Yang Xu">
+    <meta name="twitter:description" content="Study notes by Yang Xu on Signals and Systems, with explanations, derivations, and examples.">
+    <title>Signals and Systems | Yang Xu</title>
     <link rel="stylesheet" href="../../style.css">
     <link rel="icon" type="image/png" href="../../assets/photo.jpg">
     <link
@@ -12,17 +21,18 @@
     >
 </head>
 <body>
-    <nav>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <nav aria-label="Primary navigation">
         <div class="nav-links">
             <a href="../../index.html">Home</a>
-            <a href="../../notes.html">Notes</a>
+            <a href="../../notes.html" aria-current="page">Notes</a>
             <a href="../../articles.html">Articles</a>
             <a href="../../research.html">Research</a>
-            <a href="../../publications.html">Publications</a>
+            <a href="../../cv.html">CV</a>
         </div>
     </nav>
 
-    <main class="article-detail-page">
+    <main id="main-content" class="article-detail-page">
         <header class="article-detail-header">
             <a href="../electronic_engineering.html" class="article-back-link">&larr; Electronic Technology</a>
             <h1>Signals and Systems</h1>
@@ -238,15 +248,15 @@ One easily obtains $R_{xv}(\tau)=R_{vx}^{*}(-\tau)$ and $R_{xv}[m]=R_{vx}^{*}[-m
 
 **Cascade (series):** 
 $$y(t) = T_2\{T_1\{x(t)\}\}.$$
-![Screenshot 2026-06-16 at 18.52.43](../attachments/Screenshot%202026-06-16%20at%2018.52.43.png)
+![Screenshot 2026-06-16 at 18.52.43](../attachments/Screenshot%202026-06-16%20at%2018.52.43-optimized.webp)
 **Parallel:**
 $$x(t)=x_1(t)=x_2(t),$$
 $$y(t) = y_1(t) + y_2(t) = T_1\{x_1(t)\} + T_2\{x_2(t)\} = T_1\{x(t)\} + T_2\{x(t)\}.$$
-![Screenshot 2026-06-16 at 18.53.34](../attachments/Screenshot%202026-06-16%20at%2018.53.34.png)
+![Screenshot 2026-06-16 at 18.53.34](../attachments/Screenshot%202026-06-16%20at%2018.53.34-optimized.webp)
 
 **Feedback connection:**
 $$\begin{cases} y(t) = y_1(t) = T_1\{x_1(t)\} \\ x_1(t) = x(t) - T_2\{y(t)\} \end{cases} \;\Rightarrow\; y(t) = T_1\{x(t) - T_2\{y(t)\}\}$$
-![Screenshot 2026-06-16 at 18.54.07](../attachments/Screenshot%202026-06-16%20at%2018.54.07.png)
+![Screenshot 2026-06-16 at 18.54.07](../attachments/Screenshot%202026-06-16%20at%2018.54.07-optimized.webp)
 # System Properties
 
 - **Memoryless / instantaneous system:** the output depends only on the input at the same instant. Otherwise it is a **memory / dynamic system**.
@@ -368,10 +378,10 @@ $$y_{\text{free}} = y_{zi} + (\text{natural part of }y_{zs}), \qquad y_{\text{fo
 For the difference equation $\displaystyle\sum_{k=0}^{N}a_k\,y[n-k] = \sum_{k=0}^{M}b_k\,x[n-k]$:
 
 **Direct Form I** 
-![Screenshot 2026-06-16 at 19.03.46](../attachments/Screenshot%202026-06-16%20at%2019.03.46.png)
+![Screenshot 2026-06-16 at 19.03.46](../attachments/Screenshot%202026-06-16%20at%2019.03.46-optimized.webp)
 
 For an LTI system the order of the two operations can be exchanged, giving **Direct Form II**, which needs only $\max\{M,N\}$ delay elements.
-![Screenshot 2026-06-16 at 19.04.03](../attachments/Screenshot%202026-06-16%20at%2019.04.03.png)
+![Screenshot 2026-06-16 at 19.04.03](../attachments/Screenshot%202026-06-16%20at%2019.04.03-optimized.webp)
 For the differential equation $\displaystyle\sum_{k=0}^{N}a_k\,y^{(k)}(t) = \sum_{k=0}^{M}b_k\,x^{(k)}(t)$: since differentiators have poor noise immunity, integrators (better noise immunity) are used. The equation is converted to
 $$\sum_{k=0}^{N}a_k\underbrace{\int\!\cdots\!\int}y(t)\,\mathrm{d}t = \sum_{k=0}^{M}b_k\underbrace{\int\!\cdots\!\int}x(t)\,\mathrm{d}t,$$
 and the corresponding Direct Form I and Direct Form II systems can likewise be drawn.
@@ -496,7 +506,7 @@ $$t\,x(t)\xrightarrow{\ \mathcal{F}\ } jX'(\omega), \qquad -j\,t\,x(t)\xrightarr
 
 Discrete analogue:
 $$\delta[n]-\delta[n-1]\xrightarrow{\ \mathcal{F}\ }1-e^{-j\Omega} = 2j\sin\tfrac{\Omega}{2}\,e^{-j\frac{\Omega}{2}}$$
-![Screenshot 2026-06-15 at 23.27.27](../attachments/Screenshot%202026-06-15%20at%2023.27.27.png)
+![Screenshot 2026-06-15 at 23.27.27](../attachments/Screenshot%202026-06-15%20at%2023.27.27-optimized.webp)
 
 **Low-pass filter.**
 $$e^{-a\lvert t\rvert}\operatorname{sgn}(t) = e^{-at}u(t) - e^{at}u(-t)\xrightarrow{\ \mathcal{F}\ }\int_{0}^{\infty}e^{-at}e^{-j\omega t}\,\mathrm{d}t - \int_{-\infty}^{0}e^{at}e^{-j\omega t}\,\mathrm{d}t = \frac{-2j\omega}{a^2+\omega^2}$$
@@ -512,7 +522,7 @@ Taking $a\to 1$:
 $$\operatorname{sgn}[n]\xrightarrow{\ \mathcal{F}\ }\frac{-j\sin\Omega}{1-\cos\Omega}$$
 And
 $$u[n] = \tfrac{1}{2} + \tfrac{1}{2}\operatorname{sgn}[n] + \tfrac{1}{2}\delta[n]\xrightarrow{\ \mathcal{F}\ } \pi\sum_{\ell=-\infty}^{\infty}\delta(\Omega-2\pi\ell) + \frac{1}{1-e^{-j\Omega}}$$
-![Screenshot 2026-06-15 at 23.30.07](../attachments/Screenshot%202026-06-15%20at%2023.30.07.png)
+![Screenshot 2026-06-15 at 23.30.07](../attachments/Screenshot%202026-06-15%20at%2023.30.07-optimized.webp)
 
 **Ideal low-pass filter.**
 $$\frac{\sin\omega_0 t}{\pi t} = \frac{\omega_0}{\pi}\operatorname{Sa}(\omega_0 t)\xrightarrow{\ \text{CFT}\ }u(\omega+\omega_0) - u(\omega-\omega_0),$$
@@ -529,10 +539,10 @@ We can see that the CFT of the sampling function is also a sampling function.
 
 Sampling: $x_p(t) = x(t)\,\tilde{p}(t)$, where $\tilde{p}(t)$ is an impulse train with spacing $T_s$. 
 
-![Screenshot 2026-06-15 at 23.31.51](../attachments/Screenshot%202026-06-15%20at%2023.31.51.png)
+![Screenshot 2026-06-15 at 23.31.51](../attachments/Screenshot%202026-06-15%20at%2023.31.51-optimized.webp)
 This is clearly a non-invertible operation. To recover $x(t)$ without loss, we require $x(t)$ to be band-limited, i.e. the frequency content of $x(t)$ does not exceed $\omega_M$, and
 $$T_s \le \frac{\pi}{\omega_M}.$$
-![Screenshot 2026-06-15 at 23.32.24](../attachments/Screenshot%202026-06-15%20at%2023.32.24.png)
+![Screenshot 2026-06-15 at 23.32.24](../attachments/Screenshot%202026-06-15%20at%2023.32.24-optimized.webp)
 In the frequency domain, with $\omega_s = \dfrac{2\pi}{T_s}$, sampling produces periodic replicas of $X(\omega)$ centered at multiples of $\omega_s$. To avoid overlap (aliasing), a low-pass filter is then applied to recover the signal. The condition is the **Nyquist frequency** condition:
 $$\boxed{\ \omega_s \ge 2\omega_M\ }$$
 
@@ -751,8 +761,8 @@ For a large system, we can decompose $H$ into sums or products, corresponding to
 
 >[!EXAMPLE]
 >$$\begin{align*}H(s)&=\frac{5s+7}{s^3+5s^2+5s+4}=\frac{5s+7}{s^2+s+1}\frac{1}{s+4}=\frac{s+2}{s^2+s+1}-\frac{1}{s+4}\\&=\frac{5s^{-1}+7s^{-2}}{1+s^{-1}+s^{-2}}\frac{s^{-1}}{1+4s^{-1}}=\frac{s^{-1}+2s^{-2}}{1+s^{-1}+s^{-2}}-\frac{s^{-1}}{1+4s^{-1}}. \end{align*}$$
->![Screenshot 2026-06-17 at 12.42.37](../attachments/Screenshot%202026-06-17%20at%2012.42.37.png)
->![Screenshot 2026-06-17 at 12.43.04](../attachments/Screenshot%202026-06-17%20at%2012.43.04.png)
+>![Screenshot 2026-06-17 at 12.42.37](../attachments/Screenshot%202026-06-17%20at%2012.42.37-optimized.webp)
+>![Screenshot 2026-06-17 at 12.43.04](../attachments/Screenshot%202026-06-17%20at%2012.43.04-optimized.webp)
 
 
 
@@ -805,6 +815,15 @@ For a large system, we can decompose $H$ into sums or products, corresponding to
 | $\dfrac{(-1)^{n+1}a^{n}}{n}u[n-1]$ | $\ln(1+az^{-1})$ | $\lvert z\rvert>\lvert a\rvert$ |
         </script>
     </main>
+
+    <footer class="site-footer">
+        <p>© 2026 Yang Xu</p>
+        <nav class="footer-links" aria-label="Footer navigation">
+            <a href="mailto:xu_ustc@mail.ustc.edu.cn">Email</a>
+            <a href="https://github.com/jasonxu-cell" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="../../cv.html">CV</a>
+        </nav>
+    </footer>
 
     <script src="../../scripts/markdown-article.js?v=20260822-multiline-math-2"></script>
     <script src="../../scripts/comments.js"></script>

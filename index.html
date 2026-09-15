@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Yang </title>
+    <meta name="description" content="Yang Xu is a geophysics undergraduate at USTC interested in seismology, earthquake mechanics, planetary science, and data-driven geophysics.">
+    <meta property="og:title" content="Yang Xu | Geophysics at USTC">
+    <meta property="og:description" content="Yang Xu is a geophysics undergraduate at USTC interested in seismology, earthquake mechanics, planetary science, and data-driven geophysics.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Yang Xu">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Yang Xu | Geophysics at USTC">
+    <meta name="twitter:description" content="Yang Xu is a geophysics undergraduate at USTC interested in seismology, earthquake mechanics, planetary science, and data-driven geophysics.">
+    <title>Yang Xu | Geophysics at USTC</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="assets/photo.jpg">
     <link
@@ -12,100 +21,101 @@
     >
 </head>
 <body>
-    <nav>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <nav aria-label="Primary navigation">
         <div class="nav-links">
-            <a href="index.html">Home</a>
+            <a href="index.html" aria-current="page">Home</a>
             <a href="notes.html">Notes</a>
             <a href="articles.html">Articles</a>
             <a href="research.html">Research</a>
-            <a href="publications.html">Publications</a>
+            <a href="cv.html">CV</a>
         </div>
     </nav>
 
-    <main>
+    <main id="main-content" class="home-page">
         <section class="hero">
+            <div class="profile">
+                <img
+                    src="assets/photo.jpg"
+                    alt="Portrait of Yang Xu"
+                    class="profile-photo"
+                    width="280"
+                    height="280"
+                    fetchpriority="high"
+                    decoding="async"
+                >
 
-    <!-- 左侧个人信息 -->
-    <div class="profile">
+                <p class="profile-eyebrow">Geophysics · USTC</p>
+                <h1>Yang Xu</h1>
+                <p class="profile-subtitle">
+                    Undergraduate researcher studying Geophysics.
+                </p>
+            </div>
 
-        <img
-            src="assets/photo.jpg"
-            alt="Yang"
-            class="profile-photo"
-        >
+            <div class="resume">
+                <p class="resume-kicker">About Me</p>
 
-        <h1>Yang</h1>
+                <p class="resume-intro">
+                    I am a junior studying geophysics at the University of Science and
+                    Technology of China. I am interested in how data can reveal the
+                    mechanics of earthquakes and the evolution of planetary environments.
+                </p>
 
-        <div class="contact-icons">
+                <div class="hero-actions" aria-label="Featured links">
+                    <a href="research.html" class="button button-primary">Explore research <span aria-hidden="true">→</span></a>
+                    <a href="cv.html" class="button button-secondary">View CV</a>
+                </div>
 
+                <dl class="profile-facts">
+                    <div>
+                        <dt>Education</dt>
+                        <dd>USTC · B.S. in Geophysics</dd>
+                    </div>
+                    <div>
+                        <dt>Research interests</dt>
+                        <dd>Seismology · Earthquake Mechanics · Planetary Science · Data-driven Geophysics</dd>
+                    </div>
+                    <div>
+                        <dt>Computing</dt>
+                        <dd>Python · C · C++ · MATLAB</dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 Yang Xu</p>
+        <nav class="footer-links footer-contact-icons" aria-label="Contact links">
             <a
                 href="mailto:xu_ustc@mail.ustc.edu.cn"
-                class="contact-icon"
+                class="footer-contact-icon"
+                aria-label="Email Yang Xu"
                 title="Email"
             >
-                <i class="bi bi-envelope-fill"></i>
+                <i class="bi bi-envelope-fill" aria-hidden="true"></i>
             </a>
-
             <a
                 href="https://github.com/jasonxu-cell"
                 target="_blank"
-                class="contact-icon"
+                rel="noopener noreferrer"
+                class="footer-contact-icon"
+                aria-label="Yang Xu on GitHub"
                 title="GitHub"
             >
-                <i class="bi bi-github"></i>
+                <i class="bi bi-github" aria-hidden="true"></i>
             </a>
-
             <a
                 href="https://steamcommunity.com/profiles/76561199724275684/"
                 target="_blank"
-                class="contact-icon"
+                rel="noopener noreferrer"
+                class="footer-contact-icon"
+                aria-label="Yang Xu on Steam"
                 title="Steam"
             >
-                <i class="bi bi-steam"></i>
+                <i class="bi bi-steam" aria-hidden="true"></i>
             </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- 右侧简历 -->
-    <div class="resume">
-
-        <h2>About Me</h2>
-
-        <p class="resume-intro">
-            I am a junior at the University of
-            Science and Technology of China.
-        </p>
-
-        <div class="resume-section">
-            <h3>Education</h3>
-
-            <p>
-                USTC · B.S. in Geophysics
-            </p>
-        </div>
-
-        <div class="resume-section">
-            <h3>Skills</h3>
-
-            <p>
-                Python · C · C++ · MATLAB
-            </p>
-        </div>
-
-        <div class="resume-section">
-            <h3>Languages</h3>
-
-            <p>
-                Chinese (Native) · English (B2)
-            </p>
-        </div>
-
-    </div>
-
-</section>
-    </main>
+        </nav>
+    </footer>
 </body>
 </html>
