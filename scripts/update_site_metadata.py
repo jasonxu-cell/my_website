@@ -48,10 +48,6 @@ DESCRIPTIONS = {
         "science, and data-driven geophysics."
     ),
     "publications.html": "Research outputs and academic work by Yang Xu.",
-    "cv.html": (
-        "Academic profile of Yang Xu, a geophysics undergraduate at the University of "
-        "Science and Technology of China."
-    ),
     "articles/article_1.html": (
         "评估中国航天技术的发展现状、与世界领先水平的差距，以及面对国际技术限制时的应对策略。"
     ),
@@ -125,8 +121,7 @@ def replace_navigation(source: str, relative: str) -> str:
         "Home" if relative == "index.html" else
         "Notes" if relative.startswith("notes") else
         "Articles" if relative.startswith("articles") else
-        "Research" if relative.startswith("research") else
-        "CV" if relative == "cv.html" else ""
+        "Research" if relative.startswith("research") else ""
     )
 
     nav_match = re.search(r"<nav\b[^>]*>[\s\S]*?</nav>", source, flags=re.IGNORECASE)
@@ -142,12 +137,6 @@ def replace_navigation(source: str, relative: str) -> str:
         flags=re.IGNORECASE,
     )
     nav = re.sub(r'\s+aria-current="page"', "", nav)
-    nav = re.sub(
-        r'<a\s+href="(?:\.\./)*publications\.html"[^>]*>Publications</a>',
-        f'<a href="{prefix}cv.html">CV</a>',
-        nav,
-        flags=re.IGNORECASE,
-    )
     if section:
         nav = re.sub(
             rf'(<a\s+href="[^"]*"[^>]*)(>{re.escape(section)}</a>)',
@@ -161,7 +150,7 @@ def replace_navigation(source: str, relative: str) -> str:
 
 def update_head(source: str, relative: str) -> str:
     title = extract(r"<title>([\s\S]*?)</title>", source, "Yang Xu").strip()
-    if relative not in {"index.html", "cv.html"}:
+    if relative != "index.html":
         if title.endswith(" | Research"):
             title = f"{title} | Yang Xu"
         elif re.search(r"\s+\|\s+Yang\s*$", title):
@@ -180,7 +169,6 @@ def update_head(source: str, relative: str) -> str:
     )
     description = description or page_description(relative, title)
     page_type = (
-        "profile" if relative == "cv.html" else
         "article" if relative.startswith(("articles/", "notes/", "research/")) else
         "website"
     )
@@ -272,7 +260,6 @@ def update_shell(source: str, relative: str) -> str:
         <nav class="footer-links" aria-label="Footer navigation">
             <a href="mailto:xu_ustc@mail.ustc.edu.cn">Email</a>
             <a href="https://github.com/jasonxu-cell" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a href="{prefix}cv.html">CV</a>
         </nav>
     </footer>'''
         source = source.replace("</main>", "</main>" + footer, 1)

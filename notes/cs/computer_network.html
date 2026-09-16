@@ -3,16 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Study notes by Yang Xu on Computer Network, with explanations, derivations, and examples.">
-    <meta property="og:title" content="Computer Network | Yang Xu">
-    <meta property="og:description" content="Study notes by Yang Xu on Computer Network, with explanations, derivations, and examples.">
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Yang Xu">
-    <meta property="og:locale" content="en_US">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Computer Network | Yang Xu">
-    <meta name="twitter:description" content="Study notes by Yang Xu on Computer Network, with explanations, derivations, and examples.">
-    <title>Computer Network | Yang Xu</title>
+    <title>Computer Network | Yang</title>
     <link rel="stylesheet" href="../../style.css">
     <link rel="icon" type="image/png" href="../../assets/photo.jpg">
     <link
@@ -21,18 +12,16 @@
     >
 </head>
 <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
-    <nav aria-label="Primary navigation">
+    <nav>
         <div class="nav-links">
             <a href="../../index.html">Home</a>
-            <a href="../../notes.html" aria-current="page">Notes</a>
+            <a href="../../notes.html">Notes</a>
             <a href="../../articles.html">Articles</a>
             <a href="../../research.html">Research</a>
-            <a href="../../cv.html">CV</a>
         </div>
     </nav>
 
-    <main id="main-content" class="article-detail-page">
+    <main class="article-detail-page">
         <header class="article-detail-header">
             <a href="../cs.html" class="article-back-link">&larr; Computer Science</a>
             <h1>Computer Network</h1>
@@ -74,7 +63,7 @@
 
 ## Components
 
-![Pasted image 20260831081755](../attachments/Pasted%20image%2020260831081755-optimized.webp){width=399}
+![Pasted image 20260831081755](../attachments/Pasted%20image%2020260831081755.png){width=399}
 
 - <span style="color: red;">End systems (hosts)</span> run network applications, such as computers, phones, and servers.
 - <span style="color: red;">Communication links</span> carry bits. Their key metric is the transmission rate $R$, measured in bits per second (bps).
@@ -105,7 +94,7 @@ An access network connects an end system to its edge router.
 
 #### Digital Subscriber Line (DSL)
 
-![Screenshot 2026-08-31 at 08.44.20](../attachments/Screenshot%202026-08-31%20at%2008.44.20-optimized.webp)
+![Screenshot 2026-08-31 at 08.44.20](../attachments/Screenshot%202026-08-31%20at%2008.44.20.png)
 
 DSL is commonly provided by telephone companies over existing copper telephone lines:
 
@@ -117,9 +106,9 @@ DSL is typically asymmetric: downstream rates are higher than upstream rates. Ac
 
 #### Cable Networks and HFC
 
-![Screenshot 2026-08-31 at 08.45.12](../attachments/Screenshot%202026-08-31%20at%2008.45.12-optimized.webp)
+![Screenshot 2026-08-31 at 08.45.12](../attachments/Screenshot%202026-08-31%20at%2008.45.12.png)
 
-![Screenshot 2026-08-31 at 08.47.32](../attachments/Screenshot%202026-08-31%20at%2008.47.32-optimized.webp)
+![Screenshot 2026-08-31 at 08.47.32](../attachments/Screenshot%202026-08-31%20at%2008.47.32.png)
 
 <span style="color: red;">HFC (Hybrid Fiber Coax)</span> combines a fiber backbone with coaxial cable at the network edge. Its main components include cable modems, splitters, and a Cable Modem Termination System (CMTS).
 
@@ -131,7 +120,7 @@ Fiber runs directly to the residence, providing high capacity and low signal att
 
 ### Enterprise and Campus Access: Ethernet
 
-![Screenshot 2026-08-31 at 08.48.11](../attachments/Screenshot%202026-08-31%20at%2008.48.11-optimized.webp)
+![Screenshot 2026-08-31 at 08.48.11](../attachments/Screenshot%202026-08-31%20at%2008.48.11.png)
 
 - Ethernet switches and links form the local area network.
 - Common link rates range from 100 Mbps and 1 Gbps to 10 Gbps and beyond.
@@ -149,7 +138,7 @@ Fiber runs directly to the residence, providing high capacity and low signal att
 
 ### Forwarding and Routing
 
-![Screenshot 2026-09-05 at 11.22.24](../attachments/Screenshot%202026-09-05%20at%2011.22.24-optimized.webp)
+![Screenshot 2026-09-05 at 11.22.24](../attachments/Screenshot%202026-09-05%20at%2011.22.24.png)
 
 - <span style="color: red;">Forwarding</span> is a data-plane function. A router uses its forwarding table to move a packet from an input port to the appropriate output port.
 - <span style="color: red;">Routing</span> is a control-plane function. Routing algorithms and protocols compute paths and use them to build and update forwarding tables.
@@ -164,7 +153,7 @@ Routing is like planning a route; forwarding is like choosing the correct exit a
 | Typical use | Traditional telephone networks          | The Internet                                   |
 | Advantage   | Predictable performance                 | High utilization; efficient for bursty traffic |
 | Cost        | Reserved resources are wasted when idle | Queuing, loss, and jitter may occur            |
-![Screenshot 2026-09-14 at 10.53.20](../attachments/Screenshot%202026-09-14%20at%2010.53.20-optimized.webp){width=461}
+![Screenshot 2026-09-14 at 10.53.20](../attachments/Screenshot%202026-09-14%20at%2010.53.20.png){width=461}
 Circuit switching transmit the message through reserving the circuit. The following figure shows four links interconnect four circuit switches. If two hosts want to communicate, they need to build a dedicated <span style="color: red;">end-to-end connection</span>. So If the hosts want to communicate, the network need to reserve the cable in each link. Besides, because each link has 4 circuits, the velocity of transmission can only be 1/4 of total transmission capacity of the link.
 
 Packet switching divides an application message into packets. Routers usually use store-and-forward transmission: a router receives a complete packet before sending it over the next link.
@@ -179,6 +168,13 @@ $$
 \frac{(N+P-1)L}{R}
 $$
 ### Network of Networks
+
+In the network, we need lots of ISP to provide service. However, the networks were firstly dependent, which is called <span style="color: red;">autonomous system (AS)</span>.
+
+If two of the ISP need to communicate, traffic between them might need to go through a third-party upstream operator. The path may be longer and have higher latency, and both A and B often have to pay transit fees to upstream operators.
+
+To solve the problem, we develop <span style="color: red;">Internet Exchange Point (IXP)</span>. With IXP, multiple ASs can connect their routers to the same switching platform. Then it can use less path to communicate.
+![Screenshot 2026-09-15 at 14.10.01](../attachments/Screenshot%202026-09-15%20at%2014.10.01.png)
 ### Delay, Packet Loss, and Throughput
 
 The total delay at one network node is:
@@ -210,40 +206,55 @@ $$
 \min\left\{R_s,R_c,\frac{R}{N}\right\}
 $$
 
-![Screenshot 2026-09-07 at 08.16.47](../attachments/Screenshot%202026-09-07%20at%2008.16.47-optimized.webp)
+![Screenshot 2026-09-07 at 08.16.47](../attachments/Screenshot%202026-09-07%20at%2008.16.47.png)
 
-### Protocol Layers and Encapsulation
+## Layering and Encapsulation
 
-| Layer | Primary responsibility | Common protocols/technologies | Protocol data unit |
-|---|---|---|---|
-| Application | Defines communication rules for applications | HTTP, DNS, SMTP | Message |
-| Transport | Process-to-process communication | TCP, UDP, QUIC | TCP segment / UDP datagram |
-| Network | Host-to-host addressing and routing | IP, ICMP, routing protocols | IP datagram |
-| Link | Transfer between adjacent nodes | Ethernet, Wi-Fi | Frame |
-| Physical | Transmission of bits over a medium | Fiber, copper, radio | Bit |
 
-At the sender, each layer adds its own header in a process called **encapsulation**. The receiver removes the headers layer by layer in a process called **decapsulation**.
+![Screenshot 2026-09-15 at 14.12.31](../attachments/Screenshot%202026-09-15%20at%2014.12.31.png)
+
+| Layer             | Main Function                                        | Protocal                                |
+| ----------------- | ---------------------------------------------------- | --------------------------------------- |
+| Application Layer | Provide network services for applications            | HTTP、DNS、SMTP                           |
+| Transport Layer   | Responsible for process-to-process data transfer     | TCP、UDP                                 |
+| Network Layer     | Responsible for cross-network addressing and routing | IP                                      |
+| Link Layer        | Responsible for transmission on the same link        | Ethernet、Wi-Fi                          |
+| Physical Layer    | Actually transmits 0s and 1s                         | Network cable, fiber optic cable, radio |
+Each level focuses on its own task and provides services to the level above it. They only need to add the message generated in their layer. And the process is called <span style="color: red;">encapsulation</span>.
+
+The whole process is as following:
+```
+Application data 
+  ↓ 
+[TCP Segment | Data]
+  ↓ 
+[IP Packet | TCP Segment | Data]
+  ↓ 
+[Ethernet Frame | IP Packet | TCP Segment | Data | Tail]
+  ↓ 
+010101010101...
+```
 
 # Application Layer
 
-# Principles of Network Applications
+## Principles of Network Applications
 
-## Application Architectures
+### Application Architectures
 
-### Client–Server
+#### Client–Server
 
 - Servers are generally always on and have stable addresses.
 - Clients initiate requests to servers.
 - Large services commonly use data centers and load balancing to scale.
 
-### Peer-to-Peer (P2P)
+#### Peer-to-Peer (P2P)
 
 - Peers communicate directly with one another.
 - Each peer can both request and provide resources.
 - New peers may contribute capacity while creating demand, giving the architecture **self-scalability**.
 - Frequent peer churn, changing addresses, and security management increase complexity.
 
-## Processes, Sockets, and Addressing
+### Processes, Sockets, and Addressing
 
 The entities that communicate across a network are **processes**. Processes on different hosts communicate by exchanging messages.
 
@@ -253,7 +264,7 @@ A **socket** is the software interface between the application and transport lay
 - A **port number** to identify the destination application process;
 - A **transport protocol**, such as TCP or UDP.
 
-## Transport Services Required by Applications
+### Transport Services Required by Applications
 
 - **Reliability:** Whether loss, duplication, or reordering can be tolerated.
 - **Throughput:** Whether a minimum delivery rate is required.
@@ -268,16 +279,16 @@ A **socket** is the software interface between the application and transport lay
 > [!important]
 > TCP and UDP do not provide encryption by themselves. TLS can run over TCP. QUIC runs over UDP and implements reliable transport, congestion control, and encryption in user space.
 
-# Web and HTTP
+## Web and HTTP
 
-## Core Concepts
+### Core Concepts
 
 - A web page consists of a base HTML document and objects such as images, CSS, JavaScript, and video.
 - Each object can be addressed by a URL.
 - HTTP defines the format and processing rules for requests and responses exchanged between clients and servers.
 - HTTP is a **stateless protocol**: the protocol itself does not require a server to remember a client's previous requests.
 
-## Connections and Response Time
+### Connections and Response Time
 
 **Round-Trip Time (RTT)** is the time required for a small packet to travel from a client to a server and back. It includes propagation, queuing, and processing delays.
 
@@ -296,7 +307,7 @@ Actual performance also depends on DNS lookup, the TLS handshake, connection reu
 - **HTTP/2** multiplexes streams over one TCP connection and interleaves data as frames. It can still suffer from head-of-line blocking at the TCP layer.
 - **HTTP/3** runs over QUIC. A lost packet affecting one stream does not block delivery on unrelated streams.
 
-## HTTP Messages
+### HTTP Messages
 
 Example request:
 
@@ -326,7 +337,7 @@ Common status-code classes:
 - `4xx`: Client errors, such as `400 Bad Request` and `404 Not Found`.
 - `5xx`: Server errors, such as `500 Internal Server Error`.
 
-## Cookies
+### Cookies
 
 Cookies allow applications to maintain session state over stateless HTTP:
 
@@ -337,7 +348,7 @@ Cookies allow applications to maintain session state over stateless HTTP:
 
 Sensitive cookies should normally use `Secure`, `HttpOnly`, and an appropriate `SameSite` policy.
 
-## Web Caching and Conditional Requests
+### Web Caching and Conditional Requests
 
 A web cache, or proxy cache, stores copies of recently requested objects:
 
@@ -347,7 +358,7 @@ A web cache, or proxy cache, stores copies of recently requested objects:
 
 Cached content can become stale. A client or cache can send a conditional request using `If-Modified-Since` or `If-None-Match`. If the content is unchanged, the server returns `304 Not Modified` without retransmitting the complete object.
 
-# Email
+## Email
 
 The main components of an Internet email system are:
 
@@ -367,15 +378,15 @@ If the receiving server is temporarily unavailable, the sending server keeps the
 
 Common email headers include `From`, `To`, `Subject`, and `Date`. MIME extends the message format to support non-ASCII text and attachments.
 
-# DNS
+## DNS
 
-## Purpose and Properties
+### Purpose and Properties
 
 The **Domain Name System (DNS)** primarily maps hostnames to IP addresses. It is both a distributed database implemented by a hierarchy of DNS servers and an application-layer protocol.
 
 DNS uses port 53. Ordinary queries commonly use UDP, while TCP may be used for large responses, zone transfers, and other cases. Encrypted DNS can use DNS over TLS (DoT) or DNS over HTTPS (DoH).
 
-## Resolution Process
+### Resolution Process
 
 1. An application sends a query to its local recursive resolver.
 2. If no valid cached answer exists, the resolver queries root, top-level-domain (TLD), and authoritative DNS servers.
@@ -384,7 +395,7 @@ DNS uses port 53. Ordinary queries commonly use UDP, while TCP may be used for l
 
 A recursive resolver normally completes the lookup on behalf of the client. Queries among root, TLD, and authoritative servers are generally iterative.
 
-## Common Resource Records
+### Common Resource Records
 
 A DNS resource record can be represented as `(Name, Value, Type, TTL)`:
 
@@ -399,7 +410,7 @@ A DNS resource record can be represented as `(Name, Value, Type, TTL)`:
 
 DNS queries and responses use the same general message format, with a header and Question, Answer, Authority, and Additional sections.
 
-# P2P File Distribution and BitTorrent
+## P2P File Distribution and BitTorrent
 
 The distribution capacity of a P2P system can grow as new peers join and contribute upload capacity. This property is called **self-scalability**.
 
@@ -411,13 +422,13 @@ Core BitTorrent ideas:
 - A strategy similar to **tit-for-tat** favors peers that contribute bandwidth in return.
 - Trackers or a Distributed Hash Table (DHT) can help peers discover one another.
 
-# Video Streaming and CDNs
+## Video Streaming and CDNs
 
-## DASH
+### DASH
 
 **Dynamic Adaptive Streaming over HTTP (DASH)** encodes a video at several bit rates and divides each version into short segments. The client chooses the quality of the next segment dynamically based on estimated bandwidth and buffer occupancy.
 
-## Content Distribution Networks
+### Content Distribution Networks
 
 A **Content Distribution Network (CDN)** deploys edge servers in many geographic locations, caches content, and directs each user to a suitable server. This can:
 
@@ -427,9 +438,9 @@ A **Content Distribution Network (CDN)** deploys edge servers in many geographic
 
 A CDN may be operated by the content provider or by a third party.
 
-# Socket Programming
+## Socket Programming
 
-## UDP Sockets
+### UDP Sockets
 
 UDP preserves application message boundaries. A typical call sequence is:
 
@@ -438,7 +449,7 @@ Server: socket → bind → recvfrom ↔ sendto
 Client: socket → sendto ↔ recvfrom
 ```
 
-## TCP Sockets
+### TCP Sockets
 
 TCP provides a reliable, ordered, bidirectional byte stream. A typical call sequence is:
 
@@ -453,13 +464,13 @@ Client: socket → connect ───────────→ send/recv → cl
 
 # Transport Layer
 
-# Transport-Layer Overview
+## Transport-Layer Overview
 
 The network layer provides logical **host-to-host** communication. The transport layer extends this service to provide logical **process-to-process** communication.
 
 At the sender, the transport layer divides application messages as needed, adds transport headers, and passes the resulting units to the network layer for encapsulation in IP datagrams. The receiver performs the reverse process.
 
-## Multiplexing and Demultiplexing
+### Multiplexing and Demultiplexing
 
 - **Multiplexing:** The sender gathers data from multiple sockets, adds header information, and passes the segments or datagrams to the network layer.
 - **Demultiplexing:** The receiver examines transport-layer header fields and delivers data to the correct socket.
@@ -469,11 +480,11 @@ A port number is 16 bits long and ranges from 0 to 65535. Ports 0–1023 are com
 - UDP demultiplexing primarily uses the tuple `(destination IP, destination port)`. Datagrams from different sources can be delivered to the same destination socket.
 - A TCP connection is identified by the four-tuple `(source IP, source port, destination IP, destination port)`. A server can therefore support many simultaneous connections on one listening port.
 
-# UDP
+## UDP
 
 UDP adds only basic multiplexing, demultiplexing, and error detection to IP. It is connectionless, has a small header, and does not guarantee delivery or ordering.
 
-## UDP Datagram Structure
+### UDP Datagram Structure
 
 The UDP header is 8 bytes long:
 
@@ -486,11 +497,11 @@ The UDP header is 8 bytes long:
 
 The UDP checksum can detect many transmission errors, but it cannot recover lost, reordered, or corrupted data. Applications must implement retransmission, ordering, or other reliability mechanisms when needed.
 
-# Principles of Reliable Data Transfer
+## Principles of Reliable Data Transfer
 
 Common reliability mechanisms include error detection, sequence numbers, acknowledgments, timeout-based retransmission, and pipelining.
 
-## Evolution of the rdt Protocols
+### Evolution of the rdt Protocols
 
 - **rdt1.0:** Assumes a completely reliable underlying channel.
 - **rdt2.0:** Handles bit errors with checksums, ACK/NAK feedback, and retransmission, but does not handle corrupted ACK or NAK packets.
@@ -506,7 +517,7 @@ $$
 
 Stop-and-wait performs poorly when RTT is large, which motivates pipelined protocols.
 
-## GBN and SR
+### GBN and SR
 
 | Property | Go-Back-N (GBN) | Selective Repeat (SR) |
 |---|---|---|
@@ -522,9 +533,9 @@ $$
 N\le \frac{K}{2}
 $$
 
-# TCP
+## TCP
 
-## TCP Connections and Data Transfer
+### TCP Connections and Data Transfer
 
 TCP is a full-duplex, point-to-point, connection-oriented protocol that provides a reliable byte stream. Each endpoint maintains its own send and receive buffers.
 
@@ -532,7 +543,7 @@ TCP is a full-duplex, point-to-point, connection-oriented protocol that provides
 - **Maximum Transmission Unit (MTU):** The largest network-layer packet that a link-layer frame can carry.
 - Ethernet commonly has a 1500-byte MTU. With IPv4 and TCP headers that contain no options, a typical MSS is 1460 bytes.
 
-## Important TCP Header Fields
+### Important TCP Header Fields
 
 - Source and destination ports;
 - Sequence number;
@@ -544,7 +555,7 @@ TCP is a full-duplex, point-to-point, connection-oriented protocol that provides
 
 TCP sequence numbers count **bytes**. The acknowledgment number indicates the sequence number of the next byte the receiver expects.
 
-## RTT Estimation and Timeout
+### RTT Estimation and Timeout
 
 TCP smooths RTT measurements so that the retransmission timeout does not change dramatically after one sample:
 
@@ -562,11 +573,11 @@ $$
 
 Textbook examples commonly use $\alpha=0.125$ and $\beta=0.25$.
 
-## Reliable Transfer and Fast Retransmit
+### Reliable Transfer and Fast Retransmit
 
 TCP uses checksums, sequence numbers, cumulative acknowledgments, timers, and retransmission to provide reliable transfer. After receiving multiple duplicate ACKs, a sender can infer that a segment was probably lost and perform **fast retransmit** before the timer expires.
 
-## Flow Control and Congestion Control
+### Flow Control and Congestion Control
 
 - **Flow control** protects the receiver. The receiver advertises `rwnd` so the sender does not overflow its receive buffer.
 - **Congestion control** protects the network. The sender uses the congestion window `cwnd` to regulate how much data it injects into the network.
@@ -584,7 +595,7 @@ Classic TCP congestion control includes:
 - **Fast retransmit and fast recovery:** Duplicate ACKs allow a faster response to loss.
 - After a congestion signal, the sender reduces its rate, reflecting the **Additive Increase, Multiplicative Decrease (AIMD)** principle.
 
-## Connection Management
+### Connection Management
 
 A TCP connection is normally established with a three-way handshake:
 
@@ -601,7 +612,7 @@ The handshake synchronizes initial sequence numbers and confirms bidirectional c
 
 # Network Layer
 
-# Network-Layer Overview
+## Network-Layer Overview
 
 The network layer delivers transport-layer segments from a source host to a destination host. Its core functions include:
 
@@ -609,7 +620,7 @@ The network layer delivers transport-layer segments from a source host to a dest
 - **Routing:** Computing paths through the network.
 - **Logical addressing:** Using IPv4 or IPv6 addresses to identify interfaces and network locations.
 
-## The IP Service Model
+### The IP Service Model
 
 IP provides **best-effort service**. It does not guarantee:
 
@@ -618,13 +629,13 @@ IP provides **best-effort service**. It does not guarantee:
 - An upper bound on delay or a minimum bandwidth;
 - The absence of duplicate packets.
 
-## Subnets and Forwarding
+### Subnets and Forwarding
 
 An IP address contains a network prefix and an interface identifier. Classless Inter-Domain Routing (CIDR) uses `/n` to represent the prefix length. Routers use **longest-prefix matching** to select the most specific matching route.
 
 IPv4 private addresses commonly share public addresses through Network Address Translation (NAT). IPv6 provides a much larger address space and a simplified base header.
 
-## The Control Plane
+### The Control Plane
 
 - **Link-state algorithms:** Each router obtains the network topology and computes routes, commonly with Dijkstra's algorithm.
 - **Distance-vector algorithms:** Neighboring routers iteratively exchange distance information using the Bellman–Ford principle.
@@ -633,13 +644,13 @@ IPv4 private addresses commonly share public addresses through Network Address T
 
 ---
 
-# Link Layer and Local Area Networks
+## Link Layer and Local Area Networks
 
-# Link-Layer Overview
+## Link-Layer Overview
 
 The link layer transfers frames between adjacent nodes. Its services can include framing, medium access, error detection, and—in some protocols—reliable delivery.
 
-## MAC Addresses and Ethernet
+### MAC Addresses and Ethernet
 
 - MAC addresses identify interfaces within a local network.
 - An Ethernet switch forwards frames using a self-learned MAC address table.
@@ -647,11 +658,11 @@ The link layer transfers frames between adjacent nodes. Its services can include
 - Routers separate broadcast domains, while ordinary Layer 2 switches extend a broadcast domain.
 - VLANs divide one physical switched network into logical broadcast domains.
 
-## ARP
+### ARP
 
 In IPv4 networks, the Address Resolution Protocol (ARP) maps a target IP address to a MAC address on the same link. A host first checks its ARP cache. On a cache miss, it broadcasts an ARP request, and the target normally sends an ARP reply.
 
-## Error Detection
+### Error Detection
 
 - **Parity checking:** Simple but limited in detection capability.
 - **Checksums:** Interpret data words as integers and combine them arithmetically.
@@ -659,9 +670,9 @@ In IPv4 networks, the Address Resolution Protocol (ARP) maps a target IP address
 
 ---
 
-# Wireless Networks
+## Wireless Networks
 
-# Wireless Networking Essentials
+## Wireless Networking Essentials
 
 Wireless links are affected by path loss, multipath propagation, interference, and the hidden-terminal problem.
 
@@ -676,9 +687,9 @@ Mobile networks must also handle:
 
 ---
 
-# Network Security
+## Network Security
 
-# Security Goals and Common Attacks
+## Security Goals and Common Attacks
 
 Core security goals include:
 
@@ -704,68 +715,9 @@ Common defenses include:
 - Applying least privilege, strong authentication, rate limiting, and traffic scrubbing;
 - Keeping software updated and monitoring logs for anomalous behavior.
 
----
-
-# Commonly Confused Concepts
-
-| Concept A | Concept B | Difference |
-|---|---|---|
-| Transmission delay | Propagation delay | The former depends on $L/R$; the latter depends on distance and propagation speed |
-| Bandwidth | Throughput | Bandwidth is link capacity; throughput is the actual delivery rate |
-| Forwarding | Routing | Forwarding handles an individual packet; routing computes paths and forwarding tables |
-| Flow control | Congestion control | The former protects the receiver; the latter protects the network |
-| IP address | MAC address | The former supports logical addressing across networks; the latter primarily supports delivery within a link |
-| MSS | MTU | MSS limits TCP payload size; MTU limits the network-layer packet carried by a link-layer frame |
-| Stateless HTTP | Stateless application | HTTP itself does not preserve sessions; applications can still maintain state with cookies or tokens |
-
-# Review Questions
-
-1. Why is packet switching suitable for bursty traffic, and what costs does it introduce?
-2. Which factors determine transmission delay and propagation delay?
-3. Why does the bottleneck link determine end-to-end throughput?
-4. Why can HTTP/2 still experience head-of-line blocking despite stream multiplexing?
-5. Why is DNS hierarchical and distributed? What are the benefits and costs of caching?
-6. Why do many real-time applications choose UDP despite its lack of reliability?
-7. How do GBN and SR differ in acknowledgment, buffering, and retransmission behavior?
-8. What problems do TCP flow control and congestion control solve?
-9. How does an Ethernet switch learn MAC addresses, and why does a router separate broadcast domains?
-10. Which security problems are addressed by encryption, authentication, and integrity protection?
+# Link Layer
         </script>
     </main>
-
-    <footer class="site-footer">
-        <p>© 2026 Yang Xu</p>
-        <nav class="footer-links footer-contact-icons" aria-label="Contact links">
-            <a
-                href="mailto:xu_ustc@mail.ustc.edu.cn"
-                class="footer-contact-icon"
-                aria-label="Email Yang Xu"
-                title="Email"
-            >
-                <i class="bi bi-envelope-fill" aria-hidden="true"></i>
-            </a>
-            <a
-                href="https://github.com/jasonxu-cell"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-contact-icon"
-                aria-label="Yang Xu on GitHub"
-                title="GitHub"
-            >
-                <i class="bi bi-github" aria-hidden="true"></i>
-            </a>
-            <a
-                href="https://steamcommunity.com/profiles/76561199724275684/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-contact-icon"
-                aria-label="Yang Xu on Steam"
-                title="Steam"
-            >
-                <i class="bi bi-steam" aria-hidden="true"></i>
-            </a>
-        </nav>
-    </footer>
 
     <script src="../../scripts/markdown-article.js?v=20260822-multiline-math-2"></script>
     <script src="../../scripts/comments.js"></script>

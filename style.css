@@ -2058,7 +2058,7 @@ button:focus-visible {
 }
 
 /* ==========================================
-   Shared finish: surfaces, footer, and CV
+   Shared finish: surfaces and footer
    ========================================== */
 
 main,
@@ -2085,9 +2085,7 @@ main,
 .article-detail-header,
 .article-toc-panel,
 .markdown-body,
-.article-comments,
-.cv-header,
-.cv-section {
+.article-comments {
     background: var(--surface);
     backdrop-filter: blur(16px) saturate(115%);
     -webkit-backdrop-filter: blur(16px) saturate(115%);
@@ -2099,9 +2097,7 @@ main,
 .essay-row,
 .article-detail-header,
 .markdown-body,
-.article-comments,
-.cv-header,
-.cv-section {
+.article-comments {
     box-shadow: var(--shadow);
 }
 
@@ -2116,9 +2112,7 @@ main,
 .article-detail-header h1,
 .markdown-body h1,
 .markdown-body h2,
-.markdown-body h3,
-.cv-header h1,
-.cv-section h2 {
+.markdown-body h3 {
     font-family: var(--serif);
 }
 
@@ -2250,145 +2244,6 @@ main,
     line-height: 1;
 }
 
-/* ---------- CV ---------- */
-
-.cv-page {
-    width: min(100%, 1080px);
-    margin: 56px auto 72px;
-}
-
-.cv-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 30px;
-    padding: 40px 44px;
-    border: 1px solid var(--surface-border);
-    border-radius: 24px;
-}
-
-.cv-header h1 {
-    margin: 0;
-    font-size: clamp(44px, 7vw, 68px);
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -0.04em;
-}
-
-.cv-header p:last-child {
-    max-width: 620px;
-    margin: 16px 0 0;
-    color: var(--muted);
-    font-size: 18px;
-    line-height: 1.55;
-}
-
-.cv-print {
-    flex: 0 0 auto;
-    cursor: pointer;
-    font-family: inherit;
-}
-
-.cv-layout {
-    display: grid;
-    grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
-    gap: 24px;
-    margin-top: 24px;
-    align-items: start;
-}
-
-.cv-aside,
-.cv-main {
-    display: grid;
-    min-width: 0;
-    gap: 24px;
-}
-
-.cv-section {
-    margin: 0;
-    padding: 30px 34px;
-    border: 1px solid var(--surface-border);
-    border-radius: 24px;
-}
-
-.cv-section h2 {
-    margin: 0 0 20px;
-    font-size: 26px;
-    font-weight: 500;
-}
-
-.cv-section p,
-.cv-section li {
-    color: #304047;
-    font-size: 16px;
-    line-height: 1.7;
-}
-
-.cv-section p {
-    margin: 0;
-}
-
-.cv-link-list {
-    display: grid;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.cv-link-list a,
-.cv-entry-heading a {
-    color: var(--accent-strong);
-    font-weight: 700;
-    overflow-wrap: anywhere;
-}
-
-.cv-entry + .cv-entry {
-    margin-top: 28px;
-    padding-top: 28px;
-    border-top: 1px solid var(--line);
-}
-
-.cv-entry-heading {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 18px;
-}
-
-.cv-entry h3 {
-    margin: 0 0 8px;
-    color: var(--ink);
-    font-size: 19px;
-    line-height: 1.4;
-}
-
-.cv-entry-heading a {
-    flex: 0 0 auto;
-    font-size: 14px;
-    text-decoration: none;
-}
-
-.cv-entry > p:not(.cv-entry-meta) {
-    margin-top: 12px;
-}
-
-.cv-entry .cv-entry-meta {
-    margin-top: 10px;
-    color: var(--muted);
-    font-size: 14px;
-}
-
-@media (max-width: 900px) {
-    .cv-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .cv-aside {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
-
 @media (max-width: 680px) {
     body {
         padding: 14px;
@@ -2404,33 +2259,6 @@ main,
         justify-content: flex-start;
     }
 
-    .cv-page {
-        margin-top: 34px;
-    }
-
-    .cv-header {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 30px 24px;
-    }
-
-    .cv-header h1 {
-        font-size: 48px;
-    }
-
-    .cv-aside {
-        grid-template-columns: 1fr;
-    }
-
-    .cv-section {
-        padding: 26px 22px;
-    }
-
-    .cv-entry-heading {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 4px;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2441,41 +2269,5 @@ main,
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-    }
-}
-
-@media print {
-    body {
-        padding: 0;
-        color: #000000;
-        background: #ffffff;
-    }
-
-    body::before,
-    body > nav,
-    .skip-link,
-    .site-footer,
-    .cv-print {
-        display: none !important;
-    }
-
-    .cv-page {
-        width: 100%;
-        margin: 0;
-    }
-
-    .cv-header,
-    .cv-section {
-        padding: 18px 0;
-        background: #ffffff;
-        border: 0;
-        border-bottom: 1px solid #cccccc;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .cv-layout {
-        grid-template-columns: 0.34fr 0.66fr;
-        gap: 28px;
     }
 }

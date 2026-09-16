@@ -78,6 +78,19 @@ SUBJECT_PAGES = {
     "geoscience": Path("notes/geoscience.html"),
 }
 
+IMAGE_SUFFIXES = {
+    ".avif",
+    ".bmp",
+    ".gif",
+    ".jpeg",
+    ".jpg",
+    ".png",
+    ".svg",
+    ".tif",
+    ".tiff",
+    ".webp",
+}
+
 DEFAULT_VAULT = Path(os.environ.get("OBSIDIAN_VAULT", "/Users/xuyang/Documents/Obsidian Vault"))
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -180,10 +193,31 @@ def strip_frontmatter(text: str) -> str:
     return re.sub(r"\A\s*---\s*\n[\s\S]*?\n---\s*\n?", "", text, count=1).strip()
 
 
-def build_picture_index(picture_dir: Path) -> Dict[str, Path]:
-    if not picture_dir.exists():
-        return {}
-    return {path.name: path for path in picture_dir.rglob("*") if path.is_file()}
+def iter_vault_images(vault: Path) -> Iterable[Path]:
+    if not vault.exists():
+        return
+
+    for path in vault.rglob("*"):
+        relative_parts = path.relative_to(vault).parts
+        if any(part.startswith(".") for part in relative_parts):
+            continue
+        if path.is_file() and path.suffix.casefold() in IMAGE_SUFFIXES:
+            yield path
+
+
+def build_picture_index(vault: Path) -> Dict[str, Path]:
+    index: Dict[str, Path] = {}
+
+    # Preserve the original preference for files in Picture/, then fall back to
+    # attachments stored elsewhere in the vault (including the vault root).
+    picture_dir = vault / "Picture"
+    if picture_dir.exists():
+        for path in iter_vault_images(picture_dir):
+            index.setdefault(path.name, path)
+
+    for path in iter_vault_images(vault):
+        index.setdefault(path.name, path)
+    return index
 
 
 def build_link_map(targets: Sequence[NoteTarget], vault_paths: Dict[NoteTarget, Path]) -> Dict[str, NoteTarget]:
@@ -331,7 +365,6 @@ def html_page(
             <a href="../../notes.html">Notes</a>
             <a href="../../articles.html">Articles</a>
             <a href="../../research.html">Research</a>
-            <a href="../../publications.html">Publications</a>
         </div>
     </nav>
 
@@ -417,10 +450,22 @@ def copy_images(images: Iterable[Path], attachments_dir: Path, dry_run: bool) ->
         attachments_dir.mkdir(parents=True, exist_ok=True)
     for source in sorted(images):
         dest = attachments_dir / source.name
-        if dest.exists() and dest.stat().st_mtime_ns == source.stat().st_mtime_ns and dest.stat().st_size == source.stat().st_size:
-            continue
+        source_stat = source.stat()
+        if dest.exists():
+            dest_stat = dest.stat()
+            # exFAT stores modification times at 10 ms precision.
+            same_mtime = abs(dest_stat.st_mtime_ns - source_stat.st_mtime_ns) < 10_000_000
+            if same_mtime and dest_stat.st_size == source_stat.st_size:
+                continue
         if not dry_run:
-            shutil.copy2(source, dest)
+            # copy2() also copies macOS file flags. That raises EINVAL when the
+            # website is on an exFAT volume, even though the file data was
+            # copied successfully. Web assets only need their bytes and mtime.
+            shutil.copyfile(source, dest)
+            os.utime(dest, ns=(source_stat.st_atime_ns, source_stat.st_mtime_ns))
+            # macOS may create an AppleDouble metadata companion on exFAT.
+            # It is not a web asset and should not be committed or deployed.
+            dest.with_name(f"._{dest.name}").unlink(missing_ok=True)
         changed += 1
     return changed
 
@@ -472,11 +517,10 @@ def sync_once(
     quiet: bool = False,
     only: Optional[Sequence[str]] = None,
 ) -> Dict[str, object]:
-    picture_dir = vault / "Picture"
     attachments_dir = root / "notes" / "attachments"
     all_targets, all_vault_paths, cards, skipped = active_targets(root, vault)
     targets, vault_paths = select_targets(all_targets, all_vault_paths, only)
-    picture_index = build_picture_index(picture_dir)
+    picture_index = build_picture_index(vault)
     link_map = build_link_map(all_targets, all_vault_paths)
     used_images: Set[Path] = set()
     missing_images: Set[str] = set()
@@ -525,11 +569,7 @@ def iter_watch_paths(root: Path, vault: Path) -> Iterable[Path]:
     for path in vault_paths.values():
         if path.exists():
             yield path
-    picture_dir = vault / "Picture"
-    if picture_dir.exists():
-        for path in picture_dir.rglob("*"):
-            if path.is_file():
-                yield path
+    yield from iter_vault_images(vault)
     for rel_path in SUBJECT_PAGES.values():
         path = root / rel_path
         if path.exists():

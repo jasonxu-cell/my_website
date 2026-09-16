@@ -1,18 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="计算机组成与设计课程笔记，涵盖指令系统、处理器、存储层次结构与计算机体系结构。">
-    <meta property="og:title" content="Computer Organization and Design | Yang Xu">
-    <meta property="og:description" content="计算机组成与设计课程笔记，涵盖指令系统、处理器、存储层次结构与计算机体系结构。">
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Yang Xu">
-    <meta property="og:locale" content="zh_CN">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Computer Organization and Design | Yang Xu">
-    <meta name="twitter:description" content="计算机组成与设计课程笔记，涵盖指令系统、处理器、存储层次结构与计算机体系结构。">
-    <title>Computer Organization and Design | Yang Xu</title>
+    <title>Computer Organization and Design | Yang</title>
     <link rel="stylesheet" href="../../style.css">
     <link rel="icon" type="image/png" href="../../assets/photo.jpg">
     <link
@@ -21,18 +12,16 @@
     >
 </head>
 <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
-    <nav aria-label="Primary navigation">
+    <nav>
         <div class="nav-links">
             <a href="../../index.html">Home</a>
-            <a href="../../notes.html" aria-current="page">Notes</a>
+            <a href="../../notes.html">Notes</a>
             <a href="../../articles.html">Articles</a>
             <a href="../../research.html">Research</a>
-            <a href="../../cv.html">CV</a>
         </div>
     </nav>
 
-    <main id="main-content" class="article-detail-page">
+    <main class="article-detail-page">
         <header class="article-detail-header">
             <a href="../cs.html" class="article-back-link">&larr; Computer Science</a>
             <h1>Computer Organization and Design</h1>
@@ -96,7 +85,7 @@
 ## 计算机硬件
 
 现代计算机的处理过程：
-![Screenshot 2026-06-09 at 17.57.28](../attachments/Screenshot%202026-06-09%20at%2017.57.28-optimized.webp)
+![Screenshot 2026-06-09 at 17.57.28](../attachments/Screenshot%202026-06-09%20at%2017.57.28.png)
 
 其中$M_0,M_1$为硬件，$M,M_2,M_3,M_4$为软件
 
@@ -385,7 +374,7 @@ Instruction Set Architecture (ISA）：一个**完整的架构规范**。它不�
 ## 寻址方式
 
 **指令寻址**：寻找下一个指令，一般分为分为**顺序寻址**（PC自动加1）和**跳跃寻址**（转移类指令修改PC）
-![Screenshot 2026-06-10 at 11.15.43](../attachments/Screenshot%202026-06-10%20at%2011.15.43-optimized.webp)
+![Screenshot 2026-06-10 at 11.15.43](../attachments/Screenshot%202026-06-10%20at%2011.15.43.png)
 
 **数据寻址**：确定操作数真实地址
 - 立即寻址：`MOV R0, #15`
@@ -401,7 +390,7 @@ Instruction Set Architecture (ISA）：一个**完整的架构规范**。它不�
 - 小端序：最右边字节的地址作为字地址
 - RISC-V采用小端序
 
-![Screenshot 2026-05-18 at 20.53.21](../attachments/Screenshot%202026-05-18%20at%2020.53.21-optimized.webp)
+![Screenshot 2026-05-18 at 20.53.21](../attachments/Screenshot%202026-05-18%20at%2020.53.21.png)
 >[!EXAMPLE]
 >考虑下面代码
 >```RISC-V
@@ -451,7 +440,7 @@ Instruction Set Architecture (ISA）：一个**完整的架构规范**。它不�
 
 简单指令集架构包括堆栈型指令集、累加器指令集、寄存器-存储器指令集、寄存器-寄存器指令集。
 
-![Screenshot 2026-06-10 at 11.18.04](../attachments/Screenshot%202026-06-10%20at%2011.18.04-optimized.webp)
+![Screenshot 2026-06-10 at 11.18.04](../attachments/Screenshot%202026-06-10%20at%2011.18.04.png)
 
 A+B在四个指令集下的实现方式如下：
 
@@ -493,11 +482,11 @@ MIPS指令集是流行的一种RISC类型指令系统，其机器字长有32、6
 
 其指令格式如下：
 
-![Screenshot 2026-06-10 at 11.17.02](../attachments/Screenshot%202026-06-10%20at%2011.17.02-optimized.webp)
+![Screenshot 2026-06-10 at 11.17.02](../attachments/Screenshot%202026-06-10%20at%2011.17.02.png)
 
 这些指令的寻址方式如下：
 
-![Screenshot 2026-06-10 at 11.18.48](../attachments/Screenshot%202026-06-10%20at%2011.18.48-optimized.webp)
+![Screenshot 2026-06-10 at 11.18.48](../attachments/Screenshot%202026-06-10%20at%2011.18.48.png)
 
 ## RISC-V指令集
 
@@ -598,7 +587,7 @@ CPU实现方式：
 
 ## 单周期处理器设计
 
-![Screenshot 2026-06-10 at 11.24.59](../attachments/Screenshot%202026-06-10%20at%2011.24.59-optimized.webp)
+![Screenshot 2026-06-10 at 11.24.59](../attachments/Screenshot%202026-06-10%20at%2011.24.59.png)
 
 - R/I型指令：取出指令，寄存器加载数据，然后通过Mux判定是与立即数运算还是寄存器中两个数运算，然后进入ALU模块，生成的数需要通过Mux模块判定是否重新写入寄存器。
 - ld指令：取出指令，寄存器加载数据，然后通过Mux判定是与立即数运算还是寄存器中两个数运算，然后进入ALU模块计算目标内存的地址。从存储器中取出指定地址的数值，最后生成的数需要通过Mux模块判定是否重新写入寄存器。
@@ -611,7 +600,7 @@ CPU实现方式：
 
 ## 多周期处理器设计
 
-![Screenshot 2026-06-10 at 11.26.01](../attachments/Screenshot%202026-06-10%20at%2011.26.01-optimized.webp)
+![Screenshot 2026-06-10 at 11.26.01](../attachments/Screenshot%202026-06-10%20at%2011.26.01.png)
 
 由于我们每一个指令的不同步骤分别在各自的时钟周期内完成，因此多周期处理器只需要一个ALU。
 
@@ -651,9 +640,9 @@ CPU实现方式：
 
 我们有以下两种方法来解决这一冒险：
 
-- 插入气泡（bubble）![Screenshot 2026-05-05 at 14.24.18](../attachments/Screenshot%202026-05-05%20at%2014.24.18-optimized.webp)
+- 插入气泡（bubble）![Screenshot 2026-05-05 at 14.24.18](../attachments/Screenshot%202026-05-05%20at%2014.24.18.png)
 - Harvard 架构：与John von Neumann架构不同，Harvard架构将**指令存储**和**数据存储**物理上分开，拥有独立的总线，从而允许同时读取指令和数据，这样同样可以解决John von Neumann瓶颈。但是纯Harvard架构需要两套总线和两个存储系统，主板走线和硬件设计成本更高。
-![Screenshot 2026-05-05 at 14.24.35](../attachments/Screenshot%202026-05-05%20at%2014.24.35-optimized.webp)
+![Screenshot 2026-05-05 at 14.24.35](../attachments/Screenshot%202026-05-05%20at%2014.24.35.png)
 ### 数据相关（Data Hazard）
 
 数据依赖的分类：
@@ -673,7 +662,7 @@ sw x15,100(x2)
 在标准流水线中，`x2` 寄存器的结果要到 WB 阶段才可用。然而，后续指令在其 EX 阶段就需要这个数据作为输入，从而产生了 RAW 冒险。
 
 为了缓解数据冒险，可以实现一个转发单元（forwarding unit），将执行结果直接传送到需要它的指令的输入端，从而无需等待 WB 阶段。
-![Screenshot 2026-05-05 at 14.46.06](../attachments/Screenshot%202026-05-05%20at%2014.46.06-optimized.webp)
+![Screenshot 2026-05-05 at 14.46.06](../attachments/Screenshot%202026-05-05%20at%2014.46.06.png)
 转发单元非常强大，但它无法解决 Load-Use（取数-使用）型的数据 RAW 冒险。
 
 ```RISC-V
@@ -685,7 +674,7 @@ addi x9, x2, -30
 
 ![Screenshot 2026-05-05 at 15.23.43](../attachments/Screenshot%202026-05-05%20at%2015.23.43.png)
 
-![Screenshot 2026-06-17 at 23.44.14](../attachments/Screenshot%202026-06-17%20at%2023.44.14-optimized.webp)
+![Screenshot 2026-06-17 at 23.44.14](../attachments/Screenshot%202026-06-17%20at%2023.44.14.png)
 
 **冒险检测条件**（转发单元据此判断是否需要前递，要求源寄存器编号不为0且对应指令有写操作）：
 
@@ -731,7 +720,7 @@ addi x9, x2, -30
 
 MIPS 流水线与 RISC-V 流水线的区别：
 
-![Screenshot 2026-05-05 at 14.22.07](../attachments/Screenshot%202026-05-05%20at%2014.22.07-optimized.webp)
+![Screenshot 2026-05-05 at 14.22.07](../attachments/Screenshot%202026-05-05%20at%2014.22.07.png)
 
 🔴PC 计算与跳转逻辑的统一：MIPS 的跳转由于有绝对寻址（将指令后 26 位拼接成 32 位地址）和相对寻址之分，它的 PC 更新源非常繁杂，导致 IF（取指）阶段左上角的 MUX 逻辑比较复杂交错；RISC-V寻址全部依赖于 PC 相对寻址计算
 
@@ -786,10 +775,10 @@ RISC 中的中断：
 software:
 ![Screenshot 2026-05-22 at 13.57.06](../attachments/Screenshot%202026-05-22%20at%2013.57.06.png){width=470}
 hardware:
-- 分散在各个中断源的接口电路中的链式排队器![Screenshot 2026-05-06 at 14.31.37](../attachments/Screenshot%202026-05-06%20at%2014.31.37-optimized.webp){width=589}
+- 分散在各个中断源的接口电路中的链式排队器![Screenshot 2026-05-06 at 14.31.37](../attachments/Screenshot%202026-05-06%20at%2014.31.37.png){width=589}
 - 集中在CPU内的链式排队器![Screenshot 2026-05-22 at 13.58.08](../attachments/Screenshot%202026-05-22%20at%2013.58.08.png)
 中断响应条件：允许中断触发器 `EINT = 1`（或 PSW 中的 IF 标志位置位） 。
-![Screenshot 2026-05-22 at 13.58.43](../attachments/Screenshot%202026-05-22%20at%2013.58.43-optimized.webp){width=429}
+![Screenshot 2026-05-22 at 13.58.43](../attachments/Screenshot%202026-05-22%20at%2013.58.43.png){width=429}
 中断周期完成的主要操作，通过中断隐指令完成
 
 - EINT 允许中断触发器: 0
@@ -801,7 +790,7 @@ hardware:
 - 断点：由中断隐指令完成
 - 寄存器内容：由中断服务程序（ISR）完成
 
-![Screenshot 2026-05-22 at 14.03.24](../attachments/Screenshot%202026-05-22%20at%2014.03.24-optimized.webp)
+![Screenshot 2026-05-22 at 14.03.24](../attachments/Screenshot%202026-05-22%20at%2014.03.24.png)
 ### 寻找中断地址的方法
 
 - 硬件向量法：直接由硬件部件将向量地址送入PC
@@ -817,7 +806,7 @@ hardware:
 
 ### 流水线实现方式
 
-![Screenshot 2026-06-17 at 16.30.17](../attachments/Screenshot%202026-06-17%20at%2016.30.17-optimized.webp)
+![Screenshot 2026-06-17 at 16.30.17](../attachments/Screenshot%202026-06-17%20at%2016.30.17.png)
 - 当控制单元（Control / 异常检测逻辑）检测到异常时，会发出 `Flush`（冲刷）信号。`IF.Flush`、`ID.Flush`、`EX.Flush`将会清除异常指令之后的所有指令
 - **EPC (Exception Program Counter)：** 硬件会自动把发生异常的那条指令的 PC 值（图中通过蓝线从前面一级级传过来）写入 EPC 寄存器保存起来。等操作系统处理完异常后，就可以通过读 EPC 知道该回哪去。
 - **Cause 寄存器：** 硬件会根据触发异常的具体电路（比如 ALU 报出溢出信号，或者指令译码器报出未定义信号），生成一个错误码（比如图中前一个例子提到的 0 或 1），存入 Cause 寄存器，方便操作系统查明死机原因。
@@ -861,7 +850,7 @@ hardware:
 - **命中时间（hit time）**：访问本层存储所需时间。
 - **失效损失（miss penalty）**：未命中时，将相应块从下层搬到上层所需的时间。
 
-![Screenshot 2026-06-09 at 17.13.23](../attachments/Screenshot%202026-06-09%20at%2017.13.23-optimized.webp)
+![Screenshot 2026-06-09 at 17.13.23](../attachments/Screenshot%202026-06-09%20at%2017.13.23.png)
 
 ## 主存储器
 
@@ -891,7 +880,7 @@ SRAM利用**双稳态触发器（锁存器）** 保存信息，典型存储元�
 
 DRAM利用**电容存储电荷**来保存信息（有电荷为1、无电荷为0）。由于电容会漏电，必须**定期刷新**（一般约每隔几毫秒按行刷新一次）。每个存储元只需一个晶体管加一个电容，因此集成度高、成本低，但读出是破坏性的，读后需重写，速度比SRAM慢。地址引脚通常采用**行/列地址复用**（由RAS、CAS信号分时锁存），以减少芯片引脚数。
 
-![Screenshot 2026-06-09 at 17.22.41](../attachments/Screenshot%202026-06-09%20at%2017.22.41-optimized.webp)
+![Screenshot 2026-06-09 at 17.22.41](../attachments/Screenshot%202026-06-09%20at%2017.22.41.png)
 
 
 |      | DRAM | SRAM |
@@ -912,7 +901,7 @@ DRAM利用**电容存储电荷**来保存信息（有电荷为1、无电荷为0�
 ### 存储器与CPU的连接
 
 >[!EXAMPLE]
->![Screenshot 2026-06-17 at 21.14.20](../attachments/Screenshot%202026-06-17%20at%2021.14.20-optimized.webp)
+>![Screenshot 2026-06-17 at 21.14.20](../attachments/Screenshot%202026-06-17%20at%2021.14.20.png)
 >系统程序区只能用ROM，容量计算：`67FFH - 6000H + 1 = 0800H` 字节= 2KB
 >用户程序区只能用RAM，容量计算：`6BFFH - 6800H + 1 = 0400H` 字节= 1KB
 >题目给定的 RAM 列表中没有现成的 1K×8位，但有 $1K \times 4$位。我们需要进行**位扩展**（字长扩展）。数量：$8 \div 4 = 2$ 片。即选用 $1K \times 4$位 RAM 芯片，共 2 片。
@@ -933,7 +922,7 @@ DRAM利用**电容存储电荷**来保存信息（有电荷为1、无电荷为0�
 >- CPU 的 $D_3 \sim D_0$ 连接到 **RAM1** (低4位) 的 $D_3 \sim D_0$。
 >- CPU 的 $D_7 \sim D_4$ 连接到 **RAM2** (高4位) 的数据线端。
 >
->![Screenshot 2026-06-18 at 14.58.58](../attachments/Screenshot%202026-06-18%20at%2014.58.58-optimized.webp)
+>![Screenshot 2026-06-18 at 14.58.58](../attachments/Screenshot%202026-06-18%20at%2014.58.58.png)
 
 ### 顺序存储器 & 交叉存储器
 
@@ -1016,7 +1005,7 @@ CRC 的检错能力远强于奇偶校验，它的核心数学基础是**生成�
 >[!EXAMPLE]
 >生成多项式$G(x)=x^8+x^5+x^4+1$
 >原始数据`101100`
->![Screenshot 2026-06-17 at 14.17.37](../attachments/Screenshot%202026-06-17%20at%2014.17.37-optimized.webp)
+>![Screenshot 2026-06-17 at 14.17.37](../attachments/Screenshot%202026-06-17%20at%2014.17.37.png)
 >因此，最终拼接在原始数据后面的 CRC 校验码就是 `11111011`。
 
 ## Cache
@@ -1027,7 +1016,7 @@ CRC 的检错能力远强于奇偶校验，它的核心数学基础是**生成�
 - **全相联映射**：内存中的任何一块可以放在 Cache 中的**任意**位置。这样实现方式灵活，冲突率低，但查找电路极其复杂，成本高。
 - **组相联映射**：将 Cache 分成若干“组”，每一块数据只能放在固定的**某一组**里，但进入该组后，可以放置于任意位置。这是前两者的折中方案，现代CPU最常用 。
 
-![Screenshot 2026-06-17 at 17.37.41](../attachments/Screenshot%202026-06-17%20at%2017.37.41-optimized.webp)
+![Screenshot 2026-06-17 at 17.37.41](../attachments/Screenshot%202026-06-17%20at%2017.37.41.png)
 
 - **offset（块内偏移）**：低位地址，决定块内字节位置 = 每块字节数。
 - **index（索引）**：中间位，对应 Cache 的行（直接映射）或组（组相联）；**全相联无 index 位**（全为 tag + offset）。
@@ -1071,7 +1060,7 @@ $$h=\frac{N_c}{N_c+N_m}$$
 
 由于页表的映射可以任意，因此程序运行时，其页面可被加载到任何可用的帧 (frame)中而不需要他们连续。这就解决了内存连续问题。
 
-![Screenshot 2026-06-17 at 21.51.12](../attachments/Screenshot%202026-06-17%20at%2021.51.12-optimized.webp){width=483}
+![Screenshot 2026-06-17 at 21.51.12](../attachments/Screenshot%202026-06-17%20at%2021.51.12.png){width=483}
 
 如果每次访问真实地址时还需要再访问一次页表，我们相当于在每次操作时都做了两次内存读取操作，其中的时间消耗是我们无法接受的。因此，我们可以对页表建立一个cache，称之为**TLB（快表，Translation Lookaside Buffer）**
 
@@ -1110,7 +1099,7 @@ CPU中有一个专门的模块叫做**MMU（Memory Management Unit，内存管�
 - 总线带宽：总线的数据传输速率，即单位时间内总线传输数据的位数，通常用每秒传输信息的字节数来衡量
 - 总线复用：一条信号线上分时传送多种信号
 
-![Screenshot 2026-05-22 at 14.23.19](../attachments/Screenshot%202026-05-22%20at%2014.23.19-optimized.webp)
+![Screenshot 2026-05-22 at 14.23.19](../attachments/Screenshot%202026-05-22%20at%2014.23.19.png)
 
 ## 总线结构
 
@@ -1129,17 +1118,17 @@ CPU中有一个专门的模块叫做**MMU（Memory Management Unit，内存管�
 链式查询：根据BG总线授权逐步查询
 - 优点：实现简单，设备扩充方便
 - 缺点：对电路故障敏感，查询优先级固定
-![Screenshot 2026-05-22 at 14.29.20](../attachments/Screenshot%202026-05-22%20at%2014.29.20-optimized.webp)
+![Screenshot 2026-05-22 at 14.29.20](../attachments/Screenshot%202026-05-22%20at%2014.29.20.png)
 
 计数器定时查询：利用计数器记录仲裁次数，如果仲裁数等于接口号则直接调用，否则计数器+1并继续向后查询
 - 优点：可通过改变计数器初始值改变优先次序，比较方便
 - 缺点：需要增加控制线数量传递接口号
-![Screenshot 2026-05-22 at 14.32.16](../attachments/Screenshot%202026-05-22%20at%2014.32.16-optimized.webp)
+![Screenshot 2026-05-22 at 14.32.16](../attachments/Screenshot%202026-05-22%20at%2014.32.16.png)
 
 独立请求查询：所有接口均可独立发出请求，总线控制部件通过内部的排队器进行仲裁
 - 优点：响应速度快，比较灵活
 - 缺点：控制线过多
-![Screenshot 2026-05-22 at 14.32.35](../attachments/Screenshot%202026-05-22%20at%2014.32.35-optimized.webp)
+![Screenshot 2026-05-22 at 14.32.35](../attachments/Screenshot%202026-05-22%20at%2014.32.35.png)
 ### 分布式仲裁
 
 - 自举分布式仲裁（每个设备独立地决定自己是否是最高优先级请求者。在总线裁决期间，每个设备将有关请求线上的信号合成后取回分析，根据这些请求信号确定自己能否拥有总线控制权）
@@ -1170,12 +1159,12 @@ CPU中有一个专门的模块叫做**MMU（Memory Management Unit，内存管�
 总线在一次传送中如何协调主、从设备的时序，主要有四种方式：
 
 - **同步通信**：所有部件由**统一时钟**按固定节拍工作。规整、控制简单、传输率高；但须以最慢设备为基准，且总线长度与灵活性受限。
-	- 同步读![v2-4f3f34ae185207fb1076d2a7734eb53a_1440w](../attachments/v2-4f3f34ae185207fb1076d2a7734eb53a_1440w-optimized.webp)
-	- 同步写![v2-714881ee6ef06b01929a97237624d776_1440w](../attachments/v2-714881ee6ef06b01929a97237624d776_1440w-optimized.webp)
+	- 同步读![v2-4f3f34ae185207fb1076d2a7734eb53a_1440w](../attachments/v2-4f3f34ae185207fb1076d2a7734eb53a_1440w.png)
+	- 同步写![v2-714881ee6ef06b01929a97237624d776_1440w](../attachments/v2-714881ee6ef06b01929a97237624d776_1440w.png)
 - **异步通信**：没有公共时钟，靠**握手（应答）信号**协调——主设备发**请求（Request）**，从设备就绪后回**应答（Acknowledge）**，需增设两条应答线。按请求与应答是否互相约束分为**不互锁**（如访存）、**半互锁**（如访问共享存储器）、**全互锁**（如网络通信）三档（全互锁最可靠但最慢）。灵活、能适配不同速度设备，但控制复杂、速度偏慢。
-![v2-0105c1ebea9317794c9313024b28a40f_1440w](../attachments/v2-0105c1ebea9317794c9313024b28a40f_1440w-optimized.webp)
+![v2-0105c1ebea9317794c9313024b28a40f_1440w](../attachments/v2-0105c1ebea9317794c9313024b28a40f_1440w.png)
 - **半同步通信**：同步与异步的折中——保留统一时钟，但允许慢速从设备拉低**等待信号（$\overline{\text{WAIT}}$/READY）** 插入若干等待周期，兼顾同步的简单与异步的灵活。
-![v2-b7364a0029a45c2ef8f84b58c07a2dac_1440w](../attachments/v2-b7364a0029a45c2ef8f84b58c07a2dac_1440w-optimized.webp)
+![v2-b7364a0029a45c2ef8f84b58c07a2dac_1440w](../attachments/v2-b7364a0029a45c2ef8f84b58c07a2dac_1440w.png)
 - **分离式通信**：把一个总线周期拆成"**请求**子周期"与"**应答**子周期"，两段之间**释放总线**给其它设备使用（如等存储器准备数据期间）；两子周期内均**采用同步方式、单向传输、不等对方回答**，总线被占用时都在有效工作、无空闲等待，利用率最高，但控制最复杂，多见于大型机。
 
 
@@ -1275,40 +1264,6 @@ DMA（Direct Memory Access，直接存储器存取）是完全由硬件执行I/O
 总体来看，I/O控制方式的演进是CPU逐步从具体I/O操作中解放出来的过程：CPU直接控制外设 → 加入I/O控制器 → 加入中断机制 → 加入DMA机制 → 转换为专用I/O处理器 → 转换为独立的I/O处理机。
         </script>
     </main>
-
-    <footer class="site-footer">
-        <p>© 2026 Yang Xu</p>
-        <nav class="footer-links footer-contact-icons" aria-label="Contact links">
-            <a
-                href="mailto:xu_ustc@mail.ustc.edu.cn"
-                class="footer-contact-icon"
-                aria-label="Email Yang Xu"
-                title="Email"
-            >
-                <i class="bi bi-envelope-fill" aria-hidden="true"></i>
-            </a>
-            <a
-                href="https://github.com/jasonxu-cell"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-contact-icon"
-                aria-label="Yang Xu on GitHub"
-                title="GitHub"
-            >
-                <i class="bi bi-github" aria-hidden="true"></i>
-            </a>
-            <a
-                href="https://steamcommunity.com/profiles/76561199724275684/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-contact-icon"
-                aria-label="Yang Xu on Steam"
-                title="Steam"
-            >
-                <i class="bi bi-steam" aria-hidden="true"></i>
-            </a>
-        </nav>
-    </footer>
 
     <script src="../../scripts/markdown-article.js?v=20260822-multiline-math-2"></script>
     <script src="../../scripts/comments.js"></script>
