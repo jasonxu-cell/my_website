@@ -154,7 +154,7 @@ Routing is like planning a route; forwarding is like choosing the correct exit a
 | Advantage   | Predictable performance                 | High utilization; efficient for bursty traffic |
 | Cost        | Reserved resources are wasted when idle | Queuing, loss, and jitter may occur            |
 ![Screenshot 2026-09-14 at 10.53.20](../attachments/Screenshot%202026-09-14%20at%2010.53.20.png){width=461}
-Circuit switching transmit the message through reserving the circuit. The following figure shows four links interconnect four circuit switches. If two hosts want to communicate, they need to build a dedicated <span style="color: red;">end-to-end connection</span>. So If the hosts want to communicate, the network need to reserve the cable in each link. Besides, because each link has 4 circuits, the velocity of transmission can only be 1/4 of total transmission capacity of the link.
+Circuit switching establishes a dedicated <span style="color: red;">end-to-end connection</span> before data transfer. The network reserves transmission resources on every link along the path, rather than reserving an entire cable. In the illustrated example, if each link divides its capacity equally among four circuits, each circuit receives one quarter of that link's transmission rate.
 
 Packet switching divides an application message into packets. Routers usually use store-and-forward transmission: a router receives a complete packet before sending it over the next link.
 
@@ -169,11 +169,11 @@ $$
 $$
 ### Network of Networks
 
-In the network, we need lots of ISP to provide service. However, the networks were firstly dependent, which is called <span style="color: red;">autonomous system (AS)</span>.
+The Internet interconnects many <span style="color: red;">autonomous systems (ASs)</span>. An AS is a network or group of networks under one administrative authority with a common routing policy. Many ISPs operate ASs, but an AS can also belong to an enterprise or another organization.
 
-If two of the ISP need to communicate, traffic between them might need to go through a third-party upstream operator. The path may be longer and have higher latency, and both A and B often have to pay transit fees to upstream operators.
+If two ASs need to exchange traffic, it may pass through an upstream transit provider. This can make the path longer, and the ASs may pay transit fees.
 
-To solve the problem, we develop <span style="color: red;">Internet Exchange Point (IXP)</span>. With IXP, multiple ASs can connect their routers to the same switching platform. Then it can use less path to communicate.
+An <span style="color: red;">Internet Exchange Point (IXP)</span> lets multiple ASs connect to a shared switching platform and establish peering arrangements. Direct peering can shorten paths and reduce reliance on paid transit.
 ![Screenshot 2026-09-15 at 14.10.01](../attachments/Screenshot%202026-09-15%20at%2014.10.01.png)
 ### Delay, Packet Loss, and Throughput
 
@@ -213,122 +213,138 @@ $$
 
 ![Screenshot 2026-09-15 at 14.12.31](../attachments/Screenshot%202026-09-15%20at%2014.12.31.png)
 
-| Layer             | Main Function                                        | Protocal                                |
+| Layer             | Main Function                                        | Protocol or medium                      |
 | ----------------- | ---------------------------------------------------- | --------------------------------------- |
 | Application Layer | Provide network services for applications            | HTTP、DNS、SMTP                           |
 | Transport Layer   | Responsible for process-to-process data transfer     | TCP、UDP                                 |
 | Network Layer     | Responsible for cross-network addressing and routing | IP                                      |
 | Link Layer        | Responsible for transmission on the same link        | Ethernet、Wi-Fi                          |
 | Physical Layer    | Actually transmits 0s and 1s                         | Network cable, fiber optic cable, radio |
-Each level focuses on its own task and provides services to the level above it. They only need to add the message generated in their layer. And the process is called <span style="color: red;">encapsulation</span>.
+Each layer provides services to the layer above it. As data moves down the stack, each layer adds its own header to the data received from above; the link layer may also add a trailer. This process is called <span style="color: red;">encapsulation</span>.
 
-The whole process is as following:
+For example, data sent over TCP/IP and Ethernet is encapsulated as follows:
 ```
-Application data 
-  ↓ 
-[TCP Segment | Data]
-  ↓ 
-[IP Packet | TCP Segment | Data]
-  ↓ 
-[Ethernet Frame | IP Packet | TCP Segment | Data | Tail]
-  ↓ 
+Application data
+  ↓
+[TCP header | application data]                         TCP segment
+  ↓
+[IP header | TCP header | application data]             IP packet
+  ↓
+[Ethernet header | IP header | TCP header | application data | Ethernet trailer]  Ethernet frame
+  ↓
 010101010101...
 ```
 
 # Application Layer
 
-## Principles of Network Applications
+## Application Architectures
 
-### Application Architectures
+### Client–Server
 
-#### Client–Server
+![Screenshot 2026-09-16 at 14.12.14](../attachments/Screenshot%202026-09-16%20at%2014.12.14.png)
 
 - Servers are generally always on and have stable addresses.
-- Clients initiate requests to servers.
+- Clients initiate requests to servers. They don't communicate with each other.
 - Large services commonly use data centers and load balancing to scale.
+- Example: Search engines, social networks
 
-#### Peer-to-Peer (P2P)
+### Peer-to-Peer (P2P)
+
+![Screenshot 2026-09-16 at 14.12.33](../attachments/Screenshot%202026-09-16%20at%2014.12.33.png)
 
 - Peers communicate directly with one another.
 - Each peer can both request and provide resources.
-- New peers may contribute capacity while creating demand, giving the architecture **self-scalability**.
+- New peers may contribute capacity while creating demand, giving the architecture <span style="color: red;">self-scalability</span>.
 - Frequent peer churn, changing addresses, and security management increase complexity.
+- Example: BT, Skype, PPLive
+## Processes, Sockets, and Addressing
 
-### Processes, Sockets, and Addressing
+The entities that communicate across a network are <span style="color: red;">processes</span>. Processes on different hosts communicate by exchanging <span style="color: red;">messages</span>. They can be perceived as the programs running in the hosts.
 
-The entities that communicate across a network are **processes**. Processes on different hosts communicate by exchanging messages.
+A <span style="color: red;">socket</span> is the software interface between the application and transport layers and tells the host which process the data should be given to. It is the API through which an application uses network services. Delivering data to a specific process normally requires:
 
-A **socket** is the software interface between the application and transport layers. It is the API through which an application uses network services. Delivering data to a specific process normally requires:
+- An <span style="color: red;">IP address</span> to identify the host or network interface;
+- A <span style="color: red;">port number</span> to identify the destination application process;
+- A <span style="color: red;">transport protocol</span>, such as TCP or UDP.
 
-- An **IP address** to identify the host or network interface;
-- A **port number** to identify the destination application process;
-- A **transport protocol**, such as TCP or UDP.
+## Transport Services Required by Applications
 
-### Transport Services Required by Applications
+- <span style="color: red;">Reliability</span>: Whether loss, duplication, or reordering can be tolerated.
+- <span style="color: red;">Throughput</span>: Whether a minimum delivery rate is required.
+- <span style="color: red;">Delay and jitter</span>: Whether data must arrive promptly and at a stable rate.
+- <span style="color: red;">Security</span>: Whether confidentiality, integrity, and authentication are required.
 
-- **Reliability:** Whether loss, duplication, or reordering can be tolerated.
-- **Throughput:** Whether a minimum delivery rate is required.
-- **Delay and jitter:** Whether data must arrive promptly and at a stable rate.
-- **Security:** Whether confidentiality, integrity, and authentication are required.
+Internet provides two transmission services, which are achieved by protocol TCP and UDP. TCP typically requires establishing a connection before reliable transmission, providing a reliable and ordered byte stream; while UDP sends directly without establishing a connection, but it does not guarantee that packets will arrive, arrive in order, or be unique. The difference of them are as follows:
 
-| Protocol | Connection | Reliability and ordering | Flow/congestion control | Data abstraction | Typical uses |
-|---|---|---|---|---|---|
-| TCP | Connection-oriented | Reliable, ordered, duplicate-free | Provided | Byte stream | Web, files, email |
-| UDP | Connectionless | Best effort; packets may be lost or reordered | Not provided by UDP | Datagrams | DNS, real-time media, games |
-
-> [!important]
-> TCP and UDP do not provide encryption by themselves. TLS can run over TCP. QUIC runs over UDP and implements reliable transport, congestion control, and encryption in user space.
+| Protocol | Connection          | Reliability and ordering                      | Flow/congestion control | Data abstraction | Typical uses                            |
+| -------- | ------------------- | --------------------------------------------- | ----------------------- | ---------------- | --------------------------------------- |
+| TCP      | Connection-oriented | Reliable, ordered, duplicate-free             | Provided                | Byte stream      | HTTP/1.1–2, files, email                |
+| UDP      | Connectionless      | Best effort; packets may be lost or reordered | Not provided by UDP     | Datagrams        | DNS, QUIC/HTTP/3, real-time media, games |
 
 ## Web and HTTP
 
 ### Core Concepts
 
+- Hypertext Markup Language (HTML) describes the structure and meaning of webpage content; CSS typically controls its presentation.
 - A web page consists of a base HTML document and objects such as images, CSS, JavaScript, and video.
-- Each object can be addressed by a URL.
-- HTTP defines the format and processing rules for requests and responses exchanged between clients and servers.
-- HTTP is a **stateless protocol**: the protocol itself does not require a server to remember a client's previous requests.
+- Each object can be addressed by a <span style="color: red;">Uniform Resource Locator (URL)</span>. For example:
+
+$$
+\underbrace{\texttt{http://}}_{\text{scheme}}
+\underbrace{\texttt{www.someschool.edu}}_{\text{host name}}
+\underbrace{\texttt{/someDept/pic.gif}}_{\text{path name}}
+$$
+- The default port for `http://` is 80; the default port for `https://` is 443.
+- <span style="color: red;">HyperText Transfer Protocol (HTTP)</span> defines the format and processing rules for requests and responses exchanged between clients and servers.
+- HTTP/1.1 and HTTP/2 run over TCP; HTTP/3 runs over QUIC.
+- HTTP is a stateless protocol: the protocol itself does not require a server to remember a client's previous requests.
 
 ### Connections and Response Time
 
-**Round-Trip Time (RTT)** is the time required for a small packet to travel from a client to a server and back. It includes propagation, queuing, and processing delays.
+<span style="color: red;">Round-Trip Time (RTT)</span> is the time required for a small packet to travel from a client to a server and back. It includes propagation, queuing, and processing delays.
 
-In the simplified model of **non-persistent HTTP over a new TCP connection**, retrieving one object takes approximately:
+![Screenshot 2026-09-16 at 15.28.40](../attachments/Screenshot%202026-09-16%20at%2015.28.40.png){width=383}
+In the simplified model of non-persistent HTTP over a new TCP connection, retrieving one object takes approximately:
 
 $$
 2RTT + \text{object transmission time}
 $$
 
-- About 1 RTT is used to establish the TCP connection.
-- About 1 RTT is used to send the HTTP request and receive the beginning of the response.
+Under this simplified model, fetching 100 objects sequentially with <span style="color: red;">non-persistent HTTP</span> takes about $200RTT$ plus object transmission time: each object needs one RTT to establish a TCP connection and another RTT for the request and initial response. A <span style="color: red;">persistent HTTP</span> connection can be reused for subsequent requests to the same server, avoiding a new TCP handshake for each object. Parallel connections or multiplexing change the total elapsed time.
 
 Actual performance also depends on DNS lookup, the TLS handshake, connection reuse, and congestion control.
 
-- **HTTP/1.1** supports persistent connections by default. Browsers may also open several parallel TCP connections.
-- **HTTP/2** multiplexes streams over one TCP connection and interleaves data as frames. It can still suffer from head-of-line blocking at the TCP layer.
-- **HTTP/3** runs over QUIC. A lost packet affecting one stream does not block delivery on unrelated streams.
+- HTTP/1.1 supports persistent connections by default. Browsers may also open several parallel TCP connections.
+- HTTP/2 multiplexes streams over one TCP connection and interleaves data as frames. It can still suffer from head-of-line blocking at the TCP layer.
+- HTTP/3 runs over QUIC. A lost packet affecting one stream does not block delivery on unrelated streams.
 
 ### HTTP Messages
 
 Example request:
 
 ```http
-GET /index.html HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: text/html
+GET /somedir/page.html HTTP/1.1
+Host: www.someschool.edu
+Connection: close
+User-Agent: Mozilla/5.0
+Accept-language: fr
 ```
+
+The first line is the <span style="color: red;">request line</span>: method, request target, and HTTP version. Common methods include `GET`, `HEAD`, `POST`, `PUT`, `PATCH`, and `DELETE`. Header fields follow. An empty line separates the headers from an optional message body; a `POST` request may have an empty body.
 
 Example response:
 
 ```http
 HTTP/1.1 200 OK
+Connection: close
+Date: Tue, 18 Aug 2015 15:44:04 GMT
+Server: Apache/2.2.3 (CentOS)
 Content-Type: text/html; charset=utf-8
-Content-Length: 1234
 
 <html>...</html>
 ```
 
-Common methods include `GET`, `HEAD`, `POST`, `PUT`, `PATCH`, and `DELETE`.
+It can be divided as <span style="color: red;">status line</span>, header line, and data. Status line includes HTTP version message, status-code, and relevant status information.
 
 Common status-code classes:
 
@@ -346,6 +362,9 @@ Cookies allow applications to maintain session state over stateless HTTP:
 3. Later requests that match the domain, path, and security rules include a `Cookie` header.
 4. The server associates the cookie with a session or user preferences.
 
+The following picture is an example:
+![Screenshot 2026-09-16 at 15.13.24](../attachments/Screenshot%202026-09-16%20at%2015.13.24.png)
+
 Sensitive cookies should normally use `Secure`, `HttpOnly`, and an appropriate `SameSite` policy.
 
 ### Web Caching and Conditional Requests
@@ -356,8 +375,24 @@ A web cache, or proxy cache, stores copies of recently requested objects:
 - It acts as a client when retrieving content from the origin server.
 - It can reduce response time, origin-server load, and access-link traffic.
 
+The workflow of the web caching is shown as follows:
+![Screenshot 2026-09-16 at 15.19.55](../attachments/Screenshot%202026-09-16%20at%2015.19.55.png)
+
+Web caches are typically provided by ISPs, and multiple ISPs may create multiple levels of web caches.
+
+Advantages:
+- Reduce response time for customer requests.
+- Reduce traffic on institutional access links.
+
+
 Cached content can become stale. A client or cache can send a conditional request using `If-Modified-Since` or `If-None-Match`. If the content is unchanged, the server returns `304 Not Modified` without retransmitting the complete object.
 
+## File Transfer Protocol (FTP)
+
+FTP uses separate TCP connections for control and data. The server normally listens on port 21 for the control connection, which carries commands and replies across a session. In default active mode, the server initiates a data connection from port 20 to a client port. In passive mode, the server listens on a negotiated data port instead. Data connections carry file contents or directory listings; a connection is commonly opened for a transfer, although the protocol permits reuse in some cases.
+
+![Screenshot 2026-09-16 at 15.38.56](../attachments/Screenshot%202026-09-16%20at%2015.38.56.png)
+Keeping control and data on separate connections allows commands and replies to continue while data is transferred. Opening a new data connection for each transfer adds connection setup overhead.
 ## Email
 
 The main components of an Internet email system are:
@@ -714,8 +749,6 @@ Common defenses include:
 - Using nonces, timestamps, or sequence numbers to resist replay attacks;
 - Applying least privilege, strong authentication, rate limiting, and traffic scrubbing;
 - Keeping software updated and monitoring logs for anomalous behavior.
-
-# Link Layer
         </script>
     </main>
 

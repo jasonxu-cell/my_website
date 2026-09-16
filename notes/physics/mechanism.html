@@ -87,87 +87,101 @@ $$
 
 ### Prerequisites
 
-- Body force: Forces that can act on every infinitesimal element of an object's volume without direct contact, e.g. gravity
-- Surface force: Force generated through direct contact between the surfaces of objects, e.g. friction
+- **Body force**: a force that acts throughout an object's volume without direct contact, e.g. gravity.
+- **Surface force**: a contact force acting across a surface, e.g. pressure or friction.
 
-For a point, consider it as a cube.
+To describe the stress at a point, consider an infinitesimal cube surrounding it.
 ![images](../attachments/images.webp)
 
-We can describe the stress as a tensor$$\sigma_{ij}=\begin{pmatrix}
+The stress state is described by the Cauchy stress tensor
+$$\boldsymbol\sigma=(\sigma_{ij})=\begin{pmatrix}
  \sigma_{11} & \sigma_{12} & \sigma_{13}\\
  \sigma_{21} & \sigma_{22} & \sigma_{23}\\
  \sigma_{31} & \sigma_{32} & \sigma_{33}
-\end{pmatrix}$$
-The signs (positive and negative) of stress components are defined as follows: for normal stress, tensile stress is positive and compressive stress is negative; for shear stress, if the outward normal direction of the cross section is consistent with the positive direction of the coordinate axis, then the shear stress along the positive direction of the coordinate axis is positive, and vice versa.
+\end{pmatrix}.$$
+For normal stress, tension is taken as positive and compression as negative. A shear component $\sigma_{ij}$ denotes the $i$-component of traction acting on the face whose outward normal is in the $j$-direction; its sign follows the corresponding coordinate direction.
 
-For rotation direction 12,
+Taking moments about the $x_3$-axis,
 $$(\sigma_{12}\cdot\mathrm{d}x_2\mathrm{d}x_3)\mathrm{d}x_1-(\sigma_{21}\cdot\mathrm{d}x_1\mathrm{d}x_3)\mathrm{d}x_2-(f_1\cdot\mathrm{d}x_1\mathrm{d}x_2\mathrm{d}x_3)\frac{\mathrm{d}x_2}{2}+(f_2\cdot\mathrm{d}x_1\mathrm{d}x_2\mathrm{d}x_3)\frac{\mathrm{d}x_1}{2}=0$$
-As a result, we have
+Neglecting higher-order terms as the element shrinks gives
 $$\sigma_{12}=\sigma_{21}$$
 Similarly,
 $$\sigma_{13}=\sigma_{31}$$
 $$\sigma_{23}=\sigma_{32}$$
-As a result, we have <span style="color: red;">shear stress reciprocity theorem</span>: The corresponding shear stress components on two mutually perpendicular cross sections are equal.
+Thus, in the absence of body couples, the Cauchy stress tensor is symmetric. This is the <span style="color: red;">shear-stress reciprocity theorem</span>: corresponding shear stresses on two mutually perpendicular faces are equal.
 
-So a stress tensor only has six independent quantities.
+Therefore, a three-dimensional stress tensor has six independent components.
 
-### Cauchy's Stress Formula 
+### Cauchy's Stress Formula
 
-We consider about A plane with normal vector $\mathbf{n}$
+Consider an inclined plane with unit normal $\mathbf n$.
 ![Screenshot 2026-09-04 at 20.16.22](../attachments/Screenshot%202026-09-04%20at%2020.16.22.png)
-Let $\mathbf{f}$ be the volume force per unit volume.
+Let $\mathbf f$ be the body force per unit volume. Force balance on a Cauchy tetrahedron gives
 $$\mathbf{T}^{(n)}\mathrm{d}S-\mathbf{T}^{(i)}\mathrm{d}S_i+\mathbf{f}\mathrm{d}V=\rho\mathbf{a}\mathrm{d}V$$
 $$\mathbf{T}^{(n)}\mathrm{d}S-\mathbf{T}^{(i)}\mathrm{d}S_i+(\mathbf{f}-\rho\mathbf{a})\frac{1}{3}h\mathrm{d}S=0$$
-Let $h\to 0$, we have
-$$\mathbf{T}^{(n)}=\mathbf{T}^{(i)}\frac{\mathrm{d}S_i}{\mathrm{d}S}=\mathbf{T}^{(i)}\alpha_{ni}=\sigma_{ij}\mathbf{n}$$
+Letting $h\to0$ gives Cauchy's stress formula
+$$\boxed{\,t_i^{(\mathbf n)}=\sigma_{ij}n_j\,},\qquad \mathbf t^{(\mathbf n)}=\boldsymbol\sigma\mathbf n.$$
 
-It is called as <span style="color: red;">Cauchy's stress formula / Traction vector on an inclined plane</span>.
+Here $\mathbf t^{(\mathbf n)}$ is the <span style="color: red;">traction vector on the inclined plane</span>.
 
-Decompose $\mathbf{T}^{(n)}$ into vertical component $\sigma_n\mathbf{n}$ and parallel component $\mathbf{\tau}$. We can find that $$\sigma_n=\mathbf{T}^{(n)}\cdot \mathbf{n}$$
-Use Cauchy's stress formula, we have
-$$\sigma_n=\mathbf{n}^\top\sigma_{ij} \mathbf{n}$$
+Decompose $\mathbf t^{(\mathbf n)}$ into its normal and tangential parts:
+$$\mathbf t^{(\mathbf n)}=\sigma_n\mathbf n+\boldsymbol\tau,qquad
+\sigma_n=\mathbf t^{(\mathbf n)}\cdot\mathbf n
+=\mathbf n^\top\boldsymbol\sigma\mathbf n,$$
+$$\boldsymbol\tau=\mathbf t^{(\mathbf n)}-\sigma_n\mathbf n,qquad
+\tau_n=\|\boldsymbol\tau\|.$$
 
-If $\mathbf{\tau}=0$, then$$\sigma_{ij}\mathbf{n}=\sigma_n\mathbf{n}$$
+If $\boldsymbol\tau=0$, then
+$$\boldsymbol\sigma\mathbf n=\sigma_n\mathbf n,$$
+so $\mathbf n$ is a principal direction and $\sigma_n$ is the corresponding principal stress.
 ### Principal Stress
 
-In [Eigenvalues and Eigenvectors](../math/algebra.html#eigenvalues-and-eigenvectors), we know that for a real symmetric matrix, so it can always be orthogonalized:
+Because $\boldsymbol\sigma$ is real and symmetric, the spectral theorem in [Eigenvalues and Eigenvectors](../math/algebra.html#eigenvalues-and-eigenvectors) guarantees an orthogonal matrix $\mathbf Q$ such that
 
-$$\boxed{ \mathbf Q^\top\sigma_{ij}\mathbf Q = \begin{pmatrix} \sigma_1&0&0\\ 0&\sigma_2&0\\ 0&0&\sigma_3 \end{pmatrix} }$$
-The direction of eigenvectors is <span style="color: red;">principal stress direction</span> and the eigenvalues is <span style="color: red;">principal stress</span>.
+$$\boxed{ \mathbf Q^\top\boldsymbol\sigma\mathbf Q = \begin{pmatrix} \sigma_1&0&0\\ 0&\sigma_2&0\\ 0&0&\sigma_3 \end{pmatrix} }.$$
+The eigenvectors define the <span style="color: red;">principal stress directions</span>, and the eigenvalues $\sigma_1,\sigma_2,\sigma_3$ are the <span style="color: red;">principal stresses</span>.
 
-Meanwhile, we have three invariants (In [Algebra & Number Theory](../math/algebra.html), we call them as Characteristic polynomial):
-$$I_1=\operatorname{tr}(A)=\sigma_1+\sigma_2+\sigma_3$$
-$$I_2=\frac12\left[(\operatorname{tr}A)^2-\operatorname{tr}(A^2)\right] =\sigma_1\sigma_2+\sigma_2\sigma_3+\sigma_3\sigma_1$$
-$$I_3=\det(A)=\sigma_1\sigma_2\sigma_3$$
+The three principal invariants of $\boldsymbol\sigma$ are
+$$I_1=\operatorname{tr}(\boldsymbol\sigma)=\sigma_1+\sigma_2+\sigma_3,$$
+$$I_2=\frac12\left[(\operatorname{tr}\boldsymbol\sigma)^2-\operatorname{tr}(\boldsymbol\sigma^2)\right]
+=\sigma_1\sigma_2+\sigma_2\sigma_3+\sigma_3\sigma_1,$$
+$$I_3=\det(\boldsymbol\sigma)=\sigma_1\sigma_2\sigma_3.$$
 
-Define $$\sigma_0=\frac{I_1}{3}$$
-<span style="color: red;">Spherical Tensor</span>:$$\sigma^{sph}_{ij}=\begin{pmatrix} \sigma_0&0&0\\ 0&\sigma_0&0\\ 0&0&\sigma_0 \end{pmatrix}$$
-<span style="color: red;">Partial Tensor</span>:$$s_{ij}=\begin{pmatrix} \sigma_{11}-\sigma_0 & \sigma_{12} & \sigma_{13}\\ \sigma_{21} & \sigma_{22}-\sigma_0 & \sigma_{23}\\ \sigma_{31}& \sigma_{32} &\sigma_{33}-\sigma_0 \end{pmatrix}$$
-We can find that$$\sigma_{ij}=\sigma^{sph}_{ij}+s_{ij}$$
-Spherical stress primarily controls volume changes, while partial stress primarily controls shape changes.
+Define the mean stress $\sigma_m=I_1/3$. The stress tensor decomposes into a <span style="color: red;">spherical (hydrostatic) part</span> and a <span style="color: red;">deviatoric part</span>:
+$$\boldsymbol\sigma=\boldsymbol\sigma^{\mathrm{sph}}+\mathbf s,qquad
+\boldsymbol\sigma^{\mathrm{sph}}=\sigma_m\mathbf I,qquad
+s_{ij}=\sigma_{ij}-\sigma_m\delta_{ij}.$$
+The spherical part primarily governs volume change, whereas the deviatoric part primarily governs shape change.
 
-Similarly, partial tensor has three invariants
-$$J_1=0$$
-$$J_2=\frac{1}{2}(\sigma_{ii}-\sigma_0)^2=\sigma_{ii}^2-2\sigma_0\sigma_{ii}+3\sigma_0^2=\sigma_{ii}^2-3\sigma_0^2=J_2= \frac16 \left[ (\sigma_1-\sigma_2)^2 + (\sigma_2-\sigma_3)^2 + (\sigma_3-\sigma_1)^2 \right]$$
-$$J_3=\frac{1}{27}(2\sigma_1-\sigma_2-\sigma_3)(2\sigma_2-\sigma_3-\sigma_1)(2\sigma_3-\sigma_1-\sigma_2)$$
+The invariants of the deviatoric stress are
+$$J_1=\operatorname{tr}(\mathbf s)=0,$$
+$$J_2=\frac12s_{ij}s_{ij}
+=\frac16\left[(\sigma_1-\sigma_2)^2+(\sigma_2-\sigma_3)^2+(\sigma_3-\sigma_1)^2\right],$$
+$$J_3=\det(\mathbf s)
+=\frac{1}{27}(2\sigma_1-\sigma_2-\sigma_3)(2\sigma_2-\sigma_3-\sigma_1)(2\sigma_3-\sigma_1-\sigma_2).$$
 
-Consider about a location vector$$\mathbf{x}=\begin{pmatrix} x_1\\x_2\\x_3 \end{pmatrix}$$
-and a quadric surface$$\mathbf{x}^\top\sigma_{ij} \mathbf{x}=1$$
-It unfolds as follows
+For a position vector $\mathbf x=(x_1,x_2,x_3)^\top$, consider the quadric
+$$\mathbf x^\top\boldsymbol\sigma\mathbf x=1.$$
+Expanding gives
 $$\boxed{ \sigma_{11}x_1^2+ \sigma_{22}x_2^2+ \sigma_{33}x_3^2 + 2\sigma_{12}x_1x_2 + 2\sigma_{13}x_1x_3 + 2\sigma_{23}x_2x_3 =1 }$$
-The surface is called as <span style="color: red;">Cauchy stress quadric</span>.
+This surface is the <span style="color: red;">Cauchy stress quadric</span>. Depending on the signs of the principal stresses, it may be an ellipsoid, a hyperboloid, or a degenerate quadric.
 
 If $\mathbf{x}=R\mathbf{n}$, where $\mathbf{n}$ is the unit vector, then we have
-$$\mathbf{n}^\top\sigma_{ij} \mathbf{n}=\frac{1}{R^2}=\sigma_n$$
-As a result, we can use $R$ to analyze the stress.
+$$\mathbf n^\top\boldsymbol\sigma\mathbf n=\frac{1}{R^2}=\sigma_n.$$
 
-Under the principle stress, we have $$\sigma_{11}x_1^2+ \sigma_{22}x_2^2+ \sigma_{33}x_3^2=1$$
-### Maximum shear stress
+In principal coordinates,
+$$\sigma_1x_1^2+\sigma_2x_2^2+\sigma_3x_3^2=1.$$
+### Maximum Shear Stress
 
-$$\sigma^{(n)}=\mathbf{T}^{(n)} \mathbf{n}=\begin{pmatrix} n_1\sigma_1\\n_2\sigma_2\\n_3\sigma_3 \end{pmatrix}$$
-Normal stress
-$$\sigma_n=(\sigma^{(n)}\cdot\mathbf{n})\mathbf{n}=(\sigma_1n_1^2+\sigma_2n_2^2+\sigma_3n_3^2)\mathbf{n}$$
-Shear stress$$\begin{align*}\tau_n^2&=[(\sigma_1n_1)^2+(\sigma_2n_2)^2+(\sigma_3n_3)^2]-(\sigma_1n_1^2+\sigma_2n_2^2+\sigma_3n_3^2)^2\\&=[(\sigma_1^2-\sigma_3^2)n_1^2+(\sigma_2^2-\sigma_3^2)n_2^2+\sigma_3^2]-[(\sigma_1-\sigma_3)n_1^2+(\sigma_2-\sigma_3)n_2^2+\sigma_3]^2\end{align*}$$
+In principal coordinates, the traction vector on a plane with unit normal $\mathbf n$ is
+$$\mathbf t^{(\mathbf n)}=\boldsymbol\sigma\mathbf n
+=\begin{pmatrix}\sigma_1n_1\\\sigma_2n_2\\\sigma_3n_3\end{pmatrix}.$$
+The scalar normal stress and shear-stress magnitude are
+$$\sigma_n=\mathbf t^{(\mathbf n)}\cdot\mathbf n
+=\sigma_1n_1^2+\sigma_2n_2^2+\sigma_3n_3^2,$$
+$$\tau_n^2=\|\mathbf t^{(\mathbf n)}\|^2-\sigma_n^2
+=(\sigma_1n_1)^2+(\sigma_2n_2)^2+(\sigma_3n_3)^2
+-(\sigma_1n_1^2+\sigma_2n_2^2+\sigma_3n_3^2)^2.$$
 Extreme value conditions:
 $$\left\{\begin{matrix}
  \frac{\partial\tau_n^2}{\partial n_1}=n_1(\sigma_1-\sigma_3)[(\sigma_1-\sigma_3)n_1^2+(\sigma_2-\sigma_3)n_2^2-\frac{1}{2}(\sigma_1-\sigma_3)]=0\\
@@ -180,106 +194,214 @@ It has six solutions:
 | $n_1$                         | $\pm 1$ | 0       | 0       | 0                                    | $\pm \frac{1}{\sqrt{2}}$             | $\pm \frac{1}{\sqrt{2}}$             |
 | $n_2$                         | 0       | $\pm 1$ | 0       | $\pm \frac{1}{\sqrt{2}}$             | 0                                    | $\pm \frac{1}{\sqrt{2}}$             |
 | $n_3$                         | 0       | 0       | $\pm 1$ | $\pm \frac{1}{\sqrt{2}}$             | $\pm \frac{1}{\sqrt{2}}$             | 0                                    |
-| $\tau_{n,\max},\tau_{n,\min}$ | 0       | 0       | 0       | $\pm \frac{1}{2}(\sigma_2-\sigma_3)$ | $\pm \frac{1}{2}(\sigma_3-\sigma_1)$ | $\pm \frac{1}{2}(\sigma_1-\sigma_2)$ |
-It can be seen that the normal direction of the surface element corresponding to the maximum shear stress is in the same plane as the maximum principal stress and the minimum principal stress, and forms a 45° angle with the direction of the principal stress.
+| signed shear component | 0       | 0       | 0       | $\pm \frac{1}{2}(\sigma_2-\sigma_3)$ | $\pm \frac{1}{2}(\sigma_3-\sigma_1)$ | $\pm \frac{1}{2}(\sigma_1-\sigma_2)$ |
 
-### Mohr Circle
+If $\sigma_1\ge\sigma_2\ge\sigma_3$, the maximum shear-stress magnitude is
+$$\boxed{\tau_{\max}=\frac{\sigma_1-\sigma_3}{2}}.$$
+Its plane normal lies in the plane spanned by the maximum and minimum principal directions and makes an angle of $45^\circ$ with each.
 
-Consider about a two-dimensional tensor$$\sigma=\begin{pmatrix} \sigma_{11}&\sigma_{12}\\ \sigma_{12}&\sigma_{22} \end{pmatrix}$$
-Then $$\begin{align*}\sigma_n&=\mathbf{n}^\top\sigma\mathbf{n}=\begin{pmatrix} \cos \theta &\sin \theta\end{pmatrix}\begin{pmatrix} \sigma_{11}&\sigma_{12}\\ \sigma_{12}&\sigma_{22} \end{pmatrix}\begin{pmatrix} \cos \theta \\\sin \theta \end{pmatrix}\\&=\sigma_{11}\cos^2\theta + 2\sigma_{12}\sin\theta\cos\theta + \sigma_{22}\sin^2\theta\\&= \sigma_{11}\frac{1+\cos2\theta}{2} + \sigma_{22}\frac{1-\cos2\theta}{2} + \sigma_{12}\sin2\theta\\&=\frac{\sigma_{11}+\sigma_{22}}{2} + \frac{\sigma_{11}-\sigma_{22}}{2}\cos2\theta + \sigma_{12}\sin2\theta \end{align*}$$
+### Mohr's Circle
+
+For a two-dimensional stress tensor
+$$\boldsymbol\sigma=\begin{pmatrix}\sigma_{11}&\sigma_{12}\\\sigma_{12}&\sigma_{22}\end{pmatrix},$$
+we have
+$$\begin{align*}\sigma_n&=\mathbf{n}^\top\boldsymbol\sigma\mathbf{n}=\begin{pmatrix} \cos \theta &\sin \theta\end{pmatrix}\begin{pmatrix} \sigma_{11}&\sigma_{12}\\ \sigma_{12}&\sigma_{22} \end{pmatrix}\begin{pmatrix} \cos \theta \\\sin \theta \end{pmatrix}\\&=\sigma_{11}\cos^2\theta + 2\sigma_{12}\sin\theta\cos\theta + \sigma_{22}\sin^2\theta\\&=\frac{\sigma_{11}+\sigma_{22}}{2} + \frac{\sigma_{11}-\sigma_{22}}{2}\cos2\theta + \sigma_{12}\sin2\theta .\end{align*}$$
  $$\begin{align*}\tau_n&=\mathbf{m}^\top\sigma\mathbf{n}=\begin{pmatrix}  -\sin \theta & \cos \theta\end{pmatrix}\begin{pmatrix} \sigma_{11}&\sigma_{12}\\ \sigma_{12}&\sigma_{22} \end{pmatrix}\begin{pmatrix} \cos \theta \\\sin \theta \end{pmatrix}\\&=-\sigma_{11}\sin\theta\cos\theta - \sigma_{12}\sin^2\theta +\sigma_{12}\cos^2\theta + \sigma_{22}\sin\theta\cos \theta\\&=-\frac{\sigma_{11}-\sigma_{22}}{2}\sin2\theta+\sigma_{12}\cos2\theta \end{align*}$$
-The we can find
+Therefore,
 $$(\sigma_n-\frac{\sigma_{11}+\sigma_{22}}{2})^2+\tau_n^2=(\frac{\sigma_{11}-\sigma_{22}}{2})^2+\sigma_{12}^2$$
-We call it as <span style="color: red;">Mohr Circle</span>. It can be used to solve the stress geometrically.
+This is the equation of <span style="color: red;">Mohr's circle</span>, which gives a geometric representation of the stress transformation.
 
-For three-dimensional circumstance,
+For a three-dimensional stress state in principal coordinates,
 $$\left\{\begin{matrix}
- (\sigma^{(n)})^2=\sigma_n^2+\tau_n^2=\sigma_i^2n_i^2\\
-\sigma_n=\sigma_in_i^2 \\
+ \|\mathbf t^{(\mathbf n)}\|^2=\sigma_n^2+\tau_n^2=\sigma_i^2n_i^2\\
+\sigma_n=\sigma_i n_i^2 \\
 n_1^2+n_2^2+n_3^2=1
 \end{matrix}\right.$$
-The solution of it is:
+Solving for the squared direction cosines gives
 $$\left\{\begin{matrix}
- n_1^2=\frac{\tau_n^2+(\sigma-\sigma_2)(\sigma-\sigma_3)}{(\sigma_1-\sigma_2)(\sigma_1-\sigma_3)}\\
-n_2^2=\frac{\tau_n^2+(\sigma-\sigma_3)(\sigma-\sigma_1)}{(\sigma_2-\sigma_3)(\sigma_2-\sigma_1)} \\
-n_3^2=\frac{\tau_n^2+(\sigma-\sigma_1)(\sigma-\sigma_2)}{(\sigma_3-\sigma_1)(\sigma_3-\sigma_2)}
+ n_1^2=\frac{\tau_n^2+(\sigma_n-\sigma_2)(\sigma_n-\sigma_3)}{(\sigma_1-\sigma_2)(\sigma_1-\sigma_3)}\\
+n_2^2=\frac{\tau_n^2+(\sigma_n-\sigma_3)(\sigma_n-\sigma_1)}{(\sigma_2-\sigma_3)(\sigma_2-\sigma_1)} \\
+n_3^2=\frac{\tau_n^2+(\sigma_n-\sigma_1)(\sigma_n-\sigma_2)}{(\sigma_3-\sigma_1)(\sigma_3-\sigma_2)}
 \end{matrix}\right.$$
-Let $n_i=0$, it can convert into the corresponding Mohr Circle.
+Setting one $n_i$ to zero gives the corresponding principal-stress Mohr circle.
 
-### Octahedron
+### Octahedral Stresses
 
-For an octahedron, we can find that one of the normals is $$\mathbf{n}=(\frac{1}{\sqrt{3}},\frac{1}{\sqrt{3}},\frac{1}{\sqrt{3}})$$
-As a result, the normal stress is $$\sigma_n=\mathbf{n}^\top \sigma_{ij}\mathbf{n}=\frac{1}{3}\sigma_{ii}=\frac{I_1}{3}$$
-Besides, Shear stress$$\begin{align*}\tau_n^2&=[(\sigma_1n_1)^2+(\sigma_2n_2)^2+(\sigma_3n_3)^2]-(\sigma_1n_1^2+\sigma_2n_2^2+\sigma_3n_3^2)^2\\&=\frac{1}{3}(\sigma_1^2+\sigma_2^2+\sigma_3^2)-\sigma_n^2\\&=\frac{2}{3}J_2\end{align*}$$
-### Navier Equilibrium Equation
+For an octahedral plane, one possible unit normal in principal coordinates is
+$$\mathbf n=\left(\frac1{\sqrt3},\frac1{\sqrt3},\frac1{\sqrt3}\right).$$
+The octahedral normal and shear stresses are therefore
+$$\sigma_{\mathrm{oct}}=\mathbf n^\top\boldsymbol\sigma\mathbf n=\frac13\sigma_{ii}=\frac{I_1}{3},$$
+$$\begin{align*}
+\tau_{\mathrm{oct}}^2
+&=\frac13(\sigma_1^2+\sigma_2^2+\sigma_3^2)-\sigma_{\mathrm{oct}}^2\\
+&=\frac23J_2.
+\end{align*}$$
+### Cauchy Momentum Equation
 
-For $x_1$ direction, we can find two face, correspondingly in $x_1$ and $x_1+\mathrm{d}x_1$. The difference of two force is:$$(\sigma_{11}(x_1+\mathrm{d}x_1)-\sigma_{11}(x_1))\mathrm{d}x_2\mathrm{d}x_3=\frac{\partial \sigma_{11}}{\partial x_1}\mathrm{d}x_1\mathrm{d}x_2\mathrm{d}x_3$$
-As a result, for the direction $x_i$, we can find that$$\frac{\partial \sigma_{ij}}{\partial x_j}+f_i=0$$
+For example, the difference between the normal forces on the two faces perpendicular to $x_1$ is
+$$(\sigma_{11}(x_1+\mathrm{d}x_1)-\sigma_{11}(x_1))\mathrm{d}x_2\mathrm{d}x_3
+=\frac{\partial\sigma_{11}}{\partial x_1}\mathrm{d}V.$$
+Applying linear-momentum balance in every direction gives the Cauchy momentum equation
+$$\boxed{\frac{\partial\sigma_{ij}}{\partial x_j}+f_i=\rho a_i}.$$
+For static equilibrium, $a_i=0$, so $\partial_j\sigma_{ij}+f_i=0$.
 ## Introduction to Strain
 
 ### Prerequisites
 
 In this section, we only consider the small deformation conditions.
 
-For a strain, we can use derivative to analyze it.
-$$\frac{\mathrm{d}\mathbf{u}}{\mathrm{d}\mathbf{x}}=\begin{pmatrix}
+Let $\mathbf u(\mathbf x)$ be the displacement field. Its displacement gradient is
+$$\nabla\mathbf u=\left(\frac{\partial u_i}{\partial x_j}\right)=\begin{pmatrix}
  \frac{\partial u_1}{\partial x_1}  &  \frac{\partial u_1}{\partial x_2} &  \frac{\partial u_1}{\partial x_3}\\
  \frac{\partial u_2}{\partial x_1}  &  \frac{\partial u_2}{\partial x_2} &  \frac{\partial u_2}{\partial x_3}\\
  \frac{\partial u_3}{\partial x_1}  &  \frac{\partial u_3}{\partial x_2} &  \frac{\partial u_3}{\partial x_3}\\
 \end{pmatrix}$$
-And the tensor can be divided as a symmetric tensor and an antisymmetric tensor
+It decomposes uniquely into symmetric and antisymmetric parts.
 
-Let <span style="color: red;">Deformation tensor</span>$$D=\epsilon_{ij}=\begin{pmatrix}
+The <span style="color: red;">infinitesimal strain tensor</span> is
+$$\mathbf D=\boldsymbol\epsilon,\qquad
+\epsilon_{ij}=\frac12(u_{i,j}+u_{j,i})=\begin{pmatrix}
  \frac{\partial u_1}{\partial x_1}  &  \frac{1}{2}(\frac{\partial u_1}{\partial x_2}+\frac{\partial u_2}{\partial x_1}) &  \frac{1}{2}(\frac{\partial u_1}{\partial x_3}+\frac{\partial u_3}{\partial x_1})\\
  \frac{1}{2}(\frac{\partial u_1}{\partial x_2}+\frac{\partial u_2}{\partial x_1})  &  \frac{\partial u_2}{\partial x_2} &  \frac{1}{2}(\frac{\partial u_2}{\partial x_3}+\frac{\partial u_3}{\partial x_2})\\
  \frac{1}{2}(\frac{\partial u_1}{\partial x_3}+\frac{\partial u_3}{\partial x_1})  &  \frac{1}{2}(\frac{\partial u_2}{\partial x_3}+\frac{\partial u_3}{\partial x_2}) &  \frac{\partial u_3}{\partial x_3}\\
 \end{pmatrix}$$
-<span style="color: red;">Rotation tensor</span>
-$$R=\omega_{ij}=\begin{pmatrix}
+The <span style="color: red;">infinitesimal rotation tensor</span> is
+$$\mathbf R=(\omega_{ij}),\qquad
+\omega_{ij}=\frac12(u_{i,j}-u_{j,i})=\begin{pmatrix}
  0  &  \frac{1}{2}(\frac{\partial u_1}{\partial x_2}-\frac{\partial u_2}{\partial x_1}) &  \frac{1}{2}(\frac{\partial u_1}{\partial x_3}-\frac{\partial u_3}{\partial x_1})\\
  \frac{1}{2}(\frac{\partial u_2}{\partial x_1}-\frac{\partial u_1}{\partial x_2})  &  0 &  \frac{1}{2}(\frac{\partial u_2}{\partial x_3}-\frac{\partial u_3}{\partial x_2})\\
  \frac{1}{2}(\frac{\partial u_3}{\partial x_1}-\frac{\partial u_1}{\partial x_3})  &  \frac{1}{2}(\frac{\partial u_3}{\partial x_2}-\frac{\partial u_2}{\partial x_3}) &  0\\
 \end{pmatrix}$$
-Then
-$$\frac{\mathrm{d}\mathbf{u}}{\mathrm{d}\mathbf{x}}=D+R$$
-$$\mathrm{d}\mathbf{u}=D\cdot\mathrm{d}\mathbf{x}+R\cdot\mathrm{d}\mathbf{x}=\mathrm{d}\mathbf{u}_D​+\mathrm{d}\mathbf{u}_R​$$
+Thus
+$$\nabla\mathbf u=\mathbf D+\mathbf R,$$
+$$\mathrm{d}\mathbf u=\mathbf D\,\mathrm{d}\mathbf x+\mathbf R\,\mathrm{d}\mathbf x
+=\mathrm{d}\mathbf u_D+\mathrm{d}\mathbf u_R.$$
 $$\mathrm{d}u_{Di}=\epsilon_{ij}\alpha_j\mathrm{d}s$$
-### Deformation Tensor
+### Infinitesimal Strain
 ![Screenshot 2026-09-16 at 10.42.25](../attachments/Screenshot%202026-09-16%20at%2010.42.25.png)
 
-Geometrically, we can find that 
-$$\tan\alpha=\frac{\frac{\partial u_2}{\partial x_1}\mathrm{d}x_2}{\mathrm{d}x_1(1+\epsilon_{11})}$$
-As a result,$$\alpha=\frac{\partial u_2}{\partial x_1}$$
-Similarly,$$\beta=\frac{\partial u_1}{\partial x_2}$$
-So we call $\epsilon_{12},\epsilon_{23},\epsilon_{31}$ as <span style="color: red;">shear stress</span>.
+For small deformation, the changes in angle of two initially perpendicular line elements along $x_1$ and $x_2$ are approximately
+$$\alpha\approx\frac{\partial u_2}{\partial x_1},\qquad
+\beta\approx\frac{\partial u_1}{\partial x_2}.$$
+Their total angular change is the engineering shear strain
+$$\gamma_{12}=\alpha+\beta
+=\frac{\partial u_2}{\partial x_1}+\frac{\partial u_1}{\partial x_2}
+=2\epsilon_{12}.$$
+Similarly, $\gamma_{23}=2\epsilon_{23}$ and $\gamma_{31}=2\epsilon_{31}$.
 
-Similar to the stress, we have the main strain $\epsilon_1>\epsilon_2>\epsilon_3$ and can define three invariants
+As with stress, the eigenvalues $\epsilon_1,\epsilon_2,\epsilon_3$ are the principal strains. The strain invariants are
 $$I_1'=\operatorname{tr}(D)=\epsilon_1+\epsilon_2+\epsilon_3$$
 $$I_2'=\frac12\left[(\operatorname{tr}D)^2-\operatorname{tr}(D^2)\right] =\epsilon_1\epsilon_2+\epsilon_2\epsilon_3+\epsilon_3\epsilon_1$$
 $$I_3'=\det(D)=\epsilon_1\epsilon_2\epsilon_3$$
-Then we can calculate the <span style="color: red;">coefficient of volume expansion</span> $\theta$:
-$$\theta=\frac{V'-V}{V}=\frac{a(1+\epsilon_1)\cdot b(1+\epsilon_2)\cdot c(1+\epsilon_3)-abc}{abc}=I_1'=\nabla\cdot\mathbf{u}$$
-And we also has strain circle. The tensor can also decomposed into spherical tensor and skew tensor. These will not be elaborated further.
+Before neglecting higher-order products, the volume-change expression based on the principal normal extensions is
+$$\frac{V'-V}{V}=(1+\epsilon_1)(1+\epsilon_2)(1+\epsilon_3)-1.$$
+Under the infinitesimal-strain approximation, products of strains are neglected, so the <span style="color: red;">volumetric strain</span> is
+$$\boxed{\theta=\frac{V'-V}{V}\approx I_1'=\operatorname{tr}(\boldsymbol\epsilon)=\nabla\cdot\mathbf u}.$$
+The strain tensor can likewise be decomposed into spherical and deviatoric parts. Its planar transformation can be represented by Mohr's circle for strain.
 
-### Strain Flower
-
-### Strain compatibility equations
 ### Rotation Tensor
 
-We can find the rotation tensor only has three independent quantity, so we define $$\omega_k=\frac{1}{2}\epsilon_{ijk}\omega_{ij}$$
-where $\epsilon_{ijk}$ is Levi-Civita symbol.
+The antisymmetric rotation tensor has three independent components. Define its axial vector by
+$$\Omega_k=-\frac12\varepsilon_{kij}\omega_{ij},$$
+where $\varepsilon_{kij}$ is the Levi-Civita symbol.
 
-Then we have $$\left\{\begin{matrix}
-\omega_1=\omega_{32}=-\omega_{23} \\
- \omega_2=\omega_{13}=-\omega_{31}\\
-\omega_3=\omega_{21}=-\omega_{12}
+Then
+$$\left\{\begin{matrix}
+\Omega_1=\omega_{32}=-\omega_{23}, \\
+\Omega_2=\omega_{13}=-\omega_{31},\\
+\Omega_3=\omega_{21}=-\omega_{12}
 \end{matrix}\right.$$
-We can find that $$\mathbf{\omega}=\frac{1}{2}\nabla\times\mathbf{u}$$
-$$\mathrm{d}\mathbf{u}_R=R\cdot\mathrm{d}\mathbf{r}=\mathbf{\omega}\times\mathrm{d}\mathbf{r}$$
+and
+$$\boldsymbol\Omega=\frac12\nabla\times\mathbf u,$$
+$$\mathrm{d}\mathbf u_R=\mathbf R\,\mathrm{d}\mathbf r
+=\boldsymbol\Omega\times\mathrm{d}\mathbf r.$$
+### Coordinate System Transformation
+For a Cartesian coordinate transformation, let
+$$\alpha_{ki}=\cos(x_k',x_i).$$
+Then $u_k'=\alpha_{ki}u_i$. Since $\boldsymbol\epsilon$ is a second-order tensor,
+$$\boxed{\epsilon_{kl}'=\alpha_{ki}\alpha_{lj}\epsilon_{ij}},
+\qquad \boldsymbol\epsilon'=\mathbf A\boldsymbol\epsilon\mathbf A^\top.$$
+The rotation tensor transforms in the same way:
+$$\omega_{kl}'=\alpha_{ki}\alpha_{lj}\omega_{ij}.$$
+### Strain Rosette
 
-## Hoke Theorem
+For a planar state, rotate the coordinate axes through an angle $\theta$:
+$$\epsilon_{11}'=\epsilon_{11}\cos^2\theta +2\epsilon_{12}\cos\theta\sin\theta +\epsilon_{22}\sin^2\theta$$
+$$\epsilon_{12}'=-\epsilon_{11}\sin\theta\cos\theta+\epsilon_{12}(\cos^2\theta-\sin^2\theta)+\epsilon_{22}\sin\theta\cos\theta$$
+If $x_1,x_2$ are principal directions, then
+$$\epsilon_{11}'=\epsilon_{11}\cos^2\theta+\epsilon_{22}\sin^2\theta=\frac{1}{2}(\epsilon_1+\epsilon_2)+\frac{1}{2}(\epsilon_1-\epsilon_2)\cos 2\theta$$
+$$\epsilon_{12}'=-\epsilon_{11}\sin\theta\cos\theta+\epsilon_{22}\sin\theta\cos\theta=-\frac{(\epsilon_1-\epsilon_2)}{2}\sin2\theta$$
+![Screenshot 2026-09-16 at 13.04.30](../attachments/Screenshot%202026-09-16%20at%2013.04.30.png)
+In practice, a strain rosette uses resistance strain gauges to measure normal strain along three different directions.
+
+$$\left\{\begin{matrix}
+ \epsilon_R=\frac{1}{2}(\epsilon_1+\epsilon_2)+\frac{1}{2}(\epsilon_1-\epsilon_2)\cos2\theta\\
+ \epsilon_Q=\frac{1}{2}(\epsilon_1+\epsilon_2)+\frac{1}{2}(\epsilon_1-\epsilon_2)\cos2(\theta+\alpha)\\
+\epsilon_P=\frac{1}{2}(\epsilon_1+\epsilon_2)+\frac{1}{2}(\epsilon_1-\epsilon_2)\cos2(\theta+\alpha+\beta)
+\end{matrix}\right.$$
+Two common cases:
+1. $\alpha=\beta=45^{\circ}$
+$$\left\{\begin{matrix}
+ \epsilon_1+\epsilon_2=\epsilon_P+\epsilon_R\\
+ \epsilon_1-\epsilon_2=[(\epsilon_P-2\epsilon_Q+\epsilon_R)^2+(\epsilon_P-\epsilon_R)^2]^{1/2}\\
+\tan 2\theta=\frac{\epsilon_P-2\epsilon_Q+\epsilon_R}{\epsilon_P-\epsilon_R}
+\end{matrix}\right.$$
+
+2. $\alpha=\beta=60^{\circ}$
+$$\left\{\begin{matrix}
+ \epsilon_1+\epsilon_2=\frac{2}{3}(\epsilon_P+\epsilon_Q+\epsilon_R)\\
+ \epsilon_1-\epsilon_2=[\frac{4}{3}(\epsilon_Q-\epsilon_R)^2+\frac{4}{9}(2\epsilon_P-\epsilon_R-\epsilon_Q)^2]^{1/2}\\
+\tan 2\theta=\frac{\sqrt{3}(\epsilon_Q-\epsilon_R)}{\epsilon_Q+\epsilon_R-2\epsilon_P}
+\end{matrix}\right.$$
+### Saint-Venant Compatibility Equations
+
+A natural question is: what conditions must $\epsilon_{ij}$ satisfy in order to arise from a single-valued displacement field $u_i$?
+
+Starting from
+$$\epsilon_{ij}=\frac12(u_{i,j}+u_{j,i}),$$
+we obtain
+$$\left\{\begin{matrix}
+ \epsilon_{ij,kl}=\frac{1}{2}(u_{i,jkl}+u_{j,ikl})\\
+ \epsilon_{kl,ij}=\frac{1}{2}(u_{k,lij}+u_{l,kij})\\
+\epsilon_{jl,ik}=\frac{1}{2}(u_{j,lik}+u_{l,jik})\\
+\epsilon_{ik,jl}=\frac{1}{2}(u_{i,kjl}+u_{k,ijl})
+\end{matrix}\right.$$
+Commutation of mixed partial derivatives gives the compact compatibility relation
+$$\boxed{\epsilon_{ij,kl}+\epsilon_{kl,ij}=\epsilon_{ik,jl}+\epsilon_{jl,ik}}.$$
+In three dimensions this yields six independent compatibility equations:
+$$\left\{\begin{matrix}
+ \frac{\partial^2\epsilon_{11}}{\partial x_2x_3}=\frac{\partial}{\partial x_1}(-\frac{\partial \epsilon_{23}}{\partial x_1}+\frac{\partial\epsilon_{31}}{\partial x_2}+\frac{\partial\epsilon_{12}}{\partial x_3})\\
+ \frac{\partial^2\epsilon_{22}}{\partial x_3x_1}=\frac{\partial}{\partial x_2}(\frac{\partial \epsilon_{23}}{\partial x_1}-\frac{\partial\epsilon_{31}}{\partial x_2}+\frac{\partial\epsilon_{12}}{\partial x_3})\\
+ \frac{\partial^2\epsilon_{33}}{\partial x_1x_2}=\frac{\partial}{\partial x_3}(\frac{\partial \epsilon_{23}}{\partial x_1}+\frac{\partial\epsilon_{31}}{\partial x_2}-\frac{\partial\epsilon_{12}}{\partial x_3})\\
+ 2\frac{\partial^2\epsilon_{12}}{\partial x_1x_2}=\frac{\partial^2\epsilon_{11}}{\partial x_2^2}+\frac{\partial^2\epsilon_{22}}{\partial x_1^2}\\
+  2\frac{\partial^2\epsilon_{23}}{\partial x_2x_3}=\frac{\partial^2\epsilon_{22}}{\partial x_3^2}+\frac{\partial^2\epsilon_{33}}{\partial x_2^2}\\
+   2\frac{\partial^2\epsilon_{31}}{\partial x_3x_1}=\frac{\partial^2\epsilon_{33}}{\partial x_1^2}+\frac{\partial^2\epsilon_{11}}{\partial x_3^2}
+\end{matrix}\right.$$
+>[!THEOREM]
+>On a simply connected domain, a sufficiently smooth symmetric strain field satisfying the Saint-Venant compatibility equations is generated by a single-valued displacement field, unique up to rigid-body translation and rotation.
+
+## Hooke's Law
+
+For a homogeneous, isotropic, linearly elastic solid, the constitutive relation is
+$$\boxed{\sigma_{ij}=\lambda\epsilon_{kk}\delta_{ij}+2\mu\epsilon_{ij}},$$
+where $\lambda$ and $\mu$ are the Lamé constants and $\mu=G$ is the shear modulus. Equivalently,
+$$\boxed{\epsilon_{ij}=\frac{1+\nu}{E}\sigma_{ij}-\frac{\nu}{E}\sigma_{kk}\delta_{ij}},$$
+where $E$ is Young's modulus and $\nu$ is Poisson's ratio. The constants satisfy
+$$\mu=\frac{E}{2(1+\nu)},\qquad
+\lambda=\frac{E\nu}{(1+\nu)(1-2\nu)},\qquad
+K=\lambda+\frac23\mu=\frac{E}{3(1-2\nu)}.$$
+
+The elastic strain-energy density is
+$$W=\frac12\sigma_{ij}\epsilon_{ij}
+=\frac12\lambda(\epsilon_{kk})^2+\mu\epsilon_{ij}\epsilon_{ij}.$$
 
 ## Elastic Waves
+
+Combining Hooke's law with the Cauchy momentum equation gives the Navier–Cauchy equation
+$$\boxed{\rho\ddot{\mathbf u}=(\lambda+\mu)\nabla(\nabla\cdot\mathbf u)+\mu\nabla^2\mathbf u+\mathbf f}.$$
+In an unbounded isotropic solid with $\mathbf f=0$, the longitudinal and transverse wave speeds are
+$$c_{\mathrm L}=\sqrt{\frac{\lambda+2\mu}{\rho}},\qquad
+c_{\mathrm T}=\sqrt{\frac{\mu}{\rho}}.$$
 
 # Fluid mechanics
 

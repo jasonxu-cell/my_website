@@ -158,6 +158,24 @@ We can verify that it satisfies the required interpolation conditions.
 
 Newton's method for Hermite interpolation uses repeated nodes. We only need to define$$f[\underbrace{x,x,\dots,x}_{r+1}] = \frac{1}{r!}f^{(r)}(x),\quad r\ge0$$
 
+### Error Analysis
+
+Hermite interpolation imposes $m_i+1$ conditions ($f^{(0)}(x_i),\dots,f^{(m_i)}(x_i)$) at node $x_i$. Let $N=\sum_{i=0}^{n}(m_i+1)$, i.e. $H(x)$ is a polynomial of degree at most $N-1$. If $f(x)\in C^{N}[a,b]$, the interpolation error is
+$$R(x)=f(x)-H(x)=\frac{f^{(N)}(\xi)}{N!}\prod_{i=0}^{n}(x-x_i)^{m_i+1},\quad \xi\in[a,b]$$
+
+>[!PROOF]
+>Each node $x_i$ is a zero of $R(x)$ of multiplicity $m_i+1$, i.e.
+>$$R^{(k)}(x_i)=0,\quad k=0,1,\dots,m_i,\quad i=0,1,\dots,n$$
+>So let $$R(x)=k(x)\prod_{i=0}^{n}(x-x_i)^{m_i+1}$$
+>Let$$\varphi(t)=f(t)-H(t)-k(x)\prod_{i=0}^{n}(t-x_i)^{m_i+1}$$
+>We can find that $\varphi(x)=0$, and $\varphi(t)$ has a zero of multiplicity $m_i+1$ at each $x_i$, i.e. $n+1$ distinct zeros of total multiplicity $N$.
+>
+>By Rolle's Theorem, between adjacent zeros of $\varphi$ there is a zero of $\varphi'$. Moreover, a zero of multiplicity $r\ge2$ of $\varphi$ is a zero of multiplicity $r-1$ of $\varphi'$. So $\varphi'(t)$ has at least $N-1$ zeros (counting multiplicity). Applying Rolle's Theorem repeatedly, $\varphi^{(N-1)}(t)$ has at least one zero point $\xi$.
+>
+>We can also find that$$\varphi^{(N)}(t)=f^{(N)}(t)-N!k(x)$$
+>
+>As a result,$$\varphi^{(N)}(\xi)=f^{(N)}(\xi)-N!k(x)=0$$ $$k(x)=\frac{f^{(N)}(\xi)}{N!}$$
+
 ## Cubic Spline Interpolation
 
 The previous interpolation has a problem. If we fit a large number of points with one high-degree polynomial, the interpolation polynomial may oscillate violently within the interpolation interval. This phenomenon is called <span style="color: red;">Runge phenomenon</span>.
