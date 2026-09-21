@@ -1370,6 +1370,7 @@ button:focus-visible {
 .markdown-body .callout-title {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 10px;
     color: var(--callout-accent);
@@ -1394,6 +1395,40 @@ button:focus-visible {
 
 .markdown-body .callout-title-text {
     min-width: 0;
+    flex: 1 1 auto;
+}
+
+.markdown-body .callout-actions {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.markdown-body .callout-actions button {
+    min-height: 28px;
+    padding: 4px 10px;
+    color: var(--callout-accent);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid var(--callout-border);
+    border-radius: 4px;
+}
+
+.markdown-body .callout-actions button:hover {
+    background: #ffffff;
+}
+
+.markdown-body .markdown-callout.is-collapsed .callout-title {
+    margin-bottom: 0;
+}
+
+.markdown-body .markdown-callout.is-collapsed > .callout-content {
+    display: none;
 }
 
 .markdown-body .callout-content {

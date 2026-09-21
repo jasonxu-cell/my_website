@@ -328,6 +328,22 @@
     }
 
     const localHighlightGrammars = {
+        http: {
+            keywords: [],
+            types: [],
+            builtIns: [],
+            literals: [],
+            commentPatterns: [],
+            stringPatterns: [],
+            numberPattern: null,
+            patterns: [
+                { pattern: "^(?:GET|HEAD|POST|PUT|PATCH|DELETE|OPTIONS|TRACE|CONNECT)(?=\\s)", className: "hljs-keyword" },
+                { pattern: "\\bHTTP/\\d+(?:\\.\\d+)?\\b", className: "hljs-meta" },
+                { pattern: "^[A-Za-z][A-Za-z0-9-]*(?=:[ \\t])", className: "hljs-type" },
+                { pattern: "\\b[1-5]\\d{2}(?=\\s)", className: "hljs-number" },
+                { pattern: "(?:https?://[^\\s]+|/[^\\s]*(?=\\s+HTTP/))", className: "hljs-string" }
+            ]
+        },
         cpp: {
             keywords: [
                 "alignas", "alignof", "asm", "auto", "break", "case", "catch", "class", "const", "constexpr",
@@ -889,10 +905,12 @@
         addTokenPatterns(grammar.commentPatterns || defaultCommentPatterns, "hljs-comment");
         addTokenPatterns(grammar.metaPatterns || [], "hljs-meta");
         addTokenPatterns(grammar.stringPatterns || defaultStringPatterns, "hljs-string");
-        tokenDefinitions.push({
-            pattern: "\\b\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?\\b",
-            className: "hljs-number"
-        });
+        if (grammar.numberPattern !== null) {
+            tokenDefinitions.push({
+                pattern: grammar.numberPattern || "\\b\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?\\b",
+                className: "hljs-number"
+            });
+        }
         (grammar.patterns || []).forEach((definition) => tokenDefinitions.push(definition));
 
         if (literalPattern) {
@@ -1009,6 +1027,10 @@
             "<div class=\"callout-title\">",
             `<span class="callout-icon" aria-hidden="true">${escapeHtml(definition.symbol)}</span>`,
             `<span class="callout-title-text">${renderInline(title)}</span>`,
+            "<span class=\"callout-actions\">",
+            "<button type=\"button\" class=\"callout-copy\">Copy</button>",
+            "<button type=\"button\" class=\"callout-toggle\" aria-expanded=\"true\">Collapse</button>",
+            "</span>",
             "</div>",
             `<div class="callout-content">${content.html}</div>`,
             "</div>"
@@ -1578,6 +1600,31 @@
         });
     }
 
+    function setupCopyButton(button, value) {
+        button.addEventListener("click", async () => {
+            try {
+                await copyText(value);
+                button.textContent = "Copied";
+                window.setTimeout(() => {
+                    button.textContent = "Copy";
+                }, 1400);
+            } catch (_error) {
+                button.textContent = "Copy failed";
+                window.setTimeout(() => {
+                    button.textContent = "Copy";
+                }, 1600);
+            }
+        });
+    }
+
+    function setupCollapseButton(button, block) {
+        button.addEventListener("click", () => {
+            const isCollapsed = block.classList.toggle("is-collapsed");
+            button.textContent = isCollapsed ? "Expand" : "Collapse";
+            button.setAttribute("aria-expanded", String(!isCollapsed));
+        });
+    }
+
     function enhanceCodeBlocks() {
         if (!bodyElement.querySelectorAll) {
             return;
@@ -1589,28 +1636,28 @@
             const codeElement = block.querySelector("code");
 
             if (copyButton && codeElement) {
-                copyButton.addEventListener("click", async () => {
-                    try {
-                        await copyText(codeElement.textContent);
-                        copyButton.textContent = "Copied";
-                        window.setTimeout(() => {
-                            copyButton.textContent = "Copy";
-                        }, 1400);
-                    } catch (_error) {
-                        copyButton.textContent = "Copy failed";
-                        window.setTimeout(() => {
-                            copyButton.textContent = "Copy";
-                        }, 1600);
-                    }
-                });
+                setupCopyButton(copyButton, codeElement.textContent);
             }
 
             if (toggleButton) {
-                toggleButton.addEventListener("click", () => {
-                    const isCollapsed = block.classList.toggle("is-collapsed");
-                    toggleButton.textContent = isCollapsed ? "Expand" : "Collapse";
-                    toggleButton.setAttribute("aria-expanded", String(!isCollapsed));
-                });
+                setupCollapseButton(toggleButton, block);
+            }
+        });
+    }
+
+    function enhanceCallouts() {
+        bodyElement.querySelectorAll(".markdown-callout").forEach((block) => {
+            const title = block.querySelector(":scope > .callout-title");
+            const content = block.querySelector(":scope > .callout-content");
+            const copyButton = title && title.querySelector(".callout-copy");
+            const toggleButton = title && title.querySelector(".callout-toggle");
+
+            if (copyButton && content) {
+                setupCopyButton(copyButton, (content.innerText || content.textContent).trim());
+            }
+
+            if (toggleButton && content) {
+                setupCollapseButton(toggleButton, block);
             }
         });
     }
@@ -1711,6 +1758,7 @@
     renderToc(result.headings);
     setupTocScrollSpy(result.headings);
     enhanceCodeBlocks();
+    enhanceCallouts();
     loadHighlightJs();
     loadMathJax();
 })();
