@@ -124,19 +124,6 @@ Two negative non-dipole magnetic field centers:
 Non-dipole magnetic field in 1965
 ![Pasted image 20260907104332](../attachments/Pasted%20image%2020260907104332.png)
 
-![Pasted image 20260518165104](../attachments/Pasted%20image%2020260518165104.png)
-
-Influenced by external factors such as the solar wind, the Earth's magnetic field exhibits short-term variations:
-1. Calm variations: periodic variations, gradual and regular;
-2. Disturbance variations: occasional, brief, and complex, with amplitudes ranging from very strong to very small, such as geomagnetic storms.
-
-![Pasted image 20260518165414](../attachments/Pasted%20image%2020260518165414.png)
-Geomagnetic diurnal variation:
-1. Average variation ranges from a few $nT$ to tens of $nT$.
-2. A cycle of 24 hours.
-3. Greater variation during the day, smaller variation at night.
-4. Largest variation in summer, smallest variation in winter, with spring and autumn showing intermediate variations.
-
 Magnetization of the rock:
 - Induced magnetization: The magnetization of a geological body located in the lithosphere due to magnetization by the modern Earth's magnetic field.
 - Remanent magnetization: The magnetization retained by rocks and minerals formed under specific conditions, magnetized by the Earth's magnetic field at that time, and after a long geological period.
@@ -157,7 +144,7 @@ In [Equations of Mathematical Physics](../math/equations-of-mathematical-physics
 $$w(r,\theta,\lambda)=\frac{R}{\mu_0}\sum_{n=1}^\infty\sum_{m=0}^n[(\frac{R}{r})^{n+1}(g_n^m\cos m\lambda+h_n^m\sin m\lambda)+(\frac{r}{R})^n(j_n^m\cos m\lambda+k_n^m\sin m\lambda)]P_n^m(\cos \theta)$$
 It can be divided into two parts: internal magnetic field ($r^{-(n+1)}$) and external magnetic field ($r^n$).
 
-In the formula, we have four coefficients: $g_n^m,h_n^m,j_n^m,k_n^m$. They are called as <span style="color: red;">Gauss coefficients</span>, where $g_n^m,h_n^m$ are called as <span style="color: red;">Gauss coefficients of the intrinsic field</span>, and $j_n^m,k_n^m$ are called <span style="color: red;">Gauss coefficients of the extrinsic field</span>.
+In the formula, we have four coefficients: $g_n^m,h_n^m,j_n^m,k_n^m$. They are called as <span style="color: red;">Gauss coefficients</span>, where $g_n^m,h_n^m$ are called as Gauss coefficients of the intrinsic field, and $j_n^m,k_n^m$ are called Gauss coefficients of the extrinsic field.
 
 In the surface, we have $$w(r,\theta,\lambda)=\frac{R}{\mu_0}\sum_{n=1}^\infty\sum_{m=0}^n(p_n^m\cos m\lambda+q_n^m\sin m\lambda)P_n^m(\cos \theta)$$
 where$$\left\{\begin{matrix}
@@ -182,7 +169,7 @@ Therefore,$$\left\{\begin{matrix}
 \end{matrix}\right.$$
 The results of Gaussian spherical harmonic analysis of the geomagnetic field show that:
 $$|g_n^m|\gg|j_n^m|,|h_n^m|\gg|k_n^m|$$
-We can find the Gauss coefficients in [this website]([https://www.tiobe.com/tiobe-index/](https://wdc.kugi.kyoto-u.ac.jp/igrf/)).
+We can find the Gauss coefficients in [this website](https://wdc.kugi.kyoto-u.ac.jp/igrf/).
 
 ### Dipole Field ($n=1$)
 
@@ -221,8 +208,22 @@ where$$\left\{\begin{matrix}
  h_2^{'1}=\frac{\sqrt{3}}{R}(g_1^0y_0+h_1^1z_0)\\
  h_2^{'2}=\frac{\sqrt{3}}{R}(g_1^1y_0+h_1^1x_0)\\
 \end{matrix}\right.$$
+## Time-Varying Magnetic Field
 
-# Resistivity & Permittivity
+![Pasted image 20260518165104](../attachments/Pasted%20image%2020260518165104.png)
+
+Influenced by external factors such as the solar wind, the Earth's magnetic field exhibits short-term variations:
+1. Calm variations: periodic variations, gradual and regular;
+2. Disturbance variations: occasional, brief, and complex, with amplitudes ranging from very strong to very small, such as geomagnetic storms.
+
+![Pasted image 20260518165414](../attachments/Pasted%20image%2020260518165414.png)
+Geomagnetic diurnal variation:
+1. Average variation ranges from a few $nT$ to tens of $nT$.
+2. A cycle of 24 hours.
+3. Greater variation during the day, smaller variation at night.
+4. Largest variation in summer, smallest variation in winter, with spring and autumn showing intermediate variations.
+
+# Resistivity and Permittivity
 
 Given that the rock anisotropy, we define:
 <span style="color: red;">Longitudinal Resistivity</span> $\rho_t$: the average resistivity along the bedding direction (parallel to layering).
@@ -279,7 +280,7 @@ $$\rho=\frac{\pi (L^2-a^2) V}{4Ia}$$
 It offers strong interference suppression and has the highest vertical resolution.
 
 This method can be utilized for analyzing stratigraphic sequences.
-### Dipole-dipole
+### Dipole-Dipole
 ![Screenshot 2026-05-15 at 21.06.53](../attachments/Screenshot%202026-05-15%20at%2021.06.53.png)
 $$\rho=\frac{\pi V L(L^2-a^2)}{Ia^2}$$
 $\rho=O(L^3)$, so it has a highly lateral resolution.
@@ -320,9 +321,9 @@ Unlike the DC resistivity method, which uses a continuous current, the <span sty
 - If the signal attenuates rapidly, there may be a high-resistivity dielectric (e.g., solid bedrock) under the ground.
 
 key advantages:
-- **High Resolution:** Excellent at detecting highly conductive bodies (e.g., massive sulfides).
-- **No Galvanic Contact:** Unlike DC methods, TEM does not require grounding electrodes, making it highly effective in areas with high-resistivity surface layers (e.g., dry sand or permafrost).
-- **Depth Sensitivity:** The depth of investigation is controlled by the time elapsed after the current turn-off (late times correspond to greater depths).
+- High Resolution: Excellent at detecting highly conductive bodies (e.g., massive sulfides).
+- No Galvanic Contact: Unlike DC methods, TEM does not require grounding electrodes, making it highly effective in areas with high-resistivity surface layers (e.g., dry sand or permafrost).
+- Depth Sensitivity: The depth of investigation is controlled by the time elapsed after the current turn-off (late times correspond to greater depths).
 ## Self Potential
 
 - Redox natural electric fields generated by electrochemical activity

@@ -82,14 +82,84 @@ If $f(x)\in C^{n+1}[a,b]$, the interpolation error is$$R_n(x)=f(x)-L_n(x)=\frac{
 
 Time Complexity: $O(n^2)$
 
+```python
+import numpy as np  
+def Lagrange_Interpolation(a,b,n,f):  
+    xi = np.linspace(a, b, n+1)  
+    yi = f(xi)  
+    def g(x):  
+        result = 0  
+        for i in range(n+1):  
+            s = 1  
+            for j in range(n):  
+                if i != j:  
+                    s = s * (x - xi[j])/(xi[i] - xi[j])  
+            s = s * yi[i]  
+            result = result + s  
+        return result  
+    return g
+```
+
+### Barycentric Lagrange Interpolation
+
+The Lagrange form is elegant but impractical: evaluating $L_n(x)$ at one point costs $O(n^2)$, and inserting a node forces the whole formula to be rewritten. The <span style="color: red;">barycentric form</span> of Lagrange interpolation fixes both issues while representing the same polynomial.
+
+Define the nodal polynomial and the barycentric weights
+$$\ell(x)=\prod_{i=0}^{n}(x-x_i),\qquad w_i=\frac{1}{\prod_{j\neq i}(x_i-x_j)},\ i=0,1,\dots,n$$
+Since $l_i(x)=\dfrac{\ell(x)}{x-x_i}\,w_i$, substitution gives the first barycentric form
+$$\boxed{L_n(x)=\ell(x)\sum_{i=0}^{n}\frac{w_i}{x-x_i}f(x_i)}$$
+The weights depend only on the nodes: precompute them once in $O(n^2)$, and every later evaluation costs $O(n)$.
+
+Interpolating the constant function $1$ (whose interpolant is identically $1$) gives $\ell(x)\sum_{i=0}^{n}\frac{w_i}{x-x_i}=1$. Dividing the first form by this identity eliminates $\ell(x)$ and yields the second barycentric form
+$$\boxed{L_n(x)=\frac{\displaystyle\sum_{i=0}^{n}\frac{w_i}{x-x_i}f(x_i)}{\displaystyle\sum_{i=0}^{n}\frac{w_i}{x-x_i}}}$$
+
+- Common factors cancel: scaling every $w_i$ by the same constant leaves the second form unchanged, so weights may be kept unnormalized. This is why simple integer weights like $(-1)^i\binom{n}{i}$ are convenient.
+- Updating: inserting the node $x_{n+1}$ multiplies every existing weight by $\frac{1}{x_i-x_{n+1}}$ and adds one new weight, so an update costs $O(n)$ instead of $O(n^2)$.
+- Stability: the second form is numerically stable even when the weights vary by exponentially large factors (e.g. equally spaced nodes, where $|w_i|\sim\binom{n}{i}$ peak near $2^n$), so it is the standard way to evaluate high-degree interpolants.
+- Exact node: if $x$ coincides with some $x_k$, return $f(x_k)$ directly instead of evaluating the quotient.
+
+| Nodes | $w_i$ up to a common factor |
+| --- | --- |
+| Arbitrary $x_i$ | $1\big/\prod_{j\neq i}(x_i-x_j)$ |
+| Equally spaced | $(-1)^i\binom{n}{i}$ |
+| Chebyshev points of the second kind $x_i=\cos\frac{i\pi}{n}$ | $(-1)^i$, with endpoint weights halved: $w_0=w_n=\frac{1}{2}$ |
+| Chebyshev points of the first kind $x_i=\cos\frac{(2i+1)\pi}{2n+2}$ | $(-1)^i\sin\frac{(2i+1)\pi}{2n+2}$ |
+
+Since the barycentric form is the same polynomial as $L_n(x)$, the interpolation error is unchanged:$$R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\ell(x),\quad \xi\in[a,b]$$
+
+Converting between the value representation $\{f(x_i)\}$ and the coefficient representation of an interpolant normally costs $O(n^2)$ — solving the Vandermonde system or summing all the Lagrange products. On the Chebyshev grid the change of variables $x=\cos\theta$ turns the interpolant into a cosine series whose coefficients are computed by the DCT — an FFT in disguise — so both evaluation and interpolation drop from $O(n^2)$ to $O(n\log n)$, see [Fast Fourier Transform (FFT)](../cs/data_structure_and_algorithm.html#fast-fourier-transform-fft) (Berrut & Trefethen 2004). The second-kind Chebyshev grid also has Lebesgue constant $O(\log n)$, which keeps the interpolant within $O(\log n)$ of the best polynomial approximant and avoids the Runge phenomenon.
+
+```python
+def barycentric_weights(xi):
+    n = len(xi)
+    w = []
+    for i in range(n):
+        p = 1
+        for j in range(n):
+            if i != j:
+                p *= xi[i] - xi[j]
+        w.append(1 / p)
+    return w
+
+def barycentric_eval(xi, w, yi, x):
+    num = den = 0.0
+    for i in range(len(xi)):
+        if x == xi[i]:
+            return yi[i]
+        t = w[i] / (x - xi[i])
+        num += t * yi[i]
+        den += t
+    return num / den
+```
+
 ## Newton Interpolation
 
 The problem of Lagrange interpolation is: if we want to insert a point, we still need time $O(n^2)$ to update the equation. We introduce Newton interpolation to solve this problem.
 
 Define:
 - <span style="color: red;">First-order divided difference</span> $$f[x_0,x_1]=\frac{f(x_1)-f(x_0)}{x_1-x_0}$$
-- <span style="color: red;">Second-order divided difference</span> $$f[x_0,x_1,x_2]=\frac{f[x_1,x_2]-f[x_0,x_1]}{x_2-x_0}$$
-- <span style="color: red;">k-th-order divided difference</span> $$f[x_0,x_1,\dots,x_k]=\frac{f[x_1,\dots,x_k]-f[x_0,\dots,x_{k-1}]}{x_k-x_0}$$
+- Second-order divided difference $$f[x_0,x_1,x_2]=\frac{f[x_1,x_2]-f[x_0,x_1]}{x_2-x_0}$$
+- k-th-order divided difference $$f[x_0,x_1,\dots,x_k]=\frac{f[x_1,\dots,x_k]-f[x_0,\dots,x_{k-1}]}{x_k-x_0}$$
 We can use induction to prove that $$f[x_0,x_1,\dots,x_k]=\sum_{i=0}^k \frac{1}{(x_i-x_0)\dots(x_i-x_{i-1})(x_i-x_{i+1})\dots(x_i-x_k)}f(x_i)$$
 We can also find that if $\{i_0,i_1,\dots,i_k\}$ is a permutation of $\{0,1,\dots,k\}$, then$$f[x_{i_0},x_{i_1},\dots,x_{i_k}]=f[x_0,x_1,\dots,x_k]$$
 Obviously,$$f(x)=f[x_0,x](x-x_0)+f(x_0)$$
@@ -156,7 +226,31 @@ We can verify that it satisfies the required interpolation conditions.
 
 ### Newton Method
 
-Newton's method for Hermite interpolation uses repeated nodes. We only need to define$$f[\underbrace{x,x,\dots,x}_{r+1}] = \frac{1}{r!}f^{(r)}(x),\quad r\ge0$$
+Newton's method for Hermite interpolation uses repeated nodes. The reason this is legitimate is that a divided difference depends continuously on its nodes, and when all its nodes coalesce it becomes a derivative.
+
+>[!Lemma] 
+>For distinct nodes $x_0,x_1,\dots,x_r$, if $f\in C^r[a,b]$ then$$f[x_0,x_1,\dots,x_r]=\frac{f^{(r)}(\xi)}{r!},\quad \xi\in\Big[\min_i x_i,\ \max_i x_i\Big]$$
+
+>[!PROOF]
+>Let $P(t)$ be the Newton interpolation polynomial of degree at most $r$ through $(x_i,f(x_i))$, $i=0,1,\dots,r$. By the construction above its leading coefficient is $f[x_0,x_1,\dots,x_r]$, so$$P^{(r)}(t)\equiv r!\,f[x_0,x_1,\dots,x_r]$$
+>$P(t)-f(t)$ has the $r+1$ distinct zeros $x_0,x_1,\dots,x_r$. By Rolle's Theorem, $(P-f)'(t)$ has at least $r$ zeros, and so on; $(P-f)^{(r)}(t)$ has at least one zero $\xi$. Hence$$0=(P-f)^{(r)}(\xi)=r!\,f[x_0,x_1,\dots,x_r]-f^{(r)}(\xi)$$
+
+Let $x_0,x_1,\dots,x_r\to x$. The explicit formula for the divided difference shows that it is continuous in distinct nodes, and the lemma shows that the limit exists; using the continuity of $f^{(r)}$, we get the consistent definition$$f[\underbrace{x,x,\dots,x}_{r+1}] = \frac{1}{r!}f^{(r)}(x),\quad r\ge0$$
+i.e. a divided difference with $r+1$ coincident nodes is the $r$-th derivative divided by $r!$. (The lemma itself also extends to repeated nodes, with $\xi$ in the hull of the nodes, by the same limiting argument.) Consequently the recursive formula stays valid by continuity whenever $z_j\neq z_{j+k}$:$$f[z_j,\dots,z_{j+k}]=\frac{f[z_{j+1},\dots,z_{j+k}]-f[z_j,\dots,z_{j+k-1}]}{z_{j+k}-z_j},\qquad z_j\neq z_{j+k}$$while a fully coincident block satisfies$$f[\underbrace{x_i,\dots,x_i}_{k+1}]=\frac{1}{k!}f^{(k)}(x_i)$$So the generalized Newton method builds exactly the same divided-difference table as before; only the entries inside a repeated block are filled with derivatives.
+
+To construct the interpolating polynomial, list the nodes with multiplicity$$z_0\le z_1\le\dots\le z_{N-1},\qquad N=\sum_{i=0}^{n}(m_i+1)$$where each $x_i$ appears $m_i+1$ times consecutively, and set$$H(x)=\sum_{j=0}^{N-1}f[z_0,\dots,z_j]\prod_{l=0}^{j-1}(x-z_l)$$which has degree at most $N-1$.
+
+>[!THEOREM]
+> $H(x)$ is the Hermite interpolation polynomial:$$H^{(k)}(x_i)=f^{(k)}(x_i),\qquad k=0,1,\dots,m_i,\quad i=0,1,\dots,n$$Moreover$$R(x)=f(x)-H(x)=f[z_0,z_1,\dots,z_{N-1},x]\prod_{i=0}^{n}(x-x_i)^{m_i+1}$$
+
+>[!PROOF]
+>Repeat the recursive construction of Newton Interpolation with the nodes $z_0,\dots,z_{N-1}$ and a running variable $t$ (all distinct for the moment):$$f(t)=\underbrace{\sum_{j=0}^{N-1}f[z_0,\dots,z_j]\prod_{l=0}^{j-1}(t-z_l)}_{H(t)}+f[z_0,\dots,z_{N-1},t]\prod_{l=0}^{N-1}(t-z_l)$$
+>Both sides are continuous in $z_0,\dots,z_{N-1},t$ — for divided differences this follows from the explicit formula and the lemma above — so the identity survives the limit and holds for coincident nodes as well. Since each $x_i$ occupies exactly $m_i+1$ consecutive places in the list, the last product is $\omega(t)=\prod_{i=0}^{n}(t-x_i)^{m_i+1}$. Writing $g(t)=f[z_0,\dots,z_{N-1},t]$, we obtain$$f(t)-H(t)=g(t)\,\omega(t)$$
+>At $t=x_i$ we have $\omega(x_i)=0$, hence $H(x_i)=f(x_i)$. A confluent divided difference such as $g(t)$ is as smooth in $t$ as $f$ is (Hermite–Genocchi formula $f[x_0,\dots,x_r]=\int_{s_j\ge0,\,\sum s_j=1}f^{(r)}\big(\sum_j s_jx_j\big)\,\mathrm{d}s$), so for $1\le k\le m_i$ the Leibniz rule gives$$R^{(k)}(x_i)=\sum_{j=0}^{k}\binom{k}{j}g^{(k-j)}(x_i)\,\omega^{(j)}(x_i)=0$$because $\omega$ has a zero of multiplicity $m_i+1$ at $x_i$, i.e. $\omega^{(j)}(x_i)=0$ for all $j\le k\le m_i$. (Assume e.g. $f\in C^{N+m}$ with $m=\max_i m_i$, so that $g\in C^m$.) Thus $H^{(k)}(x_i)=f^{(k)}(x_i)$.
+>
+>In particular $H(x)$ coincides with the polynomial given by the Lagrange method, since the Hermite conditions determine a unique polynomial of degree at most $N-1$: the difference of two such polynomials has degree at most $N-1$ but $N$ zeros counting multiplicity, so it is identically zero.
+>
+>Applying the lemma once more with $N+1$ arguments, $f[z_0,z_1,\dots,z_{N-1},x]=f^{(N)}(\xi)/N!$, so the error formula above coincides with the one in Error Analysis. Note the proof above needs enough smoothness to differentiate $g$ (e.g. $f\in C^{N+m}$); the error formula itself only requires $f\in C^N$, as shown by the Rolle proof in Error Analysis.
 
 ### Error Analysis
 
@@ -170,7 +264,7 @@ $$R(x)=f(x)-H(x)=\frac{f^{(N)}(\xi)}{N!}\prod_{i=0}^{n}(x-x_i)^{m_i+1},\quad \xi
 >Let$$\varphi(t)=f(t)-H(t)-k(x)\prod_{i=0}^{n}(t-x_i)^{m_i+1}$$
 >We can find that $\varphi(x)=0$, and $\varphi(t)$ has a zero of multiplicity $m_i+1$ at each $x_i$, i.e. $n+1$ distinct zeros of total multiplicity $N$.
 >
->By Rolle's Theorem, between adjacent zeros of $\varphi$ there is a zero of $\varphi'$. Moreover, a zero of multiplicity $r\ge2$ of $\varphi$ is a zero of multiplicity $r-1$ of $\varphi'$. So $\varphi'(t)$ has at least $N-1$ zeros (counting multiplicity). Applying Rolle's Theorem repeatedly, $\varphi^{(N-1)}(t)$ has at least one zero point $\xi$.
+>By Rolle's Theorem, between adjacent zeros of $\varphi$ there is a zero of $\varphi'$. Moreover, a zero of multiplicity $r\ge2$ of $\varphi$ is a zero of multiplicity $r-1$ of $\varphi'$. So $\varphi'(t)$ has at least $N-1$ zeros (counting multiplicity). Applying Rolle's Theorem repeatedly, $\varphi^{(N-1)}(t)$ has at least one zero, hence $\varphi^{(N)}(t)$ has at least one zero point $\xi$.
 >
 >We can also find that$$\varphi^{(N)}(t)=f^{(N)}(t)-N!k(x)$$
 >
@@ -191,24 +285,33 @@ Obviously, each third-degree polynomial needs $4$ parameters. So we need $4n$ eq
 	- Clamped spline: if we know the first derivative of the endpoints, then $$S'(x_0)=k_0,S'(x_n)=k_n$$
 	- Periodic boundary conditions: if the endpoint values are compatible, then $$S'(x_0)=S'(x_n),S''(x_0)=S''(x_n)$$
 
-# Numerical integration and numerical differentiation
+In actual calculations, we define that $$h_i=x_{i+1}-x_i$$
+Then we can find that 
+$$S_i(x) = \frac{M_i(x_{i+1}-x)^3}{6h_i} + \frac{M_{i+1}(x-x_i)^3}{6h_i} + \left(y_i-\frac{M_i h_i^2}{6}\right) \frac{x_{i+1}-x}{h_i} + \left(y_{i+1}-\frac{M_{i+1}h_i^2}{6}\right) \frac{x-x_i}{h_i}$$
 
-## Interpolation-type numerical integration
+where$$M_i=S''(x_i)$$
+And we have recurrence relation:
 
-$$\begin{align*}\int_a^b f(x)\mathrm{d}x\approx \int_a^b L_n(x)\mathrm{d}x=\sum_{i=0}^{n}f(x_i)\int_a^bl_i(x)\mathrm{d}x\\=\sum_{i=0}^{n}f(x_i) \frac{1}{\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x_i-x_j)}\int_a^b\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x-x_j)\mathrm{d}x\end{align*}$$
+$$h_{i-1}M_{i-1} +2(h_{i-1}+h_i)M_i +h_iM_{i+1} = 6\left( \frac{y_{i+1}-y_i}{h_i} - \frac{y_i-y_{i-1}}{h_{i-1}} \right).$$
+
+# Numerical Integration and Numerical Differentiation
+
+## Interpolation-Type Numerical Integration
+
+$$\begin{align*}\int_a^b f(x)\,\mathrm{d}x\approx \int_a^b L_n(x)\,\mathrm{d}x=\sum_{i=0}^{n}f(x_i)\int_a^bl_i(x)\,\mathrm{d}x\\=\sum_{i=0}^{n}f(x_i) \frac{1}{\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x_i-x_j)}\int_a^b\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x-x_j)\,\mathrm{d}x\end{align*}$$
 
 If we let $$h=\frac{b-a}{n},x_i=a+hi,i=0,1,\dots,n$$
 This method is called <span style="color: red;">Newton–Cotes Formula</span>.
 
 Let
-$$\begin{align*}A_i&=\frac{1}{\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x_i-x_j)}\int_a^b\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x-x_j)\mathrm{d}x\\&=h\frac{(-1)^{n-i}}{i!(n-i)!}\int_0^n t(t-1)\dots(t-i+1)(t-i-1)\dots(t-n)\mathrm{d}t\end{align*}$$
+$$\begin{align*}A_i&=\frac{1}{\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x_i-x_j)}\int_a^b\prod_{\substack{0 \leqslant j \leqslant n \\ j \neq i}}(x-x_j)\,\mathrm{d}x\\&=h\frac{(-1)^{n-i}}{i!(n-i)!}\int_0^n t(t-1)\dots(t-i+1)(t-i-1)\dots(t-n)\,\mathrm{d}t\end{align*}$$
 
 Define Newton-Cotes integral coefficient $c_i^{(n)}$
 
-$$c_i^{(n)}=\frac{A_i}{b-a}=\frac{(-1)^{n-i}}{n\,i!(n-i)!}\int_0^n t(t-1)\dots(t-i+1)(t-i-1)\dots(t-n)\mathrm{d}t$$
+$$c_i^{(n)}=\frac{A_i}{b-a}=\frac{(-1)^{n-i}}{n\,i!(n-i)!}\int_0^n t(t-1)\dots(t-i+1)(t-i-1)\dots(t-n)\,\mathrm{d}t$$
 
 Then the closed Newton-Cotes formula is
-$$\int_a^b f(x)\mathrm{d}x\approx (b-a)\sum_{i=0}^n c_i^{(n)}f(x_i).$$
+$$\int_a^b f(x)\,\mathrm{d}x\approx (b-a)\sum_{i=0}^n c_i^{(n)}f(x_i).$$
 
 We will have:
 
@@ -221,17 +324,40 @@ We will have:
 | $5$ | $\frac{19}{288}$ | $\frac{25}{96}$ | $\frac{25}{144}$ | $\frac{25}{144}$ | $\frac{25}{96}$ | $\frac{19}{288}$ |
 
 Commonly, we have
-- Trapezoid formula ($n=1$): $$\int_a^b f(x)\mathrm{d}x\approx\frac{h}{2}(f(x_0)+f(x_1))$$
-- Simpson formula ($n=2$): $$\int_a^b f(x)\mathrm{d}x\approx\frac{h}{3}(f(x_0)+4f(x_1)+f(x_2))$$
-- Simpson $3/8$ formula ($n=3$): $$\int_a^b f(x)\mathrm{d}x\approx\frac{3h}{8}(f(x_0)+3f(x_1)+3f(x_2)+f(x_3))$$
+- Trapezoid formula ($n=1$): $$\int_a^b f(x)\,\mathrm{d}x\approx\frac{h}{2}(f(x_0)+f(x_1))$$
+- Simpson formula ($n=2$): $$\int_a^b f(x)\,\mathrm{d}x\approx\frac{h}{3}(f(x_0)+4f(x_1)+f(x_2))$$
+- Simpson $3/8$ formula ($n=3$): $$\int_a^b f(x)\,\mathrm{d}x\approx\frac{3h}{8}(f(x_0)+3f(x_1)+3f(x_2)+f(x_3))$$
 
-The error of it:$$E_n(f)=\int_a^b R_n(x)\mathrm{d}x=\frac{f^{(n+1)}(\eta)}{(n+1)!}\int_a^b  \prod_{i=0}^n(x-x_i)\mathrm{d}x$$
-If $n$ is even, we can find that $$\int_a^b  \prod_{i=0}^n(x-x_i)\mathrm{d}x=0$$
+The error of it:$$E_n(f)=\int_a^b R_n(x)\,\mathrm{d}x=\frac{f^{(n+1)}(\eta)}{(n+1)!}\int_a^b  \prod_{i=0}^n(x-x_i)\,\mathrm{d}x$$
+If $n$ is even, we can find that $$\int_a^b  \prod_{i=0}^n(x-x_i)\,\mathrm{d}x=0$$
 So we need to consider about the $(n+2)$-th order polynomial $p(x)$.
 Let $$p(x)-L_n(x)=(\alpha x+\beta)\prod_{i=0}^n(x-x_i)$$
-Then$$\int_a^b  p(x)-L_n(x)\mathrm{d}x=\alpha\int_a^b  x\prod_{i=0}^n(x-x_i)\mathrm{d}x$$
+Then$$\int_a^b  p(x)-L_n(x)\,\mathrm{d}x=\alpha\int_a^b  x\prod_{i=0}^n(x-x_i)\,\mathrm{d}x$$
 Therefore, the error will become
-$$E_n(f)=\int_a^b R_n(x)\mathrm{d}x=\frac{f^{(n+2)}(\eta)}{(n+2)!}\int_a^b  x\prod_{i=0}^n(x-x_i)\mathrm{d}x$$
+$$E_n(f)=\int_a^b R_n(x)\,\mathrm{d}x=\frac{f^{(n+2)}(\eta)}{(n+2)!}\int_a^b  x\prod_{i=0}^n(x-x_i)\,\mathrm{d}x$$
+## Algebraic Precision
+
+A quadrature formula
+$$\int_a^b f(x)\,\mathrm{d}x\approx\sum_{i=0}^{n}A_i f(x_i)$$
+is said to have <span style="color: red;">Algebraic Precision</span> (degree of exactness) $m$ if it is exact for every polynomial of degree at most $m$, but fails for some polynomial of degree $m+1$. Since both sides are linear in $f$, this is equivalent to
+$$\sum_{i=0}^{n}A_i x_i^k=\int_a^b x^k\,\mathrm{d}x=\frac{b^{k+1}-a^{k+1}}{k+1},\qquad k=0,1,\dots,m,$$
+with equality failing at $k=m+1$. To determine the algebraic precision of a given formula, test $f(x)=1,x,x^2,\dots$ in turn; the first monomial on which the formula fails decides the precision.
+
+>[!THEOREM]
+>An interpolation-type quadrature formula with $n+1$ nodes has algebraic precision at least $n$.
+
+>[!PROOF]
+>For any polynomial $f$ of degree at most $n$, its Lagrange interpolant coincides with itself, so the interpolation remainder vanishes identically and
+>$$\int_a^b f(x)\,\mathrm{d}x=\int_a^b L_n(x)\,\mathrm{d}x=\sum_{i=0}^{n}A_i f(x_i).\tag*{$\square$}$$
+
+For the Newton-Cotes formula, the symmetry of equally spaced nodes yields one extra degree when $n$ is even: the algebraic precision is $n$ for odd $n$, and $n+1$ for even $n$. This is exactly why the error of even-order Newton-Cotes formulas involves $f^{(n+2)}$ instead of $f^{(n+1)}$ (see [Interpolation-Type Numerical Integration](#interpolationtype-numerical-integration)).
+
+| Formula | Algebraic Precision |
+| --- | --- |
+| Trapezoid ($n=1$) | $1$ |
+| Simpson ($n=2$) | $3$ |
+| Simpson $3/8$ ($n=3$) | $3$ |
+| Cotes ($n=4$) | $5$ |
 ## Romberg Algorithm
 
 We can also use the composite integral formula divides the entire integration interval $[a, b]$ into many smaller intervals, applies the same simple numerical integral formula to each smaller interval, and finally adds the results together.
@@ -270,7 +396,7 @@ $$R(x_0)=-\frac{h^2}{12}(f'''(\xi_1)+f'''(\xi_2))=O(h^2),\xi_1\in[x_0,x_0+h],\xi
 Another way is to use interpolation to estimate differentiation.
 $$f'(x)\approx L_n'(x)=\sum_{i=0}^{n}l_i'(x)f(x_i)$$
 
-# Iterative method to solve linear equation
+# Iterative Method to Solve Linear Equation
 
 ## Jacobi Iterative
 
@@ -279,13 +405,13 @@ JOR Iterative
 
 SOR Iterative
 
-# Non-linear Equation
+# Non-Linear Equation
 
 ## Bisection Method
 
 If the function $f$ is continuous on $[a,b]$ and $f(a)f(b)<0$, we can use [Binary Search](../cs/data_structure_and_algorithm.html#binary-search) to find a zero point.
 
-## Fixed-point iteration
+## Fixed-Point Iteration
 
 If the equation $f(x)=0$ can be transformed into $$\varphi(x)=x$$
 We can use <span style="color: red;">fixed-point iteration</span> to solve the equation, i.e.$$x_{n+1}=\varphi(x_n)$$
@@ -295,7 +421,7 @@ The following theorem gives sufficient conditions for iterative convergence:
 >If $\varphi(x)$ is defined on $[a, b]$ and satisfies
 >1. When $x\in[a,b]$, then $\varphi(x)\in[a,b]$
 >2. $\varphi(x)$ is differentiable on $[a, b]$, and there exists a positive number $L<1$ s.t. for all $x\in[a,b]$, $\left | \varphi'(x) \right | \le L$
->Then there exists exactly one $x^*$ s.t. $x^*=\varphi(x^*)$. We call $x^*$ a <span style="color: red;">fixed point</span>. Moreover, $x_{n+1}=\varphi(x_n)$ converges to $x^*$ for every $x_0\in[a,b]$, and we have$$\left | x^*-x_k \right |  \le\frac{L^k}{1-L}\left |  x_1-x_0\right |$$
+>Then there exists exactly one $x^*$ s.t. $x^*=\varphi(x^*)$. We call $x^*$ a fixed point. Moreover, $x_{n+1}=\varphi(x_n)$ converges to $x^*$ for every $x_0\in[a,b]$, and we have$$\left | x^*-x_k \right |  \le\frac{L^k}{1-L}\left |  x_1-x_0\right |$$
 
 >[!PROOF]
 >Let$$\phi(x)=\varphi(x)-x$$
@@ -329,7 +455,7 @@ $$x_{n+1​}=x_n​−\frac{f(x_n​)}{\frac{f(x_n)-f(x_{n-1})}{x_n-x_{n-1}}}=x_
 Geometrically,
 ![Screenshot 2026-07-09 at 12.52.57](../attachments/Screenshot%202026-07-09%20at%2012.52.57.png)
 
-## Newton's method for nonlinear equation systems
+## Newton's Method for Nonlinear Equation Systems
 
 For the equation systems
 $$\left\{\begin{matrix}
@@ -431,10 +557,10 @@ As a result, the equations has a unique solution
 $$A=(R^{\top}R)^{-1}R^{\top}Y$$
 # Optimization without Constraint
 
-## One-dimensional Search
+## One-Dimensional Search
 ## Gradient Methods
 
-## Conjugate direction method
+## Conjugate Direction Method
 
 ## Heuristic Algorithm
 
@@ -447,11 +573,11 @@ For the linear version, we introduced it in [Linear Programming](../cs/data_stru
 
 ## Convex Optimization
 
-## Multi-objective optimization
+## Multi-Objective Optimization
 # Approximation
-## Best square approximation
+## Best Square Approximation
 
-## Best uniform approximation polynomial
+## Best Uniform Approximation Polynomial
 
 # Ordinary Differential Equations (ODE)
 
@@ -476,7 +602,7 @@ Therefore, if $y_n=y(x_n)$, the error of it is$$T_{n+1}=y(x_{n+1})-y_{n+1}=\frac
 We can also use backward difference
 $$f(x_{n+1},y(x_{n+1}))=y'(x_{n+1})\approx\frac{y(x_{n+1})-y(x_{n})}{h}$$
 As a result, $$y_{n+1}=y_{n}+hf(x_{n+1},y_{n+1})$$
-It is called <span style="color: red;">backward Euler formula</span>. In this formula, we need to use iterative algorithm.
+It is called backward Euler formula. In this formula, we need to use iterative algorithm.
 ## Runge-Kutta Formula
 
 We can also calculate the average of them and get the trapezoid formula:

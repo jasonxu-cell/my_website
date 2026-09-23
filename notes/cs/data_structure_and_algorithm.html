@@ -68,7 +68,7 @@
 
 In data structures, the representation in computer memory refers to the storage structure of the data, while the logical structure of the data is independent of the computer used.
 
-## Algorithm analysis
+## Algorithm Analysis
 
 Algorithm analysis aims to analyzing the correctness and operating efficiency of the algorithm.
 
@@ -96,7 +96,70 @@ We stipulate:
 2. For function $g(n)$, if $\exists$ const $c>0$ and $n_0​$ s.t. when $n>n_0$​, $T(n)\ge cg(n)$, then $T(n)=\Omega (g(n))$.
 3. For function $g(n)$, if $\exists$ const $c_1>0$​,$c_2>0$ and $n_0$ s.t. when $n>n_0$​, $T(n)\le c_1​g(n)$ and $T(n)\ge c_2​g(n)$, then $T(n)=\Theta(g(n))$.
 
----
+### Tools to Analyze the Performance of Program
+
+Asymptotic analysis tells us how an algorithm scales with input size, but it cannot locate the actual bottlenecks of a running program. As Donald Knuth put it, "premature optimization is the root of all evil": the premise of optimization is to find the bottleneck first. On Linux, the two most commonly used performance analysis tools are <span style="color: red;">gprof</span> and <span style="color: red;">perf</span>.
+
+| Feature      | gprof                                                                                                                                  | perf                                                                                                                                         |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Principle    | <span style="color: red;">Instrumentation</span>: counting code is inserted into every function at compile time (the code is modified) | <span style="color: red;">Sampling</span>: the kernel periodically checks which line of code the CPU is executing (the code is not modified) |
+| Overhead     | Large; may affect the execution logic                                                                                                  | Minimal; suitable for production environments                                                                                                |
+| Dimension    | User-space function calls only                                                                                                         | User space + kernel + hardware (cache misses, etc.)                                                                                          |
+| Installation | Ships with gcc, almost always available                                                                                                | Requires installing `linux-tools` separately                                                                                                 |
+| Strength     | Call counts are very accurate                                                                                                          | Reveals deep information such as CPU cycles and instruction branches                                                                         |
+In short: gprof is suitable for checking function call frequencies, while perf can dig into the kernel and hardware levels.
+
+The principle of gprof is instrumentation: statistical code is stuffed into every function at compile time. The workflow is:
+
+1. Compile (the `-pg` flag is mandatory):
+
+```bash
+gcc -pg test.c -o my_gprof_app
+```
+
+2. Run the program normally. After it exits, a binary file `gmon.out` is generated in the working directory.
+
+3. Analyze with gprof:
+
+```bash
+gprof my_gprof_app gmon.out > analysis.txt
+```
+
+Two parts of the report deserve attention:
+
+- <span style="color: red;">Flat Profile</span>: the time percentage of each function (the percentage of the total running time).
+- <span style="color: red;">Call Graph</span>: the function call chains, reporting who called whom and how many times.
+
+perf is a sampling-based analyzer: it does not modify the program code; instead, it lets the Linux kernel periodically check which line of code the CPU is currently executing. The workflow is:
+
+1. Compile (add `-g` to keep debugging information, so that source line numbers are visible):
+
+```bash
+gcc -g test.c -o my_perf_app
+```
+
+2. Watch in real time (similar to `top`):
+```bash
+sudo perf top -p $(pidof my_perf_app)
+```
+
+3. Record and report (the most common usage):
+
+Record (generates a `perf.data` file):
+
+```bash
+sudo perf record -g ./my_perf_app
+```
+
+Analyze:
+
+```bash
+sudo perf report
+```
+
+In the interactive interface, select a function and press Enter, then choose Annotate: perf shows the source code directly, with the time percentage marked in front of each line.
+
+gprof's instrumentation counts every call exactly, so call counts are precise, but the inserted code perturbs the program: the overhead is large, and only user-space functions are visible. perf observes the program from outside with almost no overhead and can see kernel and hardware events, but its numbers are statistical: a function that runs very briefly may simply be missed by the sampler.
 
 ## Randomized Algorithms vs. Deterministic Algorithms
 
@@ -118,7 +181,7 @@ For an algorithm with lots of process, we can use amortized analysis to evaluate
 - Aggregate Method: Directly compute the total cost $T(n)$, then amortize it $T(n)/n$.
 - Accounting Method: Pay extra for fast operations (deposit credit), and use the deposited money to offset slow operations when they occur.
 - Potential Method: Define a potential function $\Phi$ and the amortized cost $\hat{c}$ as:$$\hat{c_i}=c_i+\Phi_i-\Phi_{i-1}$$If the potential function is non-negative and $\Phi_0=0$, then$$\sum_{i=1}^k \hat{c_i}=\sum_{i=1}^kc_i+\Phi_k-\Phi_0\ge\sum_{i=1}^kc_i$$
-It will be used in [Linear List & Generalized List](#linear-list-generalized-list), [Cartesian Tree](#cartesian-tree), and [Kruskal Algorithm & Disjoint Sets](#kruskal-algorithm-disjoint-sets).
+It will be used in Linear List & Generalized List, Cartesian Tree, and Kruskal Algorithm & Disjoint Sets.
 ## Turing Machine (TM)
 
 Does every problem have an efficient algorithm? No. Some decidable problems are too expensive, and some problems are not decidable by any algorithm at all.
@@ -155,7 +218,7 @@ The following problems can not be solved by computer. We call them undecidable p
 >Suppose HALT is decidable, i.e., there exists a TM $H(M, x)$ that decides whether TM $M$ halts on input $x$. Construct a TM $D$: on input $\langle M \rangle$ (the encoding of a TM $M$), $D$ runs $H(M, \langle M \rangle)$; if $H$ says "$M$ halts on $\langle M \rangle$", then $D$ loops forever; otherwise $D$ halts.
 >Now run $D$ on its own encoding $\langle D \rangle$: if $D$ halts on $\langle D \rangle$, then by construction $D$ loops on $\langle D \rangle$; if $D$ loops on $\langle D \rangle$, then by construction $D$ halts on $\langle D \rangle$. Either way we get a contradiction, so $H$ cannot exist.
 
-An interesting thing is, the undecidability of HALT implies Gödel's incompleteness theorem. For the details of the theorem, see Mathematical Logic & Set Theory.
+An interesting thing is, the undecidability of HALT implies Gödel's incompleteness theorem. For the details of the theorem, see [Mathematical Logic](../math/mathematical-analysis.html#mathematical-logic).
 
 >[!PROOF]
 >Suppose there were a complete and consistent axiomatic system in which every true statement about TMs is provable. Then we could decide HALT as follows: given $(M, x)$, enumerate all proofs in parallel, searching for either a proof of "$M$ halts on $x$" or a proof of "$M$ does not halt on $x$". By completeness one of them will be found, so this procedure always terminates and decides HALT. This contradicts the undecidability of HALT, so no such complete system exists.
@@ -191,7 +254,7 @@ A natural question: Given two problems A and B, how to compare their hardness?
 The answer is <span style="color: red;">reduction</span>: if problem $Q$ can be transformed into problem $L$ efficiently, then $L$ is at least as hard as $Q$. There are two common notions:
 
 <span style="color: red;">Karp Reduction</span> (polynomial-time many-one reduction), denoted $Q \le_p L$: $\exists$ a poly-time computable function $f$ s.t. for every input $x$,$$x \in Q \iff f(x) \in L$$
-i.e., we transform an instance of $Q$ into **one** instance of $L$ with the same yes/no answer, and call the solver of $L$ exactly once at the end.
+i.e., we transform an instance of $Q$ into one instance of $L$ with the same yes/no answer, and call the solver of $L$ exactly once at the end.
 
 <span style="color: red;">P</span> is the class of decision problems (languages) solvable by a deterministic algorithm in polynomial time.
 
@@ -229,7 +292,7 @@ The proof of the theorem can refer [this article](https://content.scirp.org/pdf/
 >$$(l_1 \vee l_2 \vee y_1) \wedge (\neg y_1 \vee l_3 \vee y_2) \wedge (\neg y_2 \vee l_4 \vee y_3) \wedge \dots \wedge (\neg y_{k-3} \vee l_{k-1} \vee l_k)$$
 >So SAT problem can be transformed into 3SAT problem.
 
-An interesting thing is: 3SAT is NP-Complete, while 2SAT is in P. We will prove it in [Strongly Connected Components](#strongly-connected-components).
+An interesting thing is: 3SAT is NP-Complete, while 2SAT is in P. We will prove it in Strongly Connected Components.
 
 This problem illustrates that the difference between problems in P and NP-Complete problems can be extremely subtle.
 
@@ -252,9 +315,187 @@ Also, we can give similar problems:
 >
 >Thus, this operation ensures that the number of occurrences of all variables does not exceed 3 (each $x_i$ appears once in the original clauses and twice in the chain). The implication chain uses clauses of size two, so this proof is for the standard "at most three literals per clause" version of 3SAT. The time complexity of this reduction process is linear with respect to the number of occurrences of the variables. Since the 3SAT problem is NP-Complete, the 3SAT-thrice problem is also NP-Complete.
 
-# Linear List & Generalized List
+# System Program Optimization
 
-A linear list is a finite sequence of $n$ **data elements**.
+Beyond asymptotic-level improvements, many practical speedups come from how the program interacts with the hardware and with language semantics. This chapter collects several such system-level techniques.
+
+## Shallow Copy and Deep Copy
+
+When an object is copied, there are two strategies. A <span style="color: red;">shallow copy</span> duplicates only the object's own storage: every member is copied by value, but a pointer member is copied as a pointer, so the original and the copy end up sharing the same pointed-to data. A <span style="color: red;">deep copy</span> recursively copies everything the pointers refer to, producing a fully independent object.
+
+In C++, the compiler-generated copy constructor and copy assignment operator perform a memberwise shallow copy. This is harmless for plain value members but dangerous when the object owns a raw resource:
+
+- Double free: both objects' destructors `delete` the same memory, which is undefined behavior and typically crashes.
+- Aliasing: modifying the data through one object silently changes the other.
+
+```cpp
+class IntArray {
+    int *data;
+    int n;
+public:
+    explicit IntArray(int n) : n(n), data(new int[n]) {}
+    ~IntArray() { delete[] data; }
+    // Deep copy: allocate new memory and copy the contents
+    IntArray(const IntArray &other) : n(other.n), data(new int[other.n]) {
+        for (int i = 0; i < n; i++) data[i] = other.data[i];
+    }
+    IntArray& operator=(const IntArray &other) {
+        if (this == &other) return *this;  // self-assignment guard
+        delete[] data;
+        n = other.n;
+        data = new int[n];
+        for (int i = 0; i < n; i++) data[i] = other.data[i];
+        return *this;
+    }
+};
+```
+
+| Aspect             | Shallow copy                                          | Deep copy                                                 |
+| ------------------ | ----------------------------------------------------- | --------------------------------------------------------- |
+| What is duplicated | The object itself; pointer values are copied verbatim | The object plus everything reachable through its pointers |
+| Cost               | Constant, negligible                                  | Proportional to the size of the data                      |
+| Independence       | Original and copy share pointed-to data               | The two objects are fully independent                     |
+| Main risk          | Double free, dangling pointer, aliasing bugs          | Extra time and memory                                     |
+| In C/C++           | Default copy constructor / assignment; `memcpy`       | User-defined copy constructor / assignment                |
+
+> [!NOTE] Rule of three/five
+> If a class defines a destructor, a copy constructor, or a copy assignment operator, it probably needs all three (the rule of three), plus a move constructor and a move assignment operator in modern C++ (the rule of five). Move semantics transfer the resource instead of copying it, avoiding the cost of a deep copy when the source object is about to die. In modern C++, the safest default is to hold resources through containers such as `std::vector` or smart pointers, which implement correct deep-copy or move behavior for you.
+
+## Branchless Swap
+
+A conditional swap can be written as follows:
+
+```cpp
+if (a > b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+```
+
+For unsigned integers, the same operation can be expressed without a source-level branch:
+
+```cpp
+void compare_swap(unsigned& a, unsigned& b) {
+    unsigned mask = 0u - static_cast<unsigned>(a > b);
+    unsigned difference = (a ^ b) & mask;
+    a ^= difference;
+    b ^= difference;
+}
+```
+
+If `a <= b`, `mask` is zero and neither value changes. If `a > b`, unsigned modular arithmetic makes `mask` all one-bits, so `difference == (a ^ b)` and the two XOR assignments swap the values. This bit trick is specific to integral types; using unsigned arithmetic makes the mask construction well-defined and portable.
+
+"Branchless" source code does not guarantee branchless machine code: an optimizing compiler may turn the ordinary `if` into a conditional move, or it may compile the bit trick differently. A branchless implementation can avoid costly branch mispredictions when comparisons are unpredictable, but it also introduces extra instructions and a dependency chain. With predictable comparisons, the ordinary version may be faster. Prefer the clear `if`/`std::swap` version unless profiling on the target compiler and CPU shows that the branchless form helps. Branchless code is also not automatically constant-time.
+
+## Sentinel
+
+In a linear search over an array, every iteration performs two tests: the bounds check `i < n` and the value check `arr[i] == target`. The <span style="color: red;">sentinel</span> technique eliminates the bounds check: temporarily place the target itself at the end of the array, so the value check alone is guaranteed to terminate the loop and the two tests are merged into one.
+
+```cpp
+// Traditional: both i < n and the value test run on every iteration
+int find(int *arr, int n, int target) {
+    for (int i = 0; i < n; i++)
+        if (arr[i] == target) return i;
+    return -1;
+}
+```
+
+```cpp
+// Optimized with a sentinel (assuming the array has room for one extra element)
+int find_optimized(int *arr, int n, int target) {
+    int last = arr[n - 1];
+    arr[n - 1] = target;                     // set the sentinel
+    int i;
+    for (i = 0; arr[i] != target; i++);      // only one test inside the loop
+    arr[n - 1] = last;                       // restore the original data
+    if (i < n - 1 || last == target) return i;
+    return -1;
+}
+```
+
+The loop body now performs one comparison instead of two. When $n$ is large, this removes $n$ branch judgments, and since hard-to-predict branches stall the CPU pipeline and are expensive (see [Branchless Swap](#branchless-swap)), the saving is real. The price is one extra element of space (or a restore step) and the requirement that the target be writable into the array.
+
+> [!NOTE] Sentinels in disguise
+> The dummy head node of a linked list is the same idea: by guaranteeing that every real node has a predecessor, the special-case checks for an empty list disappear. Knuth's sequential search with a sentinel is the classical reference for this technique.
+
+## Struct Memory Alignment
+
+Compilers do not lay struct members out back to back. Because of <span style="color: red;">memory alignment</span>, each member must start at an address that is a multiple of its alignment requirement (for primitive types, typically its size), and the compiler inserts invisible <span style="color: red;">padding</span> bytes to fill the gaps. The struct as a whole is padded so that its size is a multiple of the largest member's alignment.
+
+The two structs below contain exactly the same members in a different order, yet their sizes differ:
+
+![Screenshot 2026-09-09 at 14.48.16](../attachments/Screenshot%202026-09-09%20at%2014.48.16.png){width=480}
+
+Assuming `char` is 1 byte and `long` is 4 bytes (the assumption of the figure; on most 64-bit Linux systems `long` is 8 bytes, and the same reasoning gives $16$ vs $8$), the layouts are:
+
+![Screenshot 2026-09-09 at 14.48.49](../attachments/Screenshot%202026-09-09%20at%2014.48.49.png){width=620}
+
+- `_a`: `c1` sits at offset $0$; bytes $1$–$3$ are padding so that `i` can start at offset $4$; `c2` sits at offset $8$; bytes $9$–$11$ are trailing padding, because the size of the whole struct must be a multiple of $4$. Hence $\text{sizeof}(a)=12$.
+- `_b`: `c1` and `c2` sit at offsets $0$ and $1$; bytes $2$–$3$ are padding; `i` occupies offsets $4$–$7$. No trailing padding is needed, so $\text{sizeof}(b)=8$.
+
+> [!NOTE] Why alignment exists, and how to exploit it
+> Aligned accesses match the memory hardware: an unaligned word can split across two cache lines, and on architectures that require alignment it faults outright. To minimize padding, order struct members from largest to smallest — reordering `_a` into `_b` saves a third of the space with zero semantic change. If space matters more than access speed, `#pragma pack(1)` disables padding at the cost of unaligned accesses.
+
+## Process and Thread
+
+A <span style="color: red;">process</span> is an independent unit of resource allocation: it owns its virtual address space, file descriptors, and other operating-system resources, and one process cannot read another's memory directly. A <span style="color: red;">thread</span> is the unit of CPU scheduling inside a process: threads of the same process share the code, the heap, and the file descriptors, while each thread has its own program counter, registers, and stack.
+
+| Aspect | Process | Thread |
+| --- | --- | --- |
+| Resources | Own address space, file descriptors | Shares code, heap, and file descriptors with sibling threads; own stack and registers |
+| Overhead | Heavy to create and switch (page tables, TLB/cache effects) | Light to create and switch (swap stacks and registers) |
+| Communication | IPC: pipes, message queues, shared memory | Direct access to shared memory; needs synchronization (mutex, condition variables) |
+| Failure isolation | A crash kills only that process | A fatal error in one thread kills the whole process |
+
+On Linux, threads are programmed with <span style="color: red;">POSIX threads (pthread)</span>. The essential calls are `pthread_create` (spawn a thread running a given function), `pthread_join` (wait for a thread to finish), and `pthread_exit` (terminate the calling thread); programs must be linked with `-lpthread`.
+
+```c
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>  // for sleep()
+
+void* thread_func(void* arg) {
+    // code executed by the child thread
+    int id = *(int*)arg;
+    printf("Worker %d: Hello!\n", id);
+    pthread_exit(NULL); // the child thread exits on its own
+}
+
+int main() {
+    pthread_t t1;
+    int arg1 = 1;
+
+    // create a child thread
+    pthread_create(&t1, NULL, thread_func, &arg1);
+
+    printf("Main thread: waiting...\n");
+    sleep(1);
+    pthread_exit(NULL); // the main thread exits; the process ends only after the remaining threads finish
+}
+```
+
+Two details in this example deserve attention:
+
+- `pthread_exit(NULL)` in `main` does not kill the process. Unlike returning from `main` (which calls `exit` and terminates all threads at once), it ends only the calling thread, and the process survives until its last thread exits. That is why the worker's message is still guaranteed to print.
+- `sleep(1)` is only a rough way to order the output. The clean mechanism for waiting is `pthread_join(t1, NULL)`, which blocks until the child thread finishes and also reaps its resources.
+
+A natural question: on a single-core machine, is there any advantage to using multiple threads?
+
+For purely CPU-bound workloads, no: threads time-share the only core, so the total computing power is unchanged and context switching only adds overhead. The advantage appears as soon as a thread can block:
+
+- Overlap of I/O and computation: while one thread waits on disk, network, or `sleep`, another runnable thread keeps the core busy, raising CPU utilization.
+- Responsiveness: a GUI or server event loop stays interactive while a worker thread performs slow operations.
+- Simpler concurrent servers: each connection is handled by a thread using plain blocking calls.
+
+| Workload on a single core | Multithreaded advantage |
+| --- | --- |
+| CPU-bound | None; time-sharing adds context-switch overhead and may even be slightly slower |
+| I/O-bound or interactivity-bound | Real: blocking waits of one thread are overlapped with useful work of another |
+
+# Linear List and Generalized List
+
+A linear list is a finite sequence of $n$ data elements.
 
 ```cpp
 #include<vector>
@@ -283,7 +524,7 @@ $$\Phi(n,m)=\max\{2n-m,0\}$$
 where $n$ is the number of elements in the array and $m$ is the array capacity. Under this invariant, $\Phi$ is non-negative.
 
 We can find that $$\hat{c_i}\le 3=O(1)$$
-## Sequential representation
+## Sequential Representation
 
 The sequential representation of a linear list refers to storing the data elements of the linear list sequentially in a set of contiguous memory locations.
 
@@ -297,13 +538,13 @@ typedef struct{
 }SqList;
 ```
 
-## Chain representation
+## Chain Representation
 
-The characteristic of a linear list linked storage structure is that it uses a set of arbitrary storage units to store the data elements of the linear list (these storage units can be contiguous or non-contiguous). Therefore, to represent the logical relationship between each data element $a[i]$ and its direct successor $a[i+1]$, for each data element $a[i]$, in addition to storing its own information, it also needs to store information indicating its direct successor (i.e., the storage location of the direct successor). These two parts of information constitute the storage image of the data element $a[i]$, called a <span style="color: red;">node</span>. It includes two fields: the field storing the data element information is called the <span style="color: red;">data field</span>; the field storing the storage location of the direct successor is called the <span style="color: red;">pointer field</span>. The information stored in the pointer field is called a <span style="color: red;">pointer</span> or <span style="color: red;">link</span>. $n$ nodes (storage images of $a[i]$ ($1\le i \le n$)) are linked together to form a <span style="color: red;">linked list</span>.
+The characteristic of a linear list linked storage structure is that it uses a set of arbitrary storage units to store the data elements of the linear list (these storage units can be contiguous or non-contiguous). Therefore, to represent the logical relationship between each data element $a[i]$ and its direct successor $a[i+1]$, for each data element $a[i]$, in addition to storing its own information, it also needs to store information indicating its direct successor (i.e., the storage location of the direct successor). These two parts of information constitute the storage image of the data element $a[i]$, called a <span style="color: red;">node</span>. It includes two fields: the field storing the data element information is called the data field; the field storing the storage location of the direct successor is called the pointer field. The information stored in the pointer field is called a pointer or link. $n$ nodes (storage images of $a[i]$ ($1\le i \le n$)) are linked together to form a linked list.
 
-### Linear linked list
+### Linear Linked List
 
-If each node in a linked list contains only one pointer field pointing to its successor, the linked list is called a <span style="color: red;">linear linked list</span>.
+If each node in a linked list contains only one pointer field pointing to its successor, the linked list is called a linear linked list.
 
 ```cpp
 typedef struct LNode{
@@ -346,7 +587,7 @@ void CreateList_L(LinkList &L, int n) {
 
 ### Doubly Linked List
 
-If each node in a linked list contains two pointer fields, one pointing to the predecessor and the other pointing to the successor, the linked list is called a <span style="color: red;">doubly linked list</span>.
+If each node in a linked list contains two pointer fields, one pointing to the predecessor and the other pointing to the successor, the linked list is called a doubly linked list.
 
 ```cpp
 typedef struct DuLNode{
@@ -386,7 +627,7 @@ LNode* FloydCycleDetection(LinkList &L){
 }
 ```
 
-## Multidimensional array
+## Multidimensional Array
 
 For a multidimensional array, assuming each data element occupies $L$ storage units, the address of any point is
 
@@ -445,9 +686,9 @@ int GListDepth(GList L){
 
 # Stack
 
-<span style="color: red;">Stack</span> is a linear list in which insertion and deletion operations are restricted to the end of the list. Therefore, the end of the list has a special meaning and is called <span style="color: red;">the top of the stack</span>, while the beginning of the list is called <span style="color: red;">the bottom of the stack</span>.
+<span style="color: red;">Stack</span> is a linear list in which insertion and deletion operations are restricted to the end of the list. Therefore, the end of the list has a special meaning and is called the top of the stack, while the beginning of the list is called the bottom of the stack.
 
-Modifications to a stack are performed according to the <span style="color: red;">Last-In-First-Out (LIFO)</span> principle; therefore, a stack is also known as a Last-In-First-Out (LIFO) linear list.
+Modifications to a stack are performed according to the Last-In-First-Out (LIFO) principle; therefore, a stack is also known as a Last-In-First-Out (LIFO) linear list.
 
 ```cpp
 //Stack storage structure
@@ -469,15 +710,64 @@ int n=st.size();
 bool IsEmpty=st.empty();
 ```
 
+## The Call Stack in Program Execution
+
+When a program runs, the operating system gives it a virtual address space divided into several regions. One of them is the <span style="color: red;">call stack</span>, a contiguous memory region that stores the <span style="color: red;">stack frames</span> of function calls.
+
+Whenever a function is called, a new stack frame is pushed onto the top of the call stack; when the function returns, its frame is popped. A frame typically contains:
+
+- Return address: the instruction to continue with after the function returns.
+- Function arguments and local variables of this call.
+- Saved registers and the caller's frame pointer, so the caller's environment can be restored.
+
+The call stack is maintained automatically by the compiler and the CPU. For example, on x86-64 the register `rsp` always points to the top of the stack, and the instructions `call`/`ret` together with `push`/`pop` manipulate it.
+
+> [!NOTE] Why "stack"?
+> A function must return before its caller can continue, so frames are released in exactly the reverse order of their creation. This Last-In-First-Out discipline is precisely the defining rule of the stack data structure: the call stack is the hardware incarnation of the stack ADT, with each frame playing the role of one element.
+
+For example, consider the recursive factorial:
+
+```cpp
+int factorial(int n) {
+    if (n == 0) return 1;
+    return n * factorial(n - 1);
+}
+```
+
+The call stack evolves as follows:
+
+| Step | Frames from bottom to top |
+| --- | --- |
+| `main` calls `factorial(3)` | `main` → `factorial(3)` |
+| `factorial(3)` calls `factorial(2)` | `main` → `factorial(3)` → `factorial(2)` |
+| `factorial(2)` calls `factorial(1)` | `main` → `factorial(3)` → `factorial(2)` → `factorial(1)` |
+| `factorial(1)` calls `factorial(0)` | `main` → `factorial(3)` → `factorial(2)` → `factorial(1)` → `factorial(0)` |
+| `factorial(0)` returns | `main` → `factorial(3)` → `factorial(2)` → `factorial(1)` |
+| the remaining returns propagate | `main` |
+
+The pure data structure and the call stack share the LIFO discipline, but they are not the same thing:
+
+| Aspect | Stack (data structure) | Call stack (program execution) |
+| --- | --- | --- |
+| Nature | An abstract data type defined by push/pop operations | A fixed region of the process's virtual address space |
+| Element | A single data element | A stack frame: a block of memory holding return address, arguments, locals, saved registers |
+| Access rule | Only the top element is accessible | Allocation and deallocation are strictly LIFO, but within the current frame the CPU can read and write at arbitrary offsets through the frame pointer |
+| Management | Controlled explicitly by the programmer | Controlled automatically by the compiler and the CPU |
+| Size | Flexible: fixed array, or linked structure that grows dynamically | Fixed at thread creation (e.g., 8 MiB per thread by default on Linux; check with `ulimit -s`) |
+| Overflow | Pushing onto a full stack reports an error | <span style="color: red;">stack overflow</span>: unbounded recursion or oversized local arrays crash the program |
+
+> [!NOTE] stack overflow and converting recursion to iteration
+> Because the call stack has a fixed size, deep recursion exhausts it and the program crashes with a stack overflow. This motivates converting recursion into an explicit loop with a programmer-controlled stack: the nodes are then allocated dynamically with `new`, so the limit is the available memory rather than a fixed quota. A compiler may also perform tail-call optimization: when a recursive call is in tail position, i.e., nothing is left to do after it returns, the current frame can be reused and the call stack usage stays at $O(1)$.
+
 # Queue
 
-Unlike a stack, a **queue** is a first-in-first-out (FIFO) linear list. It only allows insertions at one end and deletions at the other. In a queue, the end where insertions are allowed is called the **tail**, and the end where deletions are allowed is called the **head**.
+Unlike a stack, a queue is a first-in-first-out (FIFO) linear list. It only allows insertions at one end and deletions at the other. In a queue, the end where insertions are allowed is called the tail, and the end where deletions are allowed is called the head.
 
-If insertion and deletion operations on a linear list are allowed at both the head and the tail, this data structure is called a **deque (double-ended queue)**.
+If insertion and deletion operations on a linear list are allowed at both the head and the tail, this data structure is called a deque (double-ended queue).
 
-## Linked queue (linked representation)
+## Linked Queue (Linked Representation)
 
-A queue represented by a linked list is abbreviated as a **linked queue**.
+A queue represented by a linked list is abbreviated as a linked queue.
 
 ```cpp
 //Storage structure of a linked queue
@@ -515,12 +805,12 @@ int n=q.size();
 bool isEmpty=q.empty();
 ```
 
-## Circular queue (sequential order)
+## Circular Queue (Sequential Order)
 
 If sequential storage is performed in the usual way, it is easy to cause "false overflow", as shown in the figure below.
 ![Screenshot 2026-05-28 at 14.53.20](../attachments/Screenshot%202026-05-28%20at%2014.53.20.png)
 
-To solve this problem, the sequential queue can be visualized as a circular structure, called a **circular queue**.
+To solve this problem, the sequential queue can be visualized as a circular structure, called a circular queue.
 
 ![Screenshot 2026-05-28 at 14.53.39](../attachments/Screenshot%202026-05-28%20at%2014.53.39.png)
 
@@ -605,7 +895,7 @@ Let $t_i$ denote the number $T [i+1, \dots, i+m]$, i.e.$$t_i=T[i+1]\cdot26^{m-1}
 Observation:$$t_{i+1}=((t_i-T[i+1]\cdot26^{m-1})\cdot26+T[i+m+1])\bmod q$$
 As a result, we can calculate the hash tags of $h(P)$ and $t_0,\dots,t_{n-m}$ in time $O(n + m)$.
 
-One question is it is possible $T[s+1,\dots,s+m] \ne P$ but $t_s=h(P)$ (a hash collision). So we need to character-by-character compare when we meet the same hash value. With a random large prime $q$, collisions between unequal strings are rare, so the expected time is $O(n+m)$. However, the verification cost can still degenerate to $O(nm)$ in the worst case — e.g., when the text is `AAAAAAA` and the pattern is `AAA`, every shift is a **true match**, and each one must be verified character by character.
+One question is it is possible $T[s+1,\dots,s+m] \ne P$ but $t_s=h(P)$ (a hash collision). So we need to character-by-character compare when we meet the same hash value. With a random large prime $q$, collisions between unequal strings are rare, so the expected time is $O(n+m)$. However, the verification cost can still degenerate to $O(nm)$ in the worst case — e.g., when the text is `AAAAAAA` and the pattern is `AAA`, every shift is a true match, and each one must be verified character by character.
 ### KMP Algorithm
 
 The KMP algorithm was invented by D.E. Knuth, V.R. Pratt, and J.H. Morris.
@@ -816,7 +1106,7 @@ big bigmod(big a, big b) { //High-Precision Modulo
 ```
 
 For plus and minus, the time complexity is $O(\log a+\log b)$, and for multiple, divide and modulo, the time complexity is $O(\log a\log b)$
-# Divide & Conquer
+# Divide and Conquer
 
 Divide and conquer divides a large problem into smaller subproblems, solves them recursively, and combines their solutions into a solution to the original problem.
 
@@ -877,7 +1167,7 @@ int factorial_tail(int n, int accumulator) {
 }
 ```
 
-For example, `factorial_tail(4, 1)` immediately returns `factorial_tail(3, 4)`. A compiler that performs <span style="color: red;">tail-call optimization</span> can reuse the current stack frame, giving $O(n)$ time and $O(1)$ auxiliary stack space.
+For example, `factorial_tail(4, 1)` immediately returns `factorial_tail(3, 4)`. A compiler that performs tail-call optimization can reuse the current stack frame, giving $O(n)$ time and $O(1)$ auxiliary stack space.
 
 However, the C++ standard does not require compilers to perform this optimization. Without tail-call elimination, `factorial_tail` still uses $O(n)$ stack space. If $O(1)$ auxiliary space must be guaranteed in C++, use an explicit loop:
 
@@ -1007,7 +1297,7 @@ In implementation, a recursive FFT repeatedly creates two new lists for the even
 The following figure shows FFT algorithm whose $N=8$.
 ![v2-d726388f6b1afffbdcc4f4c246ab2037_1440w](../attachments/v2-d726388f6b1afffbdcc4f4c246ab2037_1440w.jpg)
 
-The merge step is called a **butterfly operation**. For a block of length `len`, let `half = len / 2` and let $w$ be the current twiddle factor. Each paired state
+The merge step is called a butterfly operation. For a block of length `len`, let `half = len / 2` and let $w$ be the current twiddle factor. Each paired state
 $$u=a[i+j],\quad v=w\cdot a[i+j+\text{half}]$$
 is updated as
 $$a[i+j]=u+v,\quad a[i+j+\text{half}]=u-v.$$
@@ -1045,8 +1335,33 @@ This implementation assumes `a.size()` is a power of two. For convolution, pad b
 The FFT has many applications. We can find that$$\mathcal{F}\{f*g\}=\mathcal{F}\{f\}\cdot\mathcal{F}\{g\}$$
 As a result, the FFT can accelerate convolution. For example, multiplication can be treated as a convolution operation: let $f,g$ be polynomials and take the variable $x$ as $10$, then polynomial multiplication becomes fast integer multiplication, which has time $\tilde{O}(\log a+\log b)$ rather than $O(\log a\log b)$.
 
->**Tip** The definition of notation $\tilde{O}$
+>Tip The definition of notation $\tilde{O}$
 >The notation means the time complexity ignores times less than $O(\log n)$
+
+Another interesting application is interpolation. The inverse problem of evaluation is: given values $y_0,y_1,\dots,y_{N-1}$, find the coefficients of $p(x)=\sum_{j=0}^{N-1}a_jx^j$ with $p(x_k)=y_k$ at the nodes $x_k=\omega_N^k$. This is the linear system
+$$V_NA=Y,$$
+which Gaussian elimination solves in $O(N^3)$, and even exploiting the Vandermonde structure takes $O(N^2)$. The Fourier structure makes both directions cheap.
+
+> [!THEOREM] Invertibility of the Fourier Matrix
+> $$V_N^{-1}=\frac{1}{N}\overline{V_N},$$
+> i.e. the $(j,k)$ entry of $V_N^{-1}$ is $\frac{1}{N}\omega_N^{-jk}$.
+
+>[!PROOF]
+>The $(j,l)$ entry of $\overline{V_N}V_N$ is$$\sum_{k=0}^{N-1}\omega_N^{(l-j)k}=\begin{cases}N,&j=l\\ \dfrac{\omega_N^{(l-j)N}-1}{\omega_N^{l-j}-1}=0,&j\neq l\end{cases}\ =N\delta_{jl},$$since $\omega_N^{(l-j)N}=1$ and $\omega_N^{l-j}\neq 1$ when $j\neq l$.
+
+Hence $A=\frac{1}{N}\overline{V_N}Y$: the coefficient vector is exactly the inverse DFT of the value vector, and interpolation at the roots of unity is solved by the same butterflies with $\omega_N^{-1}$ plus the final division by $N$.
+
+| Direction | Map | Transform | Cost |
+| --- | --- | --- | --- |
+| Evaluation: coefficients $\to$ values | $A\mapsto V_NA$ | DFT (forward FFT) | $O(N\log N)$ |
+| Interpolation: values $\to$ coefficients | $Y\mapsto V_N^{-1}Y$ | inverse DFT (inverse FFT) | $O(N\log N)$ |
+
+This evaluation–interpolation duality is exactly what fast polynomial multiplication exploits: evaluate both factors on the roots of unity, multiply pointwise, then interpolate back. The same identity read column by column yields trigonometric interpolation: given samples $v_k$ at the equally spaced points $x_k=\frac{2\pi k}{N}$, there is a unique trigonometric polynomial
+$$p(x)=\sum_{j=0}^{N-1}c_je^{ijx}$$
+with $p(x_k)=v_k$, and this condition is precisely the DFT system $V_NC=V$, so the coefficients come from one inverse FFT. In other words, the FFT interpolates $N$ equally spaced samples in $O(N\log N)$ time, and the inverse FFT evaluates that interpolant back on the grid.
+
+The speedup relies on the special nodes; for $N$ arbitrary nodes the Vandermonde matrix admits no such factorization and the classical methods remain $O(N^2)$, see [Barycentric Lagrange Interpolation](../math/numerical_analysis.html#barycentric-lagrange-interpolation). A useful middle ground is the Chebyshev grid $x_i=\cos\frac{i\pi}{N}$: the change of variables $x=\cos\theta$ turns the DFT into the discrete cosine transform, so evaluation and interpolation on Chebyshev nodes still cost $O(N\log N)$.
+
 ## Closest Pair of Points
 
 Given the coordinates of $n$ points, compute the closest pair.
@@ -1127,34 +1442,7 @@ long long solve(point a[],int start,int end){//calculate the squared distance
 
 # Sort
 
-If $a[i]=a[j]$ and $i<j$ in the original array, and after sorting the element originally at index $i$ still appears before the element originally at index $j$, the sorting algorithm is called <span style="color: red;">stable</span>. Otherwise, it is called <span style="color: red;">unstable</span>.
-
-## Branchless Swap
-
-A conditional swap can be written as follows:
-
-```cpp
-if (a > b) {
-    int temp = a;
-    a = b;
-    b = temp;
-}
-```
-
-For unsigned integers, the same operation can be expressed without a source-level branch:
-
-```cpp
-void compare_swap(unsigned& a, unsigned& b) {
-    unsigned mask = 0u - static_cast<unsigned>(a > b);
-    unsigned difference = (a ^ b) & mask;
-    a ^= difference;
-    b ^= difference;
-}
-```
-
-If `a <= b`, `mask` is zero and neither value changes. If `a > b`, unsigned modular arithmetic makes `mask` all one-bits, so `difference == (a ^ b)` and the two XOR assignments swap the values. This bit trick is specific to integral types; using unsigned arithmetic makes the mask construction well-defined and portable.
-
-"Branchless" source code does not guarantee branchless machine code: an optimizing compiler may turn the ordinary `if` into a conditional move, or it may compile the bit trick differently. A branchless implementation can avoid costly branch mispredictions when comparisons are unpredictable, but it also introduces extra instructions and a dependency chain. With predictable comparisons, the ordinary version may be faster. Prefer the clear `if`/`std::swap` version unless profiling on the target compiler and CPU shows that the branchless form helps. Branchless code is also not automatically constant-time.
+If $a[i]=a[j]$ and $i<j$ in the original array, and after sorting the element originally at index $i$ still appears before the element originally at index $j$, the sorting algorithm is called stable. Otherwise, it is called unstable.
 
 ## Bubble Sort
 
@@ -1243,7 +1531,7 @@ Shell sort is unstable in general.
 
 Choosing a good gap sequence is a subtle problem.
 
-If an array has already been sorted with gap $h$, we call it **$h$-sorted**.
+If an array has already been sorted with gap $h$, we call it $h$-sorted.
 
 Shell sort has the following important preservation property.
 
@@ -1272,7 +1560,7 @@ Generally, we have the following theorem.
 Thus, we get the following theorem.
 
 >[!THEOREM] Hibbard Gap Sequence Theorem
->For the **Hibbard sequence** $H=\{2^k-1 \mid k=1,\dots,\lfloor\log_2 n\rfloor\}$, Shell sort has worst-case time complexity $O(n^{3/2})$.
+>For the Hibbard sequence $H=\{2^k-1 \mid k=1,\dots,\lfloor\log_2 n\rfloor\}$, Shell sort has worst-case time complexity $O(n^{3/2})$.
 
 >[!PROOF]
 >It is easy to see that consecutive Hibbard gaps are coprime, so the previous theorem applies.
@@ -1423,13 +1711,13 @@ int QuickSelect(int a[],int p,int q,int k) {//QuickSelect(a,0,n-1,k)
 >$$T(n)\le cn+\frac{2}{n}\sum_{s=\lceil n/2\rceil}^{n-1}T(s).$$
 >By induction, assuming $T(s)\le Cs$ for all $s<n$ and choosing $C$ large enough, the right-hand side is at most $Cn$. Hence $T(n)=O(n)$.
 
-## Non-comparison algorithms
+## Non-Comparison Algorithms
 
 The comparison-based algorithms above cannot beat the $\Omega(n\log n)$ lower bound in the worst case. A natural question is whether we can design sorting algorithms with time complexity below $O(n\log n)$.
 
 Since every element must be inspected, any sorting algorithm needs at least $\Omega(n)$ time.
 
-A sorting algorithm is called a **comparison sort** if its output is determined only by comparisons between elements such as $a[i]$ and $a[j]$. All sorting algorithms mentioned above are comparison sorts.
+A sorting algorithm is called a comparison sort if its output is determined only by comparisons between elements such as $a[i]$ and $a[j]$. All sorting algorithms mentioned above are comparison sorts.
 
 >[!THEOREM]
 >Any deterministic comparison sort requires $\Omega(n\log n)$ comparisons in the worst case.
@@ -1543,7 +1831,7 @@ Otherwise, we need to adjust the variable values. A method is let $x_i$ bigger w
 Therefore, let $$x_i=\min_{1\le k\le m,a_{ki}>0}{\frac{b_k}{a_{ki}}}$$
 and the basic variable $x_{k^*}$ achieving this minimum ratio becomes $0$ and leaves the basis. This operation will change the basic variable and make the objective bigger.
 
-Note: if $a_{ki}\le 0$ for all $k=1,\dots,m$, then $x_i$ can increase without bound and the problem is **unbounded**.
+Note: if $a_{ki}\le 0$ for all $k=1,\dots,m$, then $x_i$ can increase without bound and the problem is unbounded.
 
 The analysis of time complexity of simplex algorithm is really complex. In theory, the worst-case time complexity of the algorithm is exponential, but in practice, the time complexity is linear.
 ## Dual Problem
@@ -1561,7 +1849,7 @@ This is another linear programing problem:
 $$\min w=b_1y_1+b_2y_2+\dots+b_my_m$$$$s.t.\left\{\begin{matrix}
 a_{11}y_1+a_{21}y_2+\dots+a_{m1}y_m\ge c_1\\a_{12}y_1+a_{22}y_2+\dots+a_{m2}y_m\ge c_2\\ \dots\\a_{1n}y_1+a_{2n}y_2+\dots+a_{mn}y_m\ge c_n\\y_1,y_2,\dots,y_m\ge0
 \end{matrix}\right.$$
-It is called <span style="color: red;">Dual Problem</span>.
+It is called Dual Problem.
 
 Easy to obtain
 >[!THEOREM] Weak Duality Theorem
@@ -1587,7 +1875,7 @@ If the equality sign of the $k$-th inequality is not true, based on Strong duali
 If the variable $x_i$ is integer, we need to use another method to solve it.
 
 The basic idea is same: cut the non-integer part.
-### Branch and bound
+### Branch and Bound
 
 Given a linear programming problem:
 $$\max z=c_1x_1+c_2x_2+\dots+c_nx_n$$$$s.t.\mathbf{A}\mathbf{x}=\mathbf{b}$$
@@ -1609,7 +1897,7 @@ It is easy to see that the left-hand side is an integer, so the right side is an
 So we can let$$f_i-\sum_{j =m+1}^nf_{ij} x_j=-s,s\in \mathbb{N}$$
 Therefore, we introduce another integer variable, and the current non-integer optimal vertex has been excluded by this new constraint.
 
-## Transportation problem
+## Transportation Problem
 
 Given $m$ origins, origin $A_i$ has supply $a_i$, and $n$ destinations, destination $B_j$ has demand $b_j$, and the cost from $A_i$ to $B_j$ is $c_{ij}$.  We need to get the optimal solution to minimize the cost from the origin to the destination.
 
@@ -1628,7 +1916,7 @@ VAM can give a feasible solution to the transportation problem, though it does n
 
 The basic idea of constructing an initial solution relies on a greedy algorithm: focus on one origin-destination pair, and allocate the maximum possible transportation volume, which is the minimum of the available supply and the remaining demand. Then, both the supply and demand are reduced by this allocated amount.
 
-The key challenge is determining which origin and destination to choose first. To solve this, Vogel proposed calculating a "penalty" for each row and column. The penalty is defined as the absolute difference between the lowest and the second-lowest **unit costs** in that row or column. We then select the row or column with the maximum penalty and apply the greedy allocation to the cell with the lowest cost within that selected row or column.
+The key challenge is determining which origin and destination to choose first. To solve this, Vogel proposed calculating a "penalty" for each row and column. The penalty is defined as the absolute difference between the lowest and the second-lowest unit costs in that row or column. We then select the row or column with the maximum penalty and apply the greedy allocation to the cell with the lowest cost within that selected row or column.
 
 This forward-looking approach effectively avoids high-cost allocations, yielding an excellent average-case performance.
 ### The Method of Potentials
@@ -1653,7 +1941,7 @@ It will make the cost reduced by $\theta (u_i+v_j-c_{ij})>0$. And the graph is a
 
 # Tree
 
-## Binary tree
+## Binary Tree
 
 ```cpp
 //Storage structure of a binary tree
@@ -1772,7 +2060,7 @@ Convert every tree in the forest into a binary tree using the first-child next-s
 
 ## Traversal of Trees and Forests
 
-There are two common tree traversals: **pre-root traversal** and **post-root traversal**. Pre-root traversal visits the root before its children; post-root traversal visits the children before the root. Under the first-child next-sibling transformation, they correspond to preorder traversal and inorder traversal of the corresponding binary tree, respectively.
+There are two common tree traversals: pre-root traversal and post-root traversal. Pre-root traversal visits the root before its children; post-root traversal visits the children before the root. Under the first-child next-sibling transformation, they correspond to preorder traversal and inorder traversal of the corresponding binary tree, respectively.
 
 ![Screenshot 2026-06-30 at 20.29.53](../attachments/Screenshot%202026-06-30%20at%2020.29.53.png)
 
@@ -1781,7 +2069,7 @@ As shown in the figure:
 - The tree's pre-root traversal `ABEFCDG` corresponds to the binary tree's preorder traversal `ABEFCDG`.
 - The tree's post-root traversal `EFBCGDA` corresponds to the binary tree's inorder traversal `EFBCGDA`.
 
-Similarly, a forest has two common traversals: **preorder traversal** and **postorder traversal**. Forest preorder traversal performs pre-root traversal on every tree in order; forest postorder traversal performs post-root traversal on every tree in order. Under the forest-to-binary-tree transformation, they correspond to preorder traversal and inorder traversal of the corresponding binary tree, respectively.
+Similarly, a forest has two common traversals: preorder traversal and postorder traversal. Forest preorder traversal performs pre-root traversal on every tree in order; forest postorder traversal performs post-root traversal on every tree in order. Under the forest-to-binary-tree transformation, they correspond to preorder traversal and inorder traversal of the corresponding binary tree, respectively.
 
 ![Screenshot 2026-06-30 at 20.31.46](../attachments/Screenshot%202026-06-30%20at%2020.31.46.png)
 
@@ -1790,9 +2078,9 @@ As shown in the figure:
 - The forest's preorder traversal `ABCDEFJHGI` corresponds to the binary tree's preorder traversal `ABCDEFJHGI`.
 - The forest's postorder traversal `BCDAFEJHIG` corresponds to the binary tree's inorder traversal `BCDAFEJHIG`.
 
-## Huffman tree & Huffman coding
+## Huffman Tree and Huffman Coding
 
-Suppose there are $m$ weights $w_1,w_2,\dots,w_m$. We can construct a binary tree with `m` leaf nodes, where the weight of the $i$-th leaf is $w_i$. Among all such binary trees, the tree with the minimum weighted path length (WPL) is called an **optimal binary tree** or a **Huffman tree**.
+Suppose there are $m$ weights $w_1,w_2,\dots,w_m$. We can construct a binary tree with `m` leaf nodes, where the weight of the $i$-th leaf is $w_i$. Among all such binary trees, the tree with the minimum weighted path length (WPL) is called an optimal binary tree or a Huffman tree.
 
 We can build a Huffman tree using the Huffman algorithm. The core idea is to repeatedly merge the two nodes with the smallest weights into one new node, as shown below.
 
@@ -1838,8 +2126,8 @@ Huffman trees can be used for coding.
 
 Two related concepts are listed below:
 
-1. **Prefix code**: If no codeword in a coding scheme is a prefix of any other codeword, the coding scheme is called a prefix code. Prefix codes guarantee unambiguous decoding.
-2. **Huffman code**: For a Huffman tree with $n$ leaves, assign `0` to every left branch and `1` to every right branch. The sequence of branch labels on the path from the root to a leaf forms the Huffman code of that leaf.
+1. Prefix code: If no codeword in a coding scheme is a prefix of any other codeword, the coding scheme is called a prefix code. Prefix codes guarantee unambiguous decoding.
+2. Huffman code: For a Huffman tree with $n$ leaves, assign `0` to every left branch and `1` to every right branch. The sequence of branch labels on the path from the root to a leaf forms the Huffman code of that leaf.
 
 It is easy to see that Huffman coding is a prefix code. Since the Huffman tree has minimum WPL, Huffman coding is an optimal prefix code.
 
@@ -1872,20 +2160,20 @@ void CreateHuffmanCode(HuffmanTree HT, HuffmanCode &HC, int n) {
 }
 ```
 
-## Heap & Heap Sort
+## Heap and Heap Sort
 
-A **heap** is usually a complete binary tree that satisfies a heap-order property. A heap can be represented directly by an array. If the root index is $1$, then for a node whose index is $n$, its left child has index $2n$ and its right child has index $2n+1$. Conversely, for a node whose index is $n$, its parent has index $\left \lfloor \frac{n}{2} \right \rfloor$, as shown below.
+A heap is usually a complete binary tree that satisfies a heap-order property. A heap can be represented directly by an array. If the root index is $1$, then for a node whose index is $n$, its left child has index $2n$ and its right child has index $2n+1$. Conversely, for a node whose index is $n$, its parent has index $\left \lfloor \frac{n}{2} \right \rfloor$, as shown below.
 
 ![Screenshot 2026-06-29 at 10.46.55](../attachments/Screenshot%202026-06-29%20at%2010.46.55.png)
 
-Below we discuss operations on a **max-heap**, where every parent is at least as large as its children.
+Below we discuss operations on a max-heap, where every parent is at least as large as its children.
 
 ### Search
 
 There are two kinds of search operations in a heap:
 
-- **Find the maximum**: This is simple. Read the root node directly, so the time complexity is $O(1)$.
-- **Find an arbitrary value**: A heap does not guarantee any order between the left and right children. Therefore, searching for a specific element may require traversing the whole heap, so the time complexity is $O(n)$.
+- Find the maximum: This is simple. Read the root node directly, so the time complexity is $O(1)$.
+- Find an arbitrary value: A heap does not guarantee any order between the left and right children. Therefore, searching for a specific element may require traversing the whole heap, so the time complexity is $O(n)$.
 
 ### Insert
 
@@ -1973,7 +2261,7 @@ Heap sort is unstable. In the code above, repeated insertion makes the heap-buil
 
 ### Priority Queue
 
-In an ordinary queue, we strictly follow the FIFO principle. In a priority queue, however, every element has a **priority**. The core rule is: **the element with the highest priority is removed first**.
+In an ordinary queue, we strictly follow the FIFO principle. In a priority queue, however, every element has a priority. The core rule is: the element with the highest priority is removed first.
 
 A priority queue can be implemented conveniently with a heap, because a max-heap can return the maximum element in $O(1)$ time.
 
@@ -1988,6 +2276,38 @@ cout << "maximum: " << max_heap.top() << endl; //output the maximum value
 max_heap.pop(); //remove the maximum value
 cout << "new maximum: " << max_heap.top() << endl; //output 20
 ```
+
+### The Memory Heap in Program Execution
+
+"Heap" also appears in the phrase "the program heap", but the two meanings are almost unrelated. In operating systems, the <span style="color: red;">memory heap</span> is the region of a process's virtual address space reserved for <span style="color: red;">dynamic memory allocation</span>: blocks whose lifetime is not tied to any function scope, obtained with `malloc`/`new` and released with `free`/`delete`.
+
+A typical layout of process virtual memory:
+
+| Region | Content | Size behavior |
+| --- | --- | --- |
+| Text segment | machine instructions of the program | fixed |
+| Data segment | initialized global and static variables | fixed |
+| BSS segment | zero-initialized global and static variables | fixed |
+| Memory heap | dynamically allocated blocks (`malloc`/`new`) | grows upward on demand |
+| Call stack | stack frames of function calls (see [The Call Stack in Program Execution](#the-call-stack-in-program-execution)) | grows downward on demand |
+
+The heap and the stack are placed at opposite ends of the address space and grow toward each other, so the boundary between them needs no fixed commitment in advance.
+
+> [!NOTE] A historical misnomer
+> Knuth remarked that the collision of names is unfortunate: the heap data structure would be a perfectly reasonable way to organize free memory, but the memory heap was named earlier, in the everyday sense of "a heap of things". Some allocators do keep free blocks in tree- or heap-shaped structures, but a classical allocator (e.g., glibc malloc with its size-segregated bins and free lists) does not use the heap data structure at all.
+
+The heap data structure and the memory heap differ in almost every aspect:
+
+| Aspect | Heap (data structure) | Memory heap (program execution) |
+| --- | --- | --- |
+| Definition | A complete binary tree satisfying the heap-order property | A memory region administered by an allocator |
+| Ordering | Every parent is at least as large as its children (max-heap) | No order relation between blocks |
+| Purpose | Access the extremum in $O(1)$; priority queues and heap sort | Storage for objects with arbitrary lifetimes |
+| Operations | Insert / delete, $O(\log n)$ | `malloc` / `free`, cost determined by the allocator and current fragmentation |
+| Organization | Usually a contiguous array | Scattered blocks linked through the allocator's bookkeeping structures |
+| Typical failures | Push beyond capacity | Memory leak, use-after-free, fragmentation, allocation failure |
+
+Despite the differences, the two do meet in practice. When a priority queue of unknown size is needed, its underlying array lives on the memory heap; conversely, an allocator may internally use a heap or other search structure to manage free blocks. In C++, both `vector` and `priority_queue` obtain their underlying storage from the memory heap, so the container interface of the data structure is built on top of the OS concept.
 
 # Graph
 
@@ -2149,11 +2469,11 @@ void Kruskal(MGraph G){
 
 Prim算法的时间复杂度为$O(e\log v)$, 因此适用于求稠密网的最小生成树。
 
-### Kruskal Algorithm & Disjoint Sets
+### Kruskal Algorithm and Disjoint Sets
 
 The essence of Kruskal Algorithm is算法思想是在保证不成圈的情况下不断取最小的边，直到取到$v−1$ edges.
 
-如何判定不成圈呢？可以采用**并查集**，它管理一系列不相交的集合，并支持两种操作：
+如何判定不成圈呢？可以采用并查集，它管理一系列不相交的集合，并支持两种操作：
 
 1. Union：把两个不相交的集合合并为一个集合。
 2. Find：查询两个元素是否在同一个集合中。
@@ -2378,7 +2698,7 @@ It is equivalent to$$\hat{w}(i,j)=w(u, v) + h(u) - h(v) \ge 0$$
 In this way we design the algorithm with time complexity $O(ve\log v)$ successfully.
 ## Topological Sort
 
-A graph is called an <span style="color: red;">Activity on Vertex (AOV) Graph</span> if vertices represent activity and edges represent the activity priority. It is readily apparent that an AOV graph is a directed acyclic graph. Define partial order relation $v_1​<v_2​$ as $v_1​$ point to $v_2$​. The order is called <span style="color: red;">Topological Sort</span>.
+A graph is called an Activity on Vertex (AOV) Graph if vertices represent activity and edges represent the activity priority. It is readily apparent that an AOV graph is a directed acyclic graph. Define partial order relation $v_1​<v_2​$ as $v_1​$ point to $v_2$​. The order is called Topological Sort.
 
 拓扑排序的实现方式如下：
 
@@ -2410,10 +2730,10 @@ A Cartesian tree of an array needs to satisfy:
 ![Cartesian_tree.svg](../attachments/Cartesian_tree.svg.webp)
 均摊分析时间复杂度
 
-We can find that Cartesian tree can transform finding the minimum value of the interval to the lowest common ancestor of two nodes. And the fast algorithm will be introduced in [Lowest Common Ancestor (LCA)](#lowest-common-ancestor-lca).
+We can find that Cartesian tree can transform finding the minimum value of the interval to the lowest common ancestor of two nodes. And the fast algorithm will be introduced in Lowest Common Ancestor (LCA).
 
 ## Lowest Common Ancestor (LCA)
-## Max-flow & Min-cut
+## Max-Flow and Min-Cut
 
 > [!THEOREM] Max-flow min-cut theorem
 
@@ -2437,7 +2757,7 @@ We can find that Cartesian tree can transform finding the minimum value of the i
 
 ### Edmonds–Karp Algorithm
 
-### Karger’s Min-cut Algorithm
+### Karger’s Min-Cut Algorithm
 
 >[!THEOREM]
 >$P=\frac{2}{n(n-1)}$
@@ -2456,7 +2776,7 @@ An interesting thing is: min-cut is P, but max-cut is NP-Hard.
 
 ## Clique
 
-We defined a subgraph as a <span style="color: red;">clique</span> if it is a complete graph.
+We defined a subgraph as a clique if it is a complete graph.
 
 It is difficult to determine whether a graph has a k-clique. We will prove that it is NP-Complete.
 
@@ -2466,17 +2786,17 @@ It is difficult to determine whether a graph has a k-clique. We will prove that 
 >[!PROOF]
 >
 
-## Matching & Vertex Cover
+## Matching and Vertex Cover
 
-We define <span style="color: red;">matching</span> $M$ as the subset of $E(G)$, where every edge in $M$ do not has the same vertex.
+We define matching $M$ as the subset of $E(G)$, where every edge in $M$ do not has the same vertex.
 
-We define <span style="color: red;">vertex cover</span> $C$ as the subset of $V(G)$, where every edge in graph has at least an endpoint belongs to $C$.
+We define vertex cover $C$ as the subset of $V(G)$, where every edge in graph has at least an endpoint belongs to $C$.
 
-Matching and vertex cover look very similar, but the difficulty of solving two problems are different. We will introduce in this section that matching can be solved by [Edmonds' Blossom Algorithm](#edmonds-blossom-algorithm), so it is P. However, vertex cover is NPC.
+Matching and vertex cover look very similar, but the difficulty of solving two problems are different. We will introduce in this section that matching can be solved by Edmonds' Blossom Algorithm, so it is P. However, vertex cover is NPC.
 
 Before we prove it, we will introduce another problem to reduce it.
 
-<span style="color: red;">Independent set</span>: the subset of $V(G)$, where each vertex in the set is not linked.
+Independent set: the subset of $V(G)$, where each vertex in the set is not linked.
 
 Independent Set Problem is: given $k$ and a graph $G$, we want to find an independent set has $k$ vertices.
 
@@ -2493,7 +2813,7 @@ Vertex Cover Problem is: given $k$ and a graph $G$, we want to find a vertex cov
 
 >[!PROOF]
 >If $S$ is the vertex cover of graph $G$, then $V(G)/S$ is the independent set of graph $G$. As a result, Independent Set can be reduced to Vertex Cover. So it is NP-Complete.
-### Bipartite graph
+### Bipartite Graph
 
 Although for general graph, vertex cover is NP-Complete, in bipartite graph, we can find that max-matching is equal to min-cover, which can be reduced to max-flow. As a result, in bipartite graph, they are P.
 
@@ -2566,7 +2886,7 @@ However, when we discuss 3-colorable, we have the following theorem.
 >
 >Furthermore, by repeating this process for multiple such boolean expressions, we can reduce it to a 3-colorable problem. Thus, we reduce the 3SAT problem to a 3-colorable problem. And since each clause constructs at most 15 vertices and 20 edges, the reduction process has linear time complexity. Therefore, the 3-colorable problem is an NP-Complete problem.
 
-## Euler Circuit & Hamilton Path
+## Euler Circuit and Hamilton Path
 
 Euler Circuit is P.
 
@@ -2597,7 +2917,7 @@ We can also prove that undirected Hamilton path is NP-Complete.
 
 ## 二叉排序树 (Binary Search Tree, BST)
 
-**二叉排序树**或者是一个空树，或者是具有下列性质的二叉树：
+二叉排序树或者是一个空树，或者是具有下列性质的二叉树：
 
 1. 若它的左子树不空，则左子树上所有结点的值均小于它的根结点的值；
 2. 若它的右子树不空, 则右子树上所有结点的值均大于它的根结点的值;
@@ -2683,11 +3003,11 @@ bool DeleteBST(BiTree &T,TElemType key){
 
 ---
 
-**定理：**随机性的构建含有n个元素的二叉排序树，其高度的期望为O(logn)
+定理：随机性的构建含有n个元素的二叉排序树，其高度的期望为O(logn)
 
 ---
 
-**证明：**
+证明：
 
 容易得到递推式E[hn​]=E[i=0∑n−1​n1​max{hi​,hn−1−i​}+1],h0​=0
 
@@ -2716,7 +3036,7 @@ E[Yn​]=E[n1​i=0∑n−1​2max{hi​,hn−1−i​}+1]=n2​i=0∑n​E[2max
 
 注意到二叉排序树的查找效率与树高有关。树越高，效率越低。因此，我们希望二叉树尽可能低，这就要求二叉树更“平衡”，即尽可能充分利用每层的空间。
 
-为了定量描述“平衡”，我们引入**平衡因子(BF)** 这一概念。定义某个结点的平衡因子为该结点的左子树深度减去右子树深度。我们认为，当二叉排序树中的所有结点的平衡因子为-1，0或1时，该树为**平衡二叉树(AVL树)**。
+为了定量描述“平衡”，我们引入平衡因子(BF) 这一概念。定义某个结点的平衡因子为该结点的左子树深度减去右子树深度。我们认为，当二叉排序树中的所有结点的平衡因子为-1，0或1时，该树为平衡二叉树(AVL树)。
 
 平衡二叉树的查找与二叉排序树类似，对于插入和删除操作，则需注意操作过程中是否会破坏树的平衡。
 
@@ -2776,7 +3096,7 @@ for(auto it : m)
 
 前文提及的AVL树和红黑树通常用于在内存中处理数据，而当数据量较大，内存无法存储时，我们只能将大规模的数据存储到硬盘中。每次处理数据，我们将当前结点从硬盘里读取至内存，再在内存里处理数据。然而，硬盘的单次访问时毫秒级的，而内存的单次访问时纳秒级的。因此，我们希望硬盘访问次数越少越好。容易得到，硬盘访问次数与树高正相关。为了让树高降低，B-树应运而生。
 
-m阶**B-树**，或为空树，或为满足下列特性的m叉树：
+m阶B-树，或为空树，或为满足下列特性的m叉树：
 
 1. 树中每个结点至多有m棵子树；
 2. 若根结点不是叶子结点，则至少有两棵子树；
@@ -2805,7 +3125,7 @@ typedef struct BTNode{
 
 ## Hash表
 
-为了减少数据的存储与查找的时间复杂度，我们可以通过一个函数，将任意长度的关键字通过函数映射为一个固定范围的数组下标（地址）。这个函数称为**Hash函数**，构建的表称为**Hash表**。这样我们可以做到以接近O(1)的平均时间复杂度实现数据的存储与查找。
+为了减少数据的存储与查找的时间复杂度，我们可以通过一个函数，将任意长度的关键字通过函数映射为一个固定范围的数组下标（地址）。这个函数称为Hash函数，构建的表称为Hash表。这样我们可以做到以接近O(1)的平均时间复杂度实现数据的存储与查找。
 
 ```cpp
 #define m 20 
@@ -2819,7 +3139,7 @@ typedef struct{
 
 ### 冲突
 
-当$H(key1)==H(key2)$但$key1\ne key2$ 时，Hash函数发生了**冲突**。
+当$H(key1)==H(key2)$但$key1\ne key2$ 时，Hash函数发生了冲突。
 
 以下定理说明，Hash表中冲突的出现几乎不可避免
 
@@ -2830,13 +3150,13 @@ typedef struct{
 >注意到k 个元素均不冲突的概率：P=∏i=1k−1​(1−mi​)
 又1−x≤e−x，故P≤e−1/m⋅e−2/m…e−(k−1)/m=e−m1​∑i=1k−1​i=e−(2k​)/m
 
-处理冲突的方式有很多，较为常用的方式有**线性探测法、拉链法**和**Cuckoo法**。
+处理冲突的方式有很多，较为常用的方式有线性探测法、拉链法和Cuckoo法。
 
 线性探测法是先访问索引为H(key)的结点，若未放入关键字，则放入；否则访问索引为H(key)+1的结点，直到访问到空结点。这里需要注意的是，由于我们的Hash表长是有限制的，因此此处的加法是在对表长取模的意义下进行的。
 
 拉链法则是在插入时，通过Hash函数计算键key的Hash值H(key)，找到对应的桶索引。将键值对封装成节点，直接插入到该桶对应的链表中。
 
-拉链法同样可以进一步优化，我们可以提供n个哈希函数Hi​(key)，分别计算它们的结果，并比较结果对应的链表长度，选择最短的插入即可。我们称该方法为**多重选择拉链法**。
+拉链法同样可以进一步优化，我们可以提供n个哈希函数Hi​(key)，分别计算它们的结果，并比较结果对应的链表长度，选择最短的插入即可。我们称该方法为多重选择拉链法。
 
 Cuckoo模拟布谷鸟生蛋的过程，利用两个哈希函数H1​(key)，H2​(key)。Hash表中每个位置只存储一个元素。若H1​(x)已经有元素y时，更新下标H1​(x)的数据为x，并计算H2​(y)。若H2​(y)已经有元素z时，更新下标H2​(y)的数据为y。用z递归调用这一过程。如果递归次数过多，则重新定义Hash函数并从头开始该过程。
 
@@ -2861,7 +3181,7 @@ myset.clear();                  //清空元素
 cout<<myset.size() << endl;     //获取元素个数
 ```
 
-## Prefix sum and Binary Index Tree (BIT)
+## Prefix Sum and Binary Index Tree (BIT)
 
 如果我们需要求解多组数列中的i=x∑y​a[i]，容易得到，常规的求法时间复杂度为$O(n)$
 
@@ -2920,7 +3240,7 @@ int solve(int a[], int n,int k) {
 
 # Dynamic Programming (DP)
 
-动态规划基于自底向上设计算法。先从简单的问题出发，逐步扩展至困难的问题。而扩展的方式我们称之为**动态转移方程**。
+动态规划基于自底向上设计算法。先从简单的问题出发，逐步扩展至困难的问题。而扩展的方式我们称之为动态转移方程。
 
 此前的[Floyd-Warshall Algorithm](#floydwarshall-algorithm)就基于这一思想。
 
@@ -2930,7 +3250,7 @@ int solve(int a[], int n,int k) {
 
 利用前缀和数组，并暴力枚举，时间复杂度为$O(n^2)$
 
-本题的算法有一个专门的名称：**Kadane算法**。我们考虑以a[n]为结尾的最长子段和。那么要么是只有一个元素，要么就是该序列去掉a[n]后为以a[n−1]为末尾的子段和。显然，该子段和必然为以a[n−1]为末尾的最长子段和
+本题的算法有一个专门的名称：Kadane算法。我们考虑以a[n]为结尾的最长子段和。那么要么是只有一个元素，要么就是该序列去掉a[n]后为以a[n−1]为末尾的子段和。显然，该子段和必然为以a[n−1]为末尾的最长子段和
 
 由此可知
 
@@ -3021,13 +3341,13 @@ void LIS(vector<int> a,vector<int> sorted_a,int n){
 
 我们定义一个二维数组 f[i][j]表示 S1​ 的前 i 个字符与 S2​ 的前 j 个字符的最长公共子序列的长度。
 
-**情况 A**：$S_1​[i]==S_2​[j]$ (字符相等)
+情况 A：$S_1​[i]==S_2​[j]$ (字符相等)
 
 这两个字符可以作为公共子序列的一部分。那么长度就在之前的状态基础上加 1。
 
 $$f[i][j]=f[i−1][j−1]+1$$
 
-**情况 B**：$S1​[i]\ne S2​[j]$ (字符不等)
+情况 B：$S1​[i]\ne S2​[j]$ (字符不等)
 
 这时 S1​[i] 和 S2​[j] 不可能同时出现在当前的 LCS 中。我们需要“退而求其次”，看看是让 S1​ 少看一个字符比较长，还是让 S2​ 少看一个字符比较长。
 
@@ -3039,7 +3359,7 @@ $$f[i][j]=\max\{f[i−1][j],f[i][j−1]\}$$
 
 我们定义一个二维数组 g[i][j]表示 S1​ 的前 i 个字符与 S2​ 的前 j 个字符的最长公共子序列的数量。
 
-**情况 A**：$S_1​[i]==S_2​[j]$ (字符相等)
+情况 A：$S_1​[i]==S_2​[j]$ (字符相等)
 
 一方面，最长公共子序列可以取这一字符。另一方面，我们也可以不取这一字符。此时要么f[i][j]=f[i−1][j]，要么f[i][j]=f[i][j−1]。但是由上述算法，不可能f[i][j]=f[i−1][j−1]，即不可能两个字符串都不取这个字符
 
@@ -3047,7 +3367,7 @@ $$f[i][j]=\max\{f[i−1][j],f[i][j−1]\}$$
 
 g[i][j]=⎩⎨⎧​g[i−1][j−1]+g[i−1][j],g[i−1][j−1]+g[i][j−1],g[i−1][j−1],​f[i][j]=f[i−1][j]f[i][j]=f[i][j−1]others​
 
-**情况 B**：$S_1​[i]\ne S_2​[j]$ (字符不等)
+情况 B：$S_1​[i]\ne S_2​[j]$ (字符不等)
 
 这时 S1​[i] 和 S2​[j] 不可能同时出现在当前的 LCS 中。我们延续之前的思路，可以得到
 
@@ -3279,7 +3599,7 @@ The essence of greedy is getting the local optimal solution in each step, in ord
 
 In many circumstance, greedy cannot give us global optimal solution, but it doesn't mean it is valueless. Because we usually want to get an approximate optimal solution faster.
 
-The previous [Huffman tree & Huffman coding](#huffman-tree-huffman-coding) and [Dijkstra Algorithm](#dijkstra-algorithm) actually used a greedy algorithm.
+The previous [Huffman Tree and Huffman Coding](#huffman-tree-and-huffman-coding) and [Dijkstra Algorithm](#dijkstra-algorithm) actually used a greedy algorithm.
 ## Interval Scheduling
 
 We talked about [Weighted Interval Scheduling](#weighted-interval-scheduling) previously. In this time, we talked about the problem without weight. This one could be solved by greedy algorithm by following operators:
@@ -3328,7 +3648,7 @@ We can prove that this problem is NP-Hard.
 >We can reduce vertex covering to set covering.
 >$$U=E(G),S=\{\delta(v)|\forall v\in V(G)\}$$
 
-The core idea of ​​the greedy algorithm is: **at each step, choose the set containing the most "uncovered elements".**
+The core idea of ​​the greedy algorithm is: at each step, choose the set containing the most "uncovered elements".
 
 1. Let the covered set $C \leftarrow \emptyset$, and the remaining set $R \leftarrow U$.
 2. When $R \ne \emptyset$, perform the following:
@@ -3368,7 +3688,7 @@ where $C$  is solution given by greedy, $OPT$ is the optimal solution
 >
 >Assume that $S^*$ has $n^*$ elements. Label them $e_1,e_2,\dots,e_{n^*}$ in the order in which they are covered by the greedy algorithm.
 >
->When the greedy algorithm is about to cover $e_i$, at least $n^*-i+1$ elements of $S^*$ are still uncovered. This means that at this step the greedy algorithm could have chosen $S^*$ to cover these (at least) $n^*-i+1$ elements. Hence the set $S_{g_j}$ actually chosen covers new elements with efficiency **no lower than** that of choosing $S^*$:
+>When the greedy algorithm is about to cover $e_i$, at least $n^*-i+1$ elements of $S^*$ are still uncovered. This means that at this step the greedy algorithm could have chosen $S^*$ to cover these (at least) $n^*-i+1$ elements. Hence the set $S_{g_j}$ actually chosen covers new elements with efficiency no lower than that of choosing $S^*$:
 >
 >$$c_{e_i}\le \frac{1}{n^*-i+1}$$
 >
@@ -3384,7 +3704,7 @@ where $C$  is solution given by greedy, $OPT$ is the optimal solution
 
 Mathematicians have proven: unless $P=NP$, no polynomial-time algorithm which has an approximate ratio better than $(1−\epsilon)\log n$.
 
-### Weighted version
+### Weighted Version
 
 If every set has cost $w_i$, and we want to get the least cost, we can adjust the algorithm to calculate the unit cost $c_i​=\frac{w_i}{|S_i​\cap R_i|}$​ each time and select the set with the smallest cost.
 
@@ -3427,7 +3747,7 @@ We define the approximation ratio $$\alpha=\frac{M^*}{M}$$where $M^*$ is the res
 >
 >Hence, in general, $\alpha\le\frac{4}{3}$.
 
-# Algorithm Related to Number theory
+# Algorithm Related to Number Theory
 ## Prime Number Sieve
 
 ### Sieve of Eratosthenes
@@ -3489,10 +3809,10 @@ vector<int> sieve(int n){
 As a result, the algorithm achieve every composite only marked once. So $$T(n)=O(n)$$
 ## Miller-Rabin Tester
 
-Observation: Fermat’s Little Theorem, you can see its proof in [Algebra & Number Theory](../math/algebra.html). You can get $a^{n-1}\mod n$ in time $O(\log n)$ by fast exponentiation.
+Observation: Fermat’s Little Theorem, you can see its proof in [Algebra and Number Theory](../math/algebra.html). You can get $a^{n-1}\mod n$ in time $O(\log n)$ by fast exponentiation.
 
 If $a^{n-1} \not\equiv 1\mod n$, $n$ is definitely not prime. However, if $a^{n-1} \equiv 1\mod n$, $n$ is only probably prime. Some composite numbers still pass this Fermat test, such as$$100^{560} \equiv 1\mod 561,561=3\times11\times17$$
-This type of number is called <span style="color: red;">Carmichael Numbers</span>. In 1994, Andrew Granville and Carl Pomerance proved that the Carmichael numbers are infinite.
+This type of number is called Carmichael Numbers. In 1994, Andrew Granville and Carl Pomerance proved that the Carmichael numbers are infinite.
 
 How to improve this algorithm?
 
@@ -3551,7 +3871,7 @@ bool is_prime(ull n){
 
 If we only take one base $a$, we can also have counterexample:
 $$173^{220} \equiv 1\mod 221,173^{110} \equiv 220\mod 221,221=13\times17$$
-Therefore, we need to try several bases. Mathematicians have proven that, if the Generalized Riemann Hypothesis (GRH) is true, it is enough to try every base $1\le a\le 2(\ln n)^2$. This primality test is called the <span style="color: red;">Miller-Rabin Tester</span>.
+Therefore, we need to try several bases. Mathematicians have proven that, if the Generalized Riemann Hypothesis (GRH) is true, it is enough to try every base $1\le a\le 2(\ln n)^2$. This primality test is called the Miller-Rabin Tester.
 
 In practice, if we choose the base $a$ uniformly at random, then we have the following theorem.
 

@@ -89,7 +89,7 @@ We want to know the following index:
 - average waiting time of customers in the system ($W_s$)
 - average waiting time of customers in the queue ($W_q$)
 
-We define $P_n(t)$ as the probability of $n$ service counters working at the $t$ moment. Given that $n$ is integer, we need to establish an equation, which is a differential equation with respect to $t$, and a difference equation with respect to $n$. The solution of the equation is the <span style="color: red;">transient state solution</span>, but solve this equation is really hard, so we usually solve the <span style="color: red;">steady state solution</span>: $$\lim_{t\rightarrow \infty} P_n(t)=P_n $$We only need to make $P_n’(t)=0$.
+We define $P_n(t)$ as the probability of $n$ service counters working at the $t$ moment. Given that $n$ is integer, we need to establish an equation, which is a differential equation with respect to $t$, and a difference equation with respect to $n$. The solution of the equation is the transient state solution, but solve this equation is really hard, so we usually solve the steady state solution: $$\lim_{t\rightarrow \infty} P_n(t)=P_n $$We only need to make $P_n’(t)=0$.
 
 Let $P_n(t_1,t_2)$ be the probability of $n$ customers arrive in the interval time $[t_1,t_2)$. The arrival of customers is <span style="color: red;">Poisson Stream</span> if: 
 1. In the non-overlapping interval time, the number of arrivals of customers is independent.

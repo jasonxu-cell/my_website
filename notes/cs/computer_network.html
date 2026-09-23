@@ -223,7 +223,7 @@ $$
 Each layer provides services to the layer above it. As data moves down the stack, each layer adds its own header to the data received from above; the link layer may also add a trailer. This process is called <span style="color: red;">encapsulation</span>.
 
 For example, data sent over TCP/IP and Ethernet is encapsulated as follows:
-```
+```text
 Application data
   ↓
 [TCP header | application data]                         TCP segment
@@ -259,9 +259,9 @@ Application data
 - Example: BT, Skype, PPLive
 ## Processes, Sockets, and Addressing
 
-The entities that communicate across a network are <span style="color: red;">processes</span>. Processes on different hosts communicate by exchanging <span style="color: red;">messages</span>. They can be perceived as the programs running in the hosts.
+The entities that communicate across a network are <span style="color: red;">processes</span>. Processes on different hosts communicate by exchanging messages. They can be perceived as the programs running in the hosts.
 
-A <span style="color: red;">socket</span> is the software interface between the application and transport layers and tells the host which process the data should be given to. It is the API through which an application uses network services. Delivering data to a specific process normally requires:
+A socket is the software interface between the application and transport layers and tells the host which process the data should be given to. It is the API through which an application uses network services. Delivering data to a specific process normally requires:
 
 - An <span style="color: red;">IP address</span> to identify the host or network interface;
 - A <span style="color: red;">port number</span> to identify the destination application process;
@@ -395,12 +395,22 @@ FTP uses separate TCP connections for control and data. The server normally list
 Keeping control and data on separate connections allows commands and replies to continue while data is transferred. Opening a new data connection for each transfer adds connection setup overhead.
 ## Email
 
+Protocols:
+- Transport Layer Protocol: TCP
+- Application-layer email transfer protocol: SMTP (port number 25)
+- Email access protocols: POP3 (port 110), IMAP (port 143), HTTP (port 80)
+
+SMTP stands for Simple Mail Transmission Protocol
+IMAP stands for Internet Mail Access Protocol
+
 The main components of an Internet email system are:
 
-- A **user agent (UA)** for composing, reading, and managing email.
-- A **mail server** that maintains mailboxes and outgoing queues.
-- **SMTP** for submitting mail and transferring it between mail servers.
-- **IMAP or HTTP** for retrieving and managing messages on the server.
+- A user agent (UA) for composing, reading, and managing email.
+- A mail server that maintains mailboxes and outgoing queues.
+- SMTP for submitting mail and transferring it between mail servers.
+- IMAP or HTTP for retrieving and managing messages on the server.
+
+![Screenshot 2026-09-21 at 17.02.55](../attachments/Screenshot%202026-09-21%20at%2017.02.55.png){width=317}
 
 A typical delivery path is:
 
@@ -409,63 +419,107 @@ Sender UA → Sender mail server → Receiver mail server → Receiver mailbox/U
             SMTP submission       SMTP relay             IMAP/HTTP access
 ```
 
+SMTP has the following steps:
+1. Establish a connection
+```text
+S: 220 hamburger.edu
+```
+2. Client self-introduction
+```text
+C: HELO crepes.fr 
+S: 250 Hello crepes.fr, pleased to meet you
+```
+3. Designate sender 
+```text
+C: MAIL FROM: <alice@crepes.fr>
+S: 250 alice@crepes.fr ... Sender ok
+```
+4. Designate recipient
+```text
+C: RCPT TO: <bob@hamburger.edu> 
+S: 250 bob@hamburger.edu ... Recipient ok
+```
+5. Starting to send email content
+```text
+C: DATA
+S: 354 Enter mail, end with "." on a line by itself
+```
+6. End the SMTP session
+```text
+C: QUIT
+S: 221 hamburger.edu closing connection
+```
+
 If the receiving server is temporarily unavailable, the sending server keeps the message in a queue and retries later.
 
-Common email headers include `From`, `To`, `Subject`, and `Date`. MIME extends the message format to support non-ASCII text and attachments.
-
-## DNS
+Since the client is not always online, the mail server cannot be expected to actively establish an SMTP connection with the client the moment an email is received. Besides, SMTP is a "push" protocol, whereas message retrieval is a "pull" operation. So the client need to use another protocol to receive the mail. IMAP is a common way to do it.
+## Domain Name System (DNS)
 
 ### Purpose and Properties
 
-The **Domain Name System (DNS)** primarily maps hostnames to IP addresses. It is both a distributed database implemented by a hierarchy of DNS servers and an application-layer protocol.
+The Domain Name System (DNS) primarily maps hostnames to IP addresses. It is both a distributed database implemented by a hierarchy of DNS servers and an application-layer protocol. 
 
-DNS uses port 53. Ordinary queries commonly use UDP, while TCP may be used for large responses, zone transfers, and other cases. Encrypted DNS can use DNS over TLS (DoT) or DNS over HTTPS (DoH).
+DNS uses port 53. Ordinary queries commonly use UDP. This is because DNS is sensitive to latency and always send short messages.
 
 ### Resolution Process
 
-1. An application sends a query to its local recursive resolver.
-2. If no valid cached answer exists, the resolver queries root, top-level-domain (TLD), and authoritative DNS servers.
-3. The authoritative server returns the requested record.
-4. The resolver caches the result according to its TTL and returns it to the application.
+Conceptually, the Internet is divided into more than 200 top-level domains; each top-level domain can be further subdivided into subdomains, and so on. Hostnames employ a hierarchical naming scheme.
 
-A recursive resolver normally completes the lookup on behalf of the client. Queries among root, TLD, and authoritative servers are generally iterative.
+![Screenshot 2026-09-21 at 18.33.51](../attachments/Screenshot%202026-09-21%20at%2018.33.51.png)
 
+There are 13 root servers globally, and they know the IP addresses of all top-level domain servers.
+![Screenshot 2026-09-21 at 17.40.59](../attachments/Screenshot%202026-09-21%20at%2017.40.59.png)
+
+If the client wants to know the IP address of www.amazon.com:
+1. The DNS client queries the root server and obtains the address of the DNS server for the `.com` domain.
+2. The DNS client queries the `.com` domain's DNS server and obtains the address of the DNS server for the `amazon.com` domain.
+3. The DNS client queries the `amazon.com` domain's DNS server and obtains the IP address of www.amazon.com.
+
+This is the iterative process.
+![Screenshot 2026-09-21 at 18.42.51](../attachments/Screenshot%202026-09-21%20at%2018.42.51.png){width=481}
+
+In practice, the client typically uses recursive queries to communicate with the local DNS resolver, whereas the resolver uses iterative queries to communicate with root, TLD, and authoritative DNS servers. In recursive queries, the client only need to query the local DNS resolver and wait for the IP. The process shows as following figure.
+![Screenshot 2026-09-21 at 18.46.56](../attachments/Screenshot%202026-09-21%20at%2018.46.56.png)
+### DNS Caching
+
+To improve latency performance and reduce the volume of DNS messages traversing the Internet, DNS makes extensive use of caching. When a DNS server receives a DNS response, it can cache the mapping in its local storage. If a subsequent query for the same hostname reaches that server, it can provide the requested IP address. Since the mapping between a hostname and an IP address is not permanent, the DNS server discards the cached information after a certain period.
 ### Common Resource Records
 
 A DNS resource record can be represented as `(Name, Value, Type, TTL)`:
 
-| Type | Meaning |
-|---|---|
-| `A` | Domain name → IPv4 address |
-| `AAAA` | Domain name → IPv6 address |
-| `CNAME` | Alias → canonical domain name |
-| `NS` | Domain → authoritative DNS server |
-| `MX` | Domain → mail server |
-| `TXT` | Text data, often used for domain validation and email security policies |
+| Type    | Meaning                                                                 |
+| ------- | ----------------------------------------------------------------------- |
+| `A`     | Domain name → IPv4 address                                              |
+| `AAAA`  | Domain name → IPv6 address                                              |
+| `CNAME` | Alias → canonical domain name                                           |
+| `NS`    | Domain → authoritative DNS server                                       |
+| `MX`    | Domain → mail server                                                    |
+| `TXT`   | Text data, often used for domain validation and email security policies |
 
 DNS queries and responses use the same general message format, with a header and Question, Answer, Authority, and Additional sections.
+![Screenshot 2026-09-21 at 18.52.22](../attachments/Screenshot%202026-09-21%20at%2018.52.22.png)
 
 ## P2P File Distribution and BitTorrent
 
-The distribution capacity of a P2P system can grow as new peers join and contribute upload capacity. This property is called **self-scalability**.
+The distribution capacity of a P2P system can grow as new peers join and contribute upload capacity. This property is called self-scalability.
 
 Core BitTorrent ideas:
 
 - A file is divided into pieces.
 - Peers download different pieces from multiple nodes while uploading pieces they already have.
-- **Rarest first** requests scarce pieces first, improving piece availability.
-- A strategy similar to **tit-for-tat** favors peers that contribute bandwidth in return.
+- Rarest first requests scarce pieces first, improving piece availability.
+- A strategy similar to tit-for-tat favors peers that contribute bandwidth in return.
 - Trackers or a Distributed Hash Table (DHT) can help peers discover one another.
 
 ## Video Streaming and CDNs
 
 ### DASH
 
-**Dynamic Adaptive Streaming over HTTP (DASH)** encodes a video at several bit rates and divides each version into short segments. The client chooses the quality of the next segment dynamically based on estimated bandwidth and buffer occupancy.
+Dynamic Adaptive Streaming over HTTP (DASH) encodes a video at several bit rates and divides each version into short segments. The client chooses the quality of the next segment dynamically based on estimated bandwidth and buffer occupancy.
 
 ### Content Distribution Networks
 
-A **Content Distribution Network (CDN)** deploys edge servers in many geographic locations, caches content, and directs each user to a suitable server. This can:
+A Content Distribution Network (CDN) deploys edge servers in many geographic locations, caches content, and directs each user to a suitable server. This can:
 
 - Reduce user-perceived delay;
 - Reduce load on the origin and backbone networks;
@@ -501,16 +555,16 @@ Client: socket → connect ───────────→ send/recv → cl
 
 ## Transport-Layer Overview
 
-The network layer provides logical **host-to-host** communication. The transport layer extends this service to provide logical **process-to-process** communication.
+The network layer provides logical host-to-host communication. The transport layer extends this service to provide logical process-to-process communication.
 
 At the sender, the transport layer divides application messages as needed, adds transport headers, and passes the resulting units to the network layer for encapsulation in IP datagrams. The receiver performs the reverse process.
 
 ### Multiplexing and Demultiplexing
 
-- **Multiplexing:** The sender gathers data from multiple sockets, adds header information, and passes the segments or datagrams to the network layer.
-- **Demultiplexing:** The receiver examines transport-layer header fields and delivers data to the correct socket.
+- Multiplexing: The sender gathers data from multiple sockets, adds header information, and passes the segments or datagrams to the network layer.
+- Demultiplexing: The receiver examines transport-layer header fields and delivers data to the correct socket.
 
-A port number is 16 bits long and ranges from 0 to 65535. Ports 0–1023 are commonly called **well-known ports**.
+A port number is 16 bits long and ranges from 0 to 65535. Ports 0–1023 are commonly called well-known ports.
 
 - UDP demultiplexing primarily uses the tuple `(destination IP, destination port)`. Datagrams from different sources can be delivered to the same destination socket.
 - A TCP connection is identified by the four-tuple `(source IP, source port, destination IP, destination port)`. A server can therefore support many simultaneous connections on one listening port.
@@ -538,13 +592,13 @@ Common reliability mechanisms include error detection, sequence numbers, acknowl
 
 ### Evolution of the rdt Protocols
 
-- **rdt1.0:** Assumes a completely reliable underlying channel.
-- **rdt2.0:** Handles bit errors with checksums, ACK/NAK feedback, and retransmission, but does not handle corrupted ACK or NAK packets.
-- **rdt2.1:** Adds sequence numbers so duplicate packets can be recognized.
-- **rdt2.2:** Uses numbered ACKs and no longer requires NAKs.
-- **rdt3.0:** Also handles lost data packets and ACKs by adding timers and timeout retransmission. Because its sequence number alternates between 0 and 1, it is also called the **alternating-bit protocol**.
+- rdt1.0: Assumes a completely reliable underlying channel.
+- rdt2.0: Handles bit errors with checksums, ACK/NAK feedback, and retransmission, but does not handle corrupted ACK or NAK packets.
+- rdt2.1: Adds sequence numbers so duplicate packets can be recognized.
+- rdt2.2: Uses numbered ACKs and no longer requires NAKs.
+- rdt3.0: Also handles lost data packets and ACKs by adding timers and timeout retransmission. Because its sequence number alternates between 0 and 1, it is also called the alternating-bit protocol.
 
-These are fundamentally **stop-and-wait protocols**: the sender transmits one packet and waits for an acknowledgment. If ACK transmission time is ignored, sender utilization is approximately:
+These are fundamentally stop-and-wait protocols: the sender transmits one packet and waits for an acknowledgment. If ACK transmission time is ignored, sender utilization is approximately:
 
 $$
 U_{sender}=\frac{L/R}{RTT+L/R}
@@ -574,8 +628,8 @@ $$
 
 TCP is a full-duplex, point-to-point, connection-oriented protocol that provides a reliable byte stream. Each endpoint maintains its own send and receive buffers.
 
-- **Maximum Segment Size (MSS):** The maximum amount of application data in a TCP segment.
-- **Maximum Transmission Unit (MTU):** The largest network-layer packet that a link-layer frame can carry.
+- Maximum Segment Size (MSS): The maximum amount of application data in a TCP segment.
+- Maximum Transmission Unit (MTU): The largest network-layer packet that a link-layer frame can carry.
 - Ethernet commonly has a 1500-byte MTU. With IPv4 and TCP headers that contain no options, a typical MSS is 1460 bytes.
 
 ### Important TCP Header Fields
@@ -588,7 +642,7 @@ TCP is a full-duplex, point-to-point, connection-oriented protocol that provides
 - Checksum;
 - Options such as MSS, window scaling, and timestamps.
 
-TCP sequence numbers count **bytes**. The acknowledgment number indicates the sequence number of the next byte the receiver expects.
+TCP sequence numbers count bytes. The acknowledgment number indicates the sequence number of the next byte the receiver expects.
 
 ### RTT Estimation and Timeout
 
@@ -610,12 +664,12 @@ Textbook examples commonly use $\alpha=0.125$ and $\beta=0.25$.
 
 ### Reliable Transfer and Fast Retransmit
 
-TCP uses checksums, sequence numbers, cumulative acknowledgments, timers, and retransmission to provide reliable transfer. After receiving multiple duplicate ACKs, a sender can infer that a segment was probably lost and perform **fast retransmit** before the timer expires.
+TCP uses checksums, sequence numbers, cumulative acknowledgments, timers, and retransmission to provide reliable transfer. After receiving multiple duplicate ACKs, a sender can infer that a segment was probably lost and perform fast retransmit before the timer expires.
 
 ### Flow Control and Congestion Control
 
-- **Flow control** protects the receiver. The receiver advertises `rwnd` so the sender does not overflow its receive buffer.
-- **Congestion control** protects the network. The sender uses the congestion window `cwnd` to regulate how much data it injects into the network.
+- Flow control protects the receiver. The receiver advertises `rwnd` so the sender does not overflow its receive buffer.
+- Congestion control protects the network. The sender uses the congestion window `cwnd` to regulate how much data it injects into the network.
 
 The sender's effective window is approximately constrained by:
 
@@ -625,10 +679,10 @@ $$
 
 Classic TCP congestion control includes:
 
-- **Slow start:** `cwnd` grows approximately exponentially per RTT.
-- **Congestion avoidance:** Growth becomes approximately linear after a threshold.
-- **Fast retransmit and fast recovery:** Duplicate ACKs allow a faster response to loss.
-- After a congestion signal, the sender reduces its rate, reflecting the **Additive Increase, Multiplicative Decrease (AIMD)** principle.
+- Slow start: `cwnd` grows approximately exponentially per RTT.
+- Congestion avoidance: Growth becomes approximately linear after a threshold.
+- Fast retransmit and fast recovery: Duplicate ACKs allow a faster response to loss.
+- After a congestion signal, the sender reduces its rate, reflecting the Additive Increase, Multiplicative Decrease (AIMD) principle.
 
 ### Connection Management
 
@@ -651,13 +705,13 @@ The handshake synchronizes initial sequence numbers and confirms bidirectional c
 
 The network layer delivers transport-layer segments from a source host to a destination host. Its core functions include:
 
-- **Forwarding:** Processing an individual packet according to a forwarding table.
-- **Routing:** Computing paths through the network.
-- **Logical addressing:** Using IPv4 or IPv6 addresses to identify interfaces and network locations.
+- Forwarding: Processing an individual packet according to a forwarding table.
+- Routing: Computing paths through the network.
+- Logical addressing: Using IPv4 or IPv6 addresses to identify interfaces and network locations.
 
 ### The IP Service Model
 
-IP provides **best-effort service**. It does not guarantee:
+IP provides best-effort service. It does not guarantee:
 
 - Packet delivery;
 - In-order delivery;
@@ -666,16 +720,16 @@ IP provides **best-effort service**. It does not guarantee:
 
 ### Subnets and Forwarding
 
-An IP address contains a network prefix and an interface identifier. Classless Inter-Domain Routing (CIDR) uses `/n` to represent the prefix length. Routers use **longest-prefix matching** to select the most specific matching route.
+An IP address contains a network prefix and an interface identifier. Classless Inter-Domain Routing (CIDR) uses `/n` to represent the prefix length. Routers use longest-prefix matching to select the most specific matching route.
 
 IPv4 private addresses commonly share public addresses through Network Address Translation (NAT). IPv6 provides a much larger address space and a simplified base header.
 
 ### The Control Plane
 
-- **Link-state algorithms:** Each router obtains the network topology and computes routes, commonly with Dijkstra's algorithm.
-- **Distance-vector algorithms:** Neighboring routers iteratively exchange distance information using the Bellman–Ford principle.
-- **OSPF:** A common link-state routing protocol within an autonomous system.
-- **BGP:** The inter-domain routing protocol used between autonomous systems; it uses path-vector information and routing policy.
+- Link-state algorithms: Each router obtains the network topology and computes routes, commonly with Dijkstra's algorithm.
+- Distance-vector algorithms: Neighboring routers iteratively exchange distance information using the Bellman–Ford principle.
+- OSPF: A common link-state routing protocol within an autonomous system.
+- BGP: The inter-domain routing protocol used between autonomous systems; it uses path-vector information and routing policy.
 
 ---
 
@@ -699,9 +753,9 @@ In IPv4 networks, the Address Resolution Protocol (ARP) maps a target IP address
 
 ### Error Detection
 
-- **Parity checking:** Simple but limited in detection capability.
-- **Checksums:** Interpret data words as integers and combine them arithmetically.
-- **Cyclic Redundancy Check (CRC):** Treats a bit string as a polynomial and performs modulo-2 division using a generator polynomial. CRC is widely used at the link layer.
+- Parity checking: Simple but limited in detection capability.
+- Checksums: Interpret data words as integers and combine them arithmetically.
+- Cyclic Redundancy Check (CRC): Treats a bit string as a polynomial and performs modulo-2 division using a generator polynomial. CRC is widely used at the link layer.
 
 ---
 
@@ -728,19 +782,19 @@ Mobile networks must also handle:
 
 Core security goals include:
 
-- **Confidentiality:** Only authorized parties can read the information.
-- **Integrity:** Information is not modified without authorization.
-- **Authentication:** The identity of a communicating party can be verified.
-- **Availability:** Legitimate users can obtain the service.
-- **Non-repudiation:** An entity cannot easily deny an action it performed.
+- Confidentiality: Only authorized parties can read the information.
+- Integrity: Information is not modified without authorization.
+- Authentication: The identity of a communicating party can be verified.
+- Availability: Legitimate users can obtain the service.
+- Non-repudiation: An entity cannot easily deny an action it performed.
 
 Common attacks include:
 
-- **DoS/DDoS:** Exhausting host, application, or network resources so legitimate users cannot obtain service.
-- **Sniffing:** Capturing traffic from a network link; plaintext protocols are especially vulnerable.
-- **IP spoofing:** Forging the source IP address in a packet.
-- **Replay attack:** Capturing a valid message and transmitting it again to impersonate a user or repeat an operation.
-- **Man-in-the-middle (MITM) attack:** Intercepting communication to observe or modify data exchanged by two parties.
+- DoS/DDoS: Exhausting host, application, or network resources so legitimate users cannot obtain service.
+- Sniffing: Capturing traffic from a network link; plaintext protocols are especially vulnerable.
+- IP spoofing: Forging the source IP address in a packet.
+- Replay attack: Capturing a valid message and transmitting it again to impersonate a user or repeat an operation.
+- Man-in-the-middle (MITM) attack: Intercepting communication to observe or modify data exchanged by two parties.
 
 Common defenses include:
 

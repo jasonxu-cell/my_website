@@ -328,6 +328,18 @@
     }
 
     const localHighlightGrammars = {
+        cmake: {
+            keywords: ["LANGUAGES", "VERSION"],
+            types: [],
+            builtIns: [],
+            literals: ["FALSE", "OFF", "ON", "TRUE"],
+            commentPatterns: ["#[^\\n]*"],
+            stringPatterns: ['"(?:\\\\.|[^"\\\\])*"'],
+            patterns: [
+                { pattern: "\\b[A-Za-z_][A-Za-z0-9_]*(?=\\s*\\()", className: "hljs-built_in" },
+                { pattern: "\\$\\{[A-Za-z_][A-Za-z0-9_]*\\}", className: "hljs-type" }
+            ]
+        },
         http: {
             keywords: [],
             types: [],
@@ -393,7 +405,7 @@
             ],
             types: [],
             builtIns: [
-                "alias", "bg", "bind", "break", "builtin", "cd", "command", "continue", "declare", "dirs",
+                "alias", "bg", "bind", "break", "builtin", "cd", "cmake", "command", "continue", "declare", "dirs",
                 "disown", "echo", "enable", "eval", "exec", "exit", "export", "fc", "fg", "getopts", "hash",
                 "help", "history", "jobs", "kill", "let", "local", "logout", "mapfile", "popd", "printf",
                 "pushd", "pwd", "read", "readarray", "readonly", "return", "set", "shift", "shopt", "source",
@@ -402,7 +414,10 @@
             ],
             literals: ["false", "true"],
             commentPatterns: ["#[^\\n]*"],
-            metaPatterns: ["\\$\\{[^}\\n]+\\}|\\$(?:[A-Za-z_][A-Za-z0-9_]*|[0-9@*#?$!-])"]
+            metaPatterns: ["\\$\\{[^}\\n]+\\}|\\$(?:[A-Za-z_][A-Za-z0-9_]*|[0-9@*#?$!-])"],
+            patterns: [
+                { pattern: "(?<!\\S)--?[A-Za-z][A-Za-z0-9_-]*(?=\\s|$)", className: "hljs-meta" }
+            ]
         },
         csh: {
             keywords: [

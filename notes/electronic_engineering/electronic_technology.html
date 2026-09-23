@@ -62,96 +62,547 @@
         <script type="text/plain" id="article-markdown">
 # Boolean Algebra
 
-As we all know, computers use <span style="color: red;">binary code</span> to perform various operations. 
+## Basic Operations and Equations
 
-# 计算机运算
+Computers use <span style="color: red;">binary code</span> to perform various operations. In Boolean algebra, each variable only has two possible values: 0 and 1.
 
-## 有符号整数的加减法
+Some basic operations:
 
-有符号整数将首位定义为符号位，1表示负数，0表示正数，称之为<span style="color: red;">原码</span>
-（如8位原码``0 0001101=+13``，``1 0001101=−13``，其中首位是符号位）
+1. BUFFER ($A$):
 
-对于负数，将其原码的数值位（符号位除外）逐位取反，称之为<span style="color: red;">反码</span>
-（如−13的8位反码为``1 1110010``）；正数的反码与原码相同。
+| $A$ | $A$ |
+| --- | --- |
+| 1   | 1   |
+| 0   | 0   |
 
-我们再定义**补码**为反码+1（如−13的8位补码为``1 1110011``），则负数$−N$的补码应当为$2^n−N$，其中$n$为二进制位数。
+2. NOT ($\overline{A}$):
 
-我们很容易在计算机中计算$a+b$，而在计算机中计算$a−b$实际上是计算$a$与$b$的补码之和，这是因为
+| $A$ | $\overline{A}$ |
+| --- | -------------- |
+| 1   | 0              |
+| 0   | 1              |
 
-$$Z=X+(2^n−Y)=2^n+(X−Y)$$
-而$2^n$会因超过运算范围而溢出。
+3. AND ($AB$):
 
-**溢出（overflow）的判断**：补码加法只有在两个**同号数**相加而结果符号相反时才发生溢出，即
+| $A$ | $B$ | $AB$ |
+| --- | --- | ---- |
+| 0   | 0   | 0    |
+| 0   | 1   | 0    |
+| 1   | 1   | 1    |
+| 1   | 0   | 0    |
 
-- 正数 + 正数 = 负数（结果符号位为1）
-- 负数 + 负数 = 正数（结果符号位为0）
+4. OR ($A+B$):
 
-一正一负相加永远不会溢出。减法 $a-b$ 转化为 $a+(-b)$ 后同理判断。
+| $A$ | $B$ | $A+B$ |
+| --- | --- | ----- |
+| 0   | 0   | 0     |
+| 0   | 1   | 1     |
+| 1   | 1   | 1     |
+| 1   | 0   | 1     |
 
-## 无符号整数乘除法
+5. NAND ($\overline{AB}=\overline{A}+\overline{B}$):
 
-无符号的二进制乘法的基本思路与列竖式计算类似。
+| $A$ | $B$ | $\overline{AB}$ |
+| --- | --- | --------------- |
+| 0   | 0   | 1               |
+| 0   | 1   | 1               |
+| 1   | 1   | 0               |
+| 1   | 0   | 1               |
 
-不同的是，对于两个$n$位的二进制数乘法，我们可以得到一个$2n$位的数，这显然超过了范围。
+6. NOR ($\overline{A+B}=\overline{A}\cdot \overline{B}$):
 
-而我们的解决方案是，使用一个$2n$位寄存器，将高$n$位清零，低$n$位存储乘数，每次将被乘数和该数的最后一位相乘，得到的部分积与高$n$位做加法，并在下一轮循环前，我们将结果和乘数全部右移。循环$n$次即可。
+| $A$ | $B$ | $\overline{A+B}$ |
+| --- | --- | ---------------- |
+| 0   | 0   | 1                |
+| 0   | 1   | 0                |
+| 1   | 1   | 0                |
+| 1   | 0   | 0                |
 
-**快速乘法**用并行的加法器阵列（华莱士树等）一次性累加各部分积，时间约为 $\log_2 n$ 级加法时长。
+7. XOR ($A\oplus B=A\overline{B}+\overline{A}B$):
 
-无符号的二进制除法的基本思路与列竖式计算类似。
+| $A$ | $B$ | $A\oplus B$ |
+| --- | --- | ----------- |
+| 0   | 0   | 0           |
+| 0   | 1   | 1           |
+| 1   | 1   | 0           |
+| 1   | 0   | 1           |
 
-不同的是，在进行两个$n$位的二进制数除法时，为避免两个数的大小比较，我们一般采用不恢复余数除法。在$n$位除法中，每一轮先将余数寄存器左移。如果当前余数为正，则减去除数；如果为负，则加上除数。根据运算结果的符号位来决定商：结果为正上商$1$，为负上商$0$。只有在最后一轮如果余数为负，才需要进行一次加法修正。
+8. XNOR ($A\odot B=AB+\overline{A}\overline{B}$):
 
-## IEEE浮点数
+| $A$ | $B$ | $A\odot B$ |
+| --- | --- | ---------- |
+| 0   | 0   | 1          |
+| 0   | 1   | 0          |
+| 1   | 1   | 1          |
+| 1   | 0   | 0          |
 
-ANSI/IEEE 754-1985 标准定义了基本的和扩展的浮点数格式，以及一组数量有限的算术运算规则（加、减、乘、除、平方根、求余和比较）
+Besides,
+$$A\oplus B=\overline{A\odot B}$$
 
-在这一标准中，一个32位IEEE 754单精度浮点数可以被表示为下面的二进制串：
+The logic gate symbols are shown in the figure below:
 
-`S EEEEEEEE 1.MMMMMMMMMMMMMMMMMMMMMMM`
+![images-12](../attachments/images-12.jpg){width=450}
 
-其中S为符号位，E为8位偏置指数，M为23位小数尾数
+Basic equations in Boolean algebra:
 
-为了能表示大于1和小于1的小数，我们定义32位IEEE浮点数的**偏移指数**B=(01111111)(2)，即$B=2^{e-1}-1=127$（$e$为指数位数）。这样，该浮点数实际的指数应当为E-B
+| Name             | OR                                        | AND                                            |
+| ---------------- | ----------------------------------------- | ---------------------------------------------- |
+| Identity Law     | $A+0=A$                                   | $A\cdot 1=A$                                   |
+| Dominant Law     | $A+1=1$                                   | $A\cdot 0=0$                                   |
+| Idempotent Law   | $A+A=A$                                   | $A\cdot A=A$                                   |
+| Complement Law   | $A+\overline{A}=1$                        | $A\cdot\overline{A}=0$                         |
+| Involution Law   | $\overline{\overline{A}}=A$               |                                                |
+| Commutative Law  | $A+B=B+A$                                 | $AB=BA$                                        |
+| Associative Law  | $(A+B)+C=A+(B+C)$                         | $(AB)C=A(BC)$                                  |
+| Distributive Law | $A(B+C)=AB+AC$                            | $A+BC=(A+B)(A+C)$                              |
+| Absorption Law   | $A+AB=A$                                  | $A(A+B)=A$                                     |
+| De Morgan's Laws | $\overline{AB}=\overline{A}+\overline{B}$ | $\overline{A+B}=\overline{A}\cdot\overline{B}$ |
 
-**非数**（Not a Number, **NaN**）是IEEE 754标准的一个重要概念，代表**非法运算**的结果（如 0/0、∞−∞、负数开根等无法定义为实数值的运算）。注意数值超出表示范围属于**上溢**，结果为 ±∞ 而非 NaN；NaN 的尾数字段还可用于携带额外的诊断信息。
+## Minterms and Maxterms
 
-IEEE754提供了三种精度规范，分别是**单精度浮点型**、**双精度浮点型**和**四精度浮点型**，但IEEE754并没有规定32位浮点数类型需要叫做float，或64位浮点数需要叫做double。它只是提供了一些关于如何存储不同精度浮点数的规范和标准。
+For $n$ Boolean variables, a <span style="color: red;">minterm</span> is a product term in which every variable appears exactly once, either complemented or uncomplemented; a <span style="color: red;">maxterm</span> is the dual sum term with the same property. With $n$ variables there are $2^n$ minterms $m_0,m_1,\dots,m_{2^n-1}$ and $2^n$ maxterms $M_0,M_1,\dots,M_{2^n-1}$. The index is read from the term itself: in a minterm a complemented variable contributes 0 and an uncomplemented variable 1; in a maxterm the convention is reversed, so that the two are complementary:
 
-|        | 单精度    | 双精度    | 四精度    |
-| ------ | ------ | ------ | ------ |
-| S=符号位  | 1      | 1      | 1      |
-| E=指数位  | 8      | 11     | 15     |
-| L=开始位  | 1（不保存） | 1（不保存） | 1（不保存） |
-| F=小数部分 | 23     | 52     | 112    |
-| 全部长度   | 32     | 64     | 128    |
+$$M_i=\overline{m_i}$$
 
-在浮点数的加减法中，我们需要在计算前保证两数的指数部分，如遇到不相等的情况，应右移指数较小的数再计算。最后将结果格式化。
+For three variables $A,B,C$:
 
-浮点数的乘法则是指数相加，小数相乘；除法则是指数相减，小数相除。
+| $i$ | $ABC$ | Minterm $m_i$                    | Maxterm $M_i$                        |
+| --- | ----- | -------------------------------- | ------------------------------------ |
+| 0   | 000   | $\overline{A}\overline{B}\overline{C}$ | $A+B+C$                        |
+| 1   | 001   | $\overline{A}\overline{B}C$      | $A+B+\overline{C}$                   |
+| 2   | 010   | $\overline{A}B\overline{C}$      | $A+\overline{B}+C$                   |
+| 3   | 011   | $\overline{A}BC$                 | $A+\overline{B}+\overline{C}$        |
+| 4   | 100   | $A\overline{B}\overline{C}$      | $\overline{A}+B+C$                   |
+| 5   | 101   | $A\overline{B}C$                 | $\overline{A}+B+\overline{C}$        |
+| 6   | 110   | $AB\overline{C}$                 | $\overline{A}+\overline{B}+C$        |
+| 7   | 111   | $ABC$                            | $\overline{A}+\overline{B}+\overline{C}$ |
 
-因为浮点运算会引起尾数位数增加，因此我们需要尾数保持不变。最简单的方法叫做**截断**，即直接将后面超过容量的尾数删去。另一种更好的减少数的位数的技术叫做**舍入**，即通过判断需要舍去尾数的首位来决定是否加1，如果首位为1则进1，否则直接舍去。
+Basic properties:
 
-由此可得，浮点数==不满足结合律但是满足交换律==
+- Each minterm equals 1 for exactly one input combination; each maxterm equals 0 for exactly one.
+- Distinct minterms are disjoint and together cover everything: $m_i\cdot m_j=0$ for $i\ne j$, and $\sum_{i=0}^{2^n-1}m_i=1$.
+- Dually, $M_i+M_j=1$ for $i\ne j$, and $\prod_{i=0}^{2^n-1}M_i=0$.
 
-浮点数还可能发生**溢出**：指数过大无法表示称为**上溢**，指数过小（绝对值太接近0）无法表示称为**下溢**。
+Since $m_i$ is 1 exactly where the input combination equals $i$, any Boolean function is the sum of the minterms where it takes the value 1, and dually the product of the maxterms where it takes the value 0:
 
-**保护位与舍入位**：为减少舍入误差，浮点运算在尾数右移和中间计算时会多保留若干位，靠右的三位分别称为**保护位G (guard)** 、**舍入位R(round)**、**粘滞位S(Sticky)** 。
+$$f=\sum_{i:\,f=1}m_i=\prod_{i:\,f=0}M_i$$
 
-设大数的尾数为 `1.0110`，小数的尾数在对阶时需要右移 3 位，假设移位前为 `1.1001`：
-- **移位前**：`1.1001`
-- **右移 3 位后**：`0.0011`，移出的部分是 `001`。
+These are the canonical SOP and canonical POS forms; the two index sets are complementary.
 
-在硬件寄存器中，这移出的部分并没有直接丢弃，而是落入了 G、R、S 寄存器：
-- G 位接收了第一位移出的 `0`。
-- R 位接收了第二位移出的 `0`。
-- S 位接收了最后一位移出的 `1`（如果还要继续右移，后续所有的 1 都会通过 OR 逻辑累加到 S 位上）。
+## Shannon Expansion Theorem
 
-同时，IEEE 754 定义了 4 种舍入模式。最常用的是默认的**就近舍入，偶数优先**
+>[!THEOREM] Shannon Expansion Theorem
+>Every Boolean function $f(x_1,x_2,\dots,x_{i-1},x_i,x_{i+1},\dots,x_n)$ can be expanded about any variable $x_i$ as
+>$$f=x_if(x_1,x_2,\dots,x_{i-1},1,x_{i+1},\dots,x_n)+\overline{x_i}f(x_1,x_2,\dots,x_{i-1},0,x_{i+1},\dots,x_n)$$
 
-- 如果丢弃部分 $> 0.5$（即 `G=1` 且 `R` 或 `S` 中至少有一个为 `1`），则**进位**。
-- 如果丢弃部分 $< 0.5$（即 `G=0`），则**舍去**。
-- 如果丢弃部分刚好 $= 0.5$（即 `G=1`, `R=0`, `S=0`），则看最低有效位 LSB：`LSB=1` 则进位，`LSB=0` 则舍去。
+>[!PROOF]
+>The Boolean variable $x_i$ has only two possible values, so we check both cases:
+>- If $x_i=1$: the right-hand side equals $1\cdot f(x_1,\dots,1,\dots,x_n)+0\cdot f(x_1,\dots,0,\dots,x_n)=f(x_1,\dots,1,\dots,x_n)$, which is exactly $f$ evaluated at $x_i=1$.
+>- If $x_i=0$: the right-hand side equals $0\cdot f(x_1,\dots,1,\dots,x_n)+1\cdot f(x_1,\dots,0,\dots,x_n)=f(x_1,\dots,0,\dots,x_n)$, which is exactly $f$ evaluated at $x_i=0$.
+>
+>Since both sides agree for $x_i=0$ and $x_i=1$, and these are the only possible values of $x_i$, the identity holds for every input. 
+
+The two subfunctions are called cofactors, written $f_{x_i}=f(x_1,\dots,x_{i-1},1,x_{i+1},\dots,x_n)$ and $f_{\overline{x_i}}=f(x_1,\dots,x_{i-1},0,x_{i+1},\dots,x_n)$, so the theorem reads compactly as
+
+$$f=x_if_{x_i}+\overline{x_i}f_{\overline{x_i}}$$
+
+Repeated application about all $n$ variables decomposes any function into a sum of [minterms](#minterms-and-maxterms), which is why a unique canonical SOP (sum of products) exists for every Boolean function.
+
+# Computer Operations and Coding
+
+## BCD Code
+
+<span style="color: red;">BCD (Binary-Coded Decimal)</span> encodes each decimal digit (0–9) separately with a group of 4 bits, instead of converting the whole number to pure binary. For example,
+
+$$159\ \rightarrow\ \underbrace{0001}_{1}\ \underbrace{0101}_{5}\ \underbrace{1001}_{9}\quad\text{(BCD)},\qquad 159=10011111_2\quad\text{(pure binary)}$$
+
+BCD trades storage efficiency for convenience: no binary–decimal conversion circuitry is needed when displaying or inputting decimal numbers, so it is widely used in digital instruments, calculators, and financial systems where exact decimal fractions matter.
+
+In a weighted BCD code, each of the 4 bits has a fixed weight, and the digit value is the sum of the weights where the bit is 1. Common BCD codes are as follows:
+
+| Dec | 8421 Code | 2421 Code | 5421 Code | Excess-3 Code | Excess-3 Gray Code |
+| --- | --------- | --------- | --------- | ------------- | ------------------ |
+| 0   | 0000      | 0000      | 0000      | 0011          | 0010               |
+| 1   | 0001      | 0001      | 0001      | 0100          | 0110               |
+| 2   | 0010      | 0010      | 0010      | 0101          | 0111               |
+| 3   | 0011      | 0011      | 0011      | 0110          | 0101               |
+| 4   | 0100      | 0100      | 0100      | 0111          | 0100               |
+| 5   | 0101      | 1011      | 1000      | 1000          | 1100               |
+| 6   | 0110      | 1100      | 1001      | 1001          | 1101               |
+| 7   | 0111      | 1101      | 1010      | 1010          | 1111               |
+| 8   | 1000      | 1110      | 1011      | 1011          | 1110               |
+| 9   | 1001      | 1111      | 1100      | 1100          | 1010               |
+
+- 8421 code: the most common BCD code; its weights are the pure-binary place values $8,4,2,1$. The six patterns 1010–1111 are invalid (not used).
+- 2421 and 5421 codes: weighted codes with weights $2,4,2,1$ and $5,4,2,1$. Since some digits admit more than one valid combination (e.g. in 5421, digit 5 can be 0101 or 1000), each code fixes one canonical form per digit; the table lists the standard ones.
+- Excess-3 code: the 8421 code plus $3$ ($0011$). It is unweighted, and being offset from zero it cannot be mistaken for the all-zero pattern.
+- Excess-3 Gray code: a cyclic Gray code derived from the Gray code introduced in the next section; adjacent codes, including 9 back to 0, differ in exactly one bit.
+## Gray Code
+
+<span style="color: red;">Gray code</span> (reflected binary code) is an ordering of binary codewords in which two successive codewords differ in exactly one bit. In a reflected Gray-code sequence, the last and first codewords also differ in one bit, making the sequence cyclic. Compared with pure binary counting, where multiple bits may flip at once (e.g. $0111\rightarrow 1000$) and momentarily appear as spurious values, Gray code reduces transition-related ambiguity by changing only one bit at a time. It does not eliminate all sampling errors. A decimal-digit variant, the Excess-3 Gray code, is listed in [BCD Code](#bcd-code).
+
+A 3-bit example:
+
+| Decimal | Binary $b_2b_1b_0$ | Gray $g_2g_1g_0$ |
+| ------- | ------------------ | ---------------- |
+| 0       | 000                | 000              |
+| 1       | 001                | 001              |
+| 2       | 010                | 011              |
+| 3       | 011                | 010              |
+| 4       | 100                | 110              |
+| 5       | 101                | 111              |
+| 6       | 110                | 101              |
+| 7       | 111                | 100              |
+
+Construction (reflect-and-prefix): to build the $n$-bit Gray code, take the $(n-1)$-bit Gray code in order, then append the same list in reverse order (reflection); prefix the first half with 0 and the second half with 1.
+
+Binary–Gray conversion, for an $n$-bit word with MSB index $n-1$:
+
+$$\begin{cases}g_{n-1}=b_{n-1}\\ g_i=b_{i+1}\oplus b_i\end{cases},\qquad \begin{cases}b_{n-1}=g_{n-1}\\ b_i=b_{i+1}\oplus g_i\end{cases}\quad(i=0,1,\dots,n-2)$$
+
+That is, Gray to binary: keep the MSB, and each remaining binary bit is the XOR of all Gray bits above it. Example: $0101_2\rightarrow 0111_{\text{Gray}}$.
+
+Typical applications:
+
+- Karnaugh maps: rows and columns are labeled in Gray code order so that physically adjacent cells differ in exactly one variable.
+- Rotary encoders: a Gray-coded track reduces the chance of a large apparent jump when a sensor reads near a transition between positions.
+- FIFO pointers crossing clock domains: Gray coding limits successive pointer changes to one bit. The receiving clock domain still needs synchronizers and suitable timing constraints.
+
+## Addition and Subtraction of Signed Integers
+
+A signed integer takes the leading bit as a sign bit: 1 for negative, 0 for positive. This representation is called <span style="color: red;">sign-magnitude</span> (e.g. in 8-bit sign-magnitude, `0 0001101 = +13` and `1 0001101 = −13`, where the first bit is the sign bit).
+
+For a negative number, invert every value bit (sign bit excluded) of its sign-magnitude form; the result is called the <span style="color: red;">ones' complement</span> (e.g. the 8-bit ones' complement of −13 is `1 1110010`). The ones' complement of a positive number equals its sign-magnitude form.
+
+We further define the <span style="color: red;">two's complement</span> as the ones' complement plus 1 (e.g. the 8-bit two's complement of −13 is `1 1110011`). The two's complement of a negative number $-N$ in $n$ bits equals $2^n-N$.
+
+It is easy to build $a+b$ in hardware; computing $a-b$ is actually done as $a$ plus the two's complement of $b$, because
+
+$$Z=X+(2^n-Y)=2^n+(X-Y)$$
+
+and the term $2^n$ overflows beyond the $n$-bit range and is discarded automatically.
+
+Overflow detection: two's-complement addition overflows only when two numbers of the same sign are added and the result has the opposite sign, i.e.
+
+- positive + positive = negative (result sign bit 1)
+- negative + negative = positive (result sign bit 0)
+
+A positive plus a negative never overflows. Subtraction $a-b$ is converted to $a+(-b)$ and judged the same way.
+## IEEE Floating-Point Numbers
+
+[IEEE 754-2019](https://standards.ieee.org/ieee/754/6210/) defines floating-point formats, arithmetic operations, rounding, and exception handling. This section describes its common binary interchange formats.
+
+A 32-bit binary32 (single-precision) number is stored as the following bit string:
+
+`S EEEEEEEE MMMMMMMMMMMMMMMMMMMMMMM`
+
+where $S$ is the sign bit, $E$ is the 8-bit biased exponent, and $M$ is the 23-bit fraction; for normalized numbers the actual mantissa is the implicit leading $1$ followed by the fraction, $1.M$.
+
+To represent both large and small magnitudes with an unsigned stored exponent, the binary32 exponent bias is $B=(01111111)_2$, i.e. $B=2^{e-1}-1=127$ where $e$ is the number of exponent bits. For normal numbers ($1\le E\le254$), the actual exponent is $E-B$. The exponent-field values $E=0$ and $E=255$ are reserved for zeros/subnormal numbers and infinities/NaNs, respectively.
+
+<span style="color: red;">NaN (Not a Number)</span> is an important IEEE 754 concept, representing the result of an invalid operation (such as $0/0$, $\infty-\infty$, or the square root of a negative number) that cannot be assigned a real value. Overflow is a different condition: its default result can be $\pm\infty$ or the largest finite value, depending on the rounding direction. The fraction field of a NaN can also carry extra diagnostic information.
+
+Three commonly discussed binary interchange formats are binary32 (single precision), binary64 (double precision), and binary128 (quadruple precision). IEEE 754 does not require programming languages to name these types `float` and `double`.
+
+|                     | Single       | Double       | Quadruple    |
+| ------------------- | ------------ | ------------ | ------------ |
+| $S$ = sign bits     | 1            | 1            | 1            |
+| $E$ = exponent bits | 8            | 11           | 15           |
+| $L$ = leading bit   | 1 (implicit) | 1 (implicit) | 1 (implicit) |
+| $F$ = fraction bits | 23           | 52           | 112          |
+| total length        | 32           | 64           | 128          |
+
+In floating-point addition and subtraction, the exponents of the two operands must be aligned first: if they differ, the number with the smaller exponent is shifted right until the exponents match, then the mantissas are added or subtracted, and finally the result is normalized.
+
+Floating-point multiplication adds the exponents and multiplies the mantissas; division subtracts the exponents and divides the mantissas.
+
+Floating-point operations can produce more significant bits than the destination format can store, so the result is rounded to the available precision. Whether to increment the retained bits depends on the rounding mode and the discarded bits, as described below.
+
+For finite operands under the same rounding mode, floating-point addition and multiplication are commutative, but they are not generally associative:
+$$\boxed{(a+b)+c\ne a+(b+c)\quad\text{and}\quad(ab)c\ne a(bc)\quad\text{in general}.}$$
+
+Floating-point operations can also overflow when the rounded result is beyond the finite range. Underflow concerns results tiny relative to the smallest normal value; subnormal numbers allow many such results to remain nonzero.
+
+Guard, round, and sticky bits: to reduce rounding error, floating-point units keep a few extra bits during mantissa shifts and intermediate computation. The rightmost three are the guard bit $G$, the round bit $R$, and the sticky bit $S$: $G$ and $R$ hold the first two shifted-out bits, while $S$ is the OR of all further shifted-out bits (it becomes 1 whenever any bit beyond $R$ is 1).
+
+Example: suppose the larger mantissa is `1.0110` and the smaller mantissa `1.1001` must be shifted right by 3 bits to align exponents:
+
+- Before shifting: `1.1001`
+- After shifting right 3 bits: `0.0011`, and the shifted-out part is `001`.
+
+In the hardware registers, the shifted-out part is not discarded immediately but lands in the $G$, $R$, $S$ positions: $G=0$ (the discarded bit nearest the retained fraction), $R=0$ (the next bit), and $S=1$ (the OR of the remaining discarded bits).
+
+IEEE 754-2019 defines five rounding-direction attributes for binary arithmetic; the default is round-to-nearest with ties to even:
+
+- If the discarded part $>0.5$ (i.e. `G=1` and at least one of $R$, $S$ is 1), round up.
+- If the discarded part $<0.5$ (i.e. `G=0`), round down (truncate).
+- If the discarded part is exactly $0.5$ (i.e. `G=1`, $R=0$, $S=0$), look at the least significant bit (LSB): round up if $\mathrm{LSB}=1$, round down if $\mathrm{LSB}=0$.
+
+## ASCII Code
+
+<span style="color: red;">ASCII</span> stands for American Standard Code for Information Interchange. It is a system that assigns a unique number to each letter, number, and symbol so computers can represent and exchange text.
+
+![ascii-table-alpharithms-scaled-1024x610](../attachments/ascii-table-alpharithms-scaled-1024x610.jpg){width=600}
+
+
+# Combinational Logic Circuit
+
+## Race and Hazard
+
+In a real circuit, signals propagate through different paths with different delays. When the relative arrival times affect the output, this is a <span style="color: red;">race</span>. A circuit has a <span style="color: red;">hazard</span> if such delays can cause an unwanted temporary output change; the resulting pulse is a <span style="color: red;">glitch</span>.
+![Screenshot 2026-09-22 at 16.26.25](../attachments/Screenshot%202026-09-22%20at%2016.26.25.png)
+
+One way to remove a static-1 hazard in a sum-of-products circuit is to add a redundant consensus term that bridges adjacent 1-cells.
+
+![Screenshot 2026-09-22 at 16.34.00](../attachments/Screenshot%202026-09-22%20at%2016.34.00.png)
+
+Depending on the circuit, an equivalent form can also avoid a hazardous path. The following example uses the identity $C\overline{C}=0$ to rewrite the expression; the implementation must still be checked for hazards.
+
+![Screenshot 2026-09-22 at 16.35.02](../attachments/Screenshot%202026-09-22%20at%2016.35.02.png)
+## Encoder
+
+An encoder converts multiple binary codes into a smaller number of codes. For example, the following truth table shows the encoder:
+
+![Pasted image 20260922163930](../attachments/Pasted%20image%2020260922163930.png){width=511}
+And a common encoder can be shown as:
+
+```verilog
+module encoder (
+    input  wire I3,
+    input  wire I2,
+    input  wire I1,
+    input  wire I0,
+    output wire Y1,
+    output wire Y0
+);
+
+    assign Y1 = ~(I3 & I2);
+    assign Y0 = ~(I3 & I1);
+
+endmodule
+```
+
+However, it has two disadvantages:
+- Cannot distinguish between valid and invalid inputs.
+- Cannot handle situations where multiple inputs are valid simultaneously.
+
+The revised circuit is a priority encoder. Its inputs are active low, as in the truth table above. If multiple inputs are low, it encodes the highest-numbered active input ($I_3$ has the highest priority). The active-low output `GS` indicates whether any input is valid.
+
+```verilog
+module priority_encoder (
+    input  wire I3,
+    input  wire I2,
+    input  wire I1,
+    input  wire I0,
+    output wire Y1,
+    output wire Y0,
+    output wire GS
+);
+	
+    assign GS = I3 & I2 & I1 & I0;
+    assign Y1 = ~I3 | (I3 & ~I2);
+    assign Y0 = ~I3 | (I3 & I2 & ~I1);
+
+endmodule
+```
+
+Here, `GS=0` means at least one input is active. The same circuit can be described with `casez`; `?` matches either bit value:
+
+```verilog
+module priority_encoder (
+    input  wire [3:0] I,
+    output reg  [1:0] Y,
+    output reg        GS
+);
+
+    always @(*) begin
+        Y  = 2'b00;
+        GS = 1'b0;
+        casez (I)
+            4'b0???: Y = 2'b11; // I3 has highest priority
+            4'b10??: Y = 2'b10;
+            4'b110?: Y = 2'b01;
+            4'b1110: Y = 2'b00;
+            default: GS = 1'b1; // no active input
+        endcase
+    end
+
+endmodule
+```
+## Decoder
+
+The decoder is the reverse process of the encoder. Like the following verilog code:
+
+```verilog
+module decoder (
+    input  wire E,
+    input  wire A0,
+    input  wire A1,
+    output wire Y0,
+    output wire Y1,
+    output wire Y2,
+    output wire Y3
+);
+	
+	assign Y0 = E & ~ A0 & ~ A1;
+    assign Y1 = E & A0 & ~ A1;
+    assign Y2 = E & ~ A0 & A1;
+    assign Y3 = E & A0 & A1;
+
+endmodule
+```
+
+It can also be described as:
+
+```verilog
+module decoder (
+    input  wire E,
+    input  wire [1:0] A,
+    output reg  [3:0] Y
+);
+
+    always @(*) begin
+        Y = 4'b0000;
+        if (E)
+            Y[A] = 1'b1;
+    end
+
+endmodule
+```
+
+In computer, CPU output the binary address. The addresses are first mapped to different memory areas, such as ROM, RAM, etc. Then in the memory area, it will continue internal addressing.
+
+A classic MSI implementation is the <span style="color: red;">74HC138</span>, a 3-to-8 line decoder of the 74HC (high-speed CMOS) family. It provides three address inputs $A_2A_1A_0$, eight active-low outputs $\overline{Y_0}$–$\overline{Y_7}$, and three enable inputs: $G_1$ active high, $\overline{G_{2A}}$ and $\overline{G_{2B}}$ active low. The decoder is enabled only when $G_1=1$ and $\overline{G_{2A}}=\overline{G_{2B}}=0$; then exactly one output, selected by the address, goes low:
+
+| $G_1$ | $\overline{G_{2A}}$, $\overline{G_{2B}}$ | $A_2A_1A_0$ | Outputs            |
+| ----- | ---------------------------------------- | ----------- | ------------------ |
+| 0     | X                                        | XXX         | all 1              |
+| X     | any 1                                    | XXX         | all 1              |
+| 1     | both 0                                   | $i$         | $\overline{Y_i}=0$ |
+![images](../attachments/images.jpg)
+
+Writing $E$ for the overall enable condition and $m_i$ for minterm $i$ of $A_2A_1A_0$, each output is an active-low minterm:
+
+$$\overline{Y_i}=\overline{E\cdot m_i},\qquad i=0,1,\dots,7$$
+
+This structure makes the chip useful beyond plain decoding:
+
+- Address decoding: high-order CPU address lines drive $A_2A_1A_0$, and each $\overline{Y_i}$ becomes the chip-select signal of one memory or I/O device, realizing the address mapping described above.
+- Logic synthesis: since every output is an active-low minterm, any 3-variable function $f=\sum m_i$ is obtained by feeding the corresponding outputs into one NAND gate: $f=\overline{\overline{Y_{i_1}}\cdot\overline{Y_{i_2}}\cdot\ldots}$.
+- Expansion: two chips form a 4-to-16 decoder by driving $G_1$ of the low half and $\overline{G_{2A}}$ of the high half with the fourth address bit.
+## Multiplexer (MUX)
+
+The multiplexer is used to select one input from multiple channels and route it to the output channel. For a 2-to-1 data selector, we can use function $Y=\overline{S}D_0+SD_1$ to describe. And the symbol is as follow:
+![Pasted image 20260922174945](../attachments/Pasted%20image%2020260922174945.png){width=212}
+
+```verilog
+module mux2to1 (
+    input  wire D0,
+    input  wire D1,
+    input  wire S,
+    output wire Y
+);
+
+    assign Y = S ? D1 : D0;
+
+endmodule
+```
+
+Generally, $k$ select bits choose one of $2^k$ data inputs. The same Verilog pattern can be parameterized:
+
+```verilog
+module mux_pow2_to_1 #(
+    parameter integer SELECT_BITS = 2
+) (
+    input  wire [(1 << SELECT_BITS)-1:0] D,
+    input  wire [SELECT_BITS-1:0]        S,
+    output wire                          Y
+);
+
+    assign Y = D[S];
+
+endmodule
+```
+
+For `SELECT_BITS = 2`, this is a 4-to-1 MUX; for `SELECT_BITS = 3`, it is an 8-to-1 MUX.
+
+The classic MSI counterpart is the <span style="color: red;">74HC151</span>, an 8-to-1 data selector in the same 74HC family as the 74HC138 in [Decoder](#decoder). It has three select inputs $S_2S_1S_0$, eight data inputs $D_0$–$D_7$, an active-low enable $\overline{E}$, and a pair of complementary outputs $Y$ and $W=\overline{Y}$:
+
+| $\overline{E}$ | $S_2S_1S_0$ | $Y$   | $W$              |
+| -------------- | ----------- | ----- | ---------------- |
+| 1              | XXX         | 0     | 1                |
+| 0              | $i$         | $D_i$ | $\overline{D_i}$ |
+![Screenshot 2026-09-23 at 22.18.39](../attachments/Screenshot%202026-09-23%20at%2022.18.39.png)
+
+When enabled ($\overline{E}=0$), with $m_i$ the minterms of the select inputs,
+
+$$Y=\sum_{i=0}^{7}m_iD_i,\qquad W=\overline{Y}$$
+
+Typical uses:
+
+- Logic synthesis: a 3-variable function is implemented by wiring its truth table directly onto $D_0$–$D_7$; a 4-variable function needs only one external inverter, feeding each data input with $0$, $1$, $D$, or $\overline{D}$ according to the cofactors ([Shannon Expansion Theorem](#shannon-expansion-theorem)).
+- Parallel-to-serial conversion: a counter driving $S_2S_1S_0$ scans the eight inputs sequentially.
+
+## Demultiplexer (DEMUX)
+
+A demultiplexer routes one data input to one of several outputs. In a 1-to-4 DEMUX, the two select bits $S_1S_0$ choose which output receives $D$; all other outputs are 0.
+
+| $S_1S_0$ | $Y_0$ | $Y_1$ | $Y_2$ | $Y_3$ |
+| -------- | ----- | ----- | ----- | ----- |
+| 00       | $D$   | 0     | 0     | 0     |
+| 01       | 0     | $D$   | 0     | 0     |
+| 10       | 0     | 0     | $D$   | 0     |
+| 11       | 0     | 0     | 0     | $D$   |
+
+The output equations are
+
+$$\begin{aligned}
+Y_0&=D\overline{S_1}\overline{S_0}, &Y_1&=D\overline{S_1}S_0,\\
+Y_2&=DS_1\overline{S_0}, &Y_3&=DS_1S_0.
+\end{aligned}$$
+
+```verilog
+module demux1to4 (
+    input  wire       D,
+    input  wire [1:0] S,
+    output wire [3:0] Y
+);
+
+    assign Y[0] = D & ~S[1] & ~S[0];
+    assign Y[1] = D & ~S[1] &  S[0];
+    assign Y[2] = D &  S[1] & ~S[0];
+    assign Y[3] = D &  S[1] &  S[0];
+
+endmodule
+```
+
+With $k$ select bits, the same idea extends to a 1-to-$2^k$ DEMUX: $Y[S]=D$, and every other output is 0.
+```verilog
+module demux_1_to_pow2 #(
+    parameter integer SELECT_BITS = 2
+) (
+    input  wire                       D,
+    input  wire [SELECT_BITS-1:0]     S,
+    output wire [(1 << SELECT_BITS)-1:0] Y
+);
+
+    localparam integer OUTPUTS = 1 << SELECT_BITS;
+
+    assign Y = {{(OUTPUTS-1){1'b0}}, D} << S;
+
+endmodule
+```
+
+A decoder with an enable input doubles as a DEMUX: feeding the data $D$ into the $\overline{G_{2A}}$ pin of a 74HC138 ([Decoder](#decoder)) routes $D$ to the addressed output $\overline{Y_i}$, while all other outputs stay at 1.
+## Comparator
+
+![Pasted image 20260922175231](../attachments/Pasted%20image%2020260922175231.png)
+
+## Adder
+
+## Multiplier
+
+## Divider
         </script>
     </main>
 

@@ -143,7 +143,7 @@ In 1958, a joint conference for discussing and formulating a common programming 
 
 ALGOL aimed to integrate the newest ideas in programming language design. It was influenced by FORTRAN and promoted the standardization of programming languages and fostered the rapid development of computing.
 
-ALGOL 58 introduced `:=` as the assignment operator, which influenced later programming languages such as [[#Simula]], [[#Pascal]], and [[#Ada]]. We can see it in the following code:
+ALGOL 58 introduced `:=` as the assignment operator, which influenced later programming languages such as Simula, Pascal, and Ada. We can see it in the following code:
 
 ```ALGOL
 begin
@@ -158,7 +158,7 @@ end
 
 It should be noted that there was no standard I/O method in ALGOL 60, because the committee could not reach a consensus on I/O. This flaw was corrected in ALGOL 68.
 
-The design of ALGOL 60 accumulated a wealth of valuable experience for later programming languages. Its complexity greatly exceeded that of FORTRAN and Lisp, so it can be regarded as one of the first truly high-level programming languages. It was also one of the first block-structured programming languages and one of the first programming languages to provide a clear `for` loop mechanism. Although ALGOL has not been widely adopted in industry, its influence is profound, inspiring subsequent languages such as [[#C]], [[#Pascal]], and [[#Java]].
+The design of ALGOL 60 accumulated a wealth of valuable experience for later programming languages. Its complexity greatly exceeded that of FORTRAN and Lisp, so it can be regarded as one of the first truly high-level programming languages. It was also one of the first block-structured programming languages and one of the first programming languages to provide a clear `for` loop mechanism. Although ALGOL has not been widely adopted in industry, its influence is profound, inspiring subsequent languages such as C, Pascal, and Java.
 
 ## COBOL
 
@@ -260,9 +260,9 @@ The following is an example of BASIC code:
 90 END
 ```
 
-BASIC has a very rich history. It has many versions and variants, such as [[#Visual Basic]]. These versions extended the functions and properties of BASIC.
+BASIC has a very rich history. It has many versions and variants, such as Visual Basic. These versions extended the functions and properties of BASIC.
 
-However, the simple grammar and structure of BASIC could lead to redundant and confusing code, which was not conducive to program maintenance and upgrades. Besides, many BASIC implementations had relatively low performance, making them unsuitable for large-scale, high-performance programs. By the end of the 1980s, as personal computer hardware resources increased significantly, the advantage of small BASIC interpreters gradually weakened. Nowadays, [[#Python]], with its simple design and strong readability, has replaced BASIC in many beginner-friendly programming and scripting contexts, while BASIC has gradually faded from the center of the programming ecosystem.
+However, the simple grammar and structure of BASIC could lead to redundant and confusing code, which was not conducive to program maintenance and upgrades. Besides, many BASIC implementations had relatively low performance, making them unsuitable for large-scale, high-performance programs. By the end of the 1980s, as personal computer hardware resources increased significantly, the advantage of small BASIC interpreters gradually weakened. Nowadays, Python, with its simple design and strong readability, has replaced BASIC in many beginner-friendly programming and scripting contexts, while BASIC has gradually faded from the center of the programming ecosystem.
 
 ## Simula
 
@@ -321,7 +321,7 @@ Notably, Simula used a garbage collection mechanism for memory management. To em
 
 B was developed by Ken Thompson around 1969, with later involvement from Dennis Ritchie. At that time, early Unix was still closely tied to assembly language. Assembly language could provide high performance, but it also depended heavily on the target machine and made system development difficult to port and maintain. Therefore, Thompson designed B as a small systems programming language derived from BCPL. B aimed to keep the essence of BCPL while making the language simpler and more suitable for early Unix development.
 
-B is a typeless or weakly typed programming language. In B, the `=` sign represents assignment and the `==` sign represents equality. B also introduced increment and decrement operators (`++` and `--`). The syntax style used in B was inherited by [[#C]] and became a mainstream style thereafter.
+B is a typeless or weakly typed programming language. In B, the `=` sign represents assignment and the `==` sign represents equality. B also introduced increment and decrement operators (`++` and `--`). The syntax style used in B was inherited by C and became a mainstream style thereafter.
 
 ```B
 factorial(n) {
@@ -339,7 +339,7 @@ main() {
 }
 ```
 
-The B programming language also revealed several limitations. It was typeless and word-oriented, so it was not convenient for representing different machine data types such as characters, integers, and pointers on newer hardware. It also lacked structures and other mechanisms that would make systems programming safer and clearer. Although B's period of widespread use was short, the experience of designing and using B laid a good foundation for [[#C]].
+The B programming language also revealed several limitations. It was typeless and word-oriented, so it was not convenient for representing different machine data types such as characters, integers, and pointers on newer hardware. It also lacked structures and other mechanisms that would make systems programming safer and clearer. Although B's period of widespread use was short, the experience of designing and using B laid a good foundation for C.
 
 # 1970s
 ## Pascal
@@ -449,7 +449,7 @@ Smalltalk also has several problems:
 - Relatively low performance
 - Non-mainstream syntax
 
-Later, [[#Objective-C]] inherited some ideas from Smalltalk and was compatible with the C language. It reduced some of Smalltalk's performance and ecosystem problems while maintaining a flexible message-passing style. As a result, Objective-C became an important language for GUI and application development, especially in Apple's ecosystem.
+Later, Objective-C inherited some ideas from Smalltalk and was compatible with the C language. It reduced some of Smalltalk's performance and ecosystem problems while maintaining a flexible message-passing style. As a result, Objective-C became an important language for GUI and application development, especially in Apple's ecosystem.
 
 ## C
 
@@ -481,6 +481,53 @@ int main() {
 ```
 
 C also inherits and develops structured programming ideas. A C program is organized around functions, and each function can use local variables, block scope, and structured control statements such as `if`, `switch`, `while`, `for`, and `do while`. Compared with Pascal, C keeps the structure lighter and closer to hardware: it supports structured decomposition while still allowing pointer manipulation, manual memory control, and `goto` when necessary. This makes C suitable for building large system programs in a structured but low-level style.
+
+Both `.h` and `.c` files contain C source text; their extensions describe their usual roles rather than different C languages. A header (`.h`) normally declares an interface shared by other files: function prototypes, type declarations, macros, and constants. A source file (`.c`) normally provides function definitions and other implementation details. A `.c` file is compiled as a translation unit, while a header is usually brought into that unit by `#include`, which copies the header's text during preprocessing. File extensions and this division of work are conventions, not requirements of C syntax.
+
+For example, a small project can have these three files:
+
+```c
+/* math_utils.h: interface */
+#ifndef MATH_UTILS_H
+#define MATH_UTILS_H
+
+int add(int a, int b);
+
+#endif
+```
+
+```c
+/* math_utils.c: implementation */
+#include "math_utils.h"
+
+int add(int a, int b) {
+    return a + b;
+}
+```
+
+```c
+/* main.c: caller */
+#include <stdio.h>
+#include "math_utils.h"
+
+int main(void) {
+    printf("%d\n", add(2, 3));
+    return 0;
+}
+```
+
+The declaration in `math_utils.h` lets `main.c` call `add` with its correct signature. The definition in `math_utils.c` supplies the code that the linker connects to that call. Both `.c` files include the same header, so a mismatch between the declaration and definition can be detected during compilation. Putting a non-`static` function definition directly in a header included by several `.c` files would usually create multiple definitions at link time.
+
+The `#ifndef` / `#define` pair in `math_utils.h` is an *include guard*. On the first inclusion it defines `MATH_UTILS_H`; on later inclusions in the same translation unit, the preprocessor skips the guarded contents. If `a.h` includes `b.h` and `b.h` includes `a.h`, guards stop that cycle from expanding forever. An alternative is to put `#pragma once` at the start of each header:
+
+```c
+/* math_utils.h: alternative to the #ifndef guard above */
+#pragma once
+
+int add(int a, int b);
+```
+
+`#pragma once` is supported by common compilers but is not part of the ISO C standard; `#ifndef` guards are the portable choice. Both techniques prevent repeated inclusion, but neither resolves every circular type dependency. If two headers refer to each other's structures through pointers, a forward declaration such as `struct Node;` can break the dependency; a structure used by value still needs its complete definition.
 
 Compared to FORTRAN, C is closer to the hardware and can be used to write drivers, kernels, and other low-level system software. Compared to Lisp, C is more efficient for systems programming and does not rely on a large runtime environment.
 
@@ -1004,7 +1051,7 @@ Besides, Objective-C allows messages to be sent to `nil` objects without throwin
 
 Although Objective-C improves language dynamism, it sacrifices some runtime performance and adds memory overhead, especially during message dispatch. Because its compile-time type checking is relatively weak, some type misuses can only be detected at runtime. Besides, because Objective-C combines C syntax, Smalltalk-style messaging, and optional C++ interoperability, its syntax can feel relatively complicated.
 
-With Apple's full-scale promotion of [[#Swift]], Objective-C has gradually become less central in new Apple development. However, it remains important in many existing macOS and iOS codebases, and Swift still interoperates with Objective-C to support these legacy frameworks and applications.
+With Apple's full-scale promotion of Swift, Objective-C has gradually become less central in new Apple development. However, it remains important in many existing macOS and iOS codebases, and Swift still interoperates with Objective-C to support these legacy frameworks and applications.
 
 ## Perl
 
@@ -1047,7 +1094,7 @@ print $array[-1]; # "perl"
 print $array[-5]; # returns undef and may print a warning under warnings
 ```
 
-As a first-generation glue language, Perl was one of the most popular web programming languages in the Web 1.0 era. With the rise of the Internet and the widespread pre-installation of Perl on Unix systems, Perl rapidly gained a huge user base. However, under competitive pressure from emerging programming languages such as [[#Python]], the Perl community chose a controversial path: developing a largely redesigned Perl 6, which was later renamed Raku. This path separated Raku from Perl's existing ecosystem advantages, indirectly leading to a lukewarm market response and a relatively small user base.
+As a first-generation glue language, Perl was one of the most popular web programming languages in the Web 1.0 era. With the rise of the Internet and the widespread pre-installation of Perl on Unix systems, Perl rapidly gained a huge user base. However, under competitive pressure from emerging programming languages such as Python, the Perl community chose a controversial path: developing a largely redesigned Perl 6, which was later renamed Raku. This path separated Raku from Perl's existing ecosystem advantages, indirectly leading to a lukewarm market response and a relatively small user base.
 
 ## Unix Shell 2
 
@@ -1222,7 +1269,7 @@ ABC is also notable for its interactive environment. Commands can be executed di
 
 However, ABC also had clear limitations. It was not designed for systems programming or high-performance software, and its dedicated environment made it difficult to connect smoothly with existing operating-system interfaces, C libraries, and external tools. Its limited extensibility and small ecosystem prevented it from becoming mainstream.
 
-Even so, ABC had an important indirect influence. Guido van Rossum worked in the ABC group at CWI and later drew on ABC's readability, indentation-based block structure, and high-level data types when designing [[#Python]]. Python can be seen partly as an attempt to keep ABC's beginner-friendly style while adding better extensibility and practical system-integration ability.
+Even so, ABC had an important indirect influence. Guido van Rossum worked in the ABC group at CWI and later drew on ABC's readability, indentation-based block structure, and high-level data types when designing Python. Python can be seen partly as an attempt to keep ABC's beginner-friendly style while adding better extensibility and practical system-integration ability.
 
 
 ## Erlang
@@ -1398,9 +1445,9 @@ Visual Basic 6 could produce either interpreted-style p-code or native machine c
 
 Visual Basic for Applications (VBA) belongs to the same language family but serves a different purpose. VBA is embedded in applications such as Microsoft Office and allows users to automate documents, spreadsheets, databases, and application object models. It is closely related to classic Visual Basic, but it is not Visual Basic 6 and it is not VB.NET. A macro stored in an Excel workbook, for example, runs inside Excel rather than as an independent VB6 executable.
 
-In 2002, Microsoft introduced Visual Basic .NET as part of the new .NET platform. Despite retaining familiar syntax, VB.NET was a substantial redesign rather than a fully backward-compatible upgrade. It compiles to Common Intermediate Language and runs on the Common Language Runtime (CLR), gaining garbage collection, structured exception handling, full class inheritance, interfaces, generics, delegates, asynchronous programming, and access to the same .NET libraries used by [[#C\#|C#]]. Migrating a large VB6 application to VB.NET can therefore require architectural changes rather than simple translation.
+In 2002, Microsoft introduced Visual Basic .NET as part of the new .NET platform. Despite retaining familiar syntax, VB.NET was a substantial redesign rather than a fully backward-compatible upgrade. It compiles to Common Intermediate Language and runs on the Common Language Runtime (CLR), gaining garbage collection, structured exception handling, full class inheritance, interfaces, generics, delegates, asynchronous programming, and access to the same .NET libraries used by C#. Migrating a large VB6 application to VB.NET can therefore require architectural changes rather than simple translation.
 
-Microsoft describes modern Visual Basic as an approachable language with a stable design. The core .NET libraries continue to support it, and improvements to the runtime can benefit Visual Basic programs automatically. However, Microsoft does not plan to extend the language to new workload categories and generally prioritizes compatibility, Visual Studio tooling, Windows Forms, libraries, and interoperability with [[#C\#|C#]]. Visual Basic is therefore no longer at the center of Microsoft's language strategy, but its influence remains important: it helped popularize event-driven GUI programming, reusable visual components, and rapid application development for a generation of Windows programmers.
+Microsoft describes modern Visual Basic as an approachable language with a stable design. The core .NET libraries continue to support it, and improvements to the runtime can benefit Visual Basic programs automatically. However, Microsoft does not plan to extend the language to new workload categories and generally prioritizes compatibility, Visual Studio tooling, Windows Forms, libraries, and interoperability with C#. Visual Basic is therefore no longer at the center of Microsoft's language strategy, but its influence remains important: it helped popularize event-driven GUI programming, reusable visual components, and rapid application development for a generation of Windows programmers.
 
 ## VBScript
 
@@ -1428,7 +1475,7 @@ Next
 
 This example illustrates the role of the host. `CreateObject` creates a late-bound COM object, the file-system component supplies operations that are not built directly into the language, and `WScript.Echo` asks Windows Script Host to display output. The same mechanism allowed VBScript to automate Office applications, query WMI, modify the registry, run logon scripts, and coordinate other COM-based software. It made administrative automation accessible, but scripts also inherited the permissions of the user who ran them. Malicious email attachments and untrusted web content consequently turned this convenience into a significant security risk.
 
-VBScript gradually lost each of its major roles. JavaScript became the cross-browser standard for client-side web programming, ASP.NET replaced classic ASP in much new Microsoft web development, and [[#PowerShell]] provided a richer language and object-based pipeline for Windows administration. Microsoft deprecated VBScript in October 2023. Its retirement is staged: it is being made available as a Feature on Demand before eventual removal from Windows, and Windows Server 2025 still includes it as a preinstalled Feature on Demand. Microsoft recommends PowerShell for automation and JavaScript for browser-based code, although many organizations must continue maintaining older `.vbs` scripts and classic ASP applications during the transition.
+VBScript gradually lost each of its major roles. JavaScript became the cross-browser standard for client-side web programming, ASP.NET replaced classic ASP in much new Microsoft web development, and PowerShell provided a richer language and object-based pipeline for Windows administration. Microsoft deprecated VBScript in October 2023. Its retirement is staged: it is being made available as a Feature on Demand before eventual removal from Windows, and Windows Server 2025 still includes it as a preinstalled Feature on Demand. Microsoft recommends PowerShell for automation and JavaScript for browser-based code, although many organizations must continue maintaining older `.vbs` scripts and classic ASP applications during the transition.
 
 The distinctions among these related technologies are therefore important. Classic Visual Basic was a standalone Windows application-development environment; VBA is embedded inside applications such as Office; VBScript is a host-dependent scripting language for Windows and legacy web environments; and VB.NET is a substantially redesigned .NET language. Similar syntax does not make their runtimes, capabilities, or deployment models interchangeable.
 
@@ -1516,7 +1563,7 @@ Java's first major stage was the applet era. Java applets allowed web pages to c
 
 Java's second major stage was enterprise software. In 1999, Sun released Java 2 Platform, Enterprise Edition (J2EE), which later became Java EE and then Jakarta EE. This platform provided specifications and APIs for building portable, multi-tier enterprise applications, including servlets, JavaServer Pages, Enterprise JavaBeans, messaging, transactions, and database access. Around Java, a large industry ecosystem emerged, including application servers, IDEs, build tools, frameworks, and enterprise vendors. After Oracle acquired Sun in 2010, Java continued to develop through the Java Community Process, OpenJDK, and the broader Java ecosystem.
 
-Java's third major stage was mobile development through Android. Android 1.0 appeared commercially in 2008, and Java became the main application language of early Android development. Android enabled Java-style programming to enter the smartphones of hundreds of millions of users. This not only continued Java's influence, but also allowed many developers to enter programming through Android. Years later, Google introduced [[#Kotlin]] as a preferred Android language, but Java remains deeply connected with Android's APIs, tools, and existing codebases.
+Java's third major stage was mobile development through Android. Android 1.0 appeared commercially in 2008, and Java became the main application language of early Android development. Android enabled Java-style programming to enter the smartphones of hundreds of millions of users. This not only continued Java's influence, but also allowed many developers to enter programming through Android. Years later, Google introduced Kotlin as a preferred Android language, but Java remains deeply connected with Android's APIs, tools, and existing codebases.
 
 It is undeniable that Java sometimes paid a performance cost compared with native C++ on C / C++ systems such as Symbian or Objective-C on early iOS. However, JVM technology improved significantly through Just-In-Time (JIT) compilation, adaptive optimization, garbage-collector improvements, and mature runtime engineering. As a result, Java became one of the most important languages for server-side systems, enterprise applications, Android development, big-data infrastructure, and long-lived business software.
 
@@ -1570,7 +1617,7 @@ Rails helped popularize productive full-stack web development, RESTful routing, 
 
 Ruby and Rails also developed a reputation for performance and concurrency limitations. In the reference implementation, commonly called CRuby or MRI, a Global VM Lock traditionally allows only one thread in a process to execute Ruby code at a time. Threads can still be effective for I/O-bound work, while multiple processes, background jobs, native extensions, and alternative Ruby implementations provide other forms of concurrency and parallelism. Dynamic dispatch and extensive metaprogramming can also make Ruby harder to optimize than a statically compiled language.
 
-Twitter illustrates both sides of this tradeoff. Ruby on Rails allowed a very small early team to develop the service quickly, but Twitter eventually outgrew its monolithic architecture. As its traffic and engineering organization expanded, it moved many core services to a service-oriented architecture running primarily on the JVM, with [[#Scala]] playing an important role. This transition reflected requirements for throughput, concurrency, fault tolerance, and independent service ownership; it was more complex than simply proving that "Ruby cannot scale." Large Rails systems such as GitHub demonstrate that Ruby applications can scale when supported by careful database design, caching, background processing, horizontal scaling, and disciplined engineering.
+Twitter illustrates both sides of this tradeoff. Ruby on Rails allowed a very small early team to develop the service quickly, but Twitter eventually outgrew its monolithic architecture. As its traffic and engineering organization expanded, it moved many core services to a service-oriented architecture running primarily on the JVM, with Scala playing an important role. This transition reflected requirements for throughput, concurrency, fault tolerance, and independent service ownership; it was more complex than simply proving that "Ruby cannot scale." Large Rails systems such as GitHub demonstrate that Ruby applications can scale when supported by careful database design, caching, background processing, horizontal scaling, and disciplined engineering.
 
 Ruby is no longer at the center of every new web project, but its influence is much greater than its current level of adoption might suggest. It made programmer happiness an explicit language-design goal, demonstrated the expressive power of blocks and internal domain-specific languages, and helped Rails redefine expectations for web-framework productivity. Ruby remains a practical language for web applications, automation, command-line tools, and projects that value concise and readable code.
 
@@ -1582,7 +1629,7 @@ Batch processing refers to scripts composed of a series of CMD commands and cont
 
 Batch script syntax inherits some characteristics from early command-line systems and BASIC-like control flow. For example, many commands are short words such as `REN`, `DIR`, `DEL`, and `VOL`; variables are defined and assigned using the `SET` command; subroutines are called using the `CALL` command; and `REM` or `::` is often used for comments. Due to its ease of use, many Windows users and engineers have experience writing batch scripts. CMD was originally designed for compatibility with DOS-style command processing, so batch syntax has changed only slowly. Therefore, writing Windows batch scripts can feel like programming in the language of an older era.
 
-As operating systems evolved, the limitations of batch processing became increasingly apparent. To provide a more powerful and flexible command-line interpreter, Microsoft introduced [[#PowerShell]] in the 2000s. [[#PowerShell]] is a command-line shell and scripting language based on .NET, offering richer functionality and a more modern syntax. Starting with Windows 10 build 14971, released in November 2016, PowerShell replaced CMD as the default shell in the Win+X menu, although CMD remains available.
+As operating systems evolved, the limitations of batch processing became increasingly apparent. To provide a more powerful and flexible command-line interpreter, Microsoft introduced PowerShell in the 2000s. PowerShell is a command-line shell and scripting language based on .NET, offering richer functionality and a more modern syntax. Starting with Windows 10 build 14971, released in November 2016, PowerShell replaced CMD as the default shell in the Win+X menu, although CMD remains available.
 
 ## Z shell (Zsh) 
 
@@ -1712,9 +1759,31 @@ The Glasgow Haskell Compiler (GHC) became the dominant Haskell implementation. I
 
 Haskell has a particularly strong reputation in programming-language research, compiler construction, formal methods, and education. It is also used in production for financial systems, developer tools, backend services, data processing, and other domains where correctness and abstraction are valuable. Nevertheless, its industrial community is much smaller than those of Java, Python, or JavaScript. Its learning curve, unfamiliar abstractions, smaller library and hiring ecosystems, and the performance subtleties of laziness can make adoption difficult for ordinary product teams.
 
-Haskell's historical influence is much greater than its market share. It helped establish purely functional programming as a practical model, introduced type classes, and demonstrated how algebraic data types, pattern matching, explicit effects, and powerful type inference can work together in a general-purpose language. Ideas developed or popularized in Haskell can now be seen across languages such as [[#Scala]], [[#Rust]], [[#Swift]], and modern functional extensions to mainstream languages. Haskell remains both a useful programming language and a laboratory for exploring what future programming languages might become.
+Haskell's historical influence is much greater than its market share. It helped establish purely functional programming as a practical model, introduced type classes, and demonstrated how algebraic data types, pattern matching, explicit effects, and powerful type inference can work together in a general-purpose language. Ideas developed or popularized in Haskell can now be seen across languages such as Scala, Rust, Swift, and modern functional extensions to mainstream languages. Haskell remains both a useful programming language and a laboratory for exploring what future programming languages might become.
 
 # 2000s
+
+## CMake
+
+CMake was created in 2000 by Bill Hoffman at Kitware for the Insight Toolkit project, which needed a portable way to build software across Unix, Windows, and Mac. It later became a widely used tool for configuring C and C++ projects. See the [CMake history](https://cmake.org/history/) for its origins.
+
+For a project with several source files, CMake describes how to build the program in a `CMakeLists.txt` file. It configures and generates a build system for the chosen platform and compiler; the C compiler still compiles the `.c` files, and the linker combines their object files. To build the three-file example in the [[#C]] section, place this `CMakeLists.txt` beside `math_utils.h`, `math_utils.c`, and `main.c`:
+
+```cmake
+cmake_minimum_required(VERSION 3.20)
+project(MathExample LANGUAGES C)
+
+add_executable(math_example main.c math_utils.c)
+```
+
+`add_executable` lists both implementation files because each must be compiled. The header is included from those files and does not need to be compiled separately. From the project directory, configure and build with:
+
+```sh
+cmake -S . -B build
+cmake --build build
+```
+
+The first command generates build files in `build`; the second compiles and links the executable. Later builds recompile changed source files, and CMake regenerates build rules when the project configuration changes. See the [official CMake tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html) for libraries, include directories, and larger projects.
 
 ## C\#
 </script>
@@ -1754,7 +1823,7 @@ Haskell's historical influence is much greater than its market share. It helped 
         </nav>
     </footer>
 
-    <script src="../scripts/markdown-article.js?v=20260917-callout-controls-1"></script>
+    <script src="../scripts/markdown-article.js?v=20260921-cmake-highlight-2"></script>
     <script src="../scripts/comments.js"></script>
 </body>
 </html>

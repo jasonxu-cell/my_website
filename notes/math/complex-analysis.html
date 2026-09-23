@@ -88,7 +88,7 @@ $$
 \lim_{z\to z_0}f(z)=f(z_0).
 $$
 
-## Complex derivative
+## Complex Derivative
 
 The complex derivative of $f$ at $z$ is
 
@@ -99,7 +99,7 @@ $$
 
 provided that the limit exists and has the same value for every direction in which $\Delta z$ approaches $0$.
 
-A function is <span style="color: red;">holomorphic</span> (or <span style="color: red;">analytic</span>) on a domain $D$ if it is complex differentiable at every point of $D$. A point at which $f$ fails to be holomorphic is a singular point.
+A function is <span style="color: red;">holomorphic</span> (or analytic) on a domain $D$ if it is complex differentiable at every point of $D$. A point at which $f$ fails to be holomorphic is a singular point.
 
 Write
 
@@ -129,7 +129,7 @@ $$
 
 If $u$ and $v$ have continuous first partial derivatives near a point and satisfy the Cauchy-Riemann equations there, then $f=u+iv$ is complex differentiable at that point.
 
-## Harmonic functions and harmonic conjugates
+## Harmonic Functions and Harmonic Conjugates
 
 Differentiating the Cauchy-Riemann equations shows that the real and imaginary parts of a holomorphic function are harmonic:
 
@@ -169,7 +169,7 @@ The path independence of these integrals follows from the harmonicity assumption
 
 # Elementary Complex Functions
 
-## Exponential, trigonometric, and hyperbolic functions
+## Exponential, Trigonometric, and Hyperbolic Functions
 
 >[!THEOREM] Euler's formula
 > $$e^{i\theta}=\cos\theta+i\sin\theta$$
@@ -199,7 +199,7 @@ $$
 
 and have imaginary period $2\pi i$.
 
-## The complex logarithm
+## The Complex Logarithm
 
 To solve $e^w=z$, write $w=u+iv$. Since
 
@@ -230,7 +230,7 @@ $$
 \qquad -\pi<\operatorname{Arg}z\le \pi.
 $$
 
-## Complex powers
+## Complex Powers
 
 For $\alpha\in\mathbb C$,
 
@@ -240,7 +240,7 @@ $$
 
 Because $\operatorname{Ln}z$ is multivalued, $z^\alpha$ is generally multivalued. If $\alpha=p/q$ is rational in lowest terms, there are at most $q$ distinct values; for irrational or nonreal $\alpha$, there are infinitely many values.
 
-## Roots and branch points
+## Roots and Branch Points
 
 If $z=re^{i\phi}$, its $n$-th roots are
 
@@ -259,7 +259,7 @@ $$
 =\frac{w_k}{nz}.
 $$
 
-## Inverse trigonometric functions
+## Inverse Trigonometric Functions
 
 Solving the exponential definitions gives the standard multivalued formulas
 
@@ -425,7 +425,7 @@ The Weierstrass test gives absolute and uniform convergence on $|z-a|\le r$. Con
 
 More generally, a locally uniformly convergent series of holomorphic functions has a holomorphic sum. Under locally uniform convergence of the derivative series, differentiation can be performed term by term.
 
-## Mean-value formula
+## Mean-Value Formula
 
 If $f$ is holomorphic on $|z-a|\le R$, then with $\zeta=a+Re^{i\theta}$,
 
@@ -441,7 +441,7 @@ $$
 |f(a)|\le \frac1{2\pi}\int_0^{2\pi}|f(a+Re^{i\theta})|\,\mathrm{d}\theta.
 $$
 
-## Maximum modulus principle
+## Maximum Modulus Principle
 
 If $f$ is nonconstant and holomorphic on a bounded domain $D$, continuous on $\overline D$, then $|f|$ cannot attain its maximum at an interior point. Hence
 
@@ -452,7 +452,7 @@ $$
 
 If an interior point $z_0$ attained the maximum $M$, the mean-value formula on every sufficiently small circle centered at $z_0$ would force $|f|=M$ on each circle. Overlapping circles then propagate this equality throughout the connected domain, so $f$ would be constant.
 
-## Cauchy estimates
+## Cauchy Estimates
 
 If $f$ is holomorphic on $|\zeta-z|\le R$ and
 
@@ -468,7 +468,7 @@ $$
 }
 $$
 
-## Liouville's theorem
+## Liouville's Theorem
 
 Every bounded entire function is constant. If $|f(z)|\le M$ on $\mathbb C$, the Cauchy estimate gives
 
@@ -478,7 +478,7 @@ $$
 
 Letting $R\to\infty$ yields $f'(z)=0$.
 
-## Fundamental theorem of algebra
+## Fundamental Theorem of Algebra
 
 Every nonconstant complex polynomial has a zero. Otherwise, for a polynomial $P$, the function $1/P$ would be entire. It tends to $0$ as $|z|\to\infty$ and is bounded on each compact disk, hence bounded on the whole plane. Liouville's theorem would make $1/P$ constant, a contradiction.
 
@@ -506,7 +506,7 @@ is the Poisson kernel. The formula follows by applying Cauchy's formula both at 
 
 # Taylor and Laurent Series
 
-## Taylor's theorem
+## Taylor's Theorem
 
 If $f$ is holomorphic in a disk centered at $a$, then
 
@@ -548,7 +548,7 @@ $$
 
 Cauchy's derivative formula identifies the coefficient as $f^{(n)}(a)/n!$. The usual geometric-series bound also shows that the remainder tends to zero uniformly on compact subdisks.
 
-## Laurent's theorem
+## Laurent's Theorem
 
 If $f$ is holomorphic in an annulus
 
@@ -640,7 +640,7 @@ $$
 
 The terms with $n<0$ form the principal part and classify the isolated singularity.
 
-## Removable singularity
+## Removable Singularity
 
 The following are equivalent:
 
@@ -680,7 +680,7 @@ $$
 
 where $\phi$ is holomorphic near $a$. In the extended complex plane, $f(z)\to\infty$ as $z\to a$.
 
-## Essential singularity
+## Essential Singularity
 
 If infinitely many negative-power coefficients are nonzero, $a$ is an essential singularity. In this case $\lim_{z\to a}f(z)$ does not exist, even as a point of the Riemann sphere.
 
@@ -698,7 +698,7 @@ $$
 
 where $C$ is a small positively oriented contour around $a$ containing no other singularity.
 
-## Residue theorem
+## Residue Theorem
 
 If $f$ is holomorphic on and inside a positively oriented contour $C$ except for isolated singularities $a_1,\ldots,a_n$ inside $C$, then
 
@@ -709,7 +709,7 @@ $$
 }
 $$
 
-## Residue at a pole of order $m$
+## Residue at a Pole of Order $m$
 
 If $a$ is a pole of order $m$, then
 
@@ -750,7 +750,7 @@ $$
 }
 $$
 
-## The logarithmic derivative
+## The Logarithmic Derivative
 
 If $a$ is a zero of $f$ of order $m$, then locally
 
@@ -780,7 +780,7 @@ $$
 
 # Argument Principle and Rouche's Theorem
 
-## Argument principle
+## Argument Principle
 
 Suppose $f$ is meromorphic inside and on $C$ and has no zeros or poles on $C$. Let $N$ and $P$ denote, with multiplicity, the numbers of zeros and poles inside $C$. Then
 
@@ -804,7 +804,7 @@ $$
 \Delta_C\arg f=2\pi(N-P).
 $$
 
-## Rouche's theorem
+## Rouche's Theorem
 
 Let $f$ and $g$ be holomorphic on and inside a simple closed contour $C$. If
 
@@ -829,7 +829,7 @@ $$
 
 and $f+g$ and $f$ have the same change of argument.
 
-## Counting polynomial zeros from a change of argument
+## Counting Polynomial Zeros from a Change of Argument
 
 Let
 
@@ -863,7 +863,7 @@ $$
 
 # Integral Estimates on Circular Arcs
 
-## Large-arc lemma
+## Large-Arc Lemma
 
 Let
 
@@ -902,7 +902,7 @@ $$
 
 then the integral over a fixed-angle arc tends to zero as $R\to\infty$.
 
-## Small-arc lemma
+## Small-Arc Lemma
 
 Let
 
@@ -934,7 +934,7 @@ $$
 
 For a positively oriented semicircle around a simple pole, the limiting contribution is $i\pi\operatorname{Res}(f,a)$. Reversing the orientation reverses the sign.
 
-## Jordan's lemma
+## Jordan's Lemma
 
 Let $g$ be continuous on large upper semicircles $C_R$ and suppose
 
@@ -971,7 +971,7 @@ For $e^{-i\lambda z}$ with $\lambda>0$, the analogous contour is closed in the l
 
 # Evaluating Integrals by Residues
 
-## Trigonometric integrals
+## Trigonometric Integrals
 
 For an integral of the form
 
@@ -997,12 +997,12 @@ $$
 R\left(
 \frac12\left(z+\frac1z\right),
 \frac1{2i}\left(z-\frac1z\right)
-\right)\frac{\mathrm{d}z}{iz},
+\right)\,\frac{\mathrm{d}z}{iz},
 $$
 
 which is evaluated by summing the residues inside the unit circle.
 
-## Rational integrals over the real axis
+## Rational Integrals over the Real Axis
 
 Let
 
@@ -1020,7 +1020,7 @@ $$
 }
 $$
 
-## Fourier-type integrals
+## Fourier-Type Integrals
 
 For $m>0$, define
 
@@ -1058,7 +1058,7 @@ $$
 }
 $$
 
-## Keyhole contours
+## Keyhole Contours
 
 Let $0<p<1$ and let $R(z)$ be rational with no poles on the positive real axis. Suppose
 
@@ -1095,7 +1095,7 @@ The sum is over the poles inside the slit-plane contour.
 
 # Identity Theorem and Analytic Continuation
 
-## Identity theorem
+## Identity Theorem
 
 Let $f$ and $g$ be holomorphic on a domain $D$. If they agree on a sequence of distinct points
 
@@ -1111,7 +1111,7 @@ $$
 
 Set $F=f-g$. Then $F(\alpha_k)=0$ and continuity gives $F(a)=0$. If $F$ were not identically zero, its zero at $a$ would have finite order, and zeros would be isolated in some punctured neighborhood of $a$. This contradicts $\alpha_k\to a$.
 
-## Analytic continuation
+## Analytic Continuation
 
 Let $f$ be defined on a set $E$, and let $D\supset E$ be a larger domain. A holomorphic function $F$ on $D$ satisfying
 
@@ -1123,7 +1123,7 @@ is an analytic continuation of $f$ to $D$. The identity theorem guarantees uniqu
 
 # Parameter-Dependent Holomorphic Integrals
 
-## Finite intervals
+## Finite Intervals
 
 Assume:
 
@@ -1152,7 +1152,7 @@ $$
 
 Integrating with respect to $t$, interchanging the finite integrals, and applying Cauchy's derivative formula proves the result.
 
-## Improper integrals and uniform convergence
+## Improper Integrals and Uniform Convergence
 
 For
 
@@ -1215,7 +1215,7 @@ The locally uniform convergence theorem for series of holomorphic functions then
 
 # Gamma and Beta Functions
 
-## Gamma function
+## Gamma Function
 
 For $\operatorname{Re}z>0$,
 
@@ -1256,7 +1256,7 @@ $$
 
 The reciprocal $1/\Gamma(z)$ is entire, with simple zeros at the nonpositive integers. Thus $\Gamma$, $\tan z$, and $\cot z$ are examples of meromorphic functions.
 
-## Beta function
+## Beta Function
 
 For $\operatorname{Re}p>0$ and $\operatorname{Re}q>0$,
 
@@ -1266,7 +1266,7 @@ B(p,q)=\int_0^{\infty}
 =\frac{\Gamma(p)\Gamma(q)}{\Gamma(p+q)}.
 $$
 
-## Euler reflection formula
+## Euler Reflection Formula
 
 Euler's reflection formula is
 
@@ -1287,7 +1287,7 @@ A keyhole-contour evaluation of this integral yields $\pi/\sin(\pi z)$; analytic
 
 # Conformal Mappings
 
-## Geometric meaning of the derivative
+## Geometric Meaning of the Derivative
 
 Let $w=f(z)$ map the $z$-plane to the $w$-plane. If a smooth curve is parametrized by
 
@@ -1330,7 +1330,7 @@ $$
 
 The factor $|f'(z_0)|$ is the local magnification.
 
-## A univalent holomorphic map has nonzero derivative
+## A Univalent Holomorphic Map Has Nonzero Derivative
 
 If $f$ is one-to-one and holomorphic on a domain $D$, then
 
@@ -1355,7 +1355,7 @@ has $m$ zeros near $z_0$. Hence $f$ takes the value $f(z_0)+a$ at more than one 
 
 A one-to-one holomorphic map is therefore conformal everywhere on its domain. Conversely, a holomorphic function is locally conformal precisely where its derivative is nonzero.
 
-## The Riemann mapping theorem
+## The Riemann Mapping Theorem
 
 If $D$ is a nonempty simply connected proper subdomain of $\mathbb C$, then there exists a one-to-one holomorphic map from $D$ onto the unit disk.
 
@@ -1433,7 +1433,7 @@ $$
 
 which displays this decomposition directly.
 
-## Generalized circles
+## Generalized Circles
 
 A generalized circle means either a circle or a straight line in $\widehat{\mathbb C}$. Its equation can be written
 
@@ -1443,7 +1443,7 @@ $$
 
 where $A,C\in\mathbb R$. Substitution of $z=M^{-1}(w)$ yields another equation of the same form. Hence Mobius transformations map generalized circles to generalized circles.
 
-## Symmetric points with respect to a circle
+## Symmetric Points with Respect to a Circle
 
 For the circle
 
@@ -1467,7 +1467,7 @@ $$
 
 Another geometric characterization is that every generalized circle through $z_1$ and $z_2$ meets $C$ orthogonally. Mobius transformations preserve this relation: if $z_1,z_2$ are symmetric with respect to $C$, then $M(z_1),M(z_2)$ are symmetric with respect to $M(C)$.
 
-## Mapping three points
+## Mapping Three Points
 
 Three distinct points $z_1,z_2,z_3$ can be mapped to three distinct points $w_1,w_2,w_3$ by a unique Mobius transformation. It is determined by preservation of the cross-ratio:
 
@@ -1485,7 +1485,7 @@ For uniqueness, if two Mobius maps $M_1$ and $M_2$ agree at three distinct point
 
 # Standard Mapping Functions
 
-## Powers and roots
+## Powers and Roots
 
 The map
 
@@ -1520,7 +1520,7 @@ $$
 \frac{\beta+2k\pi}{n}.
 $$
 
-## Exponential and logarithm
+## Exponential and Logarithm
 
 The exponential map
 
@@ -1554,7 +1554,7 @@ $$
 2n\pi+a<\operatorname{Im}w<2n\pi+b.
 $$
 
-## Half-plane and disk
+## Half-Plane and Disk
 
 If $z_0$ lies in the upper half-plane, then
 
@@ -1580,7 +1580,7 @@ $$
 
 Compositions with powers, rotations, translations, and inversions give maps between half-planes, disks, sectors, and slit domains.
 
-## Joukowski transformation
+## Joukowski Transformation
 
 The Joukowski map is
 

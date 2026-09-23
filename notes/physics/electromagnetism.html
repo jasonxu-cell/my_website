@@ -62,20 +62,20 @@
         <script type="text/plain" id="article-markdown">
 # Electrostatics
 
-**Coulomb's law** (vacuum, static, point charges):
+Coulomb's law (vacuum, static, point charges):
 $$\mathbf{F} = \frac{qQ}{4\pi\varepsilon_0 r^2}\,\hat{r}$$
-where $\varepsilon_0$ is the **vacuum permittivity**.
+where $\varepsilon_0$ is the vacuum permittivity.
 
-Since $\mathbf{F}\propto Q$, define the **electric field** $\mathbf{F} = Q\mathbf{E}$. The field of a single static point charge $Q$ is
+Since $\mathbf{F}\propto Q$, define the electric field $\mathbf{F} = Q\mathbf{E}$. The field of a single static point charge $Q$ is
 $$\mathbf{E} = \frac{Q}{4\pi\varepsilon_0 r^2}\,\hat{r}$$
 
-**Gauss's law:**
+Gauss's law:
 $$\oint_S \mathbf{E}\cdot \mathrm{d}\mathbf{S} = \frac{Q}{\varepsilon_0}, \qquad \nabla\cdot\mathbf{E} = \frac{\rho}{\varepsilon_0}$$
 
-**Curl of the electrostatic field:**
+Curl of the electrostatic field:
 $$\oint_L \mathbf{E}\cdot \mathrm{d}\mathbf{l} = 0, \qquad \nabla\times\mathbf{E} = \mathbf{0} \;\Rightarrow\; \mathbf{E} = -\nabla\phi \quad(\text{potential})$$
 
-Combining gives **Poisson's equation:**
+Combining gives Poisson's equation:
 $$\nabla^2\phi = -\frac{\rho}{\varepsilon_0}$$
 
 For a point charge, Coulomb's law gives $\phi = \dfrac{q}{4\pi\varepsilon_0 r}$ with $\rho = q\,\delta(\mathbf{r})$, hence the identity
@@ -87,7 +87,7 @@ $$\Delta\mathbf{E} = \frac{1}{4\pi\varepsilon_0}\frac{\rho(\mathbf{r}\,')\,\Delt
 $$\phi = \frac{1}{4\pi\varepsilon_0}\int\frac{\rho(\mathbf{r}\,')}{R}\,\mathrm{d}V' = \frac{1}{4\pi\varepsilon_0}\int\frac{\rho(\mathbf{r}\,')}{|\mathbf{r}-\mathbf{r}\,'|}\,\mathrm{d}V'.$$
 ## Multipole Expansion
 
-Taylor-expand the kernel:
+Taylor-expand the kernel (Einstein summation convention: repeated indices are summed):
 $$f(\mathbf{r}-\mathbf{r}\,') = f(\mathbf{r}) - x_i'\,\partial_i f(\mathbf{r}) + \tfrac{1}{2}x_i' x_j'\,\partial_i\partial_j f(\mathbf{r}) + \cdots$$
 
 This yields the multipole expansion of $\phi$:
@@ -95,12 +95,12 @@ $$\phi^{(0)} = \frac{1}{4\pi\varepsilon_0}\frac{1}{r}\int\rho\,\mathrm{d}V',\qua
 \phi^{(1)} = -\frac{1}{4\pi\varepsilon_0}\int\rho\,x_i'\,\mathrm{d}V'\;\nabla\!\left(\tfrac{1}{r}\right),\quad
 \phi^{(2)} = \frac{1}{8\pi\varepsilon_0}\int\rho\,x_i'x_j'\,\mathrm{d}V'\;\nabla\nabla\!\left(\tfrac{1}{r}\right).$$
 
-**Monopole (total charge):**
+Monopole (total charge):
 $$q = \int\rho\,\mathrm{d}V' = \sum_a q_a,\qquad
 \phi^{(0)} = \frac{q}{4\pi\varepsilon_0 r},\qquad
 \mathbf{E}^{(0)} = \frac{q\,\hat{r}}{4\pi\varepsilon_0 r^2}.$$
 
-**Electric dipole moment:**
+Electric dipole moment:
 $$\mathbf{p} = \int\rho\,\mathbf{r}\,'\,\mathrm{d}V' = \sum_a q_a\,\mathbf{r}_a',$$
 $$\phi^{(1)} = \frac{\mathbf{p}\cdot\hat{r}}{4\pi\varepsilon_0 r^2} = \frac{p}{4\pi\varepsilon_0 r^2}\cos\theta.$$
 
@@ -113,7 +113,7 @@ $$\mathbf{E}^{(1)} = \frac{p\,(2\cos\theta\,\hat{e}_r + \sin\theta\,\hat{e}_\the
 
 Force on a dipole: $\mathbf{F} = \nabla(\mathbf{p}\cdot\mathbf{E}) = (\mathbf{p}\cdot\nabla)\mathbf{E}$.
 
-**Electric quadrupole moment:**
+Electric quadrupole moment:
 $$\phi^{(2)} = \frac{1}{8\pi\varepsilon_0}\,x_i' x_j'\int(3x_i'x_j' - r'^2\delta_{ij})\,\rho(\mathbf{r}\,')\,\mathrm{d}^3x',$$
 $$\overleftrightarrow{Q} = \int\rho\,(3\mathbf{r}\,'\mathbf{r}\,' - r'^2\overleftrightarrow{I})\,\mathrm{d}^3x' = \sum_a q_a(3\mathbf{r}_a'\mathbf{r}_a' - r_a'^2\overleftrightarrow{I}).$$
 
@@ -127,51 +127,51 @@ $$\phi^{(2)} = -\frac{Q_\perp}{8\pi\varepsilon_0}\frac{3z^2-r^2}{r^5} = -\frac{Q
 
 ## Polarization of Media
 
-**Induced polarization** responds to high-frequency fields: $\mathbf{P} = \overleftrightarrow{A}\cdot\mathbf{E}$, where $\overleftrightarrow{A}$ is the **polarizability tensor**.
+Induced polarization responds to high-frequency fields: $\mathbf{P} = \overleftrightarrow{A}\cdot\mathbf{E}$, where $\overleftrightarrow{A}$ is the polarizability tensor.
 
-**Orientation polarization** responds to low-frequency fields. Torque on a dipole $\mathbf{N} = \mathbf{p}\times\mathbf{E}$. The macroscopic **polarization** (dipole moment density):
+Orientation polarization responds to low-frequency fields. Torque on a dipole $\mathbf{N} = \mathbf{p}\times\mathbf{E}$. The macroscopic polarization (dipole moment density):
 $$\mathbf{P} = \frac{\sum\mathbf{p}_i}{\Delta V}.$$
 
 Potential of polarized matter (with $\mathbf{R}=\mathbf{r}-\mathbf{r}\,'$):
 $$\phi = \frac{1}{4\pi\varepsilon_0}\int\frac{\mathbf{P}\cdot\hat{R}}{R^2}\,\mathrm{d}V'
-= \frac{1}{4\pi\varepsilon_0}\int\mathbf{P}\cdot\nabla'\!\left(\tfrac{1}{R}\right)\mathrm{d}V'
+= \frac{1}{4\pi\varepsilon_0}\int\mathbf{P}\cdot\nabla'\!\left(\tfrac{1}{R}\right)\,\mathrm{d}V'
 = \frac{1}{4\pi\varepsilon_0}\oint\frac{\sigma_b}{R}\,\mathrm{d}S' + \frac{1}{4\pi\varepsilon_0}\int\frac{\rho_b}{R}\,\mathrm{d}V',$$
 
-giving the **bound charges:**
+giving the bound charges:
 $$\sigma_b = \mathbf{P}\cdot\hat{n},\qquad \rho_b = -\nabla\cdot\mathbf{P}.$$
 
 From $\nabla\cdot\mathbf{E} = \dfrac{\rho_f+\rho_b}{\varepsilon_0} = \dfrac{\rho_f-\nabla\cdot\mathbf{P}}{\varepsilon_0}$ we get $\nabla\cdot(\varepsilon_0\mathbf{E}+\mathbf{P}) = \rho_f$.
 
-Define the **electric displacement:**
+Define the electric displacement:
 $$\mathbf{D} = \varepsilon_0\mathbf{E} + \mathbf{P},\qquad \nabla\cdot\mathbf{D} = \rho_f,\qquad \nabla\times\mathbf{D} = \nabla\times\mathbf{P}.$$
 
-For **linear, homogeneous, isotropic media** $\mathbf{P} = \varepsilon_0\chi_e\mathbf{E}$ (**electric susceptibility** $\chi_e$):
+For linear, homogeneous, isotropic media $\mathbf{P} = \varepsilon_0\chi_e\mathbf{E}$ (electric susceptibility $\chi_e$):
 $$\mathbf{D} = \varepsilon_0(\chi_e+1)\mathbf{E} = \varepsilon_0\varepsilon_r\mathbf{E} = \varepsilon\mathbf{E},$$
-with **relative permittivity** $\varepsilon_r$ and **permittivity** $\varepsilon$. Inside such a medium $\nabla\times\mathbf{P}=\mathbf{0}\Rightarrow\nabla\times\mathbf{D}=\mathbf{0}$; at a boundary $\nabla\times\mathbf{P}\neq\mathbf{0}$.
+with relative permittivity $\varepsilon_r$ and permittivity $\varepsilon$. Inside such a medium $\nabla\times\mathbf{P}=\mathbf{0}\Rightarrow\nabla\times\mathbf{D}=\mathbf{0}$; at a boundary $\nabla\times\mathbf{P}\neq\mathbf{0}$.
 
 ---
 
-## Uniqueness Theorems & Method of Images
+## Uniqueness Theorems and Method of Images
 
 From the properties of Poisson's equation (it is introduced in [Equations of Mathematical Physics](../math/equations-of-mathematical-physics.html)):
 
-- **First uniqueness theorem:** given the potential $\phi$ on the boundary of a region and the charge distribution inside, the potential is uniquely determined.
-- **Second uniqueness theorem:** (with the total charge on each conductor specified, the field is uniquely determined).
+- First uniqueness theorem: given the potential $\phi$ on the boundary of a region and the charge distribution inside, the potential is uniquely determined.
+- Second uniqueness theorem: (with the total charge on each conductor specified, the field is uniquely determined).
 
-These motivate the **method of images.** For a point charge $+q$ at height $d$ above a grounded plane, replace the plane by an image charge $-q$ at $-d$:
+These motivate the method of images. For a point charge $+q$ at height $d$ above a grounded plane, replace the plane by an image charge $-q$ at $-d$:
 $$\phi = \frac{1}{4\pi\varepsilon_0}\left[\frac{q}{\sqrt{x^2+y^2+(z-d)^2}} - \frac{q}{\sqrt{x^2+y^2+(z+d)^2}}\right].$$
 
 ---
 
-## Boundary Conditions & Electrostatic Energy
+## Boundary Conditions and Electrostatic Energy
 
-**Normal component** (pillbox + Gauss):
+Normal component (pillbox + Gauss):
 $$\oint\mathbf{E}\cdot \mathrm{d}\mathbf{S} = \frac{q}{\varepsilon_0}\;\Rightarrow\;E_{\text{above}}^{\perp} - E_{\text{below}}^{\perp} = \frac{\sigma}{\varepsilon_0}.$$
 
-**Tangential component** (loop + curl-free):
+Tangential component (loop + curl-free):
 $$\oint\mathbf{E}\cdot \mathrm{d}\mathbf{l} = 0\;\Rightarrow\;E_{\text{above}}^{\parallel} = E_{\text{below}}^{\parallel}.$$
 
-**Electrostatic energy:**
+Electrostatic energy:
 $$W_e = \int_V w_e\,\mathrm{d}V = \frac{1}{2}\int\rho_0(\mathbf{r})\,\phi(\mathbf{r})\,\mathrm{d}V
 = \frac{1}{2}\int(\nabla\cdot\mathbf{D})\,\phi\,\mathrm{d}V.$$
 Integrating by parts and dropping the surface term at infinity,
@@ -194,18 +194,18 @@ For point charges $\rho = \sum_a q_a\delta(\mathbf{x}-\mathbf{x}_a)$:
 $$U = \frac{1}{2}\sum_a q_a\,\phi(\mathbf{x}_a) = U_{\text{interaction}} + U_{\text{self}},$$
 $$U_{\text{interaction}} = \frac{1}{2}\sum_a q_a\sum_{b\neq a}\phi_b(\mathbf{x}_a) = \sum_{a\neq b}\frac{1}{4\pi\varepsilon_0}\frac{q_a q_b}{|\mathbf{x}_a-\mathbf{x}_b|}.$$
 
-The self-energy of a point charge diverges; equating $U\sim\dfrac{e^2}{4\pi\varepsilon_0 r_0}=mc^2$ defines the **classical electron radius:**
+The self-energy of a point charge diverges; equating $U\sim\dfrac{e^2}{4\pi\varepsilon_0 r_0}=mc^2$ defines the classical electron radius:
 $$r_0 = \frac{e^2}{4\pi\varepsilon_0 mc^2}\sim 10^{-15}\,\text{m}.$$
 
 ---
 
 # Steady Currents
 
-**Current** $I = \dfrac{\mathrm{d}Q}{\mathrm{d}t}$; **current density** $\mathrm{d}I = \mathbf{J}\cdot \mathrm{d}\mathbf{S}$.
+Current $I = \dfrac{\mathrm{d}Q}{\mathrm{d}t}$; current density $\mathrm{d}I = \mathbf{J}\cdot \mathrm{d}\mathbf{S}$.
 $$I = \oint_S\mathbf{J}\cdot \mathrm{d}\mathbf{S} = \frac{\mathrm{d}Q}{\mathrm{d}t} = -\int_V\frac{\partial\rho}{\partial t}\,\mathrm{d}V
 \;\Rightarrow\; \int_V\nabla\cdot\mathbf{J}\,\mathrm{d}V = -\int_V\frac{\partial\rho}{\partial t}\,\mathrm{d}V.$$
 
-**Continuity equation:**
+Continuity equation:
 $$\nabla\cdot\mathbf{J} + \frac{\partial\rho}{\partial t} = 0.$$
 
 Kirchhoff's current law and voltage law follow as circuit consequences.
@@ -214,10 +214,10 @@ Kirchhoff's current law and voltage law follow as circuit consequences.
 
 # Magnetostatics
 
-**Biot–Savart law:**
+Biot–Savart law:
 $$\mathbf{B} = \frac{\mu_0}{4\pi}\int_V\frac{\mathbf{J}\times\hat{r}}{r^2}\,\mathrm{d}V' = \frac{\mu_0}{4\pi}\oint_L\frac{I\,\mathrm{d}\mathbf{l}\times\hat{r}}{r^2}.$$
 
-**Ampère's law (magnetostatics):**
+Ampère's law (magnetostatics):
 $$\oint_L\mathbf{B}\cdot \mathrm{d}\mathbf{l} = \mu_0 I,\qquad \nabla\times\mathbf{B} = \mu_0\mathbf{J}.$$
 
 No magnetic monopoles:
@@ -229,19 +229,19 @@ $$\nabla^2\mathbf{A} = -\mu_0\mathbf{J},\qquad
 
 ---
 
-## Magnetic Multipoles & Dipole
+## Magnetic Multipoles and Dipole
 
 Expanding $\dfrac{1}{|\mathbf{x}-\mathbf{x}\,'|} = \dfrac{1}{r} - \mathbf{x}\,'\cdot\nabla\tfrac{1}{r}+\cdots$:
 
 $$\mathbf{A}^{(0)} = \frac{\mu_0}{4\pi r}\int\mathbf{J}\,\mathrm{d}V',\qquad
-\mathbf{A}^{(1)} = -\frac{\mu_0}{4\pi}\int\mathbf{J}\left(\mathbf{x}\,'\cdot\nabla\tfrac{1}{r}\right)\mathrm{d}V'.$$
+\mathbf{A}^{(1)} = -\frac{\mu_0}{4\pi}\int\mathbf{J}\left(\mathbf{x}\,'\cdot\nabla\tfrac{1}{r}\right)\,\mathrm{d}V'.$$
 
 For steady currents $\nabla\cdot\mathbf{J}=0$, so $\mathbf{A}^{(0)}=0$ (the monopole term vanishes).
 
 Manipulating the dipole term with $\nabla'\cdot(\mathbf{J}\,x_i'x_j') = J_i x_j' + x_i' J_j$ leads to
 $$\mathbf{A}^{(1)} = \frac{\mu_0}{4\pi}\frac{1}{2r^3}\int(\mathbf{x}\,'\times\mathbf{J})\times\mathbf{x}\,\mathrm{d}V'.$$
 
-**Magnetic dipole moment:**
+Magnetic dipole moment:
 $$\mathbf{m} = \frac{1}{2}\int\mathbf{x}\,'\times\mathbf{J}\,\mathrm{d}V',\qquad
 \mathbf{A}^{(1)} = \frac{\mu_0}{4\pi}\frac{\mathbf{m}\times\mathbf{x}}{r^3},$$
 $$\mathbf{B}^{(1)} = \nabla\times\mathbf{A}^{(1)} = \frac{\mu_0}{4\pi}\frac{3(\hat{x}\cdot\mathbf{m})\hat{x}-\mathbf{m}}{r^3}.$$
@@ -249,7 +249,7 @@ $$\mathbf{B}^{(1)} = \nabla\times\mathbf{A}^{(1)} = \frac{\mu_0}{4\pi}\frac{3(\h
 For a current loop $\mathbf{m} = I\mathbf{S}$. For point charges, $\mathbf{J}=\rho\mathbf{v}$ gives the gyromagnetic relation
 $$\mathbf{m} = \frac{q}{2m}\mathbf{L}.$$
 
-**Force on a magnetic dipole** (from $\mathbf{F}=\int\mathbf{J}\times\mathbf{B}\,\mathrm{d}V'$, expanding $\mathbf{B}$):
+Force on a magnetic dipole (from $\mathbf{F}=\int\mathbf{J}\times\mathbf{B}\,\mathrm{d}V'$, expanding $\mathbf{B}$):
 $$\mathbf{F}^{(1)} = (\mathbf{m}\times\nabla)\times\mathbf{B} = \nabla(\mathbf{m}\cdot\mathbf{B}) = \mathbf{m}\times(\nabla\times\mathbf{B}) + (\mathbf{m}\cdot\nabla)\mathbf{B}.$$
 Outside the source region $\nabla\times\mathbf{B}=\mathbf{0}$, so $\mathbf{F}^{(1)} = (\mathbf{m}\cdot\nabla)\mathbf{B}$.
 
@@ -257,11 +257,11 @@ Outside the source region $\nabla\times\mathbf{B}=\mathbf{0}$, so $\mathbf{F}^{(
 
 ## Magnetization of Media
 
-In a current-free region $\nabla\times\mathbf{B}=\mathbf{0}\Rightarrow\mathbf{B}=-\nabla\phi$ (**magnetic scalar potential**), with $\nabla^2\phi=0$.
+In a current-free region $\nabla\times\mathbf{B}=\mathbf{0}\Rightarrow\mathbf{B}=-\nabla\phi$ (magnetic scalar potential), with $\nabla^2\phi=0$.
 
 Equivalently, with $\mathbf{H}$: $\nabla\times\mathbf{H}=0$, $\mathbf{H}=-\nabla\Phi$, $\nabla\cdot\mathbf{B}=0\Rightarrow\nabla\cdot\mathbf{H}=0\Rightarrow\nabla^2\Phi=0$.
 
-**Boundary-value problem** (e.g. a magnetizable shell $a<r<b$ in uniform $\mathbf{B}_0$):
+Boundary-value problem (e.g. a magnetizable shell $a<r<b$ in uniform $\mathbf{B}_0$):
 $$\Phi_{\text{out}} = -H_0 r\cos\theta + \sum_l\frac{\alpha_l}{r^{l+1}}P_l(\cos\theta)\quad(r>b),$$
 $$\Phi_{\text{mid}} = \sum_l\left(\beta_l r^l + \frac{\gamma_l}{r^{l+1}}\right)P_l(\cos\theta)\quad(a<r<b),$$
 $$\Phi_{\text{in}} = \sum_l\delta_l r^l P_l(\cos\theta)\quad(r<a).$$
@@ -278,17 +278,17 @@ Matching: $H_\parallel$ continuous $\Rightarrow\Phi$ continuous; $B_\perp$ conti
 
 # Maxwell's Equations
 
-**Ampère force:** $\mathbf{F} = I\mathbf{l}\times\mathbf{B}$.
+Ampère force: $\mathbf{F} = I\mathbf{l}\times\mathbf{B}$.
 
-**Lorentz force:** $\mathbf{f} = \rho\mathbf{E} + \mathbf{J}\times\mathbf{B}$, i.e. $\mathbf{F} = q\mathbf{E} + q\mathbf{v}\times\mathbf{B}$.
+Lorentz force: $\mathbf{f} = \rho\mathbf{E} + \mathbf{J}\times\mathbf{B}$, i.e. $\mathbf{F} = q\mathbf{E} + q\mathbf{v}\times\mathbf{B}$.
 
-**Faraday's law of induction:** $\mathcal{E} = -\dfrac{\mathrm{d}\Psi}{\mathrm{d}t}$, $\Psi=\sum\Phi$, giving
+Faraday's law of induction: $\mathcal{E} = -\dfrac{\mathrm{d}\Psi}{\mathrm{d}t}$, $\Psi=\sum\Phi$, giving
 $$\nabla\times\mathbf{E} = -\frac{\partial\mathbf{B}}{\partial t},\qquad \mathbf{E}_{\text{induced}} = -\frac{\partial\mathbf{A}}{\partial t}.$$
 
-**Displacement current** completes Ampère's law:
+Displacement current completes Ampère's law:
 $$\nabla\times\mathbf{H} = \mathbf{J}_f + \frac{\partial\mathbf{D}}{\partial t}.$$
 
-**Maxwell's equations:**
+Maxwell's equations:
 $$
 \begin{cases}
 \nabla\cdot\mathbf{D} = \rho_f\\[2pt]
@@ -303,7 +303,7 @@ $$
 \end{cases}
 $$
 
-**Free space (source-free vacuum):**
+Free space (source-free vacuum):
 $$
 \begin{cases}
 \nabla\cdot\mathbf{E}=0\\
@@ -315,22 +315,22 @@ $$
 \frac{\partial^2}{\partial t^2}\mathbf{E} = \frac{1}{\varepsilon_0\mu_0}\nabla^2\mathbf{E},\quad
 \frac{\partial^2}{\partial t^2}\mathbf{B} = \frac{1}{\varepsilon_0\mu_0}\nabla^2\mathbf{B},
 $$
-the **vacuum EM wave equations**, with speed $c = \dfrac{1}{\sqrt{\varepsilon_0\mu_0}}$.
+the vacuum EM wave equations, with speed $c = \dfrac{1}{\sqrt{\varepsilon_0\mu_0}}$.
 
 ---
 
 # Field Energy and Momentum
 
-**Energy continuity:** $\dfrac{\partial\xi}{\partial t} + \nabla\cdot\mathbf{P} = S_\xi$.
+Energy continuity: $\dfrac{\partial\xi}{\partial t} + \nabla\cdot\mathbf{P} = S_\xi$.
 
 Rate of work on charges: $\dfrac{\mathrm{d}W}{\mathrm{d}t} = q\mathbf{E}\cdot\mathbf{v}$, so the density rate $\dfrac{\mathrm{d}\xi}{\mathrm{d}t} = \rho\mathbf{E}\cdot\mathbf{v} = \mathbf{E}\cdot\mathbf{J}$, hence $S_\xi = -\mathbf{E}\cdot\mathbf{J}$. Using $\nabla\times\mathbf{B} = \tfrac{1}{c^2}\partial_t\mathbf{E} + \mu_0\mathbf{J}$,
 $$S_\xi = \frac{1}{\mu_0}\nabla\cdot(\mathbf{E}\times\mathbf{B}) + \frac{1}{\mu_0}\frac{\partial}{\partial t}\!\left(\tfrac12 B^2\right) + \frac{\varepsilon_0}{2}\frac{\partial}{\partial t}E^2.$$
 
-Therefore the **electromagnetic energy density** and **Poynting vector:**
+Therefore the electromagnetic energy density and Poynting vector:
 $$\xi = \frac{1}{2}\!\left(\varepsilon_0 E^2 + \frac{1}{\mu_0}B^2\right),\qquad
 \mathbf{P} = \frac{1}{\mu_0}\mathbf{E}\times\mathbf{B}.$$
 
-**Momentum continuity:** $\dfrac{\partial\mathbf{g}}{\partial t} + \nabla\cdot\overleftrightarrow{G} = \mathbf{S}_g$, with $\mathbf{S}_g = -\rho(\mathbf{E}+\mathbf{v}\times\mathbf{B})$. Working it out:
+Momentum continuity: $\dfrac{\partial\mathbf{g}}{\partial t} + \nabla\cdot\overleftrightarrow{G} = \mathbf{S}_g$, with $\mathbf{S}_g = -\rho(\mathbf{E}+\mathbf{v}\times\mathbf{B})$. Working it out:
 $$\mathbf{g} = \varepsilon_0\,\mathbf{E}\times\mathbf{B}\quad(\text{EM momentum density}),$$
 $$\overleftrightarrow{T} = -\overleftrightarrow{G} = \varepsilon_0\mathbf{E}\mathbf{E} + \frac{1}{\mu_0}\mathbf{B}\mathbf{B} - \frac{1}{2}\!\left(\varepsilon_0 E^2 + \frac{1}{\mu_0}B^2\right)\overleftrightarrow{I}\quad(\text{Maxwell stress tensor}),$$
 $$\mathbf{F} = \int\nabla\cdot\overleftrightarrow{T}\,\mathrm{d}V = \oint \mathrm{d}\mathbf{S}\cdot\overleftrightarrow{T} = \oint\overleftrightarrow{T}\,\mathrm{d}\mathbf{S}.$$
@@ -341,16 +341,16 @@ $$\mathbf{F} = \int\nabla\cdot\overleftrightarrow{T}\,\mathrm{d}V = \oint \mathr
 
 $$f = f_0\sin(\mathbf{k}\cdot\mathbf{x}-\omega t) = \mathrm{Re}\!\left[\hat{A}e^{i(\mathbf{k}\cdot\mathbf{x}-\omega t)}\right] = \mathrm{Re}\,\hat{f},\qquad \hat{f} = \hat{A}e^{i(\mathbf{k}\cdot\mathbf{x}-\omega t)}.$$
 
-Then $\partial_t \to -i\omega$, $\nabla \to i\mathbf{k}$ (**dispersion relation**). Maxwell's equations give
+Then $\partial_t \to -i\omega$, $\nabla \to i\mathbf{k}$ (dispersion relation). Maxwell's equations give
 $$\mathbf{k}\times\hat{E} = \omega\hat{B},\qquad \mathbf{k}\times\hat{B} = -\frac{\omega}{c^2}\hat{E},$$
 so $\mathbf{E}$, $\mathbf{B}$, $\mathbf{k}$ are mutually orthogonal and in phase.
 
-**Phase velocity:** from $kx-\omega t=\text{const}$, $v_p = \dfrac{\omega}{k}$.
+Phase velocity: from $kx-\omega t=\text{const}$, $v_p = \dfrac{\omega}{k}$.
 
-**Group velocity:** beating two close waves $k_1\approx k_2$,
+Group velocity: beating two close waves $k_1\approx k_2$,
 $$v_g = \frac{\mathrm{d}\omega}{\mathrm{d}k}.$$
 
-## Energy analysis
+## Energy Analysis
 
 With $\mathbf{E} = E_y\hat{e}_y + E_z\hat{e}_z$ and $\mathbf{b} = \tfrac{1}{c}\hat{k}\times\mathbf{E}$:
 $$w = \tfrac{1}{2}\varepsilon_0 E^2 + \tfrac{1}{2\mu_0}B^2,\qquad w_B = w_E \;\Rightarrow\; w = \varepsilon_0 E^2,$$
@@ -362,7 +362,7 @@ $$\langle w\rangle = \frac{\varepsilon_0}{2}\hat{E}_0\cdot\hat{E}_0^{*} = \frac{
 $$I = |\langle\mathbf{S}\rangle| = \tfrac{1}{2}c\varepsilon_0 E_0^2,\qquad
 \mathbf{g} = \frac{\mathbf{S}}{c^2},\quad \langle\mathbf{g}\rangle = \frac{\langle w\rangle}{c}\hat{k} = \frac{\varepsilon_0}{2c}E_0^2\,\hat{k}.$$
 
-**Radiation pressure:** $P = \tfrac{\varepsilon_0}{2}E_0^2$ (absorbing wall), $P = \varepsilon_0 E_0^2$ (perfectly reflecting wall).
+Radiation pressure: $P = \tfrac{\varepsilon_0}{2}E_0^2$ (absorbing wall), $P = \varepsilon_0 E_0^2$ (perfectly reflecting wall).
 
 ---
 
@@ -370,31 +370,31 @@ $$I = |\langle\mathbf{S}\rangle| = \tfrac{1}{2}c\varepsilon_0 E_0^2,\qquad
 
 Continuity of tangential $\mathbf{E},\mathbf{H}$ with $H/E = \sqrt{\varepsilon_0\varepsilon_r}/\sqrt{\mu_0\mu_r}$.
 
-**TE (s) polarization:**
+TE (s) polarization:
 $$r_s = \frac{E_{1s}'}{E_{1s}} = \frac{n_1\cos i_1 - n_2\cos i_2}{n_1\cos i_1 + n_2\cos i_2} = -\frac{\sin(i_1-i_2)}{\sin(i_1+i_2)},$$
 $$t_s = \frac{E_{2s}}{E_{1s}} = \frac{2n_1\cos i_1}{n_1\cos i_1 + n_2\cos i_2} = \frac{2\cos i_1\sin i_2}{\sin(i_1+i_2)}.$$
 
-**TM (p) polarization:**
+TM (p) polarization:
 $$r_p = \frac{E_{1p}'}{E_{1p}} = \frac{n_2\cos i_1 - n_1\cos i_2}{n_2\cos i_1 + n_1\cos i_2} = \frac{\tan(i_1-i_2)}{\tan(i_1+i_2)},$$
 $$t_p = \frac{E_{2p}'}{E_{1p}} = \frac{2n_1\cos i_1}{n_2\cos i_1 + n_1\cos i_2} = \frac{2\cos i_1\sin i_2}{\sin(i_1+i_2)\cos(i_1-i_2)}.$$
 
-**Normal incidence** ($i_1=i_2=0$): $r_p = \dfrac{n_2-n_1}{n_2+n_1} = -r_s$, $t_p = \dfrac{2n_1}{n_2+n_1} = t_s$.
+Normal incidence ($i_1=i_2=0$): $r_p = \dfrac{n_2-n_1}{n_2+n_1} = -r_s$, $t_p = \dfrac{2n_1}{n_2+n_1} = t_s$.
 
-**Energy coefficients** ($I\propto nE^2$, flux $W = IS\cos\theta$):
+Energy coefficients ($I\propto nE^2$, flux $W = IS\cos\theta$):
 $$R_s = |r_s|^2,\quad R_p = |r_p|^2,\quad T_s = \frac{n_2}{n_1}|t_s|^2,\quad T_p = \frac{n_2}{n_1}|t_p|^2,$$
 $$\mathcal{R}_s = R_s,\quad \mathcal{T}_s = \frac{\cos i_2}{\cos i_1}T_s,\quad \mathcal{R}_p = R_p,\quad \mathcal{T}_p = \frac{\cos i_2}{\cos i_1}T_p.$$
 
-**Brewster's angle:** $i_B = \arctan n_{21}$; when $i_1=i_B$ then $i_1+i_2=\tfrac{\pi}{2}$ and $r_p=0$ — the reflected ray is polarized perpendicular to the plane of incidence.
+Brewster's angle: $i_B = \arctan n_{21}$; when $i_1=i_B$ then $i_1+i_2=\tfrac{\pi}{2}$ and $r_p=0$ — the reflected ray is polarized perpendicular to the plane of incidence.
 
-## Phase analysis
+## Phase Analysis
 
 Transmitted amplitudes $t_s,t_p>0$ always (no half-wave loss).
 
-**External reflection** ($n_1<n_2$, $i_1>i_2$):
+External reflection ($n_1<n_2$, $i_1>i_2$):
 - s-wave: $r_s<0$ → half-wave loss.
 - p-wave: $r_p>0$ for $i_1<i_B$; $r_p=0$ at $i_B$; $r_p<0$ for $i_1>i_B$.
 
-**Internal reflection** ($n_1>n_2$, $i_1<i_2$):
+Internal reflection ($n_1>n_2$, $i_1<i_2$):
 - s-wave: $r_s>0$ → no half-wave loss.
 - p-wave: $r_p<0$ for $i_1<i_B$; $r_p=0$ at $i_B$; $r_p>0$ for $i_1>i_B$.
 
@@ -416,9 +416,9 @@ Summing over oscillator species $j$ with strengths $f_j$:
 $$\mathbf{P} = \frac{Ne^2}{m}\sum_j\frac{f_j}{\omega_j^2-\omega^2-i\omega\gamma_j}\mathbf{E} = \chi_e\varepsilon_0\mathbf{E},$$
 $$\varepsilon_r = 1 + \chi_e = 1 + \frac{Ne^2}{m\varepsilon_0}\sum_j\frac{f_j}{\omega_j^2-\omega^2-i\omega\gamma_j} = 1 + \omega_p^2\sum_j\frac{f_j}{\omega_j^2-\omega^2-i\omega\gamma_j},$$
 
-where $\omega_p^2 = \dfrac{NZe^2}{m\varepsilon_0}$ is the electron **plasma frequency**.
+where $\omega_p^2 = \dfrac{NZe^2}{m\varepsilon_0}$ is the electron plasma frequency.
 
-**Complex refractive index** $n=\sqrt{\varepsilon_r}\approx 1+\tfrac{1}{2}\chi_e$, $n = n_r + i n_i$:
+Complex refractive index $n=\sqrt{\varepsilon_r}\approx 1+\tfrac{1}{2}\chi_e$, $n = n_r + i n_i$:
 $$n_r = 1 + \frac{\omega_p^2}{2}\sum_j\frac{f_j(\omega_j^2-\omega^2)}{(\omega_j^2-\omega^2)^2+(\omega\gamma_j)^2},\qquad
 n_i = \frac{\omega_p^2}{2}\sum_j\frac{f_j\gamma_j\omega}{(\omega_j^2-\omega^2)^2+(\omega\gamma_j)^2},$$
 $$\kappa = \frac{n_i\omega}{c} = \frac{\omega_p^2}{2c}\sum_j\frac{f_j\gamma_j\omega^2}{(\omega_j^2-\omega^2)^2+(\omega\gamma_j)^2}\quad(\text{absorption}).$$
@@ -428,7 +428,7 @@ $$n_r = 1 + \frac{\omega_p^2}{2}\sum_j\frac{f_j}{\omega_j^2-\omega^2},\qquad
 (\omega_j^2-\omega^2)^{-1}\approx\frac{1}{\omega_j^2}\!\left(1+\frac{\omega^2}{\omega_j^2}\right),$$
 $$n_r = 1 + \frac{\omega_p^2}{2}\sum_j\frac{f_j}{\omega_j^2} + \omega^2\frac{\omega_p^2}{2}\sum_j\frac{f_j}{\omega_j^4}.$$
 
-Using $\lambda = \tfrac{2\pi c}{\omega}$, this is **Cauchy's formula** $n = A + \dfrac{B}{\lambda^2}$ with
+Using $\lambda = \tfrac{2\pi c}{\omega}$, this is Cauchy's formula $n = A + \dfrac{B}{\lambda^2}$ with
 $$A = 1 + \frac{\omega_p^2}{2}\sum_j\frac{f_j}{\omega_j^2},\qquad B = 2\pi^2 c^2\!\left(\frac{\omega_p^2}{2}\sum_j\frac{f_j}{\omega_j^4}\right).$$
 
 ---
@@ -443,21 +443,21 @@ E_y = \frac{i}{\omega^2/c^2-k^2}\!\left(k\frac{\partial E_z}{\partial y} - \omeg
 $$B_x = \frac{i}{\omega^2/c^2-k^2}\!\left(k\frac{\partial B_z}{\partial x} - \frac{\omega}{c^2}\frac{\partial E_z}{\partial y}\right),\quad
 B_y = \frac{i}{\omega^2/c^2-k^2}\!\left(k\frac{\partial B_z}{\partial y} + \frac{\omega}{c^2}\frac{\partial E_z}{\partial x}\right).$$
 
-**Modes:** TE ($E_z=0$), TM ($B_z=0$), TEM ($E_z=B_z=0$). 
+Modes: TE ($E_z=0$), TM ($B_z=0$), TEM ($E_z=B_z=0$). 
 
 For TEM, $k^2=\omega^2/c^2$ and $\nabla^2 B_x=\nabla^2 B_y=0$ force $\mathbf{B}=\mathbf{E}=0$ in a hollow guide (no TEM in a single conductor).
 
-**TE wave** in a rectangular guide ($a\times b$):
+TE wave in a rectangular guide ($a\times b$):
 $$\left[\frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} + \left(\frac{\omega^2}{c^2}-k^2\right)\right]B_z = 0,$$
 separate $B_z = X(x)Y(y)$, with Neumann conditions $\partial_x B_z|_{x=0,a}=0$, $\partial_y B_z|_{y=0,b}=0$:
 $$B_z = B_0\cos\!\frac{m\pi x}{a}\cos\!\frac{n\pi y}{b},\qquad k_x=\frac{m\pi}{a},\;k_y=\frac{n\pi}{b},$$
 $$k = \sqrt{\frac{\omega^2}{c^2} - \pi^2\!\left[\left(\tfrac{m}{a}\right)^2 + \left(\tfrac{n}{b}\right)^2\right]},$$
-propagation requires $\dfrac{\omega^2}{c^2}\geq\pi^2\!\left[\left(\tfrac{m}{a}\right)^2+\left(\tfrac{n}{b}\right)^2\right]$. **Cutoff:**
+propagation requires $\dfrac{\omega^2}{c^2}\geq\pi^2\!\left[\left(\tfrac{m}{a}\right)^2+\left(\tfrac{n}{b}\right)^2\right]$. Cutoff:
 $$\omega_{\min} = c\pi\sqrt{\frac{m^2}{a^2}+\frac{n^2}{b^2}},\qquad
 k = \frac{1}{c}\sqrt{\omega^2-\omega_{\min}^2},\qquad
 f = \frac{c}{2}\sqrt{\frac{m^2}{a^2}+\frac{n^2}{b^2}}.$$
 
-**TM wave:** $B_z=0$, with Dirichlet conditions $E_z|_{x=0,a}=E_z|_{y=0,b}=0$:
+TM wave: $B_z=0$, with Dirichlet conditions $E_z|_{x=0,a}=E_z|_{y=0,b}=0$:
 $$E_z(x,y,z) = E_0\sin\!\frac{m\pi x}{a}\sin\!\frac{n\pi y}{b}\,e^{-i\beta z},$$
 $$k = \sqrt{\frac{\omega^2}{c^2} - \left(\tfrac{m\pi}{a}\right)^2 - \left(\tfrac{n\pi}{b}\right)^2},\qquad
 \omega_{\min} = c\pi\sqrt{\tfrac{m^2}{a^2}+\tfrac{n^2}{b^2}},\quad f_{\min} = \frac{c}{2}\sqrt{\tfrac{m^2}{a^2}+\tfrac{n^2}{b^2}}.$$
@@ -474,7 +474,7 @@ $$-k^2 = -\mu\sigma i\omega - \varepsilon\mu\omega^2.$$
 In a good conductor the conduction current dominates the displacement current, $\mu\sigma\omega\gg\varepsilon\mu\omega^2$ i.e. $\sigma\gg\omega\varepsilon$, so
 $$-k^2 = -\mu\sigma i\omega \;\Rightarrow\; k = \sqrt{\frac{\mu\sigma\omega}{2}}\,(1+i).$$
 $$\mathbf{E} = \mathbf{E}_0 e^{i(kz-\omega t)} = \mathbf{E}_0\,e^{-\sqrt{\mu\sigma\omega/2}\,z}\,e^{i(\sqrt{\mu\sigma\omega/2}\,z-\omega t)},$$
-with **skin depth**
+with skin depth
 $$\delta = \sqrt{\frac{2}{\mu\sigma\omega}}.$$
 
 ---
@@ -493,16 +493,16 @@ $$\frac{\partial L}{\partial\mathbf{v}} = \mathbf{p} + q\mathbf{A},$$
 and $\dfrac{\mathrm{d}}{\mathrm{d}t}\mathbf{A}(t,\mathbf{x}) = \dfrac{\partial\mathbf{A}}{\partial t} + (\mathbf{v}\cdot\nabla)\mathbf{A}$ gives
 $$\frac{\mathrm{d}}{\mathrm{d}t}\mathbf{p} = q\,\mathbf{v}\times(\nabla\times\mathbf{A}) - q\!\left(\nabla\phi + \frac{\partial\mathbf{A}}{\partial t}\right).$$
 
-Comparing with the **Lorentz force** $\mathbf{F} = q(\mathbf{v}\times\mathbf{B} + \mathbf{E})$ defines the potentials:
+Comparing with the Lorentz force $\mathbf{F} = q(\mathbf{v}\times\mathbf{B} + \mathbf{E})$ defines the potentials:
 $$\mathbf{B} = \nabla\times\mathbf{A},\qquad \mathbf{E} = -\nabla\phi - \frac{\partial\mathbf{A}}{\partial t},$$
 which automatically give $\nabla\cdot\mathbf{B}=0$, $\nabla\times\mathbf{E} = -\partial_t\mathbf{B}$.
 
-**Gauge invariance:** adding $\int_a^b q\,\mathrm{d}f$ to $S$ leaves $\delta S=0$, and $A_\alpha' = A_\alpha - \partial_\alpha f$, i.e.
+Gauge invariance: adding $\int_a^b q\,\mathrm{d}f$ to $S$ leaves $\delta S=0$, and $A_\alpha' = A_\alpha - \partial_\alpha f$, i.e.
 $$\phi' = \phi - \frac{\partial f}{\partial t},\qquad \mathbf{A}' = \mathbf{A} + \nabla f.$$
 
 Common gauges:
-1. **Coulomb gauge:** $\nabla\cdot\mathbf{A}=0$.
-2. **Lorenz gauge:** $\partial_\alpha A^\alpha = 0 \iff \nabla\cdot\mathbf{A} + \dfrac{1}{c^2}\dfrac{\partial\phi}{\partial t} = 0$.
+1. Coulomb gauge: $\nabla\cdot\mathbf{A}=0$.
+2. Lorenz gauge: $\partial_\alpha A^\alpha = 0 \iff \nabla\cdot\mathbf{A} + \dfrac{1}{c^2}\dfrac{\partial\phi}{\partial t} = 0$.
 
 ---
 
@@ -516,7 +516,7 @@ $$\delta S_{pf} = q\int_a^b\!\left(\frac{\partial A_\beta}{\partial x^\alpha} - 
 so $\delta S=0$ requires
 $$m\frac{\mathrm{d}u_\alpha}{\mathrm{d}\tau} = q\!\left(\frac{\partial A_\beta}{\partial x^\alpha} - \frac{\partial A_\alpha}{\partial x^\beta}\right)u^\beta.$$
 
-Define the **electromagnetic field tensor:**
+Define the electromagnetic field tensor:
 $$F_{\alpha\beta} = \frac{\partial A_\beta}{\partial x^\alpha} - \frac{\partial A_\alpha}{\partial x^\beta},\qquad
 m\frac{\mathrm{d}u_\alpha}{\mathrm{d}\tau} = qF_{\alpha\beta}u^\beta.$$
 
@@ -538,7 +538,7 @@ Covariant equation of motion:
 $$m\frac{\mathrm{d}u^\alpha}{\mathrm{d}\tau} = qF^{\alpha\beta}u_\beta.$$
 The time component gives $\dfrac{\mathrm{d}(\gamma mc^2)}{\mathrm{d}t} = q\mathbf{E}\cdot\mathbf{v}$, i.e. $\dfrac{\mathrm{d}\xi}{\mathrm{d}t} = q\mathbf{E}\cdot\mathbf{v}$; the spatial part gives $\dfrac{\mathrm{d}\mathbf{p}}{\mathrm{d}t} = q(\mathbf{E}+\mathbf{v}\times\mathbf{B})$.
 
-**Invariants:**
+Invariants:
 $$F^{\alpha\beta}F_{\alpha\beta} = 2\!\left(B^2 - \frac{E^2}{c^2}\right)\quad(\Rightarrow c^2B^2-E^2\text{ is invariant}),$$
 $$F_{\alpha\beta}\,\epsilon^{\alpha\beta\mu\nu}F_{\mu\nu} = -24\!\left(\frac{E_x}{c}B_x + \frac{E_y}{c}B_y + \frac{E_z}{c}B_z\right)\quad(\Rightarrow \mathbf{E}\cdot\mathbf{B}\text{ is invariant}).$$
 
@@ -558,7 +558,7 @@ i.e. in vector form
 $$E_\parallel = E_\parallel',\quad \mathbf{E}_\perp = \gamma(\mathbf{E}_\perp' - \mathbf{v}\times\mathbf{B}_\perp'),\qquad
 B_\parallel = B_\parallel',\quad \mathbf{B}_\perp = \gamma\!\left(\mathbf{B}_\perp' + \frac{1}{c^2}\mathbf{v}\times\mathbf{E}_\perp'\right).$$
 
-**Low-velocity limit** ($c\gg v$):
+Low-velocity limit ($c\gg v$):
 - if $\mathbf{B}'=0$: $\mathbf{E}=\mathbf{E}'$, $\mathbf{B} = \dfrac{\mathbf{v}}{c^2}\times\mathbf{E}' = \dfrac{\mathbf{v}}{c^2}\times\mathbf{E}$;
 - if $\mathbf{E}'=0$: $\mathbf{B}=\mathbf{B}'$, $\mathbf{E} = -\mathbf{v}\times\mathbf{B}' = \mathbf{B}'\times\mathbf{v} = \mathbf{B}\times\mathbf{v}$.
 
@@ -578,15 +578,15 @@ $$\frac{\partial\mathcal{L}_f}{\partial(\partial_\mu A^\nu)} = \frac{1}{\mu_0}(\
 $$\partial_\mu\!\left[\frac{\partial\mathcal{L}_f}{\partial(\partial_\mu A^\nu)}\right] = \frac{1}{\mu_0}\frac{\partial F_\nu{}^\mu}{\partial x^\mu} = 0
 \;\Rightarrow\; \partial^\nu\partial_\mu A^\mu - \partial_\mu\partial^\mu A^\nu = 0.$$
 
-In **Lorenz gauge** $\partial_\mu A^\mu=0$:
+In Lorenz gauge $\partial_\mu A^\mu=0$:
 $$\partial_\mu\partial^\mu A^\nu = 0,\quad\text{or}\quad \frac{\partial F^{\mu\nu}}{\partial x^\mu} = 0,$$
 which reproduce the source-free Maxwell equations $\nabla\cdot\mathbf{E}=0$, $\nabla\times\mathbf{B}=\tfrac{1}{c^2}\partial_t\mathbf{E}$, and the wave equations
 $$\left(\frac{1}{c^2}\frac{\partial^2}{\partial t^2} - \nabla^2\right)\phi = 0,\qquad
 \left(\frac{1}{c^2}\frac{\partial^2}{\partial t^2} - \nabla^2\right)\mathbf{A} = 0.$$
 
-**Interaction term:** starting from $S_{pf}$ and inserting $\rho = \sum q_i\delta(\mathbf{x}-\mathbf{x}_i)$,
+Interaction term: starting from $S_{pf}$ and inserting $\rho = \sum q_i\delta(\mathbf{x}-\mathbf{x}_i)$,
 $$\mathcal{L}_{pf} = \rho A_\alpha\frac{\mathrm{d}x^\alpha}{\mathrm{d}t},$$
-identifying the **four-current** $J^\alpha = \rho\dfrac{\mathrm{d}x^\alpha}{\mathrm{d}t} = (\rho c,\mathbf{J})$, with continuity $\partial_\alpha J^\alpha = 0$.
+identifying the four-current $J^\alpha = \rho\dfrac{\mathrm{d}x^\alpha}{\mathrm{d}t} = (\rho c,\mathbf{J})$, with continuity $\partial_\alpha J^\alpha = 0$.
 
 Full Lagrangian density:
 $$\mathcal{L} = \mathcal{L}_f + \mathcal{L}_{pf} = -\frac{1}{4\mu_0}F_{\alpha\beta}F^{\alpha\beta} - J^\alpha A_\alpha.$$
@@ -613,7 +613,7 @@ $$\begin{align*}\hat{T}^{\mu\nu}& = \frac{1}{\mu_0}\!\left[F^{\mu\lambda}F_\lamb
 $$\frac{\partial\hat{T}^{0\nu}}{\partial x^\nu} = 0 \;\Rightarrow\; \text{energy conservation},\qquad
 \frac{\partial\hat{T}^{i\nu}}{\partial x^\nu} = 0 \;\Rightarrow\; \text{momentum conservation}.$$
 
-# Green's Function & Retarded Potentials
+# Green's Function and Retarded Potentials
 
 Solve the wave equation with a point source:
 $$\frac{1}{c^2}\frac{\partial^2 G}{\partial t^2} - \nabla^2 G = \delta(t)\delta(\mathbf{x}).$$
@@ -623,26 +623,26 @@ $$G(\mathbf{x},t) = \frac{1}{(2\pi)^4}\int\frac{1}{k^2-\omega^2/c^2}e^{i(\mathbf
 Doing the angular and contour integrals (retarded contour) gives
 $$G(\mathbf{x},t) = \frac{c}{4\pi r}\big[\delta(r-ct) - \delta(r+ct)\big] = \frac{1}{4\pi}\frac{\delta(t-r/c)}{r}.$$
 
-For a source at $(t',\mathbf{x}\,')$, with **retarded time** $t_r = t - \tfrac{1}{c}|\mathbf{x}-\mathbf{x}\,'|$:
+For a source at $(t',\mathbf{x}\,')$, with retarded time $t_r = t - \tfrac{1}{c}|\mathbf{x}-\mathbf{x}\,'|$:
 $$G(\mathbf{x},t;\mathbf{x}\,',t') = \frac{1}{4\pi}\frac{\delta(t'-t_r)}{|\mathbf{x}-\mathbf{x}\,'|}.$$
 
-**Retarded potentials:**
+Retarded potentials:
 $$\phi(\mathbf{x},t) = \frac{1}{4\pi\varepsilon_0}\int\frac{\rho(\mathbf{x}\,',t_r)}{|\mathbf{x}-\mathbf{x}\,'|}\,\mathrm{d}^3x',\qquad
 \mathbf{A}(\mathbf{x},t) = \frac{\mu_0}{4\pi}\int\frac{\mathbf{J}(\mathbf{x}\,',t_r)}{|\mathbf{x}-\mathbf{x}\,'|}\,\mathrm{d}^3x'.$$
 
 Differentiating (the retarded-time dependence matters):
-$$\nabla\phi = \frac{1}{4\pi\varepsilon_0}\int\!\left[-\frac{\dot\rho}{c}\frac{\hat{e}_R}{|\mathbf{x}-\mathbf{x}\,'|} - \rho\frac{\hat{e}_R}{|\mathbf{x}-\mathbf{x}\,'|^2}\right]\mathrm{d}^3x',$$
-$$\nabla\times\mathbf{A} = \frac{\mu_0}{4\pi}\int\frac{1}{|\mathbf{x}-\mathbf{x}\,'|}\!\left[\nabla\times\mathbf{J} + \mathbf{J}\times\frac{\hat{e}_R}{|\mathbf{x}-\mathbf{x}\,'|}\right]\mathrm{d}^3x'.$$
+$$\nabla\phi = \frac{1}{4\pi\varepsilon_0}\int\!\left[-\frac{\dot\rho}{c}\frac{\hat{e}_R}{|\mathbf{x}-\mathbf{x}\,'|} - \rho\frac{\hat{e}_R}{|\mathbf{x}-\mathbf{x}\,'|^2}\right]\,\mathrm{d}^3x',$$
+$$\nabla\times\mathbf{A} = \frac{\mu_0}{4\pi}\int\frac{1}{|\mathbf{x}-\mathbf{x}\,'|}\!\left[\nabla\times\mathbf{J} + \mathbf{J}\times\frac{\hat{e}_R}{|\mathbf{x}-\mathbf{x}\,'|}\right]\,\mathrm{d}^3x'.$$
 
 ---
 
-## Liénard–Wiechert Potentials & Radiation
+## Liénard–Wiechert Potentials and Radiation
 
-**Jefimenko's equations:**
-$$\mathbf{E} = \frac{1}{4\pi\varepsilon_0}\int\!\left[\rho(\mathbf{r}\,',t_r)\frac{\hat{e}_R}{|\mathbf{x}-\mathbf{x}\,'|^2} + \frac{\dot\rho(\mathbf{r}\,',t_r)}{c}\frac{\hat{e}_R}{|\mathbf{x}-\mathbf{x}\,'|} - \frac{\dot{\mathbf{J}}(\mathbf{r}\,',t_r)}{c^2|\mathbf{x}-\mathbf{x}\,'|}\right]\mathrm{d}^3x',$$
+Jefimenko's equations:
+$$\mathbf{E} = \frac{1}{4\pi\varepsilon_0}\int\!\left[\rho(\mathbf{r}\,',t_r)\frac{\hat{e}_R}{|\mathbf{x}-\mathbf{x}\,'|^2} + \frac{\dot\rho(\mathbf{r}\,',t_r)}{c}\frac{\hat{e}_R}{|\mathbf{x}-\mathbf{x}\,'|} - \frac{\dot{\mathbf{J}}(\mathbf{r}\,',t_r)}{c^2|\mathbf{x}-\mathbf{x}\,'|}\right]\,\mathrm{d}^3x',$$
 $$\mathbf{B} = \frac{\mu_0}{4\pi}\int\!\left[\frac{\mathbf{J}(\mathbf{r}\,',t_r)}{|\mathbf{x}-\mathbf{x}\,'|^2} + \frac{\dot{\mathbf{J}}(\mathbf{r}\,',t_r)}{c|\mathbf{x}-\mathbf{x}\,'|}\right]\times\hat{e}_R\,\mathrm{d}^3x'.$$
 
-**Liénard–Wiechert potentials** for a point charge $\rho(\mathbf{r}\,',t') = q\,\delta^3(\mathbf{r}\,'-\mathbf{r}_s(t'))$:
+Liénard–Wiechert potentials for a point charge $\rho(\mathbf{r}\,',t') = q\,\delta^3(\mathbf{r}\,'-\mathbf{r}_s(t'))$:
 $$\phi(\mathbf{r},t) = \frac{1}{4\pi\varepsilon_0}\frac{qc}{Rc-\mathbf{R}\cdot\mathbf{v}},\qquad
 \mathbf{A}(\mathbf{r},t) = \frac{\mathbf{v}}{c^2}\phi(\mathbf{r},t).$$
 
@@ -651,7 +651,7 @@ $$\begin{align*}\mathbf{E}& = \frac{q}{4\pi\varepsilon_0}\frac{R}{(\mathbf{R}\cd
 \\&= \underbrace{\frac{q}{4\pi\varepsilon_0}\frac{\hat{e}_R-\mathbf{\beta}}{\gamma^2(1-\mathbf{\beta}\cdot\hat{e}_R)^3 R^2}}_{\text{velocity field}\;\propto 1/R^2}
 + \underbrace{\frac{q}{4\pi\varepsilon_0 c^2}\frac{\hat{e}_R\times[(\hat{e}_R-\mathbf{\beta})\times\mathbf{a}]}{(1-\mathbf{\beta}\cdot\hat{n})^3 R}}_{\text{radiation field}\;\propto 1/R}\end{align*}$$
 
-**Non-relativistic radiation field:**
+Non-relativistic radiation field:
 $$\mathbf{E}_r = \frac{1}{c^2}\frac{q}{4\pi\varepsilon_0 R}\,\hat{e}_R\times(\hat{e}_R\times\mathbf{a}) = -\frac{1}{c^2}\frac{q}{4\pi\varepsilon_0 R}\mathbf{a}_\perp,\qquad
 \mathbf{B} = \frac{1}{c}\hat{e}_R\times\mathbf{E}.$$
 It is equivalent to
@@ -659,15 +659,15 @@ $$\mathbf{B}(\mathbf{r}, t) = -\frac{\mu_0}{4\pi r c} (\ddot{\mathbf{p}} \times 
 $$\mathbf{E}(\mathbf{r}, t) = c (\mathbf{B} \times \mathbf{n}) = \frac{\mu_0}{4\pi r} [(\ddot{\mathbf{p}} \times \mathbf{n}) \times \mathbf{n}]$$
 Poynting vector and radiated power:
 $$\mathbf{S}_{\text{rad}} = \frac{1}{\mu_0 c}E_{\text{rad}}^2\,\hat{e}_R = \frac{\mu_0 q^2 a^2}{16\pi^2 c}\frac{\sin^2\theta}{R^2}\,\hat{e}_R,$$
-$$\boxed{P = \frac{\mu_0 q^2 a^2}{6\pi c}}\quad(\textbf{Larmor formula}).$$
+$$\boxed{P = \frac{\mu_0 q^2 a^2}{6\pi c}}\quad(\text{Larmor formula}).$$
 
-Accounting for $\mathrm{d}t = (1-\mathbf{\beta}\cdot\hat{e}_R)\,\mathrm{d}t_r$, the actual radiated power and angular distribution give the **Liénard generalization:**
+Accounting for $\mathrm{d}t = (1-\mathbf{\beta}\cdot\hat{e}_R)\,\mathrm{d}t_r$, the actual radiated power and angular distribution give the Liénard generalization:
 $$\frac{\mathrm{d}P}{\mathrm{d}\Omega} = \frac{q^2}{16\pi^2\varepsilon_0 c}\frac{|\hat{e}_R\times[(\hat{e}_R-\mathbf{\beta})\times\mathbf{a}]|^2}{(1-\mathbf{\beta}\cdot\hat{e}_R)^5},\qquad
 P = \frac{\mu_0 q^2\gamma^6}{6\pi c}\big(a^2 - |\mathbf{\beta}\times\mathbf{a}|^2\big).$$
 
-Neglecting relativity ($\mathbf{\beta}=0$) recovers $P = \dfrac{\mu_0 q^2 a^2}{6\pi c}$ (**bremsstrahlung**, "braking radiation").
+Neglecting relativity ($\mathbf{\beta}=0$) recovers $P = \dfrac{\mu_0 q^2 a^2}{6\pi c}$ (bremsstrahlung, "braking radiation").
 
-**Abraham–Lorentz (radiation reaction):** from $\int_{t_1}^{t_2}\mathbf{F}_{\text{rad}}\cdot\mathbf{v}\,\mathrm{d}t = -\dfrac{\mu_0 q^2}{6\pi c}\int a^2\,\mathrm{d}t$, integrating by parts,
+Abraham–Lorentz (radiation reaction): from $\int_{t_1}^{t_2}\mathbf{F}_{\text{rad}}\cdot\mathbf{v}\,\mathrm{d}t = -\dfrac{\mu_0 q^2}{6\pi c}\int a^2\,\mathrm{d}t$, integrating by parts,
 $$\mathbf{F}_{\text{rad}} = \frac{\mu_0 q^2}{6\pi c}\dot{\mathbf{a}}.$$
 Setting $\mathbf{F}_{\text{rad}} = m\mathbf{a}$ gives runaway solutions $a(t) = a_0 e^{t/\tau}$, with $\tau = \dfrac{\mu_0 q^2}{6\pi c\,m}$; for an electron $\tau\approx 6\times10^{-24}\,\text{s}$.
 
@@ -700,7 +700,7 @@ $$\phi(\mathbf{r},t) = \frac{1}{4\pi\varepsilon_0}\!\left\{\frac{q_0\cos[\omega(
 r_\pm = \sqrt{r^2\mp rd\cos\theta + (d/2)^2}.$$
 
 Approximations:
-1. $d\ll r$: $r_\pm\approx r\!\left(1\mp\tfrac{\mathrm{d}}{2r}\cos\theta\right)$, $r_\pm^{-1}\approx\tfrac{1}{r}\!\left(1\pm\tfrac{\mathrm{d}}{2r}\cos\theta\right)$.
+1. $d\ll r$: $r_\pm\approx r\!\left(1\mp\tfrac{d}{2r}\cos\theta\right)$, $r_\pm^{-1}\approx\tfrac{1}{r}\!\left(1\pm\tfrac{d}{2r}\cos\theta\right)$.
 2. $d\ll c/\omega$: $\cos[\omega(t-r_\pm/c)]\approx\cos[\omega(t-r/c)]\mp\tfrac{\omega d}{2c}\cos\theta\,\sin[\omega(t-r/c)]$.
 
 This yields
