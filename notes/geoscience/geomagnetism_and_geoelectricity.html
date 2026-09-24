@@ -76,7 +76,7 @@ The electromagnetic torque that the outer core exerts on the inner core drives t
 - The reversal cycle is approximately 60-70 years.
 - The cycle of changes in geomagnetic field strength and Earth's day length is also approximately 60-70 years.
 
-## Property
+## Properties
 ![Screenshot 2026-05-18 at 16.28.15](../attachments/Screenshot%202026-05-18%20at%2016.28.15.png)
 
 Geomagnetic elements
@@ -98,12 +98,12 @@ Geomagnetic elements
 - The horizontal intensity $H$ contour lines are roughly a cluster of curves arranged along the latitude lines, with the maximum value near the magnetic equator and the $H$ value gradually decreasing towards the poles and approaching zero.
 - The vertical intensity $Z$ is almost parallel to the latitude line. At the magnetic equator, $Z=0$. From there, the absolute value gradually increases towards the poles. North of the magnetic equator, $Z>0$, indicating that the vertical component is downward. South of the magnetic equator, $Z<0$, indicating that the vertical component is upward.
 - The intensity is generally stronger in high latitudes than near the equator.
-- The intensity is especially low over the South Atlantic, where it is about 20 $\mu T$ weaker than expected. Orbiting satellites note increased impacts of extra-terrestrial particles over this region.
+- The intensity is especially low over the South Atlantic, where it is about $20\,\mu\text{T}$ weaker than expected. Orbiting satellites note increased impacts of extra-terrestrial particles over this region.
 
-isotropic lines
+isoclinic lines (inclination $I$)
 ![Screenshot 2026-09-07 at 10.36.56](../attachments/Screenshot%202026-09-07%20at%2010.36.56.png)
 
-isoclin
+isogonic lines (declination $D$)
 ![Screenshot 2026-09-07 at 10.37.20](../attachments/Screenshot%202026-09-07%20at%2010.37.20.png)
 
 The geomagnetic field consists of three parts:
@@ -138,11 +138,11 @@ Seafloor magnetic band
 paleomagnetic stratigraphy
 ![Pasted image 20260518171527](../attachments/Pasted%20image%2020260518171527.png)
 
-## Gauss-Schmidt Theory
+## Gauss's Spherical Harmonic Analysis
 
 In [Equations of Mathematical Physics](../math/equations-of-mathematical-physics.html), we have the common solution of the magnetic field:
 $$w(r,\theta,\lambda)=\frac{R}{\mu_0}\sum_{n=1}^\infty\sum_{m=0}^n[(\frac{R}{r})^{n+1}(g_n^m\cos m\lambda+h_n^m\sin m\lambda)+(\frac{r}{R})^n(j_n^m\cos m\lambda+k_n^m\sin m\lambda)]P_n^m(\cos \theta)$$
-It can be divided into two parts: internal magnetic field ($r^{-(n+1)}$) and external magnetic field ($r^n$).
+Here $P_n^m$ are the Schmidt quasi-normalized associated Legendre functions, the standard convention in geomagnetism (e.g., in the IGRF). It can be divided into two parts: internal magnetic field ($r^{-(n+1)}$) and external magnetic field ($r^n$).
 
 In the formula, we have four coefficients: $g_n^m,h_n^m,j_n^m,k_n^m$. They are called as <span style="color: red;">Gauss coefficients</span>, where $g_n^m,h_n^m$ are called as Gauss coefficients of the intrinsic field, and $j_n^m,k_n^m$ are called Gauss coefficients of the extrinsic field.
 
@@ -156,17 +156,18 @@ So introduce two new coefficients:$$\left\{\begin{matrix}
  p_n^{'m}= (n+1)g_n^m-nj_n^m\\
  q_n^{'m}= (n+1)h_n^m-nk_n^m
 \end{matrix}\right.$$
-They can solved by the parameters vertical magnetic field strength which we can measure:$$\left\{\begin{matrix}
- p_n^{'m}= -\frac{2n+1}{4\pi} \int_{0}^{\pi} \int_{0}^{2\pi} Z(R,\theta,\lambda)P_n^m(\cos\theta)\cos m\lambda \sin \theta \mathrm{d}\theta\mathrm{d}\lambda\\
- q_n^{'m}= -\frac{2n+1}{4\pi} \int_{0}^{\pi} \int_{0}^{2\pi} Z(R,\theta,\lambda)P_n^m(\cos\theta)\sin m\lambda \sin \theta \mathrm{d}\theta\mathrm{d}\lambda
+They can be solved from the measured vertical field $Z$:$$\left\{\begin{matrix}
+ p_n^{'m}= -\frac{2n+1}{4\pi} \int_{0}^{\pi} \int_{0}^{2\pi} Z(R,\theta,\lambda)P_n^m(\cos\theta)\cos m\lambda \sin \theta \,\mathrm{d}\theta\,\mathrm{d}\lambda\\
+ q_n^{'m}= -\frac{2n+1}{4\pi} \int_{0}^{\pi} \int_{0}^{2\pi} Z(R,\theta,\lambda)P_n^m(\cos\theta)\sin m\lambda \sin \theta \,\mathrm{d}\theta\,\mathrm{d}\lambda
 \end{matrix}\right.$$
 We can apply the method into the horizontal magnetic field strength:
 $$X=\frac{\mu_0}{r}\frac{\partial w}{\partial \theta}|_{r=R}=\sum_{n=1}^\infty\sum_{m=0}^n (p_n^m\cos m\lambda+q_n^m\sin m\lambda)\frac{\mathrm{d}P_n^m(\cos\theta)}{\mathrm{d}\theta} $$
 $$Y=-\frac{\mu_0}{r\sin\theta}\frac{\partial w}{\partial \lambda}|_{r=R}=\sum_{n=1}^\infty\sum_{m=0}^n (p_n^m\sin m\lambda-q_n^m\cos m\lambda)\frac{m}{\sin\theta}P_n^m(\cos\theta) $$
 Therefore,$$\left\{\begin{matrix}
- p_n^{m}= \frac{2n+1}{4\pi m} \int_{0}^{\pi} \int_{0}^{2\pi} Y(R,\theta,\lambda)P_n^m(\cos\theta)\sin m\lambda \sin^2 \theta \mathrm{d}\theta\mathrm{d}\lambda\\
- q_n^{m}= -\frac{2n+1}{4\pi m} \int_{0}^{\pi} \int_{0}^{2\pi} Y(R,\theta,\lambda)P_n^m(\cos\theta)\cos m\lambda \sin^2 \theta \mathrm{d}\theta\mathrm{d}\lambda
+ p_n^{m}= \frac{2n+1}{4\pi m} \int_{0}^{\pi} \int_{0}^{2\pi} Y(R,\theta,\lambda)P_n^m(\cos\theta)\sin m\lambda \sin^2 \theta \,\mathrm{d}\theta\,\mathrm{d}\lambda\\
+ q_n^{m}= -\frac{2n+1}{4\pi m} \int_{0}^{\pi} \int_{0}^{2\pi} Y(R,\theta,\lambda)P_n^m(\cos\theta)\cos m\lambda \sin^2 \theta \,\mathrm{d}\theta\,\mathrm{d}\lambda
 \end{matrix}\right.$$
+Note that this inversion is singular for $m=0$ because of the $1/m$ factor. The zonal coefficient $p_n^0=g_n^0+j_n^0$ is obtained from the $Z$ inversion above instead, and $q_n^0\equiv 0$ since the $\sin m\lambda$ terms vanish for $m=0$.
 The results of Gaussian spherical harmonic analysis of the geomagnetic field show that:
 $$|g_n^m|\gg|j_n^m|,|h_n^m|\gg|k_n^m|$$
 We can find the Gauss coefficients in [this website](https://wdc.kugi.kyoto-u.ac.jp/igrf/).
@@ -194,15 +195,15 @@ $$\left\{\begin{matrix}
 In the data set, we can find that $$g_1^0\gg g_1^1,h_1^1$$
 ### Eccentric Dipole Model
 
-The model consider that the centre of the magnetic field is not earth's core.
+The model considers that the centre of the magnetic dipole does not coincide with Earth's centre.
 
-Under this circumstance, we have$$\begin{align*}w'&=\frac{1}{\mu_0}(\frac{R}{r'})^3(g_1^0z'+g_1^1x'+h_1^1y')\\&=\frac{1}{\mu_0}(\frac{R}{r'})^3[(g_1^0z+g_1^1x+h_1^1y)-(g_1^0z_0+g_1^1x_0+h_1^1y_0)]\\&=\frac{1}{\mu_0}(\frac{R}{r})^3[(g_1^0z+g_1^1x+h_1^1y)-(g_1^0z_0+g_1^1x_0+h_1^1y_0)](\frac{r}{(r_0^2+r^2-2r_0r\cos\varphi)^{1/2}})^3\\&=w_1+w_2'+Q(n\ge4)\end{align*}$$
-where$$w_2'=\frac{1}{\mu_0}(\frac{R}{r})^3[(-g_1^0z_0-g_1^1x_0-h_1^1y_0)+3r_0\cos\varphi(g_1^0\cos\theta+g_1^1\sin\theta\cos\lambda+h_1^1\sin\theta\sin\lambda))]$$
+Under this circumstance, we have$$\begin{align*}w'&=\frac{1}{\mu_0}(\frac{R}{r'})^3(g_1^0z'+g_1^1x'+h_1^1y')\\&=\frac{1}{\mu_0}(\frac{R}{r'})^3[(g_1^0z+g_1^1x+h_1^1y)-(g_1^0z_0+g_1^1x_0+h_1^1y_0)]\\&=\frac{1}{\mu_0}(\frac{R}{r})^3[(g_1^0z+g_1^1x+h_1^1y)-(g_1^0z_0+g_1^1x_0+h_1^1y_0)](\frac{r}{(r_0^2+r^2-2r_0r\cos\varphi)^{1/2}})^3\\&=w_1+w_2'+O(n\ge3)\end{align*}$$
+where$$w_2'=\frac{1}{\mu_0}(\frac{R}{r})^3[(-g_1^0z_0-g_1^1x_0-h_1^1y_0)+3r_0\cos\varphi(g_1^0\cos\theta+g_1^1\sin\theta\cos\lambda+h_1^1\sin\theta\sin\lambda)]$$
 Combining with law of cosines:$$r_0\cos\varphi=z_0\cos\theta+x_0\sin\theta\cos\lambda+y_0\sin\theta\sin\lambda$$
 We have
-$$\begin{align*}w_2'&=\frac{R}{\mu_0}(\frac{R}{r})^3[g_2^{'0}P_2^0(\cos\theta)+g_2^{'1}\cos\lambda P_2^1(\cos\theta)\\&+h_2^{'1}\sin\lambda P_2^1(\cos\theta)+g_2^{'2}\cos2\lambda P_2^2(\cos\theta)+h_2^{'2}\sin2\lambda P_2^0(\cos\theta)]\end{align*}$$
+$$\begin{align*}w_2'&=\frac{R}{\mu_0}(\frac{R}{r})^3[g_2^{'0}P_2^0(\cos\theta)+g_2^{'1}\cos\lambda P_2^1(\cos\theta)\\&+h_2^{'1}\sin\lambda P_2^1(\cos\theta)+g_2^{'2}\cos2\lambda P_2^2(\cos\theta)+h_2^{'2}\sin2\lambda P_2^2(\cos\theta)]\end{align*}$$
 where$$\left\{\begin{matrix}
- g_2^{'0}=\frac{2}{R}g_1^0z_0−\frac{1}{R}g_1^1x_0−\frac{1}{R}h_1^1y_0\\
+ g_2^{'0}=\frac{2}{R}g_1^0z_0-\frac{1}{R}g_1^1x_0-\frac{1}{R}h_1^1y_0\\
  g_2^{'1}=\frac{\sqrt{3}}{R}(g_1^0x_0+g_1^1z_0)\\
  g_2^{'2}=\frac{\sqrt{3}}{R}(g_1^1x_0+h_1^1y_0)\\
  h_2^{'1}=\frac{\sqrt{3}}{R}(g_1^0y_0+h_1^1z_0)\\
@@ -253,16 +254,16 @@ Based on the different resistivity of various rocks, we can use electrical explo
 | Petroleum | 10-30        | Sand             | 3-25         |
 | Water     | 80           | Mudstone         | 4-30         |
 
-# Method to Measuring Resistivity
+# Methods for Measuring Resistivity
 
 ## Direct Current (DC) Resistivity Method
 
 We can use direct method to measuring the resistivity of the ground.
 ![Screenshot 2026-05-15 at 17.29.04](../attachments/Screenshot%202026-05-15%20at%2017.29.04.png){width=475}
 
-$$j=\frac{I}{2\pi R^2}$$
-$$E=\rho j=\frac{\rho I}{2\pi R^2}$$
-$$U=-\int_{\infty} ^M E \mathrm{d}r=-\int_{\infty} ^M \frac{\rho I}{2\pi r^2} \mathrm{d}r=\frac{\rho I}{2\pi r_M}$$
+$$j=\frac{I}{2\pi r^2}$$
+$$E=\rho j=\frac{\rho I}{2\pi r^2}$$
+$$U=-\int_{\infty} ^M E\,\mathrm{d}r=-\int_{\infty} ^M \frac{\rho I}{2\pi r^2}\,\mathrm{d}r=\frac{\rho I}{2\pi r_M}$$
 $$U_M=U_M^A+U_M^B=\frac{\rho I}{2\pi |AM|}+\frac{-\rho I}{2\pi |BM|}=\frac{\rho I}{2\pi}(\frac{1}{|AM|}-\frac{1}{|BM|})$$
 $$U_{MN}=U_M-U_N=\frac{\rho I}{2\pi}(\frac{1}{|AM|}+\frac{1}{|BN|}-\frac{1}{|BM|}-\frac{1}{|AN|})$$
 Let <span style="color: red;">Geometric Factor</span>$$K=\frac{2\pi}{\frac{1}{|AM|}+\frac{1}{|BN|}-\frac{1}{|BM|}-\frac{1}{|AN|}}$$
@@ -294,18 +295,18 @@ This method can be used to find mineral and faults, because it is a transversely
 Incident electromagnetic waves can induce electric and magnetic fields in underground media.
 
 - natural signal source
-	- <span style="color: red;">Magnetotelluric Method (MT)</span>: electromagnetic field generated by the interaction between the solar wind and Earth's magnetic field. The frequency of the field ($<8Hz$) is low. The exploration depth can reach tens to hundreds of kilometers.
-	- <span style="color: red;">Audio Magnetotelluric Method (AMT)</span>: global thunderstorm activity. The frequency of the field ($>8Hz$) is high. It has obvious temporal and spatial differences. The exploration depth can reach hundreds to thousands of meters.
+	- <span style="color: red;">Magnetotelluric Method (MT)</span>: electromagnetic field generated by the interaction between the solar wind and Earth's magnetic field. The frequency of the field ($<8\,\text{Hz}$) is low. The exploration depth can reach tens to hundreds of kilometers.
+	- <span style="color: red;">Audio Magnetotelluric Method (AMT)</span>: global thunderstorm activity. The frequency of the field ($>8\,\text{Hz}$) is high. It has obvious temporal and spatial differences. The exploration depth can reach hundreds to thousands of meters.
 - manual signal source
 	- <span style="color: red;">Controlled-Source Audio-frequency Magnetotellurics (CSAMT)</span> The exploration depth can reach hundreds of meters to a few kilometers.
-	- Fixed-wing electromagnetic (EM) system geometry typically features a large transmitter loop draped around the aircraft’s nose, wingtips, and tail, while a receiver coil is towed in a "bird" behind and below (e.g., ~120m behind, ~40m below) to minimize primary field interference
+	- Fixed-wing electromagnetic (EM) system geometry typically features a large transmitter loop draped around the aircraft’s nose, wingtips, and tail, while a receiver coil is towed in a "bird" behind and below (e.g., ~120m behind, ~40m below) to minimize primary field interference.
 
 Skin depth：$$\delta=\sqrt{\frac{2}{\omega \mu \sigma}}=\sqrt{\frac{\rho}{\pi \mu f}}=503.3\sqrt{\frac{\rho}{f}}$$
 The MT method relies on the skin effect, where higher frequencies penetrate less deeply than lower frequencies.
 
 MT has lots of distinct advantages, such as:
 - Omitting the power supply equipment
-- It has a broader spectrum. The range of period is from ms to tens of years. The meaningful frequency range is from 0.001 to 100 Hz.
+- It has a broader spectrum: natural MT signals span roughly $10^{-4}\,\text{Hz}$ to $10^4\,\text{Hz}$ (periods from sub-millisecond to about $10^4\,\text{s}$). The meaningful survey band is about 0.001-100 Hz.
 - When observations are conducted during magnetic storms—thereby capturing very low-frequency information
 - Capable of penetrating high-resistivity layers and offers strong resolution for low-resistivity structures.
 - Small contour interval.
@@ -330,7 +331,7 @@ key advantages:
 - Streaming potentials resulting from groundwater seepage or filtration
 - Diffusion electric fields
 
-It also can be used to determine the radius of influence of groundwater pumping
+It also can be used to determine the radius of influence of groundwater pumping.
 ![Screenshot 2026-05-15 at 20.23.47](../attachments/Screenshot%202026-05-15%20at%2020.23.47.png){width=456}
         </script>
     </main>

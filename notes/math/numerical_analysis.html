@@ -64,6 +64,9 @@
 
 We want to construct a polynomial of degree at most $n$, which exactly passes through $n+1$ distinct points. The polynomial satisfying this condition is unique.
 
+>[!PROOF]
+>Suppose $P(x)$ and $Q(x)$ are two polynomials of degree at most $n$ satisfying $P(x_i)=Q(x_i)=f(x_i)$ for $i=0,1,\dots,n$. Then $D(x)=P(x)-Q(x)$ is a polynomial of degree at most $n$ with the $n+1$ distinct zeros $x_0,x_1,\dots,x_n$. A nonzero polynomial of degree at most $n$ has at most $n$ zeros, so $D(x)\equiv0$, i.e. $P(x)=Q(x)$.
+
 We want to construct the following form
 $$L_n(x)=\sum_{i=0}^{n}l_i(x)f(x_i),l_i(x_j)=\delta_{ij}$$
 Observation: the following function satisfies it
@@ -180,7 +183,7 @@ Therefore, we only need time $O(n)$ to update the coefficient.
 
 ## Hermite Interpolation
 
-Given derivative values of the function, we want to construct an interpolation polynomial. This interpolation is called <span style="color: red;">Hermite Interpolation</span>.
+Given derivative values of the function, we want to construct an interpolation polynomial. This interpolation is called <span style="color: red;">Hermite Interpolation</span>. The uniqueness of the Hermite interpolation polynomial is proved in exactly the same way as for [Lagrange Interpolation](#lagrange-interpolation) — the difference of two interpolants has more zeros (counting multiplicity) than its degree allows — so we do not repeat the proof here.
 
 ### Lagrange Method
 
@@ -248,7 +251,7 @@ To construct the interpolating polynomial, list the nodes with multiplicity$$z_0
 >Both sides are continuous in $z_0,\dots,z_{N-1},t$ — for divided differences this follows from the explicit formula and the lemma above — so the identity survives the limit and holds for coincident nodes as well. Since each $x_i$ occupies exactly $m_i+1$ consecutive places in the list, the last product is $\omega(t)=\prod_{i=0}^{n}(t-x_i)^{m_i+1}$. Writing $g(t)=f[z_0,\dots,z_{N-1},t]$, we obtain$$f(t)-H(t)=g(t)\,\omega(t)$$
 >At $t=x_i$ we have $\omega(x_i)=0$, hence $H(x_i)=f(x_i)$. A confluent divided difference such as $g(t)$ is as smooth in $t$ as $f$ is (Hermite–Genocchi formula $f[x_0,\dots,x_r]=\int_{s_j\ge0,\,\sum s_j=1}f^{(r)}\big(\sum_j s_jx_j\big)\,\mathrm{d}s$), so for $1\le k\le m_i$ the Leibniz rule gives$$R^{(k)}(x_i)=\sum_{j=0}^{k}\binom{k}{j}g^{(k-j)}(x_i)\,\omega^{(j)}(x_i)=0$$because $\omega$ has a zero of multiplicity $m_i+1$ at $x_i$, i.e. $\omega^{(j)}(x_i)=0$ for all $j\le k\le m_i$. (Assume e.g. $f\in C^{N+m}$ with $m=\max_i m_i$, so that $g\in C^m$.) Thus $H^{(k)}(x_i)=f^{(k)}(x_i)$.
 >
->In particular $H(x)$ coincides with the polynomial given by the Lagrange method, since the Hermite conditions determine a unique polynomial of degree at most $N-1$: the difference of two such polynomials has degree at most $N-1$ but $N$ zeros counting multiplicity, so it is identically zero.
+>In particular $H(x)$ coincides with the polynomial given by the Lagrange method, since the Hermite conditions determine a unique polynomial of degree at most $N-1$, as remarked at the beginning of this section.
 >
 >Applying the lemma once more with $N+1$ arguments, $f[z_0,z_1,\dots,z_{N-1},x]=f^{(N)}(\xi)/N!$, so the error formula above coincides with the one in Error Analysis. Note the proof above needs enough smoothness to differentiate $g$ (e.g. $f\in C^{N+m}$); the error formula itself only requires $f\in C^N$, as shown by the Rolle proof in Error Analysis.
 
@@ -348,7 +351,7 @@ with equality failing at $k=m+1$. To determine the algebraic precision of a give
 
 >[!PROOF]
 >For any polynomial $f$ of degree at most $n$, its Lagrange interpolant coincides with itself, so the interpolation remainder vanishes identically and
->$$\int_a^b f(x)\,\mathrm{d}x=\int_a^b L_n(x)\,\mathrm{d}x=\sum_{i=0}^{n}A_i f(x_i).\tag*{$\square$}$$
+>$$\int_a^b f(x)\,\mathrm{d}x=\int_a^b L_n(x)\,\mathrm{d}x=\sum_{i=0}^{n}A_i f(x_i)$$
 
 For the Newton-Cotes formula, the symmetry of equally spaced nodes yields one extra degree when $n$ is even: the algebraic precision is $n$ for odd $n$, and $n+1$ for even $n$. This is exactly why the error of even-order Newton-Cotes formulas involves $f^{(n+2)}$ instead of $f^{(n+1)}$ (see [Interpolation-Type Numerical Integration](#interpolationtype-numerical-integration)).
 
@@ -396,6 +399,22 @@ $$R(x_0)=-\frac{h^2}{12}(f'''(\xi_1)+f'''(\xi_2))=O(h^2),\xi_1\in[x_0,x_0+h],\xi
 Another way is to use interpolation to estimate differentiation.
 $$f'(x)\approx L_n'(x)=\sum_{i=0}^{n}l_i'(x)f(x_i)$$
 
+The interpolation remainder gives the error directly. From [Lagrange Interpolation](#lagrange-interpolation),
+$$f(x)-L_n(x)=\frac{f^{(n+1)}(\xi(x))}{(n+1)!}\omega(x),\qquad \omega(x)=\prod_{i=0}^{n}(x-x_i)$$
+Differentiating both sides,
+$$f'(x)-L_n'(x)=\frac{f^{(n+1)}(\xi(x))}{(n+1)!}\omega'(x)+\frac{\omega(x)}{(n+1)!}\frac{\mathrm{d}}{\mathrm{d}x}f^{(n+1)}(\xi(x))$$
+Since $\xi(x)$ depends on $x$ in an unknown way, the second term cannot be estimated at a general point. At a node $x_k$, however, $\omega(x_k)=0$ kills the unknown term, and $\omega'(x_k)=\prod_{j\neq k}(x_k-x_j)$, so
+$$\boxed{f'(x_k)-L_n'(x_k)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{\substack{0\le j\le n\\j\neq k}}(x_k-x_j)}$$
+
+For equally spaced nodes $x_i=x_0+ih$ with $n=2$, evaluating $L_2'(x)$ at the three nodes gives the three-point formulas
+
+| Node | Formula | Error |
+| --- | --- | --- |
+| $x_0$ | $f'(x_0)\approx\dfrac{-3f(x_0)+4f(x_1)-f(x_2)}{2h}$ | $\dfrac{h^2}{3}f'''(\xi)$ |
+| $x_1$ | $f'(x_1)\approx\dfrac{f(x_2)-f(x_0)}{2h}$ | $-\dfrac{h^2}{6}f'''(\xi)$ |
+| $x_2$ | $f'(x_2)\approx\dfrac{f(x_0)-4f(x_1)+3f(x_2)}{2h}$ | $\dfrac{h^2}{3}f'''(\xi)$ |
+
+The middle one is exactly the central difference above, and its error agrees with the Taylor analysis.
 # Iterative Method to Solve Linear Equation
 
 ## Jacobi Iterative
