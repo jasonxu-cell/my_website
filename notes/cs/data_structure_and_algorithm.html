@@ -3809,7 +3809,7 @@ vector<int> sieve(int n){
 As a result, the algorithm achieve every composite only marked once. So $$T(n)=O(n)$$
 ## Miller-Rabin Tester
 
-Observation: Fermat’s Little Theorem, you can see its proof in [Algebra and Number Theory](../math/algebra.html). You can get $a^{n-1}\mod n$ in time $O(\log n)$ by fast exponentiation.
+Observation: Fermat’s Little Theorem, you can see its proof in [Modular Arithmetic](../math/number-theory.html#modular-arithmetic). You can get $a^{n-1}\mod n$ in time $O(\log n)$ by fast exponentiation.
 
 If $a^{n-1} \not\equiv 1\mod n$, $n$ is definitely not prime. However, if $a^{n-1} \equiv 1\mod n$, $n$ is only probably prime. Some composite numbers still pass this Fermat test, such as$$100^{560} \equiv 1\mod 561,561=3\times11\times17$$
 This type of number is called Carmichael Numbers. In 1994, Andrew Granville and Carl Pomerance proved that the Carmichael numbers are infinite.

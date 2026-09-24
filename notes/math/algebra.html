@@ -57,118 +57,6 @@
         </section>
 
         <script type="text/plain" id="article-markdown">
-# Divisibility
-
-Let $a, b$ be integers with $b \neq 0$. If there exists an integer $c$ such that $a = bc$, we say $b$ divides $a$, written $b \mid a$; otherwise $b \nmid a$.
-
-Properties.
-1. Any nonzero integer $a$ divides $0$.
-2. If $a \mid b$ then $a \mid bc$ for every $c$; in particular $b \mid a \Rightarrow (\pm b) \mid (\pm a)$.
-3. If $a \mid b$ and $a \mid c$, then $a \mid (b \pm c)$.
-4. If $a \mid b$ and $a \mid c$, then $a \mid (bx + cy)$ for all integers $x, y$.
-5. (Divisibility chain) If $a \mid b$ and $b \mid a$, then $|a| = |b|$ and $b = \pm a$.
-6. Division algorithm: for integers $a, b$ with $b \neq 0$, there exist unique integers $q, r$ such that $a = bq + r$ with $0 \le r < |b|$.
-
-## Greatest Common Divisor
-
-Let $a, b$ be integers, not both zero. An integer $d$ is a greatest common divisor (gcd) of $a, b$ if
-1. $d \mid a$ and $d \mid b$;
-2. if $d' \mid a$ and $d' \mid b$, then $d' \mid d$.
-
-Denoted $(a, b)$ or $\gcd(a, b)$. If $(a, b) = 1$, then $a, b$ are coprime.
-
-Properties. $(\pm a, \pm b) = (a, b)$; $(a, b) = (b, a)$; if $a \neq 0$, $(a, a) = (a, 0) = |a|$.
-
-## Bézout's Identity
-
-For $a, b$ not both zero with $g = (a, b)$, there exist $s, t \in \mathbb{Z}$ with $g = as + bt$.
-
-*Proof.* Let $I = \{ax + by \mid x, y \in \mathbb{Z}\}$ and $d$ the smallest positive element of $I$. Then $d \mid a$ and $d \mid b$ (by the division algorithm), and any common divisor $c$ divides every element of $I$, hence $c \mid d$. So $d = (a, b)$. $\square$
-
-Consequences:
-- $(a, b) = 1 \iff \exists\, s, t \in \mathbb{Z}$ with $as + bt = 1$.
-- $\{a_1 x_1 + \cdots + a_n x_n \mid x_i \in \mathbb{Z}\} = d\mathbb{Z}$, where $d = (a_1, \dots, a_n)$.
-- For $m > 0$: $m(a, b) = (ma, mb)$; in particular $\left(\frac{a}{(a,b)}, \frac{b}{(a,b)}\right) = 1$.
-- If $(a, m) = (b, m) = 1$, then $(ab, m) = 1$.
-- If $c \mid ab$ and $(c, b) = 1$, then $c \mid a$.
-- $ax \equiv b \pmod m$ has a solution $\iff (a, m) \mid b$.
-
-## Euclidean Algorithm
-
-To compute $\gcd(a, b)$: set $r_0 = a$, $r_1 = b$, and iterate $r_{i+1} = r_{i-1} \bmod r_i$ until $r_{i+1} = 0$; the last nonzero remainder $r_i$ is the gcd.
-
-## Least Common Multiple
-
-$[a, b]$ is the least common multiple: if $a \mid m'$ and $b \mid m'$, then $[a, b] \mid m'$.
-- $a \mid b \Rightarrow [a, b] = b$;
-- $[ma, mb] = m[a, b]$;
-- $|ab| = (a, b) \cdot [a, b]$.
-
-# Fundamental Theorem of Arithmetic
-
-$(a^n - 1, a^m - 1) = a^{(n,m)} - 1$. Hence if $p = a^n - 1$ is prime, then $a = 2$ and $n$ is prime. The Mersenne numbers $M_n = 2^n - 1$: whether infinitely many are prime is an open problem.
-
-> [!THEOREM] Euclid's Lemma
-> Let $p$ be prime. If $p \mid ab$, then $p \mid a$ or $p \mid b$.
-> *Proof.* If $p \nmid a$, then $(p, a) = 1$, so $p \mid b$. 
-
-> [!THEOREM] Fundamental Theorem of Arithmetic
-> Every integer greater than $1$ can be factored into a product of finitely many primes, and this factorization is unique up to order.
-
-*Existence* by strong induction; *uniqueness* by Euclid's lemma. Hence every positive integer $n = \prod_p p^{v_p(n)}$ with $v_p(n) \in \mathbb{N}$, and every nonzero rational $r = \prod_p p^{v_p(r)}$ with $v_p(r) \in \mathbb{Z}$.
-
-A positive integer $d \mid n \iff d = \prod_p p^{v_p(d)}$ with $0 \le v_p(d) \le v_p(n)$. In terms of valuations,
-$$(a, b) = \prod_p p^{\min(v_p(a), v_p(b))}, \qquad [a, b] = \prod_p p^{\max(v_p(a), v_p(b))}$$
-
-# Fast Exponentiation and Perfect Numbers
-
-Fast exponentiation (computing $a^n \bmod m$): write $n = \sum_i n_i 2^i$ in binary; with $a_0 = a$, repeatedly square $a_i = a_{i-1}^2 \bmod m$, accumulating the product over bits where $n_i = 1$. This takes $O(\log n)$ multiplications.
-
-A positive integer $n$ is perfect if $\sigma(n) = 2n$ (sum of divisors). 
-
-> [!THEOREM] Euclid–Euler
-> $n$ is an even perfect number $\iff n = 2^{k-1}(2^k - 1)$ where $P = 2^k - 1$ is a Mersenne prime.
-
-*Proof sketch.* Write $n = 2^{k-1}X$ with $X$ odd. Then $\sigma(n) = (2^k - 1)\sigma(X) = 2n = 2^k X$, so $\sigma(X) = \frac{2^k X}{2^k - 1}$. Writing $X = (2^k - 1)Y$, the analysis forces $Y = 1$ and $2^k - 1$ prime. $\square$
-
-$$2^{P-1}(2^P - 1) = 1 + 2 + \cdots + 2^{P-1} + 2^P + \cdots + 2^{2P-1}$$
-
-Whether there are infinitely many even perfect numbers, and whether any odd perfect number exists, are open problems.
-
-# Lifting the Exponent (LTE)
-
-Let $p$ be a prime.
-1. For $n \in \mathbb{N}^+$, $x, y \in \mathbb{Z}$ with $(p, n) = 1$ and $p \mid (x - y)$: $\;v_p(x^n - y^n) = v_p(x - y)$.
-2. For an odd prime $p$ with $p \mid (x - y)$, $p \nmid x, y$: $\;v_p(x^n - y^n) = v_p(x - y) + v_p(n)$.
-3. For $x, y$ odd and $n$ a positive even integer: $\;v_2(x^n - y^n) = v_2(x - y) + v_2(x + y) + v_2(n) - 1$.
-
-# The Möbius Function
-
-For $n = p_1^{k_1}\cdots p_s^{k_s}$,
-$$\mu(n) = \begin{cases} 1 & n = 1 \\ (-1)^s & n = p_1 p_2 \cdots p_s \text{ (squarefree)} \\ 0 & \text{otherwise} \end{cases}, \qquad \sum_{d \mid n} \mu(d) = [n = 1]$$
-
-> [!THEOREM] Möbius Inversion
-> For arithmetic functions $f, g$:
-> $$g(n) = \sum_{d \mid n} f(d) \iff f(n) = \sum_{d \mid n} \mu(d)\, g\!\left(\frac{n}{d}\right)$$
-> Multiplicative form: $g(n) = \prod_{d \mid n} f(d) \iff f(n) = \prod_{d \mid n} g\!\left(\frac{n}{d}\right)^{\mu(d)}$.
-
-# Diophantine Equations
-
-Linear $ax + by = c$. Let $d = (a, b)$. If $d \nmid c$, no solution; otherwise a particular solution $(x_0, y_0)$ exists, and the general solution is
-$$x = x_0 + \frac{b}{d}t, \qquad y = y_0 - \frac{a}{d}t, \quad t \in \mathbb{Z}$$
-
-Frobenius (Chicken McNugget). For coprime positive integers $a, b$, the largest integer not representable as $ax + by$ with $x, y \ge 0$ is $g = ab - a - b$, and exactly $\frac{(a-1)(b-1)}{2}$ non-negative integers are non-representable. The equation $a_1 x_1 + \cdots + a_n x_n = c$ has a non-negative solution $\iff (a_1, \dots, a_n) \mid c$ (the general Frobenius number for $n \ge 3$ is an open problem).
-
-Pythagorean equation $x^2 + y^2 = z^2$. Primitive solutions (up to symmetry, $x$ odd, $y$ even):
-$$x = b^2 - a^2, \quad y = 2ab, \quad z = a^2 + b^2$$
-
-Related results.
-- $x^4 + y^4 = z^2$ has no positive solution (Fermat descent); hence $x^4 + y^4 = z^4$ has none.
-- Every integer (with $n \ge 3$ squares allowed) can be written as a sum of squares.
-- $x^2 + y^2 + z^2 = w^2$ has infinitely many solutions, e.g. $(2n^2 + 5mn - 3m^2, \dots)$, $m, n \in \mathbb{Z}$.
-- For $x^3 + y^3 + z^3 = n$: since $x^3 \equiv 0, \pm 1 \pmod 9$, we need $n \not\equiv \pm 4 \pmod 9$.
-- $x^2 - 5y^2 = n$ factors as $(x + y\sqrt{5})(x - y\sqrt{5})$, solved by parity / divisor analysis of $n$.
-
 # Groups
 
 A group is a set $G$ with a binary operation $\cdot$ satisfying:
@@ -290,46 +178,6 @@ $$(r_1 + I) + (r_2 + I) = (r_1 + r_2) + I, \qquad (r_1 + I)(r_2 + I) = r_1 r_2 +
 > [!THEOREM] First Isomorphism Theorem (rings)
 > If $f : R \to R'$ is a surjective ring homomorphism, then $R / \ker f \cong \operatorname{im} f$.
 
-# Modular Arithmetic
-
-For a positive integer $m$, $a \equiv b \pmod m$ means $m \mid (a - b)$.
-
-Properties. If $a \equiv b \pmod m$: $na \equiv nb$; $ad \equiv bd \pmod{md}$; and $a \equiv b \pmod{m_i}$ for all $i$ $\Rightarrow a \equiv b \pmod{[m_1, \dots, m_n]}$. The congruence $ax \equiv b \pmod m$ is solvable $\iff (a, m) \mid b$; in particular $ax \equiv 1 \pmod m$ (an inverse $a^{-1}$) exists $\iff (a, m) = 1$, computable by the Euclidean algorithm.
-
-Additive group $\mathbb{Z}/n\mathbb{Z} = \{[0], [1], \dots, [n-1]\}$ (cyclic of order $n$).
-
-Multiplicative group $(\mathbb{Z}/n\mathbb{Z})^* = \{[a] \mid (a, n) = 1,\ 0 \le a < n\}$ of order $\varphi(n)$ (Euler's totient). When $p$ is prime, $\mathbb{Z}/p\mathbb{Z}$ is the field $\mathbb{F}_p$ of $p$ elements.
-
-- If $G$ is finite cyclic of order $n$: $G \cong \mathbb{Z}/n\mathbb{Z}$ and $\operatorname{Aut}(G) \cong (\mathbb{Z}/n\mathbb{Z})^*$.
-- If $G$ is infinite cyclic: $G \cong \mathbb{Z}$, $\operatorname{Aut}(G) \cong \mathbb{Z}/2\mathbb{Z}$.
-
-A complete residue system is a set of representatives of $\mathbb{Z}/n\mathbb{Z}$; a reduced residue system represents $(\mathbb{Z}/n\mathbb{Z})^*$ ($\varphi(n)$ elements).
-
-> [!THEOREM] Euler / Fermat
-> For $(a, n) = 1$: $\;a^{\varphi(n)} \equiv 1 \pmod n$. In particular (Fermat's little theorem), for prime $p$: $\;a^{p-1} \equiv 1 \pmod p$.
-
-*(Proof via Lagrange's theorem applied to $(\mathbb{Z}/n\mathbb{Z})^*$.)*
-
-Also $\displaystyle n = \sum_{d \mid n} \varphi(d)$ (classify $1, \dots, n$ by $\gcd$ with $n$).
-
-> [!THEOREM] Extended Euler
-> For positive integer $n$, integer $a$, and exponent $b$:
-> $$a^b \equiv \begin{cases} a^b & b < \varphi(n) \\ a^{\,b \bmod \varphi(n) + \varphi(n)} & b \ge \varphi(n) \end{cases} \pmod n$$
-
-Solving $x^k = a$ in a cyclic group $G = \langle g \rangle$ of order $n$ with $a = g^i$: solvable $\iff d := (k, n) \mid i$, in which case there are exactly $d$ solutions.
-
-## Chinese Remainder Theorem
-
-> [!THEOREM] CRT
-> If $m, n$ are coprime, then $\mathbb{Z}/mn\mathbb{Z} \cong \mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$ via $a \bmod mn \mapsto (a \bmod m,\ a \bmod n)$, and likewise $(\mathbb{Z}/mn\mathbb{Z})^* \cong (\mathbb{Z}/m\mathbb{Z})^* \times (\mathbb{Z}/n\mathbb{Z})^*$. More generally, for pairwise coprime $m_1, \dots, m_k$, the system
-> $$x \equiv a_1 \pmod{m_1},\ \dots,\ x \equiv a_k \pmod{m_k}$$
-> has a unique solution modulo $n = m_1 \cdots m_k$.
-
-Consequences for $\varphi$. $\varphi$ is multiplicative: $(m, n) = 1 \Rightarrow \varphi(mn) = \varphi(m)\varphi(n)$; for $n = p_1^{k_1}\cdots p_r^{k_r}$,
-$$\varphi(n) = n\prod_{p \mid n}\left(1 - \frac{1}{p}\right)$$
-
-Solving two congruences $x \equiv x_1 \pmod{m_1}$, $x \equiv x_2 \pmod{m_2}$: with $d = (m_1, m_2)$ and Bézout $m_1 k_1 + m_2 k_2 = d$ (solvable iff $d \mid x_2 - x_1$),
-$$x \equiv \frac{m_1 k_1 x_2 + m_2 k_2 x_1}{d} \pmod{[m_1, m_2]}$$
 # Polynomials
 
 For a field $F$, the polynomial ring $F[x] = \{a_n x^n + \cdots + a_1 x + a_0 \mid a_i \in F\}$, with $\deg f = n$.
@@ -396,44 +244,6 @@ Properties. $\Phi_n$ is irreducible over $\mathbb{Z}[x]$, and $x^n - 1 = \prod_{
 > If $a(x), b(x), c(x)$ are pairwise coprime polynomials with $a + b + c = 0$, then each has degree $\le N(abc) - 1$, where $N(abc)$ is the number of distinct roots of $a b c$. (Polynomial analogue of the $abc$ conjecture; implies the polynomial Fermat's Last Theorem.)
 
 *Proof idea.* Set $p = a/c$, $q = b/c$, so $p + q + 1 = 0$ and $p' = -q'$; compare logarithmic derivatives $\frac{p'}{p} = \sum \frac{a_i}{x - \alpha_i} - \sum \frac{c_i}{x - \gamma_i}$, etc.
-
-# Primitive Roots
-
-If $(\mathbb{Z}/m\mathbb{Z})^*$ is cyclic, a generator is a primitive root mod $m$. ($2$ has the primitive root $1$; $4$ has the primitive root $3$.)
-
-$2^k$ ($k \ge 3$) has no primitive root: for odd $a$, $a^{2^{k-2}} \equiv 1 \pmod{2^k}$ (induction on $k$), so the group is not cyclic.
-
-> [!THEOREM] Existence mod $p$
-> An odd prime $p$ has a primitive root; in fact there are $\varphi(p-1)$ of them.
-> *Proof.* For $d \mid p - 1$ let $S(d) = \#\{a \in \mathbb{F}_p^* : \operatorname{ord}(a) = d\}$. If an element of order $d$ exists, its powers give all $d$ roots of $x^d - 1$, so $S(d) = \varphi(d)$; otherwise $S(d) = 0$, so $S(d) \le \varphi(d)$. Since $\sum_{d \mid p-1} S(d) = p - 1 = \sum_{d \mid p-1}\varphi(d)$, equality holds, so $S(p-1) = \varphi(p-1) \neq 0$. $\square$
-
-> [!THEOREM] Classification
-> A primitive root mod $m$ exists $\iff m = 2, 4, p^k,$ or $2p^k$ (with $p$ an odd prime, $k \ge 1$).
-
-Quadratic residues. Since $p$ is odd, the squaring map $\mathbb{F}_p^* \to \mathbb{F}_p^*$, $a \mapsto a^2$ has kernel $\{\pm 1\}$, so $\mathbb{F}_p^*/\{\pm 1\} \cong (\mathbb{F}_p^*)^2$: exactly half of $\mathbb{F}_p^*$ are quadratic residues and half are non-residues.
-
-# Quadratic Reciprocity
-
-For $a \in \mathbb{F}_p^*$, the Legendre symbol
-$$\left(\frac{a}{p}\right) = \begin{cases} 1 & a \text{ a quadratic residue} \\ 0 & p \mid a \\ -1 & a \text{ a non-residue} \end{cases}$$
-The number of solutions of $x^2 \equiv a \pmod p$ is $1 + \left(\frac{a}{p}\right)$. The symbol is completely multiplicative: writing $a = (-1)^{e_\infty} p_1^{e_1}\cdots p_r^{e_r}$ reduces $\left(\frac{a}{p}\right)$ to the factors $\left(\frac{-1}{p}\right)$, $\left(\frac{2}{p}\right)$, $\left(\frac{p'}{p}\right)$.
-
-> [!THEOREM] Euler's Criterion
-> $\left(\dfrac{a}{p}\right) \equiv a^{(p-1)/2} \pmod p$. In particular $\left(\dfrac{-1}{p}\right) = (-1)^{(p-1)/2} = \begin{cases} 1 & p \equiv 1 \pmod 4 \\ -1 & p \equiv 3 \pmod 4 \end{cases}$.
-
-> [!THEOREM] Gauss's Lemma
-> For $(a, p) = 1$, with $r = \frac{p-1}{2}$, let $s$ be the number of residues of $a, 2a, \dots, ra \pmod p$ that fall in $(\frac{p}{2}, p)$. Then $\left(\frac{a}{p}\right) = (-1)^s$.
-
-> [!THEOREM]
-> $\left(\dfrac{2}{p}\right) = (-1)^{(p^2-1)/8} = \begin{cases} 1 & p \equiv \pm 1 \pmod 8 \\ -1 & p \equiv \pm 3 \pmod 8 \end{cases}$.
-
-> [!THEOREM] Quadratic Reciprocity
-> For distinct odd primes $p, p'$:
-> $$\left(\frac{p'}{p}\right)\left(\frac{p}{p'}\right) = (-1)^{\frac{p-1}{2}\cdot\frac{p'-1}{2}}$$
-> *(Proved by counting lattice points below the line through the origin in a $\frac{p}{2} \times \frac{p'}{2}$ box: above/below give $\sum[ja/p]$ and $\sum[jp/a]$.)*
-
-> [!NOTE] Planned sections (headings only in the source)
-> Jacobi symbol; cubic and quartic reciprocity; Cipolla's algorithm (for $x^2 \equiv n \pmod p$ when $\left(\frac{n}{p}\right) = 1$); prime sieves; character sums.
 
 # Solving Polynomial Equations by Radicals
 
@@ -537,43 +347,6 @@ Define $\left \|  A^{-1} \right \|\left \|  A \right \|$ as the condition number
 We can find that
 $$Cond(A)=\left \|  A^{-1} \right \|\left \|  A \right \|\ge\left \|  I \right \|=1$$
 If the matrix $A$ has a small disturbance $\delta A$, we can also find that $$\frac{\left \|  \delta x \right \|}{\left \|x\right \|}\le\frac{Cond(A)\frac{\left \|  \delta A \right \|}{\left \|A\right \|}}{1-Cond(A)\frac{\left \|  \delta A \right \|}{\left \|A\right \|}}$$
-# Sums of Squares
-
-> [!NOTE] Brahmagupta–Fibonacci identity
-> $$(a^2 + b^2)(c^2 + d^2) = (ac + bd)^2 + (ad - bc)^2 = (ac - bd)^2 + (ad + bc)^2$$
-
-> [!NOTE] Euler's four-square identity
-> $(a_1^2 + a_2^2 + a_3^2 + a_4^2)(b_1^2 + b_2^2 + b_3^2 + b_4^2)$ is again a sum of four squares (bilinear in the $a_i, b_j$). Similarly Degen's eight-square identity holds for eight squares.
-
-> [!THEOREM] Lagrange's Four-Square Theorem
-> Every positive integer is a sum of four integer squares.
-> *Proof sketch.* By Euler's identity it suffices to treat primes. There exist $a, b \in \{0, \dots, \frac{p-1}{2}\}$ with $a^2 + b^2 + 1 \equiv 0 \pmod p$, so some $np = \sum x_i^2$ with $1 \le n < p$. If the minimal such $n > 1$, reducing $x_i \bmod n$ to $y_i \in (-\frac{n}{2}, \frac{n}{2}]$ and applying Euler's identity produces a smaller multiple — contradiction. Hence $n = 1$. $\square$
-
-Related: Gauss's three-square theorem and Fermat's two-square theorem (a prime $p$ is a sum of two squares $\iff p = 2$ or $p \equiv 1 \pmod 4$), via the Hasse–Minkowski theorem on which integers a quadratic form $ax^2 + by^2 + cz^2 = 0$ represents.
-
-# Pell's Equation
-
-Type I: $x^2 - Dy^2 = 1$ ($D \in \mathbb{Z}$, $D \neq 0$). For $D = -1$, only $(\pm 1, 0), (0, \pm 1)$; for $D < -1$ or $D$ a perfect square, only the trivial $(\pm 1, 0)$. For $D > 0$ non-square, factor $x^2 - Dy^2 = (x + y\sqrt{D})(x - y\sqrt{D}) = 1$, and call the nontrivial solution minimizing $x + y\sqrt{D}$ the fundamental solution $(x_1, y_1)$.
-
-> [!THEOREM]
-> All positive solutions are given by $x_n + y_n\sqrt{D} = (x_1 + y_1\sqrt{D})^n$, equivalently
-> $$x_n = \tfrac{1}{2}\big[(x_1 + y_1\sqrt{D})^n + (x_1 - y_1\sqrt{D})^n\big], \quad y_n = \tfrac{1}{2\sqrt{D}}\big[(x_1 + y_1\sqrt{D})^n - (x_1 - y_1\sqrt{D})^n\big]$$
-> with the linear recurrence $x_n = 2x_1 x_{n-1} - x_{n-2}$, $\;y_n = 2x_1 y_{n-1} - y_{n-2}$.
-> *Proof.* If a solution $(x, y)$ were not a power, choose $n$ with $(x_1 + y_1\sqrt{D})^n < x + y\sqrt{D} < (x_1 + y_1\sqrt{D})^{n+1}$; then $(x + y\sqrt{D})(x_1 - y_1\sqrt{D})^n$ is a smaller nontrivial solution, contradicting minimality. $\square$
-
-Type II: $x^2 - Dy^2 = -1$. When solvable, with fundamental solution $(x_1, y_1)$, all positive solutions are $x_n + y_n\sqrt{D} = (x_1 + y_1\sqrt{D})^n$ for odd $n$.
-
-# Fermat's Last Theorem, $n = 3$
-
-In the Eisenstein integers $\mathbb{Z}[\omega] = \{a + b\omega + c\omega^2 \mid a, b, c \in \mathbb{Z},\ \omega = e^{2\pi i/3}\}$, the equation $x^3 + y^3 + z^3 = 0$ has no nontrivial solution. Consequently $x^3 + y^3 = 3z^3$ has no integer solution, so $3$ is not a sum of two rational cubes.
-
-# The Riemann Zeta Function and the Prime Number Theorem
-
-Euler product. $\displaystyle \zeta(s) = \sum_{n=1}^{\infty}\frac{1}{n^s} = \prod_p \frac{1}{1 - p^{-s}}$ for $\operatorname{Re}(s) > 1$. Taking logarithms and using $-\ln(1 - p^{-s}) = \sum_n \frac{1}{n}p^{-ns}$ and $\frac{1}{n}p^{-ns} = \int_{p^n}^{\infty}\frac{1}{n}s\, x^{-s-1}\,\mathrm{d}x$,
-$$\frac{1}{s}\ln\zeta(s) = \int_0^{\infty} J(x)\, x^{-s-1}\,\mathrm{d}x, \qquad J(x) = \sum_{p^n \le x}\frac{1}{n}$$
-By Mellin inversion, $J(x) = \frac{1}{2\pi i}\int_{a - i\infty}^{a + i\infty}\frac{\ln\zeta(z)}{z}x^z\,\mathrm{d}z$. The completed function $\xi(s) = \Gamma\!\left(\frac{s}{2} + 1\right)(s-1)\pi^{-s/2}\zeta(s)$ is symmetric about $s = \tfrac12$ and has a Hadamard product over the nontrivial zeros. Möbius inversion of $J(x) = \sum_n \frac{1}{n}\pi(x^{1/n})$ gives
-$$\pi(x) = \sum_n \frac{\mu(n)}{n}J(x^{1/n}), \qquad J(x) = \operatorname{Li}(x) - \sum_\rho \operatorname{Li}(x^\rho) - \ln 2 + \int_x^{\infty}\frac{\mathrm{d}t}{t(t^2 - 1)\ln t}$$
-Showing $\zeta$ has no zeros on $\operatorname{Re}(s) = 1$ yields the Prime Number Theorem (Hadamard, de la Vallée Poussin).
 
 # The Hierarchy of Rings
 
@@ -587,14 +360,7 @@ $$\text{Field} \subsetneq \text{ED} \subsetneq \text{PID} \subsetneq \text{UFD} 
 
 1. A ring isomorphism $\varphi : \mathbb{R} \to \mathbb{R}$ is the identity ($\varphi^2 = \mathrm{id}$): order is preserved since squares (hence positivity) are preserved, and $\varphi$ fixes $\mathbb{Q}$ densely.
 2. If $x \mapsto x^2$ is a homomorphism on $G$, then $G$ is Abelian: $abab = aabb \Rightarrow ba = ab$.
-3. If positive integers $\{a_i\}$ satisfy $(a_i, a_j) = (i, j)$ for all $i \neq j$, then $a_i = i$.
-4. For odd $m$: $(2^m - 1,\ 2^n + 1) = 1$ — via $(2^m - 1, 2^{2n} - 1) = 2^{(m, 2n)} - 1 = 2^{(m,n)} - 1$.
-5. The Gaussian-type element $\frac{1}{2}(1 + i)$ has infinite multiplicative order (its coordinates satisfy a recurrence that is never $\equiv (1,0) \bmod 5$).
-6. For any $n$, there exist $n$ consecutive integers each divisible by a perfect square (CRT with distinct primes $p_k^2$).
-7. For an odd prime $p$ and $0 \le i \le p - 2$: $\sum_{x} x^i \equiv 0 \pmod p$ (use a primitive root: $\sum x^i \equiv \sum (gx)^i$).
-8. For coprime $n, a$: $n \mid \varphi(a^n - 1)$ — since $a$ has order $n$ in $(\mathbb{Z}/(a^n - 1)\mathbb{Z})^*$, apply Lagrange.
-9. Binomial congruences: $\binom{p-1}{i} \equiv (-1)^i \pmod p$, and $\sum_i \frac{1}{i}i^{p-1} \equiv \sum_i \frac{1}{i^p} \pmod p$.
-10. There are infinitely many primes of each form $8n + 1, 8n + 3, 8n + 5, 8n + 7$ (using $N = (2P_1\cdots P_k)^4 + 1$, $(P_1\cdots P_k)^2 + 2$, $+4$, $-2$ respectively, and quadratic residue analysis mod 8).
+3. The Gaussian-type element $\frac{1}{2}(1 + i)$ has infinite multiplicative order (its coordinates satisfy a recurrence that is never $\equiv (1,0) \bmod 5$).
 
 # Appendix
 
@@ -617,43 +383,6 @@ $$\text{Field} \subsetneq \text{ED} \subsetneq \text{PID} \subsetneq \text{UFD} 
 | 13 | $\mathbb{Z}_{13}$ | |
 | 14 | $\mathbb{Z}_{14}$ | $D_7$ |
 | 15 | $\mathbb{Z}_{15}$ | |
-
-## Primitive Roots of Small Odd Primes
-
-| $p$ | Primitive roots |
-|---|---|
-| 3 | 2 |
-| 5 | 2, 3 |
-| 7 | 3, 5 |
-| 11 | 2, 6, 7, 8 |
-| 13 | 2, 6, 7, 11 |
-| 17 | 3, 5, 6, 7, 10, 11, 12, 14 |
-| 19 | 2, 3, 10, 13, 14, 15 |
-| 23 | 5, 7, 10, 11, 14, 15, 17, 19, 20, 21 |
-
-## Mersenne Primes and Perfect Numbers
-
-| $P$ | $2^P - 1$ | $2^{P-1}(2^P - 1)$ |
-|---|---|---|
-| 2 | 3 | 6 |
-| 3 | 7 | 28 |
-| 5 | 31 | 496 |
-| 7 | 127 | 8128 |
-| 13 | 8191 | 33 550 336 |
-| 17 | 131 071 | 8 589 869 056 |
-| 19 | 524 287 | 137 438 691 328 |
-| 31 | 2 147 483 647 | 2 305 843 008 139 952 128 |
-
-## Open Problems
-
-- Does an odd perfect number exist?
-- Twin prime conjecture: infinitely many primes $p$ with $p + 2$ prime.
-- Goldbach's conjecture: every even integer $> 2$ is a sum of two primes.
-- Are there infinitely many Mersenne primes / even perfect numbers?
-- Fermat numbers $F_n = 2^{2^n} + 1$: $F_0, \dots, F_4$ are prime ($3, 5, 17, 257, 65537$); are any $F_n$ ($n \ge 5$) prime? ($F_5 = 4294967297 = 641 \times 6700417$.) (Note: if $2^n + 1$ is prime then $n$ is a power of $2$.)
-- Erdős–Straus conjecture: for every $n > 1$, $\frac{4}{n} = \frac{1}{x} + \frac{1}{y} + \frac{1}{z}$ with positive integers $x, y, z$.
-- Rational distance problem: is there a point in the unit square at rational distance from all four corners?
-- Perfect cuboid: a box with integer edges, face diagonals, and space diagonal ($a^2 + b^2 = m^2$, $a^2 + c^2 = n^2$, $b^2 + c^2 = p^2$, $a^2 + b^2 + c^2 = q^2$). Dropping the space-diagonal condition gives an Euler brick; the smallest is $(a, b, c) = (44, 117, 240)$.
         </script>
     </main>
 
